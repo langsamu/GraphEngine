@@ -1,6 +1,8 @@
 namespace GraphEngine
 {
     using System;
+    using System.Linq.Expressions;
+    using System.Reflection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
 
@@ -15,13 +17,18 @@ namespace GraphEngine
 @prefix : <http://example.com/> .
 
 :s
-    a :Subtract ;
-    :left [
-        a :Add ;
-        :left 1 ;
-        :right 2 ;
-    ] ;
-    :right 3 ;
+    a :Block ;
+    :expressions (
+        [
+            a :Subtract ;
+            :left [
+                a :Add ;
+                :left 1 ;
+                :right 2 ;
+            ] ;
+            :right 3 ;
+        ]
+    ) ;
 .
 ");
 
@@ -29,7 +36,9 @@ namespace GraphEngine
 
             var result = ExpressionNode.Parse(s).Expression;
 
-            Console.WriteLine(result.ToString());
+            Console.WriteLine(GetDebugView(result));
         }
+
+        public static string GetDebugView(Expression exp) => typeof(Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp) as string;
     }
 }

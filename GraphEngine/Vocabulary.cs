@@ -12,9 +12,13 @@
 
         public static IUriNode Subtract { get; } = EngineNode("Subtract");
 
+        public static IUriNode Block { get; } = EngineNode("Block");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");
+
+        public static IUriNode Expressions { get; } = EngineNode("expressions");
 
         public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 
