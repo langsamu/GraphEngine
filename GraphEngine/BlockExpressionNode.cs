@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
     using VDS.RDF;
 
-    public class BlockExpressionNode : BinaryExpressionNode
+    public class BlockExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
         internal BlockExpressionNode(INode node) : base(node) { }

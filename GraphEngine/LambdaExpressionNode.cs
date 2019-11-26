@@ -4,7 +4,7 @@
     using System.Linq.Expressions;
     using VDS.RDF;
 
-    public class LambdaExpressionNode : BinaryExpressionNode
+    public class LambdaExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
         internal LambdaExpressionNode(INode node) : base(node) { }

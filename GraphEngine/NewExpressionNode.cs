@@ -9,7 +9,7 @@
     using VDS.RDF;
     using VDS.RDF.Nodes;
 
-    public class NewExpressionNode : BinaryExpressionNode
+    public class NewExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
         internal NewExpressionNode(INode node) : base(node) { }
