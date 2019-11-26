@@ -11,6 +11,6 @@
             select t.Object;
 
         internal static INode ObjectOf(this INode predicate, INode subject) =>
-            predicate.ObjectsOf(subject).Single();
+            predicate.ObjectsOf(subject).SingleOrDefault();
     }
 }

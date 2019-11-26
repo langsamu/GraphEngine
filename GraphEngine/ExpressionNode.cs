@@ -36,8 +36,9 @@
                 case INode t when t.Equals(Vocabulary.Subtract): return new SubtractExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Block): return new BlockExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Lambda): return new LambdaExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.New): return new NewExpressionNode(node);
 
-                default: throw new Exception($"unknown expression node type {node}");
+                default: throw new Exception($"unknown expression type {node}");
             }
         }
     }

@@ -16,6 +16,8 @@
 
         public static IUriNode Lambda { get; } = EngineNode("Lambda");
 
+        public static IUriNode New { get; } = EngineNode("New");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");
@@ -23,6 +25,10 @@
         public static IUriNode Expressions { get; } = EngineNode("expressions");
 
         public static IUriNode Body { get; } = EngineNode("body");
+
+        public static IUriNode Arguments { get; } = EngineNode("arguments");
+
+        public static IUriNode Type { get; } = EngineNode("type");
 
         public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 
