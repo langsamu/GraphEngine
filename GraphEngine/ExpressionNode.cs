@@ -18,13 +18,24 @@
             {
                 case NodeType.Blank:
                 case NodeType.Uri:
-                    return new AddExpressionNode(node);
+                    return ParseResource(node);
 
                 case NodeType.Literal:
                     return new ConstantExpressionNode(node);
 
                 default:
                     throw new Exception("unknown node type");
+            }
+        }
+
+        private static ExpressionNode ParseResource(INode node)
+        {
+            switch (Vocabulary.RdfType.ObjectOf(node))
+            {
+                case INode t when t.Equals(Vocabulary.Add): return new AddExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Subtract): return new SubtractExpressionNode(node);
+
+                default: throw new Exception("unknown expression node type");
             }
         }
     }

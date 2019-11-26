@@ -1,6 +1,7 @@
 ﻿namespace GraphEngine
 {
     using VDS.RDF;
+    using VDS.RDF.Parsing;
 
     public static class Vocabulary
     {
@@ -9,9 +10,13 @@
 
         public static IUriNode Add { get; } = EngineNode("Add");
 
+        public static IUriNode Subtract { get; } = EngineNode("Subtract");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");
+
+        public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 
         private static IUriNode EngineNode(string name) => AnyNode($"{BaseUri}{name}");
 

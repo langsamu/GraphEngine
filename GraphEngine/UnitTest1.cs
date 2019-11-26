@@ -15,7 +15,7 @@ namespace GraphEngine
 @prefix : <http://example.com/> .
 
 :s
-    a :Add ;
+    a :Subtract ;
     :left [
         a :Add ;
         :left 1 ;
