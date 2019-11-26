@@ -31,11 +31,11 @@
                         return int.Parse(literal.Value);
 
                     default:
-                        throw new Exception($"unknown literal datatype {literal.DataType.AbsoluteUri}");
+                        throw new Exception($"unknown datatype {literal.DataType.AbsoluteUri} on node {this}");
                 }
             }
         }
 
-        public override Expression Expression => Expression.Constant(this.Value);
+        public override Expression Expression => Expression.Constant(Value);
     }
 }

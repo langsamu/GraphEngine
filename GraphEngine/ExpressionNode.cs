@@ -14,7 +14,8 @@
 
         public static ExpressionNode Parse(INode node)
         {
-            switch (node.NodeType)
+            var nodeType = node.NodeType;
+            switch (nodeType)
             {
                 case NodeType.Blank:
                 case NodeType.Uri:
@@ -24,21 +25,24 @@
                     return new ConstantExpressionNode(node);
 
                 default:
-                    throw new Exception("unknown node type");
+                    throw new Exception($"unknown node type {nodeType} on node {node}");
             }
         }
 
         private static ExpressionNode ParseResource(INode node)
         {
-            switch (Vocabulary.RdfType.ObjectOf(node))
+            var type = Vocabulary.RdfType.ObjectOf(node);
+            switch (type)
             {
                 case INode t when t.Equals(Vocabulary.Add): return new AddExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Subtract): return new SubtractExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Block): return new BlockExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Lambda): return new LambdaExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.New): return new NewExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Assign): return new AssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Variable): return new VariableExpressionNode(node);
 
-                default: throw new Exception($"unknown expression type {node}");
+                default: throw new Exception($"unknown type {type} on node {node}");
             }
         }
     }

@@ -9,8 +9,8 @@
         [DebuggerStepThrough]
         internal LambdaExpressionNode(INode node) : base(node) { }
 
-        public ExpressionNode Body => ExpressionNode.Parse(Vocabulary.Body.ObjectOf(this));
+        public ExpressionNode Body => Parse(Vocabulary.Body.ObjectOf(this));
 
-        public override Expression Expression => Expression.Lambda(this.Body.Expression);
+        public override Expression Expression => Expression.Lambda(Body.Expression);
     }
 }

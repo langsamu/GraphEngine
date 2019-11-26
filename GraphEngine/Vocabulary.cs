@@ -18,6 +18,10 @@
 
         public static IUriNode New { get; } = EngineNode("New");
 
+        public static IUriNode Assign { get; } = EngineNode("Assign");
+
+        public static IUriNode Variable { get; } = EngineNode("Variable");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");

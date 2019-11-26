@@ -9,6 +9,6 @@
         [DebuggerStepThrough]
         internal SubtractExpressionNode(INode node) : base(node) { }
 
-        public override Expression Expression => Expression.Subtract(this.Left.Expression, this.Right.Expression);
+        public override Expression Expression => Expression.Subtract(Left.Expression, Right.Expression);
     }
 }

@@ -8,8 +8,8 @@
         [DebuggerStepThrough]
         protected BinaryExpressionNode(INode node) : base(node) { }
 
-        public ExpressionNode Left => ExpressionNode.Parse(Vocabulary.Left.ObjectOf(this));
+        public ExpressionNode Left => Parse(Vocabulary.Left.ObjectOf(this));
 
-        public ExpressionNode Right => ExpressionNode.Parse(Vocabulary.Right.ObjectOf(this));
+        public ExpressionNode Right => Parse(Vocabulary.Right.ObjectOf(this));
     }
 }

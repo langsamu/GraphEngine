@@ -128,6 +128,30 @@ namespace GraphEngine
             Console.WriteLine(GetDebugView(result));
         }
 
+        [TestMethod]
+        public void TestMethod6()
+        {
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://example.com/> .
+
+:s
+    a :Assign ;
+    :left [
+        a :Variable ;
+        :type ""System.Int64"" ;
+    ] ;
+    :right 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var result = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(GetDebugView(result));
+        }
+
         public static string GetDebugView(Expression exp) => typeof(Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp) as string;
     }
 }

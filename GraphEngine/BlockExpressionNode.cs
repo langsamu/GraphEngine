@@ -11,8 +11,8 @@
         [DebuggerStepThrough]
         internal BlockExpressionNode(INode node) : base(node) { }
 
-        public IEnumerable<ExpressionNode> Expressions => this.Graph.GetListItems(Vocabulary.Expressions.ObjectOf(this)).Select(ExpressionNode.Parse);
+        public IEnumerable<ExpressionNode> Expressions => Graph.GetListItems(Vocabulary.Expressions.ObjectOf(this)).Select(Parse);
 
-        public override Expression Expression => Expression.Block(this.Expressions.Select(e => e.Expression));
+        public override Expression Expression => Expression.Block(Expressions.Select(e => e.Expression));
     }
 }
