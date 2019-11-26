@@ -39,6 +39,31 @@ namespace GraphEngine
             Console.WriteLine(GetDebugView(result));
         }
 
+        [TestMethod]
+        public void TestMethod2()
+        {
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Lambda ;
+    :body [
+        a :Add ;
+        :left 1 ;
+        :right 2 ;
+    ]
+.
+");
+
+            var s = g.GetUriNode(":s");
+            var result = ExpressionNode.Parse(s).Expression as LambdaExpression;
+
+            var a = result.Compile().DynamicInvoke();
+
+            Console.WriteLine(a);
+        }
+
         public static string GetDebugView(Expression exp) => typeof(Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp) as string;
     }
 }
