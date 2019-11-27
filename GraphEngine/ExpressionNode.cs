@@ -12,6 +12,7 @@
 
         public abstract Expression Expression { get; }
 
+        // TODO: Handle non-expressions, e.g. uri node = System.Uri, blank node = new object()
         public static ExpressionNode Parse(INode node)
         {
             var nodeType = node.NodeType;
@@ -41,6 +42,7 @@
                 case INode t when t.Equals(Vocabulary.New): return new NewExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Assign): return new AssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Variable): return new VariableExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Call): return new CallExpressionNode(node);
 
                 default: throw new Exception($"unknown type {type} on node {node}");
             }

@@ -36,6 +36,8 @@
             }
         }
 
+        // TODO: Return strongly typed constants.
+        // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Expression Expression => Expression.Constant(Value);
     }
 }

@@ -22,6 +22,8 @@
 
         public static IUriNode Variable { get; } = EngineNode("Variable");
 
+        public static IUriNode Call { get; } = EngineNode("Call");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");
@@ -33,6 +35,12 @@
         public static IUriNode Arguments { get; } = EngineNode("arguments");
 
         public static IUriNode Type { get; } = EngineNode("type");
+
+        public static IUriNode Instance { get; } = EngineNode("instance");
+
+        public static IUriNode Method { get; } = EngineNode("method");
+
+        public static IUriNode TypeArguments { get; } = EngineNode("typeArguments");
 
         public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 
