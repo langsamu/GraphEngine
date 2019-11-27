@@ -1,6 +1,7 @@
 ﻿namespace GraphEngine
 {
     using System.Diagnostics;
+    using System.Linq;
     using System.Linq.Expressions;
     using VDS.RDF;
 
@@ -9,7 +10,7 @@
         [DebuggerStepThrough]
         internal LambdaExpressionNode(INode node) : base(node) { }
 
-        public ExpressionNode Body => Parse(Vocabulary.Body.ObjectOf(this));
+        public ExpressionNode Body => Vocabulary.Body.ObjectsOf(this).Select(Parse).Single();
 
         public override Expression Expression => Expression.Lambda(Body.Expression);
     }

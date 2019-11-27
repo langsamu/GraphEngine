@@ -5,47 +5,24 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
     using VDS.RDF;
-    using VDS.RDF.Nodes;
 
     public class NewExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
         internal NewExpressionNode(INode node) : base(node) { }
 
-        public IEnumerable<ExpressionNode> Arguments
-        {
-            get
-            {
-                var argumentsNode = Vocabulary.Arguments.ObjectOf(this);
+        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(Parse);
 
-                if (argumentsNode is null)
-                {
-                    return null;
-                }
-
-                return Graph.GetListItems(argumentsNode).Select(Parse);
-            }
-        }
-
-        public string TypeName => Vocabulary.Type.ObjectOf(this).AsValuedNode().AsString();
+        public string TypeName => Vocabulary.Type.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
 
         public override Expression Expression
         {
             get
             {
-                var arguments = Arguments;
-                var type = Type.GetType(TypeName);
-
-                if (arguments is null)
-                {
-                    return Expression.New(type);
-                }
-
-                var argumentExpressions = arguments.Select(arg => arg.Expression);
+                var argumentExpressions = Arguments.Select(arg => arg.Expression);
                 var types = argumentExpressions.Select(expression => expression.Type).ToArray();
-                var constructor = type.GetConstructor(types);
+                var constructor = Type.GetType(TypeName).GetConstructor(types);
 
                 return Expression.New(constructor, argumentExpressions);
             }

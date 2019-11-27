@@ -1,6 +1,7 @@
 ﻿namespace GraphEngine
 {
     using System.Diagnostics;
+    using System.Linq;
     using VDS.RDF;
 
     public abstract class BinaryExpressionNode : ExpressionNode
@@ -8,8 +9,8 @@
         [DebuggerStepThrough]
         protected BinaryExpressionNode(INode node) : base(node) { }
 
-        public ExpressionNode Left => Parse(Vocabulary.Left.ObjectOf(this));
+        public ExpressionNode Left => Vocabulary.Left.ObjectsOf(this).Select(Parse).Single();
 
-        public ExpressionNode Right => Parse(Vocabulary.Right.ObjectOf(this));
+        public ExpressionNode Right => Vocabulary.Right.ObjectsOf(this).Select(Parse).Single();
     }
 }
