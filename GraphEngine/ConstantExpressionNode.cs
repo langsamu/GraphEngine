@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Linq.Expressions;
     using VDS.RDF;
     using VDS.RDF.Parsing;
@@ -15,29 +16,51 @@
         {
             get
             {
-                var literal = (ILiteralNode)this;
+                var valueNode = Vocabulary.Value.ObjectOf(this);
 
-                if (literal.DataType is null)
+                switch (valueNode)
                 {
-                    return literal.Value;
-                }
+                    case IUriNode uriNode when uriNode.NodeType == NodeType.Uri:
+                        return uriNode.Uri;
 
-                switch (literal.DataType.AbsoluteUri)
-                {
-                    case XmlSpecsHelper.XmlSchemaDataTypeInteger:
-                        return long.Parse(literal.Value);
+                    case ILiteralNode literalNode when literalNode.NodeType == NodeType.Literal:
+                        if (literalNode.DataType is null)
+                        {
+                            return literalNode.Value;
+                        }
 
-                    case XmlSpecsHelper.XmlSchemaDataTypeInt:
-                        return int.Parse(literal.Value);
+                        switch (literalNode.DataType.AbsoluteUri)
+                        {
+                            case XmlSpecsHelper.XmlSchemaDataTypeInteger:
+                                return long.Parse(literalNode.Value);
+
+                            case XmlSpecsHelper.XmlSchemaDataTypeInt:
+                                return int.Parse(literalNode.Value);
+
+                            default:
+                                throw new Exception($"unknown datatype {literalNode.DataType.AbsoluteUri} on node {literalNode}");
+                        }
 
                     default:
-                        throw new Exception($"unknown datatype {literal.DataType.AbsoluteUri} on node {this}");
+                        throw new Exception($"unknown node type {valueNode.NodeType} on node {valueNode}");
                 }
             }
         }
 
-        // TODO: Return strongly typed constants.
+        public string TypeName => Vocabulary.Type.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
+
         // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
-        public override Expression Expression => Expression.Constant(Value);
+        public override Expression Expression
+        {
+            get
+            {
+                if (TypeName is string typeName)
+                {
+                    return Expression.Constant(Value, Type.GetType(typeName));
+                }
+
+                return Expression.Constant(Value);
+            }
+        }
     }
 }

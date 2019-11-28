@@ -22,9 +22,6 @@
                 case NodeType.Uri:
                     return ParseResource(node);
 
-                case NodeType.Literal:
-                    return new ConstantExpressionNode(node);
-
                 default:
                     throw new Exception($"unknown node type {nodeType} on node {node}");
             }
@@ -43,6 +40,7 @@
                 case INode t when t.Equals(Vocabulary.Assign): return new AssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Variable): return new VariableExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Call): return new CallExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Constant): return new ConstantExpressionNode(node);
 
                 default: throw new Exception($"unknown type {type} on node {node}");
             }

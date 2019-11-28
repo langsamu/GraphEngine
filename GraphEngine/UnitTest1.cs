@@ -23,10 +23,19 @@ namespace GraphEngine
             a :Subtract ;
             :left [
                 a :Add ;
-                :left 1 ;
-                :right 2 ;
+                :left [
+                    a :Constant ;
+                    :value 1;
+                ] ;
+                :right [
+                    a :Constant ;
+                    :value 2;
+                ] ;
             ] ;
-            :right 3 ;
+            :right [
+                a :Constant ;
+                :value 3;
+            ] ;
         ]
     ) ;
 .
@@ -50,8 +59,14 @@ namespace GraphEngine
     a :Lambda ;
     :body [
         a :Add ;
-        :left 1 ;
-        :right 2 ;
+        :left [
+            a :Constant ;
+            :value 1;
+        ] ;
+        :right [
+            a :Constant ;
+            :value 2;
+        ] ;
     ]
 .
 ");
@@ -76,7 +91,10 @@ namespace GraphEngine
     a :New ;
     :type ""System.Text.StringBuilder"" ;
     :arguments (
-        ""1""^^xsd:int
+        [
+            a :Constant ;
+            :value ""1""^^xsd:int;
+        ]
     ) ;
 .
 ");
@@ -142,7 +160,10 @@ namespace GraphEngine
         a :Variable ;
         :type ""System.Int64"" ;
     ] ;
-    :right 0 ;
+    :right [
+        a :Constant ;
+        :value 0;
+    ] ;
 .
 ");
             var s = g.GetUriNode(":s");

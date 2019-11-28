@@ -61,7 +61,7 @@
         [TestMethod]
         public void Static_no_types_arguments()
         {
-            var expected = Expression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { Expression.Constant(0) });
+            var expected = Expression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { Expression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -73,7 +73,11 @@
     :type ""GraphEngine.C1"" ;
     :method ""M3"" ;
     :arguments (
-        0
+        [
+            a :Constant ;
+            :type ""System.Object"" ;
+            :value 0;
+        ]
     ) ;
 .
 ");
@@ -87,7 +91,7 @@
         [TestMethod]
         public void Static_types_arguments()
         {
-            var expected = Expression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { Expression.Constant(null) });
+            var expected = Expression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { Expression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -102,7 +106,11 @@
         ""System.Object""
     ) ;
     :arguments (
-        0
+        [
+            a :Constant ;
+            :type ""System.Object"" ;
+            :value 0;
+        ]
     ) ;
 .
 ");
@@ -171,7 +179,7 @@
         [TestMethod]
         public void Instance_no_types_arguments()
         {
-            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { Expression.Constant(null) });
+            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { Expression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -180,10 +188,17 @@
 
 :s
     a :Call ;
-    :type ""GraphEngine.C1"" ;
+    :instance [
+        a :New ;
+        :type ""GraphEngine.C1""
+    ] ;
     :method ""M7"" ;
     :arguments (
-        0
+        [
+            a :Constant ;
+            :type ""System.Object"" ;
+            :value 0;
+        ]
     ) ;
 .
 ");
@@ -197,7 +212,7 @@
         [TestMethod]
         public void Instance_types_arguments()
         {
-            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { Expression.Constant(null) });
+            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { Expression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -206,13 +221,20 @@
 
 :s
     a :Call ;
-    :type ""GraphEngine.C1"" ;
+    :instance [
+        a :New ;
+        :type ""GraphEngine.C1""
+    ] ;
     :method ""M8"" ;
     :typeArguments (
         ""System.Object""
     ) ;
     :arguments (
-        0
+        [
+            a :Constant ;
+            :type ""System.Object"" ;
+            :value 0;
+        ]
     ) ;
 .
 ");
