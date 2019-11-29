@@ -26,6 +26,14 @@
 
         public static IUriNode Constant { get; } = EngineNode("Constant");
 
+        public static IUriNode Parameter { get; } = EngineNode("Parameter");
+
+        public static IUriNode Invoke { get; } = EngineNode("Invoke");
+
+        public static IUriNode Condition { get; } = EngineNode("Condition");
+
+        public static IUriNode LessThan { get; } = EngineNode("LessThan");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");
@@ -45,6 +53,20 @@
         public static IUriNode TypeArguments { get; } = EngineNode("typeArguments");
 
         public static IUriNode Value { get; } = EngineNode("value");
+
+        public static IUriNode Name { get; } = EngineNode("name");
+
+        public static IUriNode Variables { get; } = EngineNode("variables");
+
+        public static IUriNode Expression { get; } = EngineNode("expression");
+
+        public static IUriNode Test { get; } = EngineNode("test");
+
+        public static IUriNode IfTrue { get; } = EngineNode("ifTrue");
+
+        public static IUriNode IfFalse { get; } = EngineNode("ifFalse");
+
+        public static IUriNode Parameters { get; } = EngineNode("parameters");
 
         public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 

@@ -14,7 +14,7 @@
 
         public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(Parse);
 
-        public string TypeName => Vocabulary.Type.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
+        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).Single();
 
         public override Expression Expression
         {
@@ -22,7 +22,7 @@
             {
                 var argumentExpressions = Arguments.Select(arg => arg.Expression);
                 var types = argumentExpressions.Select(expression => expression.Type).ToArray();
-                var constructor = Type.GetType(TypeName).GetConstructor(types);
+                var constructor = Type.Type.GetConstructor(types);
 
                 return Expression.New(constructor, argumentExpressions);
             }

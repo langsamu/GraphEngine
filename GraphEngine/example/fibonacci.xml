@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://example.com/" xmlns:ex="http://example.com/" xml:base="http://example.com/">
+  <Variable rdf:about="f">
+    <type>
+      <Type ex:name="System.Func`2">
+        <typeArguments rdf:parseType="Collection">
+          <Type ex:name="System.Int64" />
+          <Type ex:name="System.Int64" />
+        </typeArguments>
+      </Type>
+    </type>
+  </Variable>
+  <Parameter rdf:about="n" ex:type="System.Int64"/>
+  <Block rdf:about="s">
+    <variables rdf:parseType="Collection">
+      <Variable rdf:about="f" />
+    </variables>
+    <expressions rdf:parseType="Collection">
+      <Assign>
+        <left rdf:resource="f"/>
+        <right>
+          <Lambda>
+            <body>
+              <Condition>
+                <test>
+                  <LessThan>
+                    <left rdf:resource="n"/>
+                    <right>
+                      <Constant>
+                        <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</value>
+                      </Constant>
+                    </right>
+                  </LessThan>
+                </test>
+                <ifTrue rdf:resource="n"/>
+                <ifFalse>
+                  <Add>
+                    <left>
+                      <Invoke>
+                        <expression rdf:resource="f"/>
+                        <arguments rdf:parseType="Collection">
+                          <Subtract>
+                            <left rdf:resource="n"/>
+                            <right>
+                              <Constant>
+                                <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</value>
+                              </Constant>
+                            </right>
+                          </Subtract>
+                        </arguments>
+                      </Invoke>
+                    </left>
+                    <right>
+                      <Invoke>
+                        <expression rdf:resource="f"/>
+                        <arguments rdf:parseType="Collection">
+                          <Subtract>
+                            <left rdf:resource="n"/>
+                            <right>
+                              <Constant>
+                                <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</value>
+                              </Constant>
+                            </right>
+                          </Subtract>
+                        </arguments>
+                      </Invoke>
+                    </right>
+                  </Add>
+                </ifFalse>
+              </Condition>
+            </body>
+            <parameters rdf:parseType="Collection">
+              <Parameter rdf:about="n" />
+            </parameters>
+          </Lambda>
+        </right>
+      </Assign>
+      <Invoke>
+        <expression rdf:resource="f" />
+        <arguments rdf:parseType="Collection">
+          <Constant>
+            <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</value>
+          </Constant>
+        </arguments>
+      </Invoke>
+    </expressions>
+  </Block>
+</rdf:RDF>

@@ -38,9 +38,13 @@
                 case INode t when t.Equals(Vocabulary.Lambda): return new LambdaExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.New): return new NewExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Assign): return new AssignExpressionNode(node);
-                case INode t when t.Equals(Vocabulary.Variable): return new VariableExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Variable): return new ParameterExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Call): return new CallExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Constant): return new ConstantExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Parameter): return new ParameterExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Invoke): return new InvokeExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Condition): return new ConditionExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.LessThan): return new LessThanExpressionNode(node);
 
                 default: throw new Exception($"unknown type {type} on node {node}");
             }

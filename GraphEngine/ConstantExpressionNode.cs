@@ -47,16 +47,16 @@
             }
         }
 
-        public string TypeName => Vocabulary.Type.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
+        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
         // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Expression Expression
         {
             get
             {
-                if (TypeName is string typeName)
+                if (Type is TypeNode type)
                 {
-                    return Expression.Constant(Value, Type.GetType(typeName));
+                    return Expression.Constant(Value, type.Type);
                 }
 
                 return Expression.Constant(Value);
