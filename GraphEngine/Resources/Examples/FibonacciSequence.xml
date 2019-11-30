@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://example.com/" xmlns:ex="http://example.com/" xml:base="http://example.com/">
-  <Variable rdf:about="f">
-    <type>
-      <Type ex:name="System.Func`2">
-        <typeArguments rdf:parseType="Collection">
-          <Type ex:name="System.Int64" />
-          <Type ex:name="System.Int64" />
-        </typeArguments>
-      </Type>
-    </type>
-  </Variable>
-  <Parameter rdf:about="n" ex:type="System.Int64"/>
   <Block rdf:about="s">
     <variables rdf:parseType="Collection">
-      <Variable rdf:about="f" />
+      <Variable rdf:about="fibonacci">
+        <type>
+          <Type ex:name="System.Func`2">
+            <typeArguments rdf:parseType="Collection">
+              <Type ex:name="System.Int64" />
+              <Type ex:name="System.Int64" />
+            </typeArguments>
+          </Type>
+        </type>
+      </Variable>
     </variables>
     <expressions rdf:parseType="Collection">
       <Assign>
-        <left rdf:resource="f"/>
+        <left rdf:resource="fibonacci"/>
         <right>
           <Lambda>
+            <parameters rdf:parseType="Collection">
+              <Parameter rdf:about="n" ex:type="System.Int64"/>
+            </parameters>
             <body>
               <Condition>
                 <test>
@@ -37,7 +38,7 @@
                   <Add>
                     <left>
                       <Invoke>
-                        <expression rdf:resource="f"/>
+                        <expression rdf:resource="fibonacci"/>
                         <arguments rdf:parseType="Collection">
                           <Subtract>
                             <left rdf:resource="n"/>
@@ -52,7 +53,7 @@
                     </left>
                     <right>
                       <Invoke>
-                        <expression rdf:resource="f"/>
+                        <expression rdf:resource="fibonacci"/>
                         <arguments rdf:parseType="Collection">
                           <Subtract>
                             <left rdf:resource="n"/>
@@ -69,14 +70,11 @@
                 </ifFalse>
               </Condition>
             </body>
-            <parameters rdf:parseType="Collection">
-              <Parameter rdf:about="n" />
-            </parameters>
           </Lambda>
         </right>
       </Assign>
       <Invoke>
-        <expression rdf:resource="f" />
+        <expression rdf:resource="fibonacci" />
         <arguments rdf:parseType="Collection">
           <Constant>
             <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</value>

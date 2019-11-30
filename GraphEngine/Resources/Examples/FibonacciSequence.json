@@ -1,0 +1,99 @@
+{
+  "@graph": {
+    "@id": "s",
+    "@type": "Block",
+    "variables": [
+      {
+        "@id": "fibonacci",
+        "@type": "Variable",
+        "type": {
+          "name": "System.Func`2",
+          "typeArguments": [
+            "System.Int64",
+            "System.Int64"
+          ]
+        }
+      }
+    ],
+    "expressions": [
+      {
+        "@type": "Assign",
+        "left": { "@id": "fibonacci" },
+        "right": {
+          "@type": "Lambda",
+          "parameters": [
+            {
+              "@id": "n",
+              "@type": "Parameter",
+              "type": "System.Int64"
+            }
+          ],
+          "body": {
+            "@type": "Condition",
+            "test": {
+              "@type": "LessThan",
+              "left": { "@id": "n" },
+              "right": {
+                "@type": "Constant",
+                "value": 2
+              }
+            },
+            "ifTrue": { "@id": "n" },
+            "ifFalse": {
+              "@type": "Add",
+              "left": {
+                "@type": "Invoke",
+                "expression": { "@id": "fibonacci" },
+                "arguments": [
+                  {
+                    "@type": "Subtract",
+                    "left": { "@id": "n" },
+                    "right": {
+                      "@type": "Constant",
+                      "value": 2
+                    }
+                  }
+                ]
+              },
+              "right": {
+                "@type": "Invoke",
+                "expression": { "@id": "fibonacci" },
+                "arguments": [
+                  {
+                    "@type": "Subtract",
+                    "left": { "@id": "n" },
+                    "right": {
+                      "@type": "Constant",
+                      "value": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "@type": "Invoke",
+        "expression": { "@id": "fibonacci" },
+        "arguments": [
+          {
+            "@type": "Constant",
+            "value": 8
+          }
+        ]
+      }
+    ],
+    "@context": {
+      "variables": { "@container": "@list" },
+      "typeArguments": { "@container": "@list" },
+      "arguments": { "@container": "@list" },
+      "parameters": { "@container": "@list" },
+      "expressions": { "@container": "@list" }
+    }
+  },
+  "@context": {
+    "@base": "http://example.com/",
+    "@vocab": "http://example.com/"
+  }
+}

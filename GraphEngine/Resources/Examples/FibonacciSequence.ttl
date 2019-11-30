@@ -1,6 +1,6 @@
 @prefix : <http://example.com/> .
 
-:fib 
+:fibonacci 
     a :Variable ;
     :type [
         :name "System.Func`2" ;
@@ -19,14 +19,17 @@
 :s
     a :Block ;
     :variables (
-        :fib
+        :fibonacci
     ) ;
     :expressions (
         [
             a :Assign ;
-            :left :fib ;
+            :left :fibonacci ;
             :right [
                 a :Lambda ;
+                :parameters (
+                    :n
+                ) ;
                 :body [
                     a :Condition ;
                     :test [
@@ -42,7 +45,7 @@
                         a :Add ;
                         :left [
                             a :Invoke ;
-                            :expression :fib ;
+                            :expression :fibonacci ;
                             :arguments (
                                 [
                                     a :Subtract ;
@@ -56,7 +59,7 @@
                         ] ;
                         :right [
                             a :Invoke ;
-                            :expression :fib ;
+                            :expression :fibonacci ;
                             :arguments (
                                 [
                                     a :Subtract ;
@@ -70,14 +73,11 @@
                         ] ;
                     ] ;
                 ] ;
-                :parameters (
-                    :n
-                ) ;
             ] ;
         ]
         [
             a :Invoke ;
-            :expression :fib ;
+            :expression :fibonacci ;
             :arguments (
                 [
                     a :Constant ;
