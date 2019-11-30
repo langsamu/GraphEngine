@@ -1,8 +1,7 @@
-﻿namespace GraphEngine
+﻿namespace GraphEngine.Tests
 {
     using System;
     using System.Linq.Expressions;
-    using System.Reflection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
 
@@ -29,7 +28,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -55,7 +54,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -85,7 +84,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -118,7 +117,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -144,7 +143,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -173,7 +172,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -206,7 +205,7 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
 
         [TestMethod]
@@ -242,12 +241,13 @@
 
             var actual = ExpressionNode.Parse(s).Expression;
 
-            Assert.AreEqual(GetDebugView(expected), GetDebugView(actual));
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
-
-        private static string GetDebugView(Expression exp) => typeof(Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp) as string;
     }
+}
 
+namespace GraphEngine
+{
     public class C1
     {
         public static void M1() { }

@@ -1,0 +1,89 @@
+@prefix : <http://example.com/> .
+
+:fib 
+    a :Variable ;
+    :type [
+        :name "System.Func`2" ;
+        :typeArguments (
+            "System.Int64"
+            "System.Int64"
+        ) ;
+    ] ;
+.
+
+:n 
+    a :Parameter ;
+    :type "System.Int64" ;
+.
+
+:s
+    a :Block ;
+    :variables (
+        :fib
+    ) ;
+    :expressions (
+        [
+            a :Assign ;
+            :left :fib ;
+            :right [
+                a :Lambda ;
+                :body [
+                    a :Condition ;
+                    :test [
+                        a :LessThan ;
+                        :left :n ;
+                        :right [
+                            a :Constant ;
+                            :value 2 ;
+                        ] ;
+                    ] ;
+                    :ifTrue :n ;
+                    :ifFalse [
+                        a :Add ;
+                        :left [
+                            a :Invoke ;
+                            :expression :fib ;
+                            :arguments (
+                                [
+                                    a :Subtract ;
+                                    :left :n ;
+                                    :right [
+                                        a :Constant ;
+                                        :value 2 ;
+                                    ] ;
+                                ]
+                            ) ;
+                        ] ;
+                        :right [
+                            a :Invoke ;
+                            :expression :fib ;
+                            :arguments (
+                                [
+                                    a :Subtract ;
+                                    :left :n ;
+                                    :right [
+                                        a :Constant ;
+                                        :value 1 ;
+                                    ] ;
+                                ]
+                            ) ;
+                        ] ;
+                    ] ;
+                ] ;
+                :parameters (
+                    :n
+                ) ;
+            ] ;
+        ]
+        [
+            a :Invoke ;
+            :expression :fib ;
+            :arguments (
+                [
+                    a :Constant ;
+                    :value 8 ;
+                ]
+            ) ;
+        ]
+    ) ;
+.
