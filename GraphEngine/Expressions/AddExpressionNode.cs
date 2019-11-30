@@ -9,6 +9,6 @@
         [DebuggerStepThrough]
         internal AddExpressionNode(INode node) : base(node) { }
 
-        public override Expression Expression => Expression.Add(Left.Expression, Right.Expression);
+        protected override ExpressionType Type => ExpressionType.Add;
     }
 }
