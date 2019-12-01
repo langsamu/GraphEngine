@@ -9,6 +9,6 @@
         [DebuggerStepThrough]
         internal LessThanExpressionNode(INode node) : base(node) { }
 
-        protected override ExpressionType Type => ExpressionType.LessThan;
+        protected override ExpressionType BinaryType => ExpressionType.LessThan;
     }
 }

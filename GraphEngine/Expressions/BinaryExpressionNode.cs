@@ -14,8 +14,8 @@
 
         public ExpressionNode Right => Vocabulary.Right.ObjectsOf(this).Select(Parse).Single();
 
-        protected abstract ExpressionType Type { get; }
+        protected abstract ExpressionType BinaryType { get; }
 
-        public override Expression Expression => Expression.MakeBinary(Type, Left.Expression, Right.Expression);
+        public override Expression Expression => Expression.MakeBinary(BinaryType, Left.Expression, Right.Expression);
     }
 }

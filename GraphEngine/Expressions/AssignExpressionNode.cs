@@ -9,6 +9,6 @@
         [DebuggerStepThrough]
         internal AssignExpressionNode(INode node) : base(node) { }
 
-        protected override ExpressionType Type => ExpressionType.Assign;
+        protected override ExpressionType BinaryType => ExpressionType.Assign;
     }
 }

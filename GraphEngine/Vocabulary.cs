@@ -34,6 +34,76 @@
 
         public static IUriNode LessThan { get; } = EngineNode("LessThan");
 
+        public static IUriNode AddChecked { get; } = EngineNode("AddChecked");
+
+        public static IUriNode SubtractChecked { get; } = EngineNode("SubtractChecked");
+
+        public static IUriNode Multiply { get; } = EngineNode("Multiply");
+
+        public static IUriNode MultiplyChecked { get; } = EngineNode("MultiplyChecked");
+
+        public static IUriNode Divide { get; } = EngineNode("Divide");
+
+        public static IUriNode Modulo { get; } = EngineNode("Modulo");
+
+        public static IUriNode Power { get; } = EngineNode("Power");
+
+        public static IUriNode And { get; } = EngineNode("And");
+
+        public static IUriNode AndAlso { get; } = EngineNode("AndAlso");
+
+        public static IUriNode Or { get; } = EngineNode("Or");
+
+        public static IUriNode OrElse { get; } = EngineNode("OrElse");
+
+        public static IUriNode LessThanOrEqual { get; } = EngineNode("LessThanOrEqual");
+
+        public static IUriNode GreaterThan { get; } = EngineNode("GreaterThan");
+
+        public static IUriNode GreaterThanOrEqual { get; } = EngineNode("GreaterThanOrEqual");
+
+        public static IUriNode Equal { get; } = EngineNode("Equal");
+
+        public static IUriNode NotEqual { get; } = EngineNode("NotEqual");
+
+        public static IUriNode ExclusiveOr { get; } = EngineNode("ExclusiveOr");
+
+        public static IUriNode Coalesce { get; } = EngineNode("Coalesce");
+
+        public static IUriNode ArrayIndex { get; } = EngineNode("ArrayIndex");
+
+        public static IUriNode LeftShift { get; } = EngineNode("LeftShift");
+
+        public static IUriNode RightShift { get; } = EngineNode("RightShift");
+
+        public static IUriNode AddAssign { get; } = EngineNode("AddAssign");
+
+        public static IUriNode AndAssign { get; } = EngineNode("AndAssign");
+
+        public static IUriNode DivideAssign { get; } = EngineNode("DivideAssign");
+
+        public static IUriNode ExclusiveOrAssign { get; } = EngineNode("ExclusiveOrAssign");
+
+        public static IUriNode LeftShiftAssign { get; } = EngineNode("LeftShiftAssign");
+
+        public static IUriNode ModuloAssign { get; } = EngineNode("ModuloAssign");
+
+        public static IUriNode MultiplyAssign { get; } = EngineNode("MultiplyAssign");
+
+        public static IUriNode OrAssign { get; } = EngineNode("OrAssign");
+
+        public static IUriNode PowerAssign { get; } = EngineNode("PowerAssign");
+
+        public static IUriNode RightShiftAssign { get; } = EngineNode("RightShiftAssign");
+
+        public static IUriNode SubtractAssign { get; } = EngineNode("SubtractAssign");
+
+        public static IUriNode AddAssignChecked { get; } = EngineNode("AddAssignChecked");
+
+        public static IUriNode SubtractAssignChecked { get; } = EngineNode("SubtractAssignChecked");
+
+        public static IUriNode MultiplyAssignChecked { get; } = EngineNode("MultiplyAssignChecked");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");

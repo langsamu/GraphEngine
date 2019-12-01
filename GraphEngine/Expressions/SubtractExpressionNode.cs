@@ -9,6 +9,6 @@
         [DebuggerStepThrough]
         internal SubtractExpressionNode(INode node) : base(node) { }
 
-        protected override ExpressionType Type => ExpressionType.Subtract;
+        protected override ExpressionType BinaryType => ExpressionType.Subtract;
     }
 }
