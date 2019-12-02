@@ -43,10 +43,12 @@
                 case INode t when t.Equals(Vocabulary.ArrayLength): return new ArrayLengthExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Assign): return new AssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Block): return new BlockExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Break): return new BreakExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Call): return new CallExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Coalesce): return new CoalesceExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Condition): return new ConditionExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Constant): return new ConstantExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Continue): return new ContinueExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Convert): return new ConvertExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ConvertChecked): return new ConvertCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Decrement): return new DecrementExpressionNode(node);
@@ -55,6 +57,7 @@
                 case INode t when t.Equals(Vocabulary.Equal): return new EqualExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ExclusiveOr): return new ExclusiveOrExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ExclusiveOrAssign): return new ExclusiveOrAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Goto): return new GotoExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.GreaterThan): return new GreaterThanExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.GreaterThanOrEqual): return new GreaterThanOrEqualExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Increment): return new IncrementExpressionNode(node);
@@ -66,6 +69,7 @@
                 case INode t when t.Equals(Vocabulary.LeftShiftAssign): return new LeftShiftAssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.LessThan): return new LessThanExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.LessThanOrEqual): return new LessThanOrEqualExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Loop): return new LoopExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Modulo): return new ModuloExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ModuloAssign): return new ModuloAssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Multiply): return new MultiplyExpressionNode(node);
@@ -89,6 +93,7 @@
                 case INode t when t.Equals(Vocabulary.PreDecrementAssign): return new PreDecrementAssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.PreIncrementAssign): return new PreIncrementAssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Quote): return new QuoteExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Return): return new ReturnExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.RightShift): return new RightShiftExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.RightShiftAssign): return new RightShiftAssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Subtract): return new SubtractExpressionNode(node);
