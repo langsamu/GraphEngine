@@ -104,6 +104,46 @@
 
         public static IUriNode MultiplyAssignChecked { get; } = EngineNode("MultiplyAssignChecked");
 
+        public static IUriNode ArrayLength { get; } = EngineNode("ArrayLength");
+
+        public static IUriNode Convert { get; } = EngineNode("Convert");
+
+        public static IUriNode ConvertChecked { get; } = EngineNode("ConvertChecked");
+
+        public static IUriNode Decrement { get; } = EngineNode("Decrement");
+
+        public static IUriNode Increment { get; } = EngineNode("Increment");
+
+        public static IUriNode IsFalse { get; } = EngineNode("IsFalse");
+
+        public static IUriNode IsTrue { get; } = EngineNode("IsTrue");
+
+        public static IUriNode Negate { get; } = EngineNode("Negate");
+
+        public static IUriNode NegateChecked { get; } = EngineNode("NegateChecked");
+
+        public static IUriNode Not { get; } = EngineNode("Not");
+
+        public static IUriNode OnesComplement { get; } = EngineNode("OnesComplement");
+
+        public static IUriNode PostDecrementAssign { get; } = EngineNode("PostDecrementAssign");
+
+        public static IUriNode PostIncrementAssign { get; } = EngineNode("PostIncrementAssign");
+
+        public static IUriNode PreDecrementAssign { get; } = EngineNode("PreDecrementAssign");
+
+        public static IUriNode PreIncrementAssign { get; } = EngineNode("PreIncrementAssign");
+
+        public static IUriNode Quote { get; } = EngineNode("Quote");
+
+        public static IUriNode Throw { get; } = EngineNode("Throw");
+
+        public static IUriNode TypeAs { get; } = EngineNode("TypeAs");
+
+        public static IUriNode UnaryPlus { get; } = EngineNode("UnaryPlus");
+
+        public static IUriNode Unbox { get; } = EngineNode("Unbox");
+
         public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode Right { get; } = EngineNode("right");
@@ -137,6 +177,8 @@
         public static IUriNode IfFalse { get; } = EngineNode("ifFalse");
 
         public static IUriNode Parameters { get; } = EngineNode("parameters");
+
+        public static IUriNode Operand { get; } = EngineNode("operand");
 
         public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 

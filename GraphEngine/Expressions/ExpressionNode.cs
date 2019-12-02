@@ -80,6 +80,26 @@
                 case INode t when t.Equals(Vocabulary.AddAssignChecked): return new AddAssignCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.SubtractAssignChecked): return new SubtractAssignCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.MultiplyAssignChecked): return new MultiplyAssignCheckedExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.ArrayLength): return new ArrayLengthExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Convert): return new ConvertExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.ConvertChecked): return new ConvertCheckedExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Decrement): return new DecrementExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Increment): return new IncrementExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.IsFalse): return new IsFalseExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.IsTrue): return new IsTrueExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Negate): return new NegateExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.NegateChecked): return new NegateCheckedExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Not): return new NotExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.OnesComplement): return new OnesComplementExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.PostDecrementAssign): return new PostDecrementAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.PostIncrementAssign): return new PostIncrementAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.PreDecrementAssign): return new PreDecrementAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.PreIncrementAssign): return new PreIncrementAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Quote): return new QuoteExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Throw): return new ThrowExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.TypeAs): return new TypeAsExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.UnaryPlus): return new UnaryPlusExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Unbox): return new UnboxExpressionNode(node);
 
                 default: throw new Exception($"unknown type {type} on node {node}");
             }
