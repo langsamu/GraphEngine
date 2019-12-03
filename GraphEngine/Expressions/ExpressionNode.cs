@@ -80,6 +80,7 @@
                 case INode t when t.Equals(Vocabulary.Negate): return new NegateExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.NegateChecked): return new NegateCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.New): return new NewExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.NewArrayBounds): return new NewArrayBoundsExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Not): return new NotExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.NotEqual): return new NotEqualExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.OnesComplement): return new OnesComplementExpressionNode(node);

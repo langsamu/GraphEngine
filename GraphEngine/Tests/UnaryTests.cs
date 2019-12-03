@@ -91,7 +91,7 @@
         }
 
         [TestMethod]
-        public void Lambda()
+        public void Quote()
         {
             var expected = Expression.MakeUnary(ExpressionType.Quote, Expression.Lambda(Expression.Constant(0L)), null);
 

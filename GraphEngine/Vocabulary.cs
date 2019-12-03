@@ -34,6 +34,8 @@
 
         public static IUriNode Body { get; } = EngineNode("body");
 
+        public static IUriNode Bounds { get; } = EngineNode("bounds");
+
         public static IUriNode Break { get; } = EngineNode("Break");
 
         public static IUriNode BreakLabel { get; } = EngineNode("break");
@@ -127,6 +129,8 @@
         public static IUriNode NegateChecked { get; } = EngineNode("NegateChecked");
 
         public static IUriNode New { get; } = EngineNode("New");
+
+        public static IUriNode NewArrayBounds { get; } = EngineNode("NewArrayBounds");
 
         public static IUriNode Not { get; } = EngineNode("Not");
 

@@ -9,7 +9,7 @@ namespace GraphEngine.Tests
     public class Tests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void POC()
         {
             using var g = new Graph();
             g.LoadFromString(@"
@@ -48,7 +48,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void TestMethod2()
+        public void Lambda()
         {
             using var g = new Graph();
             g.LoadFromString(@"
@@ -79,7 +79,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void TestMethod3()
+        public void NewWithArguments()
         {
             using var g = new Graph();
             g.LoadFromString(@"
@@ -105,7 +105,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void TestMethod4()
+        public void NewWithoutArguments()
         {
             using var g = new Graph();
             g.LoadFromString(@"
@@ -125,7 +125,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void TestMethod5()
+        public void NewWithEmptyArguments()
         {
             using var g = new Graph();
             g.LoadFromString(@"
@@ -146,7 +146,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void TestMethod6()
+        public void Assign()
         {
             using var g = new Graph();
             g.LoadFromString(@"
@@ -173,7 +173,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void TestMethod7()
+        public void Factorial()
         {
             var value = Expression.Parameter(typeof(int));
             var result = Expression.Parameter(typeof(int));
@@ -277,7 +277,7 @@ _:one
         }
 
         [TestMethod]
-        public void TestMethod8()
+        public void Default()
         {
             var expected = Expression.Default(typeof(byte));
 
@@ -288,6 +288,35 @@ _:one
 :s
     a :Default ;
     :type ""System.Byte"" ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void NewArrayBounds()
+        {
+            var expected = Expression.NewArrayBounds(typeof(long), Expression.Constant(0L));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :NewArrayBounds ;
+    :type ""System.Int64"" ;
+    :bounds (
+        [
+            a :Constant ;
+            :value 0 ;
+        ]
+    ) ;
 .
 ");
             var s = g.GetUriNode(":s");
