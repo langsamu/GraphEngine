@@ -52,6 +52,7 @@
                 case INode t when t.Equals(Vocabulary.Convert): return new ConvertExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ConvertChecked): return new ConvertCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Decrement): return new DecrementExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Default): return new DefaultExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Divide): return new DivideExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.DivideAssign): return new DivideAssignExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Equal): return new EqualExpressionNode(node);

@@ -56,6 +56,8 @@
 
         public static IUriNode Decrement { get; } = EngineNode("Decrement");
 
+        public static IUriNode Default { get; } = EngineNode("Default");
+
         public static IUriNode Divide { get; } = EngineNode("Divide");
 
         public static IUriNode DivideAssign { get; } = EngineNode("DivideAssign");

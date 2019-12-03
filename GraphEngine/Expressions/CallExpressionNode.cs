@@ -1,6 +1,5 @@
 ﻿namespace GraphEngine
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -41,8 +40,8 @@
 
                 return Expression.Call(
                     Type.Type,
-                    Method, 
-                    typeArguments, 
+                    Method,
+                    typeArguments,
                     arguments
                 );
             }

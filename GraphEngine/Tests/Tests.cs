@@ -195,12 +195,12 @@ namespace GraphEngine.Tests
                         Expression.Break(
                             label,
                             result),
-                        typeof(void)     
+                        typeof(void)
                     ),
                     label
                 )
             );
-            
+
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -265,6 +265,29 @@ _:one
             :break _:label ;
         ]
     ) ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void TestMethod8()
+        {
+            var expected = Expression.Default(typeof(byte));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Default ;
+    :type ""System.Byte"" ;
 .
 ");
             var s = g.GetUriNode(":s");
