@@ -327,5 +327,237 @@ _:one
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
+
+        [TestMethod]
+        public void TryFault()
+        {
+            var expected = Expression.TryFault(
+                Expression.Constant(0L),
+                Expression.Constant(0L));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Try ;
+    :body _:zero ;
+    :fault _:zero ;
+.
+_:zero
+    a :Constant ;
+    :value 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void TryFinally()
+        {
+            var expected = Expression.TryFinally(
+                Expression.Constant(0L),
+                Expression.Constant(0L));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Try ;
+    :body _:zero ;
+    :finally _:zero ;
+.
+_:zero
+    a :Constant ;
+    :value 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void TryCatchTypeBody()
+        {
+            var expected = Expression.TryCatch(
+                Expression.Constant(0L),
+                Expression.Catch(
+                    typeof(Exception),
+                    Expression.Constant(0L)));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Try ;
+    :body _:zero ;
+    :handlers (
+        [
+            :type ""System.Exception"" ;
+            :body _:zero ;
+        ]
+    ) ;
+.
+_:zero
+    a :Constant ;
+    :value 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void TryCatchVariableBody()
+        {
+            var expected = Expression.TryCatch(
+                Expression.Constant(0L),
+                Expression.Catch(
+                    Expression.Parameter(
+                        typeof(Exception)),
+                    Expression.Constant(0L)));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Try ;
+    :body _:zero ;
+    :handlers (
+        [
+            :variable [
+                a :Parameter ;
+                :type ""System.Exception"" ;
+            ] ;
+            :body _:zero ;
+        ]
+    ) ;
+.
+_:zero
+    a :Constant ;
+    :value 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void TryCatchTypeBodyFilter()
+        {
+            var expected = Expression.TryCatch(
+                Expression.Constant(0L),
+                Expression.Catch(
+                    typeof(Exception),
+                    Expression.Constant(0L),
+                    Expression.Equal(
+                        Expression.Constant(0L),
+                        Expression.Constant(0L))));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Try ;
+    :body _:zero ;
+    :handlers (
+        [
+            :type ""System.Exception"" ;
+            :body _:zero ;
+            :filter [
+                a :Equal ;
+                :left _:zero ;
+                :right _:zero ;
+            ] ;
+        ]
+    ) ;
+.
+_:zero
+    a :Constant ;
+    :value 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void TryCatchVariableBodyFilter()
+        {
+            var expected = Expression.TryCatch(
+                Expression.Constant(0L),
+                Expression.Catch(
+                    Expression.Parameter(
+                        typeof(Exception)),
+                    Expression.Constant(0L),
+                    Expression.Equal(
+                        Expression.Constant(0L),
+                        Expression.Constant(0L))));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Try ;
+    :body _:zero ;
+    :handlers (
+        [
+            :variable [
+                a :Parameter ;
+                :type ""System.Exception"" ;
+            ] ;
+            :body _:zero ;
+            :filter [
+                a :Equal ;
+                :left _:zero ;
+                :right _:zero ;
+            ] ;
+        ]
+    ) ;
+.
+_:zero
+    a :Constant ;
+    :value 0 ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
     }
 }

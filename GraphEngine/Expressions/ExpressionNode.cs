@@ -103,6 +103,7 @@
                 case INode t when t.Equals(Vocabulary.SubtractAssignChecked): return new SubtractAssignCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.SubtractChecked): return new SubtractCheckedExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Throw): return new ThrowExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Try): return new TryExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.TypeAs): return new TypeAsExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.UnaryPlus): return new UnaryPlusExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Unbox): return new UnboxExpressionNode(node);

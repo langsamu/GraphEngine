@@ -42,6 +42,8 @@
 
         public static IUriNode Call { get; } = EngineNode("Call");
 
+        public static IUriNode CatchVariable { get; } = EngineNode("variable");
+
         public static IUriNode Coalesce { get; } = EngineNode("Coalesce");
 
         public static IUriNode Condition { get; } = EngineNode("Condition");
@@ -74,11 +76,19 @@
 
         public static IUriNode Expressions { get; } = EngineNode("expressions");
 
+        public static IUriNode Fault { get; } = EngineNode("fault");
+
+        public static IUriNode Filter { get; } = EngineNode("filter");
+
+        public static IUriNode Finally { get; } = EngineNode("finally");
+
         public static IUriNode Goto { get; } = EngineNode("Goto");
 
         public static IUriNode GreaterThan { get; } = EngineNode("GreaterThan");
 
         public static IUriNode GreaterThanOrEqual { get; } = EngineNode("GreaterThanOrEqual");
+
+        public static IUriNode Handlers { get; } = EngineNode("handlers");
 
         public static IUriNode IfFalse { get; } = EngineNode("ifFalse");
 
@@ -185,6 +195,8 @@
         public static IUriNode Test { get; } = EngineNode("test");
 
         public static IUriNode Throw { get; } = EngineNode("Throw");
+
+        public static IUriNode Try { get; } = EngineNode("Try");
 
         public static IUriNode Type { get; } = EngineNode("type");
 

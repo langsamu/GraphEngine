@@ -29,5 +29,7 @@
                 return param;
             }
         }
+
+        internal static new ParameterExpressionNode Parse(INode node) => new ParameterExpressionNode(node);
     }
 }

@@ -13,7 +13,7 @@
 
         public ExpressionNode Body => Vocabulary.Body.ObjectsOf(this).Select(Parse).Single();
 
-        public IEnumerable<ParameterExpressionNode> Parameters => Vocabulary.Parameters.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(p => new ParameterExpressionNode(p));
+        public IEnumerable<ParameterExpressionNode> Parameters => Vocabulary.Parameters.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(ParameterExpressionNode.Parse);
 
         public override Expression Expression => Expression.Lambda(Body.Expression, Parameters.Select(param => param.Parameter));
     }
