@@ -1,0 +1,7 @@
+@prefix : <http://example.com/new/instances/> .
+@prefix schema: <http://example.com/new/schema/> .
+
+:lambda1
+  a schema:Lambda ;
+  schema:lambdaBody :x ;
+.

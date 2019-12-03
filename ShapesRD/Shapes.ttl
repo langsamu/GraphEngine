@@ -1,0 +1,109 @@
+@prefix : <http://example.com/new/shapes/> .
+@prefix schema: <http://example.com/new/schema/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:tcl
+	sh:targetClass schema:Lambda;
+	sh:node :Lambda ;
+ .
+
+:Lambda
+	sh:class schema:Lambda ;
+	sh:nodeKind sh:BlankNodeOrIRI ;
+	sh:property
+		[
+			sh:path schema:lambdaBody ;
+			sh:node :LambdaBody ;
+			sh:minCount 1 ;
+			sh:maxCount 1 ;
+		] ,
+		[
+			sh:path schema:lambdaParameters ;
+			sh:node :LambdaParameters ;
+			sh:maxCount 1 ;
+		] ;
+.
+:Parameter
+	sh:targetClass schema:Parameter ;
+	sh:class schema:Parameter ;
+	sh:property :ParameterTypeProperty ;
+.
+:ParameterTypeProperty
+	sh:path schema:parameterType ;
+	sh:node :ParameterType ;
+	sh:minCount 1 ;
+	sh:maxCount 1 ;
+.
+:LambdaBody
+	sh:targetObjectsOf schema:lambdaBody ;
+	sh:nodeKind sh:BlankNodeOrIRI ;
+.
+:LambdaParameters
+	sh:targetObjectsOf schema:lambdaParameters ;
+	sh:xone (
+		[
+			sh:nodeKind sh:BlankNode ;
+			sh:property [
+				sh:path _:collectionPath ;
+				sh:node :Parameter ;
+				sh:minCount 1 ;
+			] ;
+		] 
+		_:emptyCollection
+	) ;
+.
+:ParameterType
+	sh:targetObjectsOf schema:parameterType ;
+	sh:xone (
+		[
+			sh:nodeKind sh:Literal ;
+		]
+		[
+			sh:property
+				[
+					sh:path schema:typeName;
+					sh:node :TypeName ;
+					sh:minCount 1 ;
+					sh:maxCount 1 ;
+				] ,
+				[
+					sh:path schema:typeArguments ;
+					sh:node :TypeArguments ;
+					sh:maxCount 1 ;
+				] ;
+		]
+	) ;
+.
+:TypeName
+	sh:targetObjectsOf schema:typeName ;
+	sh:nodeKind sh:Literal ;
+.
+
+:TypeArguments
+	sh:targetObjectsOf schema:typeArguments ;
+	sh:xone (
+		[
+			sh:nodeKind sh:BlankNode ;
+			sh:property [
+				sh:path _:collectionPath ;
+				sh:node :ParameterType ;
+				sh:minCount 1 ;
+			] ;
+		] 
+		_:emptyCollection
+	) ;
+.
+
+_:emptyCollection sh:hasValue rdf:nil .
+
+_:collectionPath
+	rdf:first [
+		sh:zeroOrMorePath rdf:rest
+	] ;
+	rdf:rest [
+		rdf:first rdf:first ;
+		rdf:rest rdf:nil ;
+	] ;
+.
