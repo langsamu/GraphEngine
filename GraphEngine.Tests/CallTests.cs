@@ -22,7 +22,7 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.C1"" ;
+    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     :method ""M1"" ;
 .
 ");
@@ -45,7 +45,7 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.C1"" ;
+    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     :method ""M2"" ;
     :typeArguments (
         ""System.Object""
@@ -71,7 +71,7 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.C1"" ;
+    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     :method ""M3"" ;
     :arguments (
         [
@@ -101,7 +101,7 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.C1"" ;
+    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     :method ""M4"" ;
     :typeArguments (
         ""System.Object""
@@ -136,7 +136,7 @@ namespace GraphEngine.Tests
     a :Call ;
     :instance [
         a :New ;
-        :type ""GraphEngine.C1""
+        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
     :method ""M5"" ;
 .
@@ -162,7 +162,7 @@ namespace GraphEngine.Tests
     a :Call ;
     :instance [
         a :New ;
-        :type ""GraphEngine.C1""
+        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
     :method ""M6"" ;
     :typeArguments (
@@ -191,7 +191,7 @@ namespace GraphEngine.Tests
     a :Call ;
     :instance [
         a :New ;
-        :type ""GraphEngine.C1""
+        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
     :method ""M7"" ;
     :arguments (
@@ -224,7 +224,7 @@ namespace GraphEngine.Tests
     a :Call ;
     :instance [
         a :New ;
-        :type ""GraphEngine.C1""
+        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
     :method ""M8"" ;
     :typeArguments (
@@ -246,10 +246,7 @@ namespace GraphEngine.Tests
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
     }
-}
 
-namespace GraphEngine
-{
     public class C1
     {
         public static void M1() { }

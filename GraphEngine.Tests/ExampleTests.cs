@@ -15,7 +15,7 @@ namespace GraphEngine.Tests
         public void FibonacciXml()
         {
             using var g = new Graph();
-            g.LoadFromEmbeddedResource("GraphEngine.Resources.Examples.FibonacciSequence.xml,GraphEngine");
+            g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequence.xml,GraphEngine.Tests");
 
             NewMethod(g);
         }
@@ -24,7 +24,7 @@ namespace GraphEngine.Tests
         public void FibonacciTurtle()
         {
             using var g = new Graph();
-            g.LoadFromEmbeddedResource("GraphEngine.Resources.Examples.FibonacciSequence.ttl,GraphEngine");
+            g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequence.ttl,GraphEngine.Tests");
 
             NewMethod(g);
         }
@@ -33,7 +33,7 @@ namespace GraphEngine.Tests
         public void FibonacciJson()
         {
             using var ts = new TripleStore();
-            ts.LoadFromEmbeddedResource("GraphEngine.Resources.Examples.FibonacciSequence.json,GraphEngine");
+            ts.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequence.json,GraphEngine.Tests");
             var g = ts.Graphs.Single();
             g.NamespaceMap.AddNamespace(string.Empty, UriFactory.Create("http://example.com/"));
 
