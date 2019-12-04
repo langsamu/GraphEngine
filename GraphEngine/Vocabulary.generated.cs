@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using VDS.RDF;
 

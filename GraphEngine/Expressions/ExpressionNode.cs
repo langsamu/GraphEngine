@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System;
     using System.Diagnostics;
@@ -8,13 +10,21 @@
     public abstract partial class ExpressionNode : WrapperNode
     {
         [DebuggerStepThrough]
-        protected ExpressionNode(INode node) : base(node) { }
+        protected ExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
         public abstract Expression Expression { get; }
 
         // TODO: Handle non-expressions, e.g. uri node = System.Uri, blank node = new object()
         public static ExpressionNode Parse(INode node)
         {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
             var nodeType = node.NodeType;
             switch (nodeType)
             {

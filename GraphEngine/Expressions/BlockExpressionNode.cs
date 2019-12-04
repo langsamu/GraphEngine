@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -9,12 +11,15 @@
     public class BlockExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        internal BlockExpressionNode(INode node) : base(node) { }
+        internal BlockExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
-        public IEnumerable<ExpressionNode> Expressions => Vocabulary.Expressions.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(Parse);
+        public IEnumerable<ExpressionNode> Expressions => Vocabulary.Expressions.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
-        public IEnumerable<ParameterExpressionNode> Variables => Vocabulary.Variables.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(ParameterExpressionNode.Parse);
+        public IEnumerable<ParameterExpressionNode> Variables => Vocabulary.Variables.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(ParameterExpressionNode.Parse);
 
-        public override Expression Expression => Expression.Block(Variables.Select(e => e.Parameter), Expressions.Select(e => e.Expression));
+        public override Expression Expression => Expression.Block(this.Variables.Select(e => e.Parameter), this.Expressions.Select(e => e.Expression));
     }
 }

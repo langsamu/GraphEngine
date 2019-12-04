@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Diagnostics;
     using System.Linq;
@@ -8,7 +10,10 @@
     internal class LoopExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        public LoopExpressionNode(INode node) : base(node) { }
+        public LoopExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
         public ExpressionNode Body => Vocabulary.Body.ObjectsOf(this).Select(Parse).Single();
 
@@ -20,9 +25,9 @@
         {
             get
             {
-                var body = Body;
-                var @continue = Continue;
-                var @break = Break;
+                var body = this.Body;
+                var @continue = this.Continue;
+                var @break = this.Break;
 
                 if (@continue is object)
                 {

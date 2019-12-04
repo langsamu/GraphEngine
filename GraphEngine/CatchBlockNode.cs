@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Diagnostics;
     using System.Linq;
@@ -8,7 +10,10 @@
     public class CatchBlockNode : WrapperNode
     {
         [DebuggerStepThrough]
-        public CatchBlockNode(INode node) : base(node) { }
+        public CatchBlockNode(INode node)
+            : base(node)
+        {
+        }
 
         public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
@@ -22,8 +27,8 @@
         {
             get
             {
-                var variable = Variable?.Parameter;
-                return Expression.MakeCatchBlock(Type?.Type ?? variable.Type, variable, Body.Expression, Filter?.Expression);
+                var variable = this.Variable?.Parameter;
+                return Expression.MakeCatchBlock(this.Type?.Type ?? variable.Type, variable, this.Body.Expression, this.Filter?.Expression);
             }
         }
 

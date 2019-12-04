@@ -1,3 +1,5 @@
+// MIT License, Copyright 2019 Samu Lang
+
 namespace GraphEngine.Tests
 {
     using System;

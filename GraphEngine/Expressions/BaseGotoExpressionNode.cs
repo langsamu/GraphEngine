@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Diagnostics;
     using System.Linq;
@@ -8,9 +10,10 @@
     public abstract class BaseGotoExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        public BaseGotoExpressionNode(INode node) : base(node) { }
-
-        protected abstract GotoExpressionKind Kind { get; }
+        public BaseGotoExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
         public LabelTargetNode Target => Vocabulary.Target.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
 
@@ -18,6 +21,8 @@
 
         public ExpressionNode Value => Vocabulary.Value.ObjectsOf(this).Select(Parse).SingleOrDefault();
 
-        public override Expression Expression => Expression.MakeGoto(Kind, Target?.LabelTarget, Value?.Expression, Type?.Type);
+        public override Expression Expression => Expression.MakeGoto(this.Kind, this.Target?.LabelTarget, this.Value?.Expression, this.Type?.Type);
+
+        protected abstract GotoExpressionKind Kind { get; }
     }
 }

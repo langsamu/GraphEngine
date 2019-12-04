@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Diagnostics;
     using System.Linq;
@@ -8,7 +10,10 @@
     public class ConditionExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        internal ConditionExpressionNode(INode node) : base(node) { }
+        internal ConditionExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
         public ExpressionNode Test => Vocabulary.Test.ObjectsOf(this).Select(Parse).Single();
 
@@ -22,12 +27,12 @@
         {
             get
             {
-                if (Type is TypeNode type)
+                if (this.Type is TypeNode type)
                 {
-                    return Expression.Condition(Test.Expression, IfTrue.Expression, IfFalse.Expression, type.Type);
+                    return Expression.Condition(this.Test.Expression, this.IfTrue.Expression, this.IfFalse.Expression, type.Type);
                 }
 
-                return Expression.Condition(Test.Expression, IfTrue.Expression, IfFalse.Expression);
+                return Expression.Condition(this.Test.Expression, this.IfTrue.Expression, this.IfFalse.Expression);
             }
         }
     }

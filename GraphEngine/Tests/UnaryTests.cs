@@ -1,4 +1,6 @@
-﻿namespace GraphEngine.Tests
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine.Tests
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -9,12 +11,15 @@
     public class InvokeExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        internal InvokeExpressionNode(INode node) : base(node) { }
+        internal InvokeExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
         public ExpressionNode ExpressionNode => Vocabulary.Expression.ObjectsOf(this).Select(Parse).Single();
 
-        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(Parse);
+        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
-        public override Expression Expression => Expression.Invoke(ExpressionNode.Expression, Arguments.Select(arg => arg.Expression));
+        public override Expression Expression => Expression.Invoke(this.ExpressionNode.Expression, this.Arguments.Select(arg => arg.Expression));
     }
 }

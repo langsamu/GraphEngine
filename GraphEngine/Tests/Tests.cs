@@ -1,3 +1,5 @@
+// MIT License, Copyright 2019 Samu Lang
+
 namespace GraphEngine.Tests
 {
     using System;
@@ -71,7 +73,7 @@ namespace GraphEngine.Tests
 ");
 
             var s = g.GetUriNode(":s");
-            var result = ExpressionNode.Parse(s).Expression as LambdaExpression;
+            var result = (LambdaExpression)ExpressionNode.Parse(s).Expression;
 
             var a = result.Compile().DynamicInvoke();
 
@@ -195,12 +197,8 @@ namespace GraphEngine.Tests
                         Expression.Break(
                             label,
                             result),
-                        typeof(void)
-                    ),
-                    label
-                )
-            );
-
+                        typeof(void)),
+                    label));
 
             using var g = new Graph();
             g.LoadFromString(@"

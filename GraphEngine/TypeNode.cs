@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System;
     using System.Collections.Generic;
@@ -10,13 +12,16 @@
     public class TypeNode : WrapperNode
     {
         [DebuggerStepThrough]
-        public TypeNode(INode node) : base(node) { }
+        public TypeNode(INode node)
+            : base(node)
+        {
+        }
 
         public string Name
         {
             get
             {
-                if (NodeType == NodeType.Literal)
+                if (this.NodeType == NodeType.Literal)
                 {
                     return this.AsValuedNode().AsString();
                 }
@@ -25,17 +30,17 @@
             }
         }
 
-        public IEnumerable<TypeNode> TypeArguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(Parse);
+        public IEnumerable<TypeNode> TypeArguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
         public Type Type
         {
             get
             {
-                var t = Type.GetType(Name);
+                var t = Type.GetType(this.Name) ?? throw new InvalidOperationException();
 
                 if (t.IsGenericTypeDefinition)
                 {
-                    return t.MakeGenericType(TypeArguments.Select(arg => arg.Type).ToArray());
+                    return t.MakeGenericType(this.TypeArguments.Select(arg => arg.Type).ToArray());
                 }
 
                 return t;

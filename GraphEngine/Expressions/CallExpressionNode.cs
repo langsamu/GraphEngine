@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -9,7 +11,10 @@
     public class CallExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        internal CallExpressionNode(INode node) : base(node) { }
+        internal CallExpressionNode(INode node)
+            : base(node)
+        {
+        }
 
         public ExpressionNode Instance => Vocabulary.Instance.ObjectsOf(this).Select(Parse).SingleOrDefault();
 
@@ -17,33 +22,31 @@
 
         public string Method => Vocabulary.Method.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
 
-        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(Parse);
+        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
-        public IEnumerable<TypeNode> TypeArguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(Graph.GetListItems).Select(TypeNode.Parse);
+        public IEnumerable<TypeNode> TypeArguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(TypeNode.Parse);
 
         public override Expression Expression
         {
             get
             {
-                var typeArguments = TypeArguments.Select(typeArg => typeArg.Type).ToArray();
-                var arguments = Arguments.Select(arg => arg.Expression).ToArray();
+                var typeArguments = this.TypeArguments.Select(typeArg => typeArg.Type).ToArray();
+                var arguments = this.Arguments.Select(arg => arg.Expression).ToArray();
 
-                if (Instance is ExpressionNode instance)
+                if (this.Instance is ExpressionNode instance)
                 {
                     return Expression.Call(
                         instance.Expression,
-                        Method,
+                        this.Method,
                         typeArguments,
-                        arguments
-                    );
+                        arguments);
                 }
 
                 return Expression.Call(
-                    Type.Type,
-                    Method,
+                    this.Type.Type,
+                    this.Method,
                     typeArguments,
-                    arguments
-                );
+                    arguments);
             }
         }
     }

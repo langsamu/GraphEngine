@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2019 Samu Lang
+
+namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -8,10 +10,13 @@
 
     public class LabelTargetNode : WrapperNode
     {
-        private static IDictionary<INode, LabelTarget> cache = new Dictionary<INode, LabelTarget>();
+        private static readonly IDictionary<INode, LabelTarget> Cache = new Dictionary<INode, LabelTarget>();
 
         [DebuggerStepThrough]
-        private LabelTargetNode(INode node) : base(node) { }
+        private LabelTargetNode(INode node)
+            : base(node)
+        {
+        }
 
         public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
@@ -21,10 +26,10 @@
         {
             get
             {
-                if (!cache.TryGetValue(this, out var label))
+                if (!Cache.TryGetValue(this, out var label))
                 {
-                    var type = Type;
-                    var name = Name;
+                    var type = this.Type;
+                    var name = this.Name;
 
                     if (type is object && name is object)
                     {
@@ -43,7 +48,7 @@
                         label = Expression.Label();
                     }
 
-                    cache[this] = label;
+                    Cache[this] = label;
                 }
 
                 return label;

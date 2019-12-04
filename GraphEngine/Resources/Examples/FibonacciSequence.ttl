@@ -1,3 +1,5 @@
+# MIT License, Copyright 2019 Samu Lang
+
 @prefix : <http://example.com/> .
 
 :fibonacci 
