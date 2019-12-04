@@ -1,0 +1,123 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq.Expressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".generated.cs" #>
+<#
+    GenerateNamespace();
+#>
+
+<#+
+private void GenerateNamespace()
+{#>
+namespace GraphEngine
+{
+    using System;
+    using VDS.RDF;
+
+    public abstract partial class ExpressionNode
+    {
+        private static ExpressionNode ParseResource(INode node)
+        {
+            var type = Vocabulary.RdfType.ObjectOf(node);
+            switch (type)
+            {
+<#+
+    GenerateProperties();
+#>
+
+                default: throw new Exception($"unknown type {type} on node {node}");
+            }
+        }
+    }
+}<#+}
+
+private void GenerateProperties()
+{
+    foreach(var item in Data)
+    {#>
+                case INode t when t.Equals(Vocabulary.<#= item #>): return new <#= item #>ExpressionNode(node);
+<#+}
+}
+
+private IEnumerable<string> Data {
+    get
+    {
+        yield return "Add";
+        yield return "AddAssign";
+        yield return "AddAssignChecked";
+        yield return "AddChecked";
+        yield return "And";
+        yield return "AndAlso";
+        yield return "AndAssign";
+        yield return "ArrayIndex";
+        yield return "ArrayLength";
+        yield return "Assign";
+        yield return "Block";
+        yield return "Break";
+        yield return "Call";
+        yield return "Coalesce";
+        yield return "Condition";
+        yield return "Constant";
+        yield return "Continue";
+        yield return "Convert";
+        yield return "ConvertChecked";
+        yield return "Decrement";
+        yield return "Default";
+        yield return "Divide";
+        yield return "DivideAssign";
+        yield return "Equal";
+        yield return "ExclusiveOr";
+        yield return "ExclusiveOrAssign";
+        yield return "Goto";
+        yield return "GreaterThan";
+        yield return "GreaterThanOrEqual";
+        yield return "Increment";
+        yield return "Invoke";
+        yield return "IsFalse";
+        yield return "IsTrue";
+        yield return "Lambda";
+        yield return "LeftShift";
+        yield return "LeftShiftAssign";
+        yield return "LessThan";
+        yield return "LessThanOrEqual";
+        yield return "Loop";
+        yield return "Modulo";
+        yield return "ModuloAssign";
+        yield return "Multiply";
+        yield return "MultiplyAssign";
+        yield return "MultiplyAssignChecked";
+        yield return "MultiplyChecked";
+        yield return "Negate";
+        yield return "NegateChecked";
+        yield return "New";
+        yield return "NewArrayBounds";
+        yield return "Not";
+        yield return "NotEqual";
+        yield return "OnesComplement";
+        yield return "Or";
+        yield return "OrAssign";
+        yield return "OrElse";
+        yield return "Parameter";
+        yield return "PostDecrementAssign";
+        yield return "PostIncrementAssign";
+        yield return "Power";
+        yield return "PowerAssign";
+        yield return "PreDecrementAssign";
+        yield return "PreIncrementAssign";
+        yield return "Quote";
+        yield return "Return";
+        yield return "RightShift";
+        yield return "RightShiftAssign";
+        yield return "Subtract";
+        yield return "SubtractAssign";
+        yield return "SubtractAssignChecked";
+        yield return "SubtractChecked";
+        yield return "Throw";
+        yield return "Try";
+        yield return "TypeAs";
+        yield return "UnaryPlus";
+        yield return "Unbox";
+        yield return "Variable";
+    }
+}
+#>

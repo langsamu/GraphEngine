@@ -1,0 +1,139 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq.Expressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".generated.cs" #>
+<#
+    GenerateNamespace();
+#>
+
+<#+
+private void GenerateNamespace()
+{#>
+namespace GraphEngine
+{
+    using VDS.RDF;
+
+    public static partial class Vocabulary
+    {<#+
+    GenerateProperties();
+#>    }
+}<#+}
+
+private void GenerateProperties()
+{
+    foreach(var item in Data)
+    {#>
+
+        public static IUriNode <#= item.Property #> { get; } = EngineNode("<#= item.Uri #>");
+<#+}
+}
+
+private IEnumerable<(string Property, string Uri)> Data {
+    get
+    {
+        yield return ("Add", "Add");
+        yield return ("AddAssign", "AddAssign");
+        yield return ("AddAssignChecked", "AddAssignChecked");
+        yield return ("AddChecked", "AddChecked");
+        yield return ("And", "And");
+        yield return ("AndAlso", "AndAlso");
+        yield return ("AndAssign", "AndAssign");
+        yield return ("Arguments", "arguments");
+        yield return ("ArrayIndex", "ArrayIndex");
+        yield return ("ArrayLength", "ArrayLength");
+        yield return ("Assign", "Assign");
+        yield return ("Block", "Block");
+        yield return ("Body", "body");
+        yield return ("Bounds", "bounds");
+        yield return ("Break", "Break");
+        yield return ("BreakLabel", "break");
+        yield return ("Call", "Call");
+        yield return ("CatchVariable", "variable");
+        yield return ("Coalesce", "Coalesce");
+        yield return ("Condition", "Condition");
+        yield return ("Constant", "Constant");
+        yield return ("Continue", "Continue");
+        yield return ("ContinueLabel", "continue");
+        yield return ("Convert", "Convert");
+        yield return ("ConvertChecked", "ConvertChecked");
+        yield return ("Decrement", "Decrement");
+        yield return ("Default", "Default");
+        yield return ("Divide", "Divide");
+        yield return ("DivideAssign", "DivideAssign");
+        yield return ("Equal", "Equal");
+        yield return ("ExclusiveOr", "ExclusiveOr");
+        yield return ("ExclusiveOrAssign", "ExclusiveOrAssign");
+        yield return ("Expression", "expression");
+        yield return ("Expressions", "expressions");
+        yield return ("Fault", "fault");
+        yield return ("Filter", "filter");
+        yield return ("Finally", "finally");
+        yield return ("Goto", "Goto");
+        yield return ("GreaterThan", "GreaterThan");
+        yield return ("GreaterThanOrEqual", "GreaterThanOrEqual");
+        yield return ("Handlers", "handlers");
+        yield return ("IfFalse", "ifFalse");
+        yield return ("IfTrue", "ifTrue");
+        yield return ("Increment", "Increment");
+        yield return ("Instance", "instance");
+        yield return ("Invoke", "Invoke");
+        yield return ("IsFalse", "IsFalse");
+        yield return ("IsTrue", "IsTrue");
+        yield return ("Lambda", "Lambda");
+        yield return ("Left", "left");
+        yield return ("LeftShift", "LeftShift");
+        yield return ("LeftShiftAssign", "LeftShiftAssign");
+        yield return ("LessThan", "LessThan");
+        yield return ("LessThanOrEqual", "LessThanOrEqual");
+        yield return ("Loop", "Loop");
+        yield return ("Method", "method");
+        yield return ("Modulo", "Modulo");
+        yield return ("ModuloAssign", "ModuloAssign");
+        yield return ("Multiply", "Multiply");
+        yield return ("MultiplyAssign", "MultiplyAssign");
+        yield return ("MultiplyAssignChecked", "MultiplyAssignChecked");
+        yield return ("MultiplyChecked", "MultiplyChecked");
+        yield return ("Name", "name");
+        yield return ("Negate", "Negate");
+        yield return ("NegateChecked", "NegateChecked");
+        yield return ("New", "New");
+        yield return ("NewArrayBounds", "NewArrayBounds");
+        yield return ("Not", "Not");
+        yield return ("NotEqual", "NotEqual");
+        yield return ("OnesComplement", "OnesComplement");
+        yield return ("Operand", "operand");
+        yield return ("Or", "Or");
+        yield return ("OrAssign", "OrAssign");
+        yield return ("OrElse", "OrElse");
+        yield return ("Parameter", "Parameter");
+        yield return ("Parameters", "parameters");
+        yield return ("PostDecrementAssign", "PostDecrementAssign");
+        yield return ("PostIncrementAssign", "PostIncrementAssign");
+        yield return ("Power", "Power");
+        yield return ("PowerAssign", "PowerAssign");
+        yield return ("PreDecrementAssign", "PreDecrementAssign");
+        yield return ("PreIncrementAssign", "PreIncrementAssign");
+        yield return ("Quote", "Quote");
+        yield return ("Return", "Return");
+        yield return ("Right", "right");
+        yield return ("RightShift", "RightShift");
+        yield return ("RightShiftAssign", "RightShiftAssign");
+        yield return ("Subtract", "Subtract");
+        yield return ("SubtractAssign", "SubtractAssign");
+        yield return ("SubtractAssignChecked", "SubtractAssignChecked");
+        yield return ("SubtractChecked", "SubtractChecked");
+        yield return ("Target", "target");
+        yield return ("Test", "test");
+        yield return ("Throw", "Throw");
+        yield return ("Try", "Try");
+        yield return ("Type", "type");
+        yield return ("TypeArguments", "typeArguments");
+        yield return ("TypeAs", "TypeAs");
+        yield return ("UnaryPlus", "UnaryPlus");
+        yield return ("Unbox", "Unbox");
+        yield return ("Value", "value");
+        yield return ("Variable", "Variable");
+        yield return ("Variables", "variables");
+    }
+}
+#>

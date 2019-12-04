@@ -17,4 +17,64 @@
     <EmbeddedResource Include="Resources\**\*.*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Expressions\BinaryExpressionNodes.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>BinaryExpressionNodes.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\GotoExpressionNodes.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GotoExpressionNodes.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\UnaryExpressionNodes.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UnaryExpressionNodes.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Expressions\ExpressionNode.generated.cs">
+      <DependentUpon>ExpressionNode.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Vocabulary.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Vocabulary.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Expressions\ExpressionNode.tt">
+      <LastGenOutput>ExpressionNode.generated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExpressionNode.cs</DependentUpon>
+    </None>
+    <None Update="Vocabulary.tt">
+      <LastGenOutput>Vocabulary.generated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Vocabulary.cs</DependentUpon>
+    </None>
+    <None Update="Expressions\BinaryExpressionNodes.tt">
+      <LastGenOutput>BinaryExpressionNodes.generated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BinaryExpressionNode.cs</DependentUpon>
+    </None>
+    <None Update="Expressions\GotoExpressionNodes.tt">
+      <LastGenOutput>GotoExpressionNodes.generated.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BaseGotoExpressionNode.cs</DependentUpon>
+    </None>
+    <None Update="Expressions\UnaryExpressionNodes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>UnaryExpressionNodes.generated.cs</LastGenOutput>
+      <DependentUpon>UnaryExpressionNode.cs</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>

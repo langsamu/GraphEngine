@@ -5,12 +5,12 @@
     using System.Linq.Expressions;
     using VDS.RDF;
 
-    public class GotoExpressionNode : ExpressionNode
+    public abstract class BaseGotoExpressionNode : ExpressionNode
     {
         [DebuggerStepThrough]
-        public GotoExpressionNode(INode node) : base(node) { }
+        public BaseGotoExpressionNode(INode node) : base(node) { }
 
-        protected virtual GotoExpressionKind Kind => GotoExpressionKind.Goto;
+        protected abstract GotoExpressionKind Kind { get; }
 
         public LabelTargetNode Target => Vocabulary.Target.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
 
