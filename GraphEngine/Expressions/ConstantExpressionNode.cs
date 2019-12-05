@@ -18,7 +18,7 @@ namespace GraphEngine
         {
         }
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.ConstantType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
         // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Expression Expression
@@ -38,7 +38,7 @@ namespace GraphEngine
         {
             get
             {
-                var valueNode = Vocabulary.Value.ObjectOf(this);
+                var valueNode = Vocabulary.ConstantValue.ObjectOf(this);
 
                 switch (valueNode)
                 {

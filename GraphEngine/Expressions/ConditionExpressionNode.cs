@@ -15,13 +15,13 @@ namespace GraphEngine
         {
         }
 
-        public ExpressionNode Test => Vocabulary.Test.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode Test => Vocabulary.ConditionTest.ObjectsOf(this).Select(Parse).Single();
 
-        public ExpressionNode IfTrue => Vocabulary.IfTrue.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode IfTrue => Vocabulary.ConditionIfTrue.ObjectsOf(this).Select(Parse).Single();
 
-        public ExpressionNode IfFalse => Vocabulary.IfFalse.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode IfFalse => Vocabulary.ConditionIfFalse.ObjectsOf(this).Select(Parse).Single();
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.ConditionType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
         public override Expression Expression
         {

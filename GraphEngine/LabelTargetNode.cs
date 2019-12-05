@@ -18,9 +18,9 @@ namespace GraphEngine
         {
         }
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.LabelType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
-        public string Name => Vocabulary.Name.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
+        public string Name => Vocabulary.LabelName.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
 
         public LabelTarget LabelTarget
         {

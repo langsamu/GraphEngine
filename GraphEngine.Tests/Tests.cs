@@ -19,23 +19,23 @@ namespace GraphEngine.Tests
 
 :s
     a :Block ;
-    :expressions (
+    :blockExpressions (
         [
             a :Subtract ;
-            :left [
+            :binaryLeft [
                 a :Add ;
-                :left [
+                :binaryLeft [
                     a :Constant ;
-                    :value 1;
+                    :constantValue 1;
                 ] ;
-                :right [
+                :binaryRight [
                     a :Constant ;
-                    :value 2;
+                    :constantValue 2;
                 ] ;
             ] ;
-            :right [
+            :binaryRight [
                 a :Constant ;
-                :value 3;
+                :constantValue 3;
             ] ;
         ]
     ) ;
@@ -58,15 +58,15 @@ namespace GraphEngine.Tests
 
 :s
     a :Lambda ;
-    :body [
+    :lambdaBody [
         a :Add ;
-        :left [
+        :binaryLeft [
             a :Constant ;
-            :value 1;
+            :constantValue 1;
         ] ;
-        :right [
+        :binaryRight [
             a :Constant ;
-            :value 2;
+            :constantValue 2;
         ] ;
     ]
 .
@@ -90,11 +90,11 @@ namespace GraphEngine.Tests
 
 :s
     a :New ;
-    :type ""System.Text.StringBuilder"" ;
-    :arguments (
+    :newType ""System.Text.StringBuilder"" ;
+    :newArguments (
         [
             a :Constant ;
-            :value ""1""^^xsd:int;
+            :constantValue ""1""^^xsd:int;
         ]
     ) ;
 .
@@ -116,7 +116,7 @@ namespace GraphEngine.Tests
 
 :s
     a :New ;
-    :type ""System.Text.StringBuilder"" ;
+    :newType ""System.Text.StringBuilder"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -136,8 +136,8 @@ namespace GraphEngine.Tests
 
 :s
     a :New ;
-    :type ""System.Text.StringBuilder"" ;
-    :arguments () ;
+    :newType ""System.Text.StringBuilder"" ;
+    :newArguments () ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -157,13 +157,13 @@ namespace GraphEngine.Tests
 
 :s
     a :Assign ;
-    :left [
+    :binaryLeft [
         a :Variable ;
-        :type ""System.Int64"" ;
+        :parameterType ""System.Int64"" ;
     ] ;
-    :right [
+    :binaryRight [
         a :Constant ;
-        :value 0;
+        :constantValue 0;
     ] ;
 .
 ");
@@ -205,62 +205,62 @@ namespace GraphEngine.Tests
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
-_:value
+_:constantValue
     a :Parameter ;
-    :type ""System.Int32"" ;
+    :parameterType ""System.Int32"" ;
 .
 
 _:result
     a :Parameter ;
-    :type ""System.Int32"" ;
+    :parameterType ""System.Int32"" ;
 .
 
 _:label
     a :Label ;
-    :type ""System.Int32"" ;
+    :labelType ""System.Int32"" ;
 .
 
 _:one
     a :Constant ;
-    :value ""1""^^xsd:int ;
+    :constantValue ""1""^^xsd:int ;
 .
 
 :s
     a :Block ;
-    :variables (
+    :blockVariables (
         _:result
     ) ;
-    :expressions (
+    :blockExpressions (
         [
             a :Assign ;
-            :left _:result ;
-            :right _:one ;
+            :binaryLeft _:result ;
+            :binaryRight _:one ;
         ]
         [
             a :Loop ;
-            :body [
+            :loopBody [
                 a :Condition ;
-                :test [
+                :conditionTest [
                     a :GreaterThan ;
-                    :left _:value ;
-                    :right _:one ;
+                    :binaryLeft _:constantValue ;
+                    :binaryRight _:one ;
                 ] ;
-                :ifTrue [
+                :conditionIfTrue [
                     a :MultiplyAssign ;
-                    :left _:result ;
-                    :right [
+                    :binaryLeft _:result ;
+                    :binaryRight [
                         a :PostDecrementAssign ;
-                        :operand _:value ;
+                        :unaryOperand _:constantValue ;
                     ] ;
                 ] ;
-                :ifFalse [
+                :conditionIfFalse [
                     a :Break ;
-                    :target _:label ;
-                    :value _:result ;
+                    :gotoTarget _:label ;
+                    :gotoValue _:result ;
                 ] ;
-                :type ""System.Void"" ;
+                :conditionType ""System.Void"" ;
             ] ;
-            :break _:label ;
+            :loopBreak _:label ;
         ]
     ) ;
 .
@@ -285,7 +285,7 @@ _:one
 
 :s
     a :Default ;
-    :type ""System.Byte"" ;
+    :defaultType ""System.Byte"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -308,11 +308,11 @@ _:one
 
 :s
     a :NewArrayBounds ;
-    :type ""System.Int64"" ;
-    :bounds (
+    :newArrayBoundsType ""System.Int64"" ;
+    :newArrayBoundsBounds (
         [
             a :Constant ;
-            :value 0 ;
+            :constantValue 0 ;
         ]
     ) ;
 .
@@ -339,12 +339,12 @@ _:one
 
 :s
     a :Try ;
-    :body _:zero ;
-    :fault _:zero ;
+    :tryBody _:zero ;
+    :tryFault _:zero ;
 .
 _:zero
     a :Constant ;
-    :value 0 ;
+    :constantValue 0 ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -369,12 +369,12 @@ _:zero
 
 :s
     a :Try ;
-    :body _:zero ;
-    :finally _:zero ;
+    :tryBody _:zero ;
+    :tryFinally _:zero ;
 .
 _:zero
     a :Constant ;
-    :value 0 ;
+    :constantValue 0 ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -401,17 +401,17 @@ _:zero
 
 :s
     a :Try ;
-    :body _:zero ;
-    :handlers (
+    :tryBody _:zero ;
+    :tryHandlers (
         [
-            :type ""System.Exception"" ;
-            :body _:zero ;
+            :catchType ""System.Exception"" ;
+            :catchBody _:zero ;
         ]
     ) ;
 .
 _:zero
     a :Constant ;
-    :value 0 ;
+    :constantValue 0 ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -439,20 +439,20 @@ _:zero
 
 :s
     a :Try ;
-    :body _:zero ;
-    :handlers (
+    :tryBody _:zero ;
+    :tryHandlers (
         [
-            :variable [
+            :catchVariable [
                 a :Parameter ;
-                :type ""System.Exception"" ;
+                :parameterType ""System.Exception"" ;
             ] ;
-            :body _:zero ;
+            :catchBody _:zero ;
         ]
     ) ;
 .
 _:zero
     a :Constant ;
-    :value 0 ;
+    :constantValue 0 ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -482,22 +482,22 @@ _:zero
 
 :s
     a :Try ;
-    :body _:zero ;
-    :handlers (
+    :tryBody _:zero ;
+    :tryHandlers (
         [
-            :type ""System.Exception"" ;
-            :body _:zero ;
-            :filter [
+            :catchType ""System.Exception"" ;
+            :catchBody _:zero ;
+            :catchFilter [
                 a :Equal ;
-                :left _:zero ;
-                :right _:zero ;
+                :binaryLeft _:zero ;
+                :binaryRight _:zero ;
             ] ;
         ]
     ) ;
 .
 _:zero
     a :Constant ;
-    :value 0 ;
+    :constantValue 0 ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -528,25 +528,25 @@ _:zero
 
 :s
     a :Try ;
-    :body _:zero ;
-    :handlers (
+    :tryBody _:zero ;
+    :tryHandlers (
         [
-            :variable [
+            :catchVariable [
                 a :Parameter ;
-                :type ""System.Exception"" ;
+                :parameterType ""System.Exception"" ;
             ] ;
-            :body _:zero ;
-            :filter [
+            :catchBody _:zero ;
+            :catchFilter [
                 a :Equal ;
-                :left _:zero ;
-                :right _:zero ;
+                :binaryLeft _:zero ;
+                :binaryRight _:zero ;
             ] ;
         ]
     ) ;
 .
 _:zero
     a :Constant ;
-    :value 0 ;
+    :constantValue 0 ;
 .
 ");
             var s = g.GetUriNode(":s");

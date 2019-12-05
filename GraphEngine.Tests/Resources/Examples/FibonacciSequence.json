@@ -2,12 +2,12 @@
   "@graph": {
     "@id": "s",
     "@type": "Block",
-    "variables": [
+    "blockVariables": [
       {
         "@id": "fibonacci",
         "@type": "Variable",
-        "type": {
-          "name": "System.Func`2",
+        "parameterType": {
+          "typeName": "System.Func`2",
           "typeArguments": [
             "System.Int64",
             "System.Int64"
@@ -15,56 +15,56 @@
         }
       }
     ],
-    "expressions": [
+    "blockExpressions": [
       {
         "@type": "Assign",
-        "left": { "@id": "fibonacci" },
-        "right": {
+        "binaryLeft": { "@id": "fibonacci" },
+        "binaryRight": {
           "@type": "Lambda",
-          "parameters": [
+          "lambdaParameters": [
             {
               "@id": "n",
               "@type": "Parameter",
-              "type": "System.Int64"
+              "parameterType": "System.Int64"
             }
           ],
-          "body": {
+          "lambdaBody": {
             "@type": "Condition",
-            "test": {
+            "conditionTest": {
               "@type": "LessThan",
-              "left": { "@id": "n" },
-              "right": {
+              "binaryLeft": { "@id": "n" },
+              "binaryRight": {
                 "@type": "Constant",
-                "value": 2
+                "constantValue": 2
               }
             },
-            "ifTrue": { "@id": "n" },
-            "ifFalse": {
+            "conditionIfTrue": { "@id": "n" },
+            "conditionIfFalse": {
               "@type": "Add",
-              "left": {
+              "binaryLeft": {
                 "@type": "Invoke",
-                "expression": { "@id": "fibonacci" },
-                "arguments": [
+                "invokeExpression": { "@id": "fibonacci" },
+                "invokeArguments": [
                   {
                     "@type": "Subtract",
-                    "left": { "@id": "n" },
-                    "right": {
+                    "binaryLeft": { "@id": "n" },
+                    "binaryRight": {
                       "@type": "Constant",
-                      "value": 2
+                      "constantValue": 2
                     }
                   }
                 ]
               },
-              "right": {
+              "binaryRight": {
                 "@type": "Invoke",
-                "expression": { "@id": "fibonacci" },
-                "arguments": [
+                "invokeExpression": { "@id": "fibonacci" },
+                "invokeArguments": [
                   {
                     "@type": "Subtract",
-                    "left": { "@id": "n" },
-                    "right": {
+                    "binaryLeft": { "@id": "n" },
+                    "binaryRight": {
                       "@type": "Constant",
-                      "value": 1
+                      "constantValue": 1
                     }
                   }
                 ]
@@ -75,21 +75,21 @@
       },
       {
         "@type": "Invoke",
-        "expression": { "@id": "fibonacci" },
-        "arguments": [
+        "invokeExpression": { "@id": "fibonacci" },
+        "invokeArguments": [
           {
             "@type": "Constant",
-            "value": 8
+            "constantValue": 8
           }
         ]
       }
     ],
     "@context": {
-      "variables": { "@container": "@list" },
+      "blockVariables": { "@container": "@list" },
       "typeArguments": { "@container": "@list" },
-      "arguments": { "@container": "@list" },
-      "parameters": { "@container": "@list" },
-      "expressions": { "@container": "@list" }
+      "invokeArguments": { "@container": "@list" },
+      "lambdaParameters": { "@container": "@list" },
+      "blockExpressions": { "@container": "@list" }
     }
   },
   "@context": {

@@ -16,15 +16,15 @@ namespace GraphEngine
         {
         }
 
-        public ExpressionNode Instance => Vocabulary.Instance.ObjectsOf(this).Select(Parse).SingleOrDefault();
+        public ExpressionNode Instance => Vocabulary.CallInstance.ObjectsOf(this).Select(Parse).SingleOrDefault();
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.CallType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
-        public string Method => Vocabulary.Method.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
+        public string Method => Vocabulary.CallMethod.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
 
-        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<ExpressionNode> Arguments => Vocabulary.CallArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
-        public IEnumerable<TypeNode> TypeArguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(TypeNode.Parse);
+        public IEnumerable<TypeNode> TypeArguments => Vocabulary.CallTypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(TypeNode.Parse);
 
         public override Expression Expression
         {

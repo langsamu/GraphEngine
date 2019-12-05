@@ -26,11 +26,11 @@ namespace GraphEngine
                     return this.AsValuedNode().AsString();
                 }
 
-                return Vocabulary.Name.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
+                return Vocabulary.TypeName.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
             }
         }
 
-        public IEnumerable<TypeNode> TypeArguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<TypeNode> Arguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
         public Type Type
         {
@@ -40,7 +40,7 @@ namespace GraphEngine
 
                 if (t.IsGenericTypeDefinition)
                 {
-                    return t.MakeGenericType(this.TypeArguments.Select(arg => arg.Type).ToArray());
+                    return t.MakeGenericType(this.Arguments.Select(arg => arg.Type).ToArray());
                 }
 
                 return t;

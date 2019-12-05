@@ -57,9 +57,9 @@ namespace GraphEngine.Tests
 
 :s
     a :{expression} ;
-    :operand [
+    :unaryOperand [
         a :Parameter ;
-        :type ""{operandType}"" ;
+        :parameterType ""{operandType}"" ;
     ] ;
 .
 ";
@@ -81,11 +81,11 @@ namespace GraphEngine.Tests
 
 :s
     a :{expression} ;
-    :operand [
+    :unaryOperand [
         a :Parameter ;
-        :type ""{operandType}"" ;
+        :parameterType ""{operandType}"" ;
     ] ;
-    :type ""{type}"" ;
+    :unaryType ""{type}"" ;
 .
 ";
 
@@ -102,11 +102,11 @@ namespace GraphEngine.Tests
 
 :s
     a :Quote ;
-    :operand [
+    :unaryOperand [
         a :Lambda ;
-        :body [
+        :lambdaBody [
             a :Constant ;
-            :value 0 ;
+            :constantValue 0 ;
         ] ;
     ] ;
 .

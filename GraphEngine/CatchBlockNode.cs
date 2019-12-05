@@ -15,13 +15,13 @@ namespace GraphEngine
         {
         }
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.CatchType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
-        public ExpressionNode Body => Vocabulary.Body.ObjectsOf(this).Select(ExpressionNode.Parse).Single();
+        public ExpressionNode Body => Vocabulary.CatchBody.ObjectsOf(this).Select(ExpressionNode.Parse).Single();
 
         public ParameterExpressionNode Variable => Vocabulary.CatchVariable.ObjectsOf(this).Select(ParameterExpressionNode.Parse).SingleOrDefault();
 
-        public ExpressionNode Filter => Vocabulary.Filter.ObjectsOf(this).Select(ExpressionNode.Parse).SingleOrDefault();
+        public ExpressionNode Filter => Vocabulary.CatchFilter.ObjectsOf(this).Select(ExpressionNode.Parse).SingleOrDefault();
 
         public CatchBlock CatchBlock
         {

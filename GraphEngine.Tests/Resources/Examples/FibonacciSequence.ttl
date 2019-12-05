@@ -1,11 +1,11 @@
-# MIT License, Copyright 2019 Samu Lang
+# MIT License, CopyRight 2019 Samu Lang
 
 @prefix : <http://example.com/> .
 
 :fibonacci 
     a :Variable ;
-    :type [
-        :name "System.Func`2" ;
+    :parameterType [
+        :typeName "System.Func`2" ;
         :typeArguments (
             "System.Int64"
             "System.Int64"
@@ -15,60 +15,60 @@
 
 :n 
     a :Parameter ;
-    :type "System.Int64" ;
+    :parameterType "System.Int64" ;
 .
 
 :s
     a :Block ;
-    :variables (
+    :blockVariables (
         :fibonacci
     ) ;
-    :expressions (
+    :blockExpressions (
         [
             a :Assign ;
-            :left :fibonacci ;
-            :right [
+            :binaryLeft :fibonacci ;
+            :binaryRight [
                 a :Lambda ;
-                :parameters (
+                :lambdaParameters (
                     :n
                 ) ;
-                :body [
+                :lambdaBody [
                     a :Condition ;
-                    :test [
+                    :conditionTest [
                         a :LessThan ;
-                        :left :n ;
-                        :right [
+                        :binaryLeft :n ;
+                        :binaryRight [
                             a :Constant ;
-                            :value 2 ;
+                            :constantValue 2 ;
                         ] ;
                     ] ;
-                    :ifTrue :n ;
-                    :ifFalse [
+                    :conditionIfTrue :n ;
+                    :conditionIfFalse [
                         a :Add ;
-                        :left [
+                        :binaryLeft [
                             a :Invoke ;
-                            :expression :fibonacci ;
-                            :arguments (
+                            :invokeExpression :fibonacci ;
+                            :invokeArguments (
                                 [
                                     a :Subtract ;
-                                    :left :n ;
-                                    :right [
+                                    :binaryLeft :n ;
+                                    :binaryRight [
                                         a :Constant ;
-                                        :value 2 ;
+                                        :constantValue 2 ;
                                     ] ;
                                 ]
                             ) ;
                         ] ;
-                        :right [
+                        :binaryRight [
                             a :Invoke ;
-                            :expression :fibonacci ;
-                            :arguments (
+                            :invokeExpression :fibonacci ;
+                            :invokeArguments (
                                 [
                                     a :Subtract ;
-                                    :left :n ;
-                                    :right [
+                                    :binaryLeft :n ;
+                                    :binaryRight [
                                         a :Constant ;
-                                        :value 1 ;
+                                        :constantValue 1 ;
                                     ] ;
                                 ]
                             ) ;
@@ -79,11 +79,11 @@
         ]
         [
             a :Invoke ;
-            :expression :fibonacci ;
-            :arguments (
+            :invokeExpression :fibonacci ;
+            :invokeArguments (
                 [
                     a :Constant ;
-                    :value 8 ;
+                    :constantValue 8 ;
                 ]
             ) ;
         ]

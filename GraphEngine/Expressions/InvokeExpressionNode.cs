@@ -16,9 +16,9 @@ namespace GraphEngine
         {
         }
 
-        public ExpressionNode ExpressionNode => Vocabulary.Expression.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode ExpressionNode => Vocabulary.InvokeExpression.ObjectsOf(this).Select(Parse).Single();
 
-        public IEnumerable<ExpressionNode> Arguments => Vocabulary.Arguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<ExpressionNode> Arguments => Vocabulary.InvokeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
 
         public override Expression Expression => Expression.Invoke(this.ExpressionNode.Expression, this.Arguments.Select(arg => arg.Expression));
     }

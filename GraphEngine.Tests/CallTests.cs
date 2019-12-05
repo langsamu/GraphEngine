@@ -22,8 +22,8 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
-    :method ""M1"" ;
+    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callMethod ""M1"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -45,9 +45,9 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
-    :method ""M2"" ;
-    :typeArguments (
+    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callMethod ""M2"" ;
+    :callTypeArguments (
         ""System.Object""
     ) ;
 .
@@ -71,13 +71,13 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
-    :method ""M3"" ;
-    :arguments (
+    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callMethod ""M3"" ;
+    :callArguments (
         [
             a :Constant ;
-            :type ""System.Object"" ;
-            :value 0;
+            :constantType ""System.Object"" ;
+            :constantValue 0;
         ]
     ) ;
 .
@@ -101,16 +101,16 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :type ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
-    :method ""M4"" ;
-    :typeArguments (
+    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callMethod ""M4"" ;
+    :callTypeArguments (
         ""System.Object""
     ) ;
-    :arguments (
+    :callArguments (
         [
             a :Constant ;
-            :type ""System.Object"" ;
-            :value 0;
+            :constantType ""System.Object"" ;
+            :constantValue 0;
         ]
     ) ;
 .
@@ -134,11 +134,11 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :instance [
+    :callInstance [
         a :New ;
-        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
-    :method ""M5"" ;
+    :callMethod ""M5"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -160,12 +160,12 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :instance [
+    :callInstance [
         a :New ;
-        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
-    :method ""M6"" ;
-    :typeArguments (
+    :callMethod ""M6"" ;
+    :callTypeArguments (
         ""System.Object""
     ) ;
 .
@@ -189,16 +189,16 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :instance [
+    :callInstance [
         a :New ;
-        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
-    :method ""M7"" ;
-    :arguments (
+    :callMethod ""M7"" ;
+    :callArguments (
         [
             a :Constant ;
-            :type ""System.Object"" ;
-            :value 0;
+            :constantType ""System.Object"" ;
+            :constantValue 0;
         ]
     ) ;
 .
@@ -222,19 +222,19 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :instance [
+    :callInstance [
         a :New ;
-        :type ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
     ] ;
-    :method ""M8"" ;
-    :typeArguments (
+    :callMethod ""M8"" ;
+    :callTypeArguments (
         ""System.Object""
     ) ;
-    :arguments (
+    :callArguments (
         [
             a :Constant ;
-            :type ""System.Object"" ;
-            :value 0;
+            :constantType ""System.Object"" ;
+            :constantValue 0;
         ]
     ) ;
 .

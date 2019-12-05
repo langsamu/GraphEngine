@@ -15,9 +15,9 @@ namespace GraphEngine
         {
         }
 
-        public ExpressionNode Left => Vocabulary.Left.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode Left => Vocabulary.BinaryLeft.ObjectsOf(this).Select(Parse).Single();
 
-        public ExpressionNode Right => Vocabulary.Right.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode Right => Vocabulary.BinaryRight.ObjectsOf(this).Select(Parse).Single();
 
         public override Expression Expression => Expression.MakeBinary(this.BinaryType, this.Left.Expression, this.Right.Expression);
 

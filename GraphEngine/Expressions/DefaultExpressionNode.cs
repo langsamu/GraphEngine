@@ -15,7 +15,7 @@ namespace GraphEngine
         {
         }
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).Single();
+        public TypeNode Type => Vocabulary.DefaultType.ObjectsOf(this).Select(TypeNode.Parse).Single();
 
         public override Expression Expression => Expression.Default(this.Type.Type);
     }

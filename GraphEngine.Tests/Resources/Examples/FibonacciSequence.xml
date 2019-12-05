@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- MIT License, Copyright 2019 Samu Lang -->
+<!-- MIT License, CopybinaryRight 2019 Samu Lang -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://example.com/" xmlns:ex="http://example.com/" xml:base="http://example.com/">
   <Block rdf:about="s">
-    <variables rdf:parseType="Collection">
+    <blockVariables rdf:parseType="Collection">
       <Variable rdf:about="fibonacci">
-        <type>
+        <parameterType>
           <Type ex:name="System.Func`2">
             <typeArguments rdf:parseType="Collection">
-              <Type ex:name="System.Int64" />
-              <Type ex:name="System.Int64" />
+              <Type ex:typeName="System.Int64" />
+              <Type ex:typeName="System.Int64" />
             </typeArguments>
           </Type>
-        </type>
+        </parameterType>
       </Variable>
-    </variables>
-    <expressions rdf:parseType="Collection">
+    </blockVariables>
+    <blockExpressions rdf:parseType="Collection">
       <Assign>
-        <left rdf:resource="fibonacci"/>
-        <right>
+        <binaryLeft rdf:resource="fibonacci"/>
+        <binaryRight>
           <Lambda>
-            <parameters rdf:parseType="Collection">
-              <Parameter rdf:about="n" ex:type="System.Int64"/>
-            </parameters>
-            <body>
+            <lambdaParameters rdf:parseType="Collection">
+              <Parameter rdf:about="n" ex:parameterType="System.Int64"/>
+            </lambdaParameters>
+            <lambdaBody>
               <Condition>
-                <test>
+                <conditionTest>
                   <LessThan>
-                    <left rdf:resource="n"/>
-                    <right>
+                    <binaryLeft rdf:resource="n"/>
+                    <binaryRight>
                       <Constant>
-                        <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</value>
+                        <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</constantValue>
                       </Constant>
-                    </right>
+                    </binaryRight>
                   </LessThan>
-                </test>
-                <ifTrue rdf:resource="n"/>
-                <ifFalse>
+                </conditionTest>
+                <conditionIfTrue rdf:resource="n"/>
+                <conditionIfFalse>
                   <Add>
-                    <left>
+                    <binaryLeft>
                       <Invoke>
-                        <expression rdf:resource="fibonacci"/>
-                        <arguments rdf:parseType="Collection">
+                        <invokeExpression rdf:resource="fibonacci"/>
+                        <invokeArguments rdf:parseType="Collection">
                           <Subtract>
-                            <left rdf:resource="n"/>
-                            <right>
+                            <binaryLeft rdf:resource="n"/>
+                            <binaryRight>
                               <Constant>
-                                <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</value>
+                                <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</constantValue>
                               </Constant>
-                            </right>
+                            </binaryRight>
                           </Subtract>
-                        </arguments>
+                        </invokeArguments>
                       </Invoke>
-                    </left>
-                    <right>
+                    </binaryLeft>
+                    <binaryRight>
                       <Invoke>
-                        <expression rdf:resource="fibonacci"/>
-                        <arguments rdf:parseType="Collection">
+                        <invokeExpression rdf:resource="fibonacci"/>
+                        <invokeArguments rdf:parseType="Collection">
                           <Subtract>
-                            <left rdf:resource="n"/>
-                            <right>
+                            <binaryLeft rdf:resource="n"/>
+                            <binaryRight>
                               <Constant>
-                                <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</value>
+                                <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</constantValue>
                               </Constant>
-                            </right>
+                            </binaryRight>
                           </Subtract>
-                        </arguments>
+                        </invokeArguments>
                       </Invoke>
-                    </right>
+                    </binaryRight>
                   </Add>
-                </ifFalse>
+                </conditionIfFalse>
               </Condition>
-            </body>
+            </lambdaBody>
           </Lambda>
-        </right>
+        </binaryRight>
       </Assign>
       <Invoke>
-        <expression rdf:resource="fibonacci" />
-        <arguments rdf:parseType="Collection">
+        <invokeExpression rdf:resource="fibonacci" />
+        <invokeArguments rdf:parseType="Collection">
           <Constant>
-            <value rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</value>
+            <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">8</constantValue>
           </Constant>
-        </arguments>
+        </invokeArguments>
       </Invoke>
-    </expressions>
+    </blockExpressions>
   </Block>
 </rdf:RDF>

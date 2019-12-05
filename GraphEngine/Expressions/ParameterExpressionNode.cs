@@ -18,7 +18,7 @@ namespace GraphEngine
         {
         }
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).Single();
+        public TypeNode Type => Vocabulary.ParameterType.ObjectsOf(this).Select(TypeNode.Parse).Single();
 
         public override Expression Expression => this.Parameter;
 

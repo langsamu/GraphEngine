@@ -20,8 +20,6 @@ namespace GraphEngine
 
         public static IUriNode AndAssign { get; } = EngineNode("AndAssign");
 
-        public static IUriNode Arguments { get; } = EngineNode("arguments");
-
         public static IUriNode ArrayIndex { get; } = EngineNode("ArrayIndex");
 
         public static IUriNode ArrayLength { get; } = EngineNode("ArrayLength");
@@ -30,17 +28,9 @@ namespace GraphEngine
 
         public static IUriNode Block { get; } = EngineNode("Block");
 
-        public static IUriNode Body { get; } = EngineNode("body");
-
-        public static IUriNode Bounds { get; } = EngineNode("bounds");
-
         public static IUriNode Break { get; } = EngineNode("Break");
 
-        public static IUriNode BreakLabel { get; } = EngineNode("break");
-
         public static IUriNode Call { get; } = EngineNode("Call");
-
-        public static IUriNode CatchVariable { get; } = EngineNode("variable");
 
         public static IUriNode Coalesce { get; } = EngineNode("Coalesce");
 
@@ -49,8 +39,6 @@ namespace GraphEngine
         public static IUriNode Constant { get; } = EngineNode("Constant");
 
         public static IUriNode Continue { get; } = EngineNode("Continue");
-
-        public static IUriNode ContinueLabel { get; } = EngineNode("continue");
 
         public static IUriNode Convert { get; } = EngineNode("Convert");
 
@@ -70,31 +58,13 @@ namespace GraphEngine
 
         public static IUriNode ExclusiveOrAssign { get; } = EngineNode("ExclusiveOrAssign");
 
-        public static IUriNode Expression { get; } = EngineNode("expression");
-
-        public static IUriNode Expressions { get; } = EngineNode("expressions");
-
-        public static IUriNode Fault { get; } = EngineNode("fault");
-
-        public static IUriNode Filter { get; } = EngineNode("filter");
-
-        public static IUriNode Finally { get; } = EngineNode("finally");
-
         public static IUriNode Goto { get; } = EngineNode("Goto");
 
         public static IUriNode GreaterThan { get; } = EngineNode("GreaterThan");
 
         public static IUriNode GreaterThanOrEqual { get; } = EngineNode("GreaterThanOrEqual");
 
-        public static IUriNode Handlers { get; } = EngineNode("handlers");
-
-        public static IUriNode IfFalse { get; } = EngineNode("ifFalse");
-
-        public static IUriNode IfTrue { get; } = EngineNode("ifTrue");
-
         public static IUriNode Increment { get; } = EngineNode("Increment");
-
-        public static IUriNode Instance { get; } = EngineNode("instance");
 
         public static IUriNode Invoke { get; } = EngineNode("Invoke");
 
@@ -103,8 +73,6 @@ namespace GraphEngine
         public static IUriNode IsTrue { get; } = EngineNode("IsTrue");
 
         public static IUriNode Lambda { get; } = EngineNode("Lambda");
-
-        public static IUriNode Left { get; } = EngineNode("left");
 
         public static IUriNode LeftShift { get; } = EngineNode("LeftShift");
 
@@ -115,8 +83,6 @@ namespace GraphEngine
         public static IUriNode LessThanOrEqual { get; } = EngineNode("LessThanOrEqual");
 
         public static IUriNode Loop { get; } = EngineNode("Loop");
-
-        public static IUriNode Method { get; } = EngineNode("method");
 
         public static IUriNode Modulo { get; } = EngineNode("Modulo");
 
@@ -129,8 +95,6 @@ namespace GraphEngine
         public static IUriNode MultiplyAssignChecked { get; } = EngineNode("MultiplyAssignChecked");
 
         public static IUriNode MultiplyChecked { get; } = EngineNode("MultiplyChecked");
-
-        public static IUriNode Name { get; } = EngineNode("name");
 
         public static IUriNode Negate { get; } = EngineNode("Negate");
 
@@ -146,8 +110,6 @@ namespace GraphEngine
 
         public static IUriNode OnesComplement { get; } = EngineNode("OnesComplement");
 
-        public static IUriNode Operand { get; } = EngineNode("operand");
-
         public static IUriNode Or { get; } = EngineNode("Or");
 
         public static IUriNode OrAssign { get; } = EngineNode("OrAssign");
@@ -155,8 +117,6 @@ namespace GraphEngine
         public static IUriNode OrElse { get; } = EngineNode("OrElse");
 
         public static IUriNode Parameter { get; } = EngineNode("Parameter");
-
-        public static IUriNode Parameters { get; } = EngineNode("parameters");
 
         public static IUriNode PostDecrementAssign { get; } = EngineNode("PostDecrementAssign");
 
@@ -174,8 +134,6 @@ namespace GraphEngine
 
         public static IUriNode Return { get; } = EngineNode("Return");
 
-        public static IUriNode Right { get; } = EngineNode("right");
-
         public static IUriNode RightShift { get; } = EngineNode("RightShift");
 
         public static IUriNode RightShiftAssign { get; } = EngineNode("RightShiftAssign");
@@ -188,17 +146,9 @@ namespace GraphEngine
 
         public static IUriNode SubtractChecked { get; } = EngineNode("SubtractChecked");
 
-        public static IUriNode Target { get; } = EngineNode("target");
-
-        public static IUriNode Test { get; } = EngineNode("test");
-
         public static IUriNode Throw { get; } = EngineNode("Throw");
 
         public static IUriNode Try { get; } = EngineNode("Try");
-
-        public static IUriNode Type { get; } = EngineNode("type");
-
-        public static IUriNode TypeArguments { get; } = EngineNode("typeArguments");
 
         public static IUriNode TypeAs { get; } = EngineNode("TypeAs");
 
@@ -206,10 +156,98 @@ namespace GraphEngine
 
         public static IUriNode Unbox { get; } = EngineNode("Unbox");
 
-        public static IUriNode Value { get; } = EngineNode("value");
-
         public static IUriNode Variable { get; } = EngineNode("Variable");
 
-        public static IUriNode Variables { get; } = EngineNode("variables");
+        public static IUriNode BinaryLeft { get; } = EngineNode("binaryLeft");
+
+        public static IUriNode BinaryRight { get; } = EngineNode("binaryRight");
+
+        public static IUriNode BlockExpressions { get; } = EngineNode("blockExpressions");
+
+        public static IUriNode BlockVariables { get; } = EngineNode("blockVariables");
+
+        public static IUriNode CallArguments { get; } = EngineNode("callArguments");
+
+        public static IUriNode CallInstance { get; } = EngineNode("callInstance");
+
+        public static IUriNode CallMethod { get; } = EngineNode("callMethod");
+
+        public static IUriNode CallType { get; } = EngineNode("callType");
+
+        public static IUriNode CallTypeArguments { get; } = EngineNode("callTypeArguments");
+
+        public static IUriNode CatchBody { get; } = EngineNode("catchBody");
+
+        public static IUriNode CatchFilter { get; } = EngineNode("catchFilter");
+
+        public static IUriNode CatchType { get; } = EngineNode("catchType");
+
+        public static IUriNode CatchVariable { get; } = EngineNode("catchVariable");
+
+        public static IUriNode ConditionIfTrue { get; } = EngineNode("conditionIfTrue");
+
+        public static IUriNode ConditionIfFalse { get; } = EngineNode("conditionIfFalse");
+
+        public static IUriNode ConditionTest { get; } = EngineNode("conditionTest");
+
+        public static IUriNode ConditionType { get; } = EngineNode("conditionType");
+
+        public static IUriNode ConstantType { get; } = EngineNode("constantType");
+
+        public static IUriNode ConstantValue { get; } = EngineNode("constantValue");
+
+        public static IUriNode DefaultType { get; } = EngineNode("defaultType");
+
+        public static IUriNode GotoTarget { get; } = EngineNode("gotoTarget");
+
+        public static IUriNode GotoType { get; } = EngineNode("gotoType");
+
+        public static IUriNode GotoValue { get; } = EngineNode("gotoValue");
+
+        public static IUriNode InvokeArguments { get; } = EngineNode("invokeArguments");
+
+        public static IUriNode InvokeExpression { get; } = EngineNode("invokeExpression");
+
+        public static IUriNode LabelName { get; } = EngineNode("labelName");
+
+        public static IUriNode LabelType { get; } = EngineNode("labelType");
+
+        public static IUriNode LambdaBody { get; } = EngineNode("lambdaBody");
+
+        public static IUriNode LambdaParameters { get; } = EngineNode("lambdaParameters");
+
+        public static IUriNode LoopBody { get; } = EngineNode("loopBody");
+
+        public static IUriNode LoopBreak { get; } = EngineNode("loopBreak");
+
+        public static IUriNode LoopContinue { get; } = EngineNode("loopContinue");
+
+        public static IUriNode NewArguments { get; } = EngineNode("newArguments");
+
+        public static IUriNode NewArrayBoundsBounds { get; } = EngineNode("newArrayBoundsBounds");
+
+        public static IUriNode NewArrayBoundsType { get; } = EngineNode("newArrayBoundsType");
+
+        public static IUriNode NewType { get; } = EngineNode("newType");
+
+        public static IUriNode ParameterType { get; } = EngineNode("parameterType");
+
+        public static IUriNode TryBody { get; } = EngineNode("tryBody");
+
+        public static IUriNode TryFault { get; } = EngineNode("tryFault");
+
+        public static IUriNode TryFinally { get; } = EngineNode("tryFinally");
+
+        public static IUriNode TryHandlers { get; } = EngineNode("tryHandlers");
+
+        public static IUriNode TryType { get; } = EngineNode("tryType");
+
+        public static IUriNode TypeArguments { get; } = EngineNode("typeArguments");
+
+        public static IUriNode TypeName { get; } = EngineNode("typeName");
+
+        public static IUriNode UnaryOperand { get; } = EngineNode("unaryOperand");
+
+        public static IUriNode UnaryType { get; } = EngineNode("unaryType");
     }
 }

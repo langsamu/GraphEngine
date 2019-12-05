@@ -72,13 +72,13 @@ namespace GraphEngine.Tests
 
 :s
     a :{binaryType} ;
-    :left [
+    :binaryLeft [
         a :Parameter ;
-        :type ""{leftType}"" ;
+        :parameterType ""{leftType}"" ;
     ] ;
-    :right [
+    :binaryRight [
         a :Parameter ;
-        :type ""{rightType}"" ;
+        :parameterType ""{rightType}"" ;
     ] ;
 .
 ");

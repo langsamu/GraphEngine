@@ -15,11 +15,11 @@ namespace GraphEngine
         {
         }
 
-        public LabelTargetNode Target => Vocabulary.Target.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
+        public LabelTargetNode Target => Vocabulary.GotoTarget.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.GotoType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
-        public ExpressionNode Value => Vocabulary.Value.ObjectsOf(this).Select(Parse).SingleOrDefault();
+        public ExpressionNode Value => Vocabulary.GotoValue.ObjectsOf(this).Select(Parse).SingleOrDefault();
 
         public override Expression Expression => Expression.MakeGoto(this.Kind, this.Target?.LabelTarget, this.Value?.Expression, this.Type?.Type);
 

@@ -15,9 +15,9 @@ namespace GraphEngine
         {
         }
 
-        public ExpressionNode Operand => Vocabulary.Operand.ObjectsOf(this).Select(Parse).Single();
+        public ExpressionNode Operand => Vocabulary.UnaryOperand.ObjectsOf(this).Select(Parse).Single();
 
-        public TypeNode Type => Vocabulary.Type.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.UnaryType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
         public override Expression Expression => Expression.MakeUnary(this.UnaryType, this.Operand.Expression, this.Type?.Type);
 
