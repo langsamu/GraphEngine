@@ -5,7 +5,7 @@
     <blockVariables rdf:parseType="Collection">
       <Variable rdf:about="fibonacci">
         <parameterType>
-          <Type ex:name="System.Func`2">
+          <Type ex:typeName="System.Func`2">
             <typeArguments rdf:parseType="Collection">
               <Type ex:typeName="System.Int64" />
               <Type ex:typeName="System.Int64" />
