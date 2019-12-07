@@ -44,5 +44,31 @@ namespace GraphEngine.Tests
 
             new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var expected = Expression.Parameter(typeof(IEquatable<int>));
+
+            using var g = new Graph();
+            var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
+            new SerialisingVisitor(s).Visit(expected);
+
+            new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            var expected = Expression.Break(
+                Expression.Label(
+                    typeof(void)));
+
+            using var g = new Graph();
+            var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
+            new SerialisingVisitor(s).Visit(expected);
+
+            new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
+        }
     }
 }

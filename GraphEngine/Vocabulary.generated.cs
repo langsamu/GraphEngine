@@ -118,6 +118,8 @@ namespace GraphEngine
 
         public static IUriNode Parameter { get; } = EngineNode("Parameter");
 
+        public static IUriNode ParameterName { get; } = EngineNode("parameterName");
+
         public static IUriNode PostDecrementAssign { get; } = EngineNode("PostDecrementAssign");
 
         public static IUriNode PostIncrementAssign { get; } = EngineNode("PostIncrementAssign");

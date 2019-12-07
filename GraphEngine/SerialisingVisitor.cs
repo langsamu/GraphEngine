@@ -7,6 +7,7 @@ namespace GraphEngine
     using System.Linq;
     using System.Linq.Expressions;
     using VDS.RDF;
+    using VDS.RDF.Nodes;
 
     public class SerialisingVisitor : ExpressionVisitor
     {
@@ -21,30 +22,36 @@ namespace GraphEngine
             this.n = n ?? throw new ArgumentNullException(nameof(n));
         }
 
+        protected INode Current => this.path.Peek();
+
         public override Expression Visit(Expression node)
         {
-            this.path.Push(this.Lookup(node));
-            var a = base.Visit(node);
-            this.path.Pop();
-            return a;
+            if (node is object)
+            {
+                this.path.Push(this.Lookup(node));
+                var result = base.Visit(node);
+                this.path.Pop();
+
+                return result;
+            }
+
+            return null;
         }
 
         protected override Expression VisitBlock(BlockExpression node)
         {
-            this.AssertType(Vocabulary.Block);
+            this.AddType(Vocabulary.Block);
 
             if (node.Variables.Any())
             {
-                var currentNode = this.path.Peek();
-                var root = currentNode.Graph.AssertList(node.Variables.Select(this.Lookup));
-                currentNode.Graph.Assert(currentNode, Vocabulary.BlockVariables, root);
+                var root = this.Current.Graph.AssertList(node.Variables.Select(this.Lookup));
+                this.AddStatement(Vocabulary.BlockVariables, root);
             }
 
             if (node.Expressions.Any())
             {
-                var currentNode = this.path.Peek();
-                var root = currentNode.Graph.AssertList(node.Expressions.Select(this.Lookup));
-                currentNode.Graph.Assert(currentNode, Vocabulary.BlockExpressions, root);
+                var root = this.Current.Graph.AssertList(node.Expressions.Select(this.Lookup));
+                this.AddStatement(Vocabulary.BlockExpressions, root);
             }
 
             return base.VisitBlock(node);
@@ -97,36 +104,52 @@ namespace GraphEngine
                 _ => throw new Exception()
             };
 
-            this.AssertType(type);
-
-            var currentNode = this.path.Peek();
-            currentNode.Graph.Assert(currentNode, Vocabulary.BinaryLeft, this.Lookup(node.Left));
-            currentNode.Graph.Assert(currentNode, Vocabulary.BinaryRight, this.Lookup(node.Right));
+            this.AddType(type);
+            this.AddStatement(Vocabulary.BinaryLeft, node.Left);
+            this.AddStatement(Vocabulary.BinaryRight, node.Right);
 
             return base.VisitBinary(node);
         }
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            this.AssertType(Vocabulary.Parameter);
+            this.AddType(Vocabulary.Parameter);
+            this.VisitType(node.Type, Vocabulary.ParameterType);
 
-            // TODO: Type
-            // TODO: Name
+            if (node.Name is object)
+            {
+                this.AddStatement(Vocabulary.ParameterName, new StringNode(this.Current.Graph, node.Name));
+            }
 
             return base.VisitParameter(node);
         }
 
         protected override Expression VisitLoop(LoopExpression node)
         {
-            this.AssertType(Vocabulary.Loop);
+            this.AddType(Vocabulary.Loop);
+            this.AddStatement(Vocabulary.LoopBody, node.Body);
 
-            var currentNode = this.path.Peek();
-            currentNode.Graph.Assert(currentNode, Vocabulary.LoopBody, this.Lookup(node.Body));
+            if (node.BreakLabel is object)
+            {
+                var breakNode = this.Lookup(node.BreakLabel);
+                this.AddStatement(Vocabulary.GotoTarget, breakNode);
+                this.path.Push(breakNode);
+                this.VisitLabelTarget(node.BreakLabel);
+                this.path.Pop();
+            }
 
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.LoopBreak, this.Lookup(node.BreakLabel));
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.LoopContinue, this.Lookup(node.ContinueLabel));
+            if (node.ContinueLabel is object)
+            {
+                var continueNode = this.Lookup(node.ContinueLabel);
+                this.AddStatement(Vocabulary.GotoTarget, continueNode);
+                this.path.Push(continueNode);
+                this.VisitLabelTarget(node.ContinueLabel);
+                this.path.Pop();
+            }
 
-            return base.VisitLoop(node);
+            this.Visit(node.Body);
+
+            return node;
         }
 
         protected override Expression VisitUnary(UnaryExpression node)
@@ -157,11 +180,9 @@ namespace GraphEngine
                 _ => throw new Exception()
             };
 
-            this.AssertType(type);
-
-            var currentNode = this.path.Peek();
-            currentNode.Graph.Assert(currentNode, Vocabulary.UnaryOperand, this.Lookup(node.Operand));
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.UnaryType, this.Lookup(node.Type));
+            this.AddType(type);
+            this.AddStatement(Vocabulary.UnaryOperand, node.Operand);
+            this.VisitType(node.Type, Vocabulary.UnaryType);
 
             return base.VisitUnary(node);
         }
@@ -178,61 +199,124 @@ namespace GraphEngine
                 _ => throw new Exception()
             };
 
-            this.AssertType(type);
+            this.AddType(type);
 
-            var currentNode = this.path.Peek();
-            currentNode.Graph.Assert(currentNode, Vocabulary.GotoValue, this.Lookup(node.Value));
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.GotoTarget, this.Lookup(node.Target));
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.GotoType, this.Lookup(node.Type));
+            if (node.Value is object)
+            {
+                this.AddStatement(Vocabulary.GotoValue, node.Value);
+            }
 
-            return base.VisitGoto(node);
+            this.VisitType(node.Type, Vocabulary.GotoType);
+
+            var targetNode = this.Lookup(node.Target);
+            this.AddStatement(Vocabulary.GotoTarget, targetNode);
+            this.path.Push(targetNode);
+            this.VisitLabelTarget(node.Target);
+            this.path.Pop();
+
+            this.Visit(node.Value);
+
+            return node;
         }
 
         protected override Expression VisitConditional(ConditionalExpression node)
         {
-            this.AssertType(Vocabulary.Condition);
-
-            var currentNode = this.path.Peek();
-            currentNode.Graph.Assert(currentNode, Vocabulary.ConditionIfFalse, this.Lookup(node.IfFalse));
-            currentNode.Graph.Assert(currentNode, Vocabulary.ConditionIfTrue, this.Lookup(node.IfTrue));
-            currentNode.Graph.Assert(currentNode, Vocabulary.ConditionTest, this.Lookup(node.Test));
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.ConditionType, this.Lookup(node.Type));
+            this.AddType(Vocabulary.Condition);
+            this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
+            this.AddStatement(Vocabulary.ConditionIfTrue, node.IfTrue);
+            this.AddStatement(Vocabulary.ConditionTest, node.Test);
+            this.VisitType(node.Type, Vocabulary.ConditionType);
 
             return base.VisitConditional(node);
         }
 
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            this.AssertType(Vocabulary.Constant);
-
-            var currentNode = this.path.Peek();
+            this.AddType(Vocabulary.Constant);
             // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.ConstantValue, this.Lookup(node.Value));
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.ConstantType, this.Lookup(node.Type));
+            this.VisitType(node.Type, Vocabulary.ConstantType);
 
             return base.VisitConstant(node);
         }
 
-        private INode Lookup(Expression e)
+        protected override LabelTarget VisitLabelTarget(LabelTarget node)
+        {
+            this.VisitType(node.Type, Vocabulary.LabelType);
+
+            return base.VisitLabelTarget(node);
+        }
+
+        private void VisitType(Type type, INode predicate)
+        {
+            if (type is object)
+            {
+                var typeNode = this.Lookup(type);
+                this.AddStatement(predicate, typeNode);
+                this.path.Push(typeNode);
+                this.VisitType(type);
+                this.path.Pop();
+            }
+        }
+
+        private Type VisitType(Type type)
+        {
+            this.AddStatement(Vocabulary.TypeName, $"{type.Namespace}.{type.Name}");
+
+            if (type.GenericTypeArguments.Any())
+            {
+                var nodes = new List<INode>();
+
+                foreach (var typeArgument in type.GenericTypeArguments)
+                {
+                    var typeArgumentNode = this.Lookup(typeArgument);
+                    nodes.Add(typeArgumentNode);
+                    this.path.Push(typeArgumentNode);
+                    this.VisitType(typeArgument);
+                    this.path.Pop();
+                }
+
+                var root = this.Current.Graph.AssertList(nodes);
+                this.AddStatement(Vocabulary.TypeArguments, root);
+            }
+
+            return type;
+        }
+
+        private INode Lookup(object o)
         {
             if (!this.initialised)
             {
-                this.d[e] = this.n;
+                this.d[o] = this.n;
                 this.initialised = true;
                 return this.n;
             }
 
-            if (!this.d.TryGetValue(e, out var current))
+            if (!this.d.TryGetValue(o, out var current))
             {
-                current = this.d[e] = this.n.Graph.CreateBlankNode();
+                current = this.d[o] = this.n.Graph.CreateBlankNode();
             }
 
             return current;
         }
 
-        private void AssertType(IUriNode type)
+        private void AddType(INode type)
         {
-            var currentNode = this.path.Peek();
-            currentNode.Graph.Assert(currentNode, Vocabulary.RdfType, type);
+            this.AddStatement(Vocabulary.RdfType, type);
+        }
+
+        private void AddStatement(INode p, Expression e)
+        {
+            this.AddStatement(p, this.Lookup(e));
+        }
+
+        private void AddStatement(INode p, string o)
+        {
+            this.AddStatement(p, new StringNode(this.Current.Graph, o));
+        }
+
+        private void AddStatement(INode p, INode o)
+        {
+            this.Current.Graph.Assert(this.Current, p, o);
         }
     }
 

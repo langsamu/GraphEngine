@@ -90,6 +90,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("OrAssign", "OrAssign");
         yield return ("OrElse", "OrElse");
         yield return ("Parameter", "Parameter");
+        yield return ("ParameterName", "parameterName");
         yield return ("PostDecrementAssign", "PostDecrementAssign");
         yield return ("PostIncrementAssign", "PostIncrementAssign");
         yield return ("Power", "Power");
@@ -114,18 +115,16 @@ private IEnumerable<(string Property, string Uri)> Data {
         // Properties
         yield return ("BinaryLeft", "binaryLeft");
         yield return ("BinaryRight", "binaryRight");
-        yield return ("BlockExpression", "blockExpression");
         yield return ("BlockExpressions", "blockExpressions");
         yield return ("BlockVariables", "blockVariables");
         yield return ("CallArguments", "callArguments");
-        yield return ("CallBody", "callBody");
         yield return ("CallInstance", "callInstance");
         yield return ("CallMethod", "callMethod");
         yield return ("CallType", "callType");
         yield return ("CallTypeArguments", "callTypeArguments");
         yield return ("CatchBody", "catchBody");
         yield return ("CatchFilter", "catchFilter");
-        yield return ("CatchType", "CatchType");
+        yield return ("CatchType", "catchType");
         yield return ("CatchVariable", "catchVariable");
         yield return ("ConditionIfTrue", "conditionIfTrue");
         yield return ("ConditionIfFalse", "conditionIfFalse");
@@ -144,8 +143,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("LambdaBody", "lambdaBody");
         yield return ("LambdaParameters", "lambdaParameters");
         yield return ("LoopBody", "loopBody");
-        yield return ("LoopBreakLabel", "loopBreakLabel");
-        yield return ("LoopContinueLabel", "loopContinueLabel");
+        yield return ("LoopBreak", "loopBreak");
+        yield return ("LoopContinue", "loopContinue");
         yield return ("NewArguments", "newArguments");
         yield return ("NewArrayBoundsBounds", "newArrayBoundsBounds");
         yield return ("NewArrayBoundsType", "newArrayBoundsType");
