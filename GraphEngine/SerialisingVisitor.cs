@@ -28,11 +28,10 @@ namespace GraphEngine
         {
             if (node is object)
             {
-                this.path.Push(this.Lookup(node));
-                var result = base.Visit(node);
-                this.path.Pop();
-
-                return result;
+                using (this.Wrap(this.Lookup(node)))
+                {
+                    return base.Visit(node);
+                }
             }
 
             return null;
@@ -133,18 +132,20 @@ namespace GraphEngine
             {
                 var breakNode = this.Lookup(node.BreakLabel);
                 this.AddStatement(Vocabulary.GotoTarget, breakNode);
-                this.path.Push(breakNode);
-                this.VisitLabelTarget(node.BreakLabel);
-                this.path.Pop();
+                using (this.Wrap(breakNode))
+                {
+                    this.VisitLabelTarget(node.BreakLabel);
+                }
             }
 
             if (node.ContinueLabel is object)
             {
                 var continueNode = this.Lookup(node.ContinueLabel);
                 this.AddStatement(Vocabulary.GotoTarget, continueNode);
-                this.path.Push(continueNode);
-                this.VisitLabelTarget(node.ContinueLabel);
-                this.path.Pop();
+                using (this.Wrap(continueNode))
+                {
+                    this.VisitLabelTarget(node.ContinueLabel);
+                }
             }
 
             this.Visit(node.Body);
@@ -210,9 +211,10 @@ namespace GraphEngine
 
             var targetNode = this.Lookup(node.Target);
             this.AddStatement(Vocabulary.GotoTarget, targetNode);
-            this.path.Push(targetNode);
-            this.VisitLabelTarget(node.Target);
-            this.path.Pop();
+            using (this.Wrap(targetNode))
+            {
+                this.VisitLabelTarget(node.Target);
+            }
 
             this.Visit(node.Value);
 
@@ -252,9 +254,10 @@ namespace GraphEngine
             {
                 var typeNode = this.Lookup(type);
                 this.AddStatement(predicate, typeNode);
-                this.path.Push(typeNode);
-                this.VisitType(type);
-                this.path.Pop();
+                using (this.Wrap(typeNode))
+                {
+                    this.VisitType(type);
+                }
             }
         }
 
@@ -270,9 +273,10 @@ namespace GraphEngine
                 {
                     var typeArgumentNode = this.Lookup(typeArgument);
                     nodes.Add(typeArgumentNode);
-                    this.path.Push(typeArgumentNode);
-                    this.VisitType(typeArgument);
-                    this.path.Pop();
+                    using (this.Wrap(typeArgumentNode))
+                    {
+                        this.VisitType(typeArgument);
+                    }
                 }
 
                 var root = this.Current.Graph.AssertList(nodes);
@@ -317,6 +321,24 @@ namespace GraphEngine
         private void AddStatement(INode p, INode o)
         {
             this.Current.Graph.Assert(this.Current, p, o);
+        }
+
+        private IDisposable Wrap(INode node)
+        {
+            return new Wrapper(this, node);
+        }
+
+        private class Wrapper : IDisposable
+        {
+            private readonly SerialisingVisitor visitor;
+
+            public Wrapper(SerialisingVisitor visitor, INode node)
+            {
+                this.visitor = visitor;
+                this.visitor.path.Push(node);
+            }
+
+            void IDisposable.Dispose() => this.visitor.path.Pop();
         }
     }
 
