@@ -11,15 +11,15 @@ namespace GraphEngine
 
     public class SerialisingVisitor : ExpressionVisitor
     {
+        private readonly IDictionary<object, INode> mapping = new Dictionary<object, INode>();
+        private readonly INode node;
         private readonly Stack<INode> path = new Stack<INode>();
-        private readonly IDictionary<object, INode> d = new Dictionary<object, INode>();
-        private readonly INode n;
         private bool initialised;
 
-        public SerialisingVisitor(INode n)
+        public SerialisingVisitor(INode node)
             : base()
         {
-            this.n = n ?? throw new ArgumentNullException(nameof(n));
+            this.node = node ?? throw new ArgumentNullException(nameof(node));
         }
 
         protected INode Current => this.path.Peek();
@@ -37,188 +37,30 @@ namespace GraphEngine
             return null;
         }
 
-        protected override Expression VisitBlock(BlockExpression node)
-        {
-            this.AddType(Vocabulary.Block);
-
-            if (node.Variables.Any())
-            {
-                var root = this.Current.Graph.AssertList(node.Variables.Select(this.Lookup));
-                this.AddStatement(Vocabulary.BlockVariables, root);
-            }
-
-            if (node.Expressions.Any())
-            {
-                var root = this.Current.Graph.AssertList(node.Expressions.Select(this.Lookup));
-                this.AddStatement(Vocabulary.BlockExpressions, root);
-            }
-
-            return base.VisitBlock(node);
-        }
-
         protected override Expression VisitBinary(BinaryExpression node)
         {
-            var type = node.NodeType switch
-            {
-                ExpressionType.Add => Vocabulary.Add,
-                ExpressionType.AddAssign => Vocabulary.AddAssign,
-                ExpressionType.AddAssignChecked => Vocabulary.AddAssignChecked,
-                ExpressionType.AddChecked => Vocabulary.AddChecked,
-                ExpressionType.And => Vocabulary.And,
-                ExpressionType.AndAlso => Vocabulary.AndAlso,
-                ExpressionType.AndAssign => Vocabulary.AndAssign,
-                ExpressionType.ArrayIndex => Vocabulary.ArrayIndex,
-                ExpressionType.Assign => Vocabulary.Assign,
-                ExpressionType.Coalesce => Vocabulary.Coalesce,
-                ExpressionType.Divide => Vocabulary.Divide,
-                ExpressionType.DivideAssign => Vocabulary.DivideAssign,
-                ExpressionType.Equal => Vocabulary.Equal,
-                ExpressionType.ExclusiveOr => Vocabulary.ExclusiveOr,
-                ExpressionType.ExclusiveOrAssign => Vocabulary.ExclusiveOrAssign,
-                ExpressionType.GreaterThan => Vocabulary.GreaterThan,
-                ExpressionType.GreaterThanOrEqual => Vocabulary.GreaterThanOrEqual,
-                ExpressionType.LeftShift => Vocabulary.LeftShift,
-                ExpressionType.LeftShiftAssign => Vocabulary.LeftShiftAssign,
-                ExpressionType.LessThan => Vocabulary.LessThan,
-                ExpressionType.LessThanOrEqual => Vocabulary.LessThanOrEqual,
-                ExpressionType.Modulo => Vocabulary.Modulo,
-                ExpressionType.ModuloAssign => Vocabulary.ModuloAssign,
-                ExpressionType.Multiply => Vocabulary.Multiply,
-                ExpressionType.MultiplyAssign => Vocabulary.MultiplyAssign,
-                ExpressionType.MultiplyAssignChecked => Vocabulary.MultiplyAssignChecked,
-                ExpressionType.MultiplyChecked => Vocabulary.MultiplyChecked,
-                ExpressionType.NotEqual => Vocabulary.NotEqual,
-                ExpressionType.Or => Vocabulary.Or,
-                ExpressionType.OrAssign => Vocabulary.OrAssign,
-                ExpressionType.OrElse => Vocabulary.OrElse,
-                ExpressionType.Power => Vocabulary.Power,
-                ExpressionType.PowerAssign => Vocabulary.PowerAssign,
-                ExpressionType.RightShift => Vocabulary.RightShift,
-                ExpressionType.RightShiftAssign => Vocabulary.RightShiftAssign,
-                ExpressionType.Subtract => Vocabulary.Subtract,
-                ExpressionType.SubtractAssign => Vocabulary.SubtractAssign,
-                ExpressionType.SubtractAssignChecked => Vocabulary.SubtractAssignChecked,
-                ExpressionType.SubtractChecked => Vocabulary.SubtractChecked,
-
-                _ => throw new Exception()
-            };
-
-            this.AddType(type);
+            this.AddType(node.NodeType.AsNode());
             this.AddStatement(Vocabulary.BinaryLeft, node.Left);
             this.AddStatement(Vocabulary.BinaryRight, node.Right);
 
             return base.VisitBinary(node);
         }
 
-        protected override Expression VisitParameter(ParameterExpression node)
+        protected override Expression VisitBlock(BlockExpression node)
         {
-            this.AddType(Vocabulary.Parameter);
-            this.VisitType(node.Type, Vocabulary.ParameterType);
+            this.AddType(Vocabulary.Block);
 
-            if (node.Name is object)
+            if (node.Variables.Any())
             {
-                this.AddStatement(Vocabulary.ParameterName, new StringNode(this.Current.Graph, node.Name));
+                this.AddList(Vocabulary.BlockVariables, node.Variables.Select(this.Lookup));
             }
 
-            return base.VisitParameter(node);
-        }
-
-        protected override Expression VisitLoop(LoopExpression node)
-        {
-            this.AddType(Vocabulary.Loop);
-            this.AddStatement(Vocabulary.LoopBody, node.Body);
-
-            if (node.BreakLabel is object)
+            if (node.Expressions.Any())
             {
-                var breakNode = this.Lookup(node.BreakLabel);
-                this.AddStatement(Vocabulary.GotoTarget, breakNode);
-                using (this.Wrap(breakNode))
-                {
-                    this.VisitLabelTarget(node.BreakLabel);
-                }
+                this.AddList(Vocabulary.BlockExpressions, node.Expressions.Select(this.Lookup));
             }
 
-            if (node.ContinueLabel is object)
-            {
-                var continueNode = this.Lookup(node.ContinueLabel);
-                this.AddStatement(Vocabulary.GotoTarget, continueNode);
-                using (this.Wrap(continueNode))
-                {
-                    this.VisitLabelTarget(node.ContinueLabel);
-                }
-            }
-
-            this.Visit(node.Body);
-
-            return node;
-        }
-
-        protected override Expression VisitUnary(UnaryExpression node)
-        {
-            var type = node.NodeType switch
-            {
-                ExpressionType.ArrayLength => Vocabulary.ArrayLength,
-                ExpressionType.Convert => Vocabulary.Convert,
-                ExpressionType.ConvertChecked => Vocabulary.ConvertChecked,
-                ExpressionType.Decrement => Vocabulary.Decrement,
-                ExpressionType.Increment => Vocabulary.Increment,
-                ExpressionType.IsFalse => Vocabulary.IsFalse,
-                ExpressionType.IsTrue => Vocabulary.IsTrue,
-                ExpressionType.Negate => Vocabulary.Negate,
-                ExpressionType.NegateChecked => Vocabulary.NegateChecked,
-                ExpressionType.Not => Vocabulary.Not,
-                ExpressionType.OnesComplement => Vocabulary.OnesComplement,
-                ExpressionType.PostDecrementAssign => Vocabulary.PostDecrementAssign,
-                ExpressionType.PostIncrementAssign => Vocabulary.PostIncrementAssign,
-                ExpressionType.PreDecrementAssign => Vocabulary.PreDecrementAssign,
-                ExpressionType.PreIncrementAssign => Vocabulary.PreIncrementAssign,
-                ExpressionType.Quote => Vocabulary.Quote,
-                ExpressionType.Throw => Vocabulary.Throw,
-                ExpressionType.TypeAs => Vocabulary.TypeAs,
-                ExpressionType.UnaryPlus => Vocabulary.UnaryPlus,
-                ExpressionType.Unbox => Vocabulary.Unbox,
-
-                _ => throw new Exception()
-            };
-
-            this.AddType(type);
-            this.AddStatement(Vocabulary.UnaryOperand, node.Operand);
-            this.VisitType(node.Type, Vocabulary.UnaryType);
-
-            return base.VisitUnary(node);
-        }
-
-        protected override Expression VisitGoto(GotoExpression node)
-        {
-            var type = node.Kind switch
-            {
-                GotoExpressionKind.Break => Vocabulary.Break,
-                GotoExpressionKind.Continue => Vocabulary.Continue,
-                GotoExpressionKind.Goto => Vocabulary.Goto,
-                GotoExpressionKind.Return => Vocabulary.Return,
-
-                _ => throw new Exception()
-            };
-
-            this.AddType(type);
-
-            if (node.Value is object)
-            {
-                this.AddStatement(Vocabulary.GotoValue, node.Value);
-            }
-
-            this.VisitType(node.Type, Vocabulary.GotoType);
-
-            var targetNode = this.Lookup(node.Target);
-            this.AddStatement(Vocabulary.GotoTarget, targetNode);
-            using (this.Wrap(targetNode))
-            {
-                this.VisitLabelTarget(node.Target);
-            }
-
-            this.Visit(node.Value);
-
-            return node;
+            return base.VisitBlock(node);
         }
 
         protected override Expression VisitConditional(ConditionalExpression node)
@@ -241,27 +83,128 @@ namespace GraphEngine
             return base.VisitConstant(node);
         }
 
+        protected override Expression VisitGoto(GotoExpression node)
+        {
+            this.AddType(node.Kind.AsNode());
+
+            if (node.Value is object)
+            {
+                this.AddStatement(Vocabulary.GotoValue, node.Value);
+            }
+
+            this.VisitType(node.Type, Vocabulary.GotoType);
+
+            var targetNode = this.Lookup(node.Target);
+            this.AddStatement(Vocabulary.GotoTarget, targetNode);
+            using (this.Wrap(targetNode))
+            {
+                this.VisitLabelTarget(node.Target);
+            }
+
+            this.Visit(node.Value);
+
+            return node;
+        }
+
         protected override LabelTarget VisitLabelTarget(LabelTarget node)
         {
+            this.AddStatement(Vocabulary.LabelName, node.Name);
             this.VisitType(node.Type, Vocabulary.LabelType);
 
             return base.VisitLabelTarget(node);
         }
 
-        private void VisitType(Type type, INode predicate)
+        protected override Expression VisitLoop(LoopExpression node)
         {
-            if (type is object)
+            this.AddType(Vocabulary.Loop);
+            this.AddStatement(Vocabulary.LoopBody, node.Body);
+            this.VisitLabel(Vocabulary.LoopBreak, node.BreakLabel);
+            this.VisitLabel(Vocabulary.LoopContinue, node.ContinueLabel);
+            this.Visit(node.Body);
+
+            return node;
+        }
+
+        protected override Expression VisitParameter(ParameterExpression node)
+        {
+            this.AddType(Vocabulary.Parameter);
+            this.AddStatement(Vocabulary.ParameterName, node.Name);
+            this.VisitType(node.Type, Vocabulary.ParameterType);
+
+            return base.VisitParameter(node);
+        }
+
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            this.AddType(node.NodeType.AsNode());
+            this.AddStatement(Vocabulary.UnaryOperand, node.Operand);
+            this.VisitType(node.Type, Vocabulary.UnaryType);
+
+            return base.VisitUnary(node);
+        }
+
+        private void AddStatement(INode p, Expression e)
+        {
+            this.AddStatement(p, this.Lookup(e));
+        }
+
+        private void AddStatement(INode p, string o)
+        {
+            if (o is object)
             {
-                var typeNode = this.Lookup(type);
-                this.AddStatement(predicate, typeNode);
-                using (this.Wrap(typeNode))
+                this.AddStatement(p, new StringNode(this.Current.Graph, o));
+            }
+        }
+
+        private void AddStatement(INode p, INode o)
+        {
+            this.Current.Graph.Assert(this.Current, p, o);
+        }
+
+        private void AddList(INode predicate, IEnumerable<INode> nodes)
+        {
+            var root = this.Current.Graph.AssertList(nodes);
+            this.AddStatement(predicate, root);
+        }
+
+        private void AddType(INode type)
+        {
+            this.AddStatement(Vocabulary.RdfType, type);
+        }
+
+        private INode Lookup(object o)
+        {
+            if (!this.initialised)
+            {
+                this.mapping[o] = this.node;
+                this.initialised = true;
+
+                return this.node;
+            }
+
+            if (!this.mapping.TryGetValue(o, out var current))
+            {
+                current = this.mapping[o] = this.node.Graph.CreateBlankNode();
+            }
+
+            return current;
+        }
+
+        private void VisitLabel(INode predicate, LabelTarget label)
+        {
+            if (label is object)
+            {
+                var labelNode = this.Lookup(label);
+                this.AddStatement(predicate, labelNode);
+
+                using (this.Wrap(labelNode))
                 {
-                    this.VisitType(type);
+                    this.VisitLabelTarget(label);
                 }
             }
         }
 
-        private Type VisitType(Type type)
+        private void VisitType(Type type)
         {
             this.AddStatement(Vocabulary.TypeName, $"{type.Namespace}.{type.Name}");
 
@@ -273,54 +216,29 @@ namespace GraphEngine
                 {
                     var typeArgumentNode = this.Lookup(typeArgument);
                     nodes.Add(typeArgumentNode);
+
                     using (this.Wrap(typeArgumentNode))
                     {
                         this.VisitType(typeArgument);
                     }
                 }
 
-                var root = this.Current.Graph.AssertList(nodes);
-                this.AddStatement(Vocabulary.TypeArguments, root);
+                this.AddList(Vocabulary.TypeArguments, nodes);
             }
-
-            return type;
         }
 
-        private INode Lookup(object o)
+        private void VisitType(Type type, INode predicate)
         {
-            if (!this.initialised)
+            //if (type is object)
+            //{
+            var typeNode = this.Lookup(type);
+            this.AddStatement(predicate, typeNode);
+
+            using (this.Wrap(typeNode))
             {
-                this.d[o] = this.n;
-                this.initialised = true;
-                return this.n;
+                this.VisitType(type);
             }
-
-            if (!this.d.TryGetValue(o, out var current))
-            {
-                current = this.d[o] = this.n.Graph.CreateBlankNode();
-            }
-
-            return current;
-        }
-
-        private void AddType(INode type)
-        {
-            this.AddStatement(Vocabulary.RdfType, type);
-        }
-
-        private void AddStatement(INode p, Expression e)
-        {
-            this.AddStatement(p, this.Lookup(e));
-        }
-
-        private void AddStatement(INode p, string o)
-        {
-            this.AddStatement(p, new StringNode(this.Current.Graph, o));
-        }
-
-        private void AddStatement(INode p, INode o)
-        {
-            this.Current.Graph.Assert(this.Current, p, o);
+            //}
         }
 
         private IDisposable Wrap(INode node)
@@ -340,14 +258,5 @@ namespace GraphEngine
 
             void IDisposable.Dispose() => this.visitor.path.Pop();
         }
-    }
-
-    internal class ExpressionComparer : IEqualityComparer<Expression>
-    {
-        bool IEqualityComparer<Expression>.Equals(Expression x, Expression y) =>
-            x.GetDebugView().GetHashCode(StringComparison.Ordinal) == y.GetDebugView().GetHashCode(StringComparison.Ordinal);
-
-        int IEqualityComparer<Expression>.GetHashCode(Expression obj) =>
-            obj.GetDebugView().GetHashCode(StringComparison.Ordinal);
     }
 }
