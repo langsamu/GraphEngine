@@ -2,6 +2,7 @@
 
 @prefix : <http://example.com/schema/> .
 @prefix this: <http://example.com/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -267,7 +268,7 @@ this:schema
 	rdfs:subClassOf :BaseGoto ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Goto" ;
-	rdfs:comment "A "go to" expression, such as goto Label in C# or GoTo Label in Visual Basic." ;
+	rdfs:comment "A 'go to' expression, such as goto Label in C# or GoTo Label in Visual Basic." ;
 .
 
 :GreaterThan
@@ -275,7 +276,7 @@ this:schema
 	rdfs:subClassOf :Binary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Greater than" ;
-	rdfs:comment "A "greater than or equal to" comparison, such as (a >= b)." ;
+	rdfs:comment "A 'greater than or equal to' comparison, such as (a >= b)." ;
 .
 
 :GreaterThanOrEqual
@@ -434,8 +435,7 @@ this:schema
 	rdfs:subClassOf :Unary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Negate checked" ;
-	rdfs:comment "	
-An arithmetic negation operation, such as (-a), that has overflow checking. The object a should not be modified in place." ;
+	rdfs:comment "An arithmetic negation operation, such as (-a), that has overflow checking. The object a should not be modified in place." ;
 .
 
 :New
@@ -515,8 +515,7 @@ An arithmetic negation operation, such as (-a), that has overflow checking. The 
 	rdfs:subClassOf :Unary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Post decrement assign" ;
-	rdfs:comment "	
-A unary postfix decrement, such as (a--). The object a should be modified in place." ;
+	rdfs:comment "A unary postfix decrement, such as (a--). The object a should be modified in place." ;
 .
 
 :PostIncrementAssign
@@ -524,8 +523,7 @@ A unary postfix decrement, such as (a--). The object a should be modified in pla
 	rdfs:subClassOf :Unary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Post increment assign" ;
-	rdfs:comment "	
-A unary postfix increment, such as (a++). The object a should be modified in place." ;
+	rdfs:comment "A unary postfix increment, such as (a++). The object a should be modified in place." ;
 .
 
 :Power
@@ -605,8 +603,7 @@ A unary postfix increment, such as (a++). The object a should be modified in pla
 	rdfs:subClassOf :Binary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Subtract assign" ;
-	rdfs:comment "	
-A subtraction compound assignment operation, such as (a -= b), without overflow checking, for numeric operands." ;
+	rdfs:comment "A subtraction compound assignment operation, such as (a -= b), without overflow checking, for numeric operands." ;
 .
 
 :SubtractAssignChecked
