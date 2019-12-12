@@ -621,8 +621,8 @@ _:zero
         {
             var expected = Expression.Label(
                 Expression.Label(
-                    typeof(int), 
-                    "target"), 
+                    typeof(int),
+                    "target"),
                 Expression.Parameter(
                     typeof(int)));
 
@@ -644,6 +644,79 @@ _:zero
 
 _:int
     :typeName ""System.Int32"" ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void ArrayIndex_index()
+        {
+            var expected = Expression.ArrayIndex(
+                Expression.Parameter(
+                    typeof(int[])),
+                Expression.Parameter(
+                    typeof(int)));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :ArrayIndex ;
+    :arrayIndexArray [
+        a :Parameter ;
+        :parameterType ""System.Int32[]"" ;
+    ] ;
+    :arrayIndexIndex [
+        a :Parameter ;
+        :parameterType ""System.Int32"" ;
+    ] ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void ArrayIndex_indexes()
+        {
+            var expected = Expression.ArrayIndex(
+                Expression.Parameter(
+                    typeof(int[])),
+                new[]
+                {
+                    Expression.Parameter(
+                        typeof(int))
+                });
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :ArrayIndex ;
+    :arrayIndexArray [
+        a :Parameter ;
+        :parameterType ""System.Int32[]"" ;
+    ] ;
+    :arrayIndexIndexes (
+        [
+            a :Parameter ;
+            :parameterType ""System.Int32"" ;
+        ]
+    ) ;
 .
 ");
             var s = g.GetUriNode(":s");

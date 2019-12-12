@@ -62,14 +62,6 @@ namespace GraphEngine
         protected override ExpressionType BinaryType => ExpressionType.AndAssign;
     }
 
-    public class ArrayIndexExpressionNode : BinaryExpressionNode
-    {
-        [DebuggerStepThrough]
-        internal ArrayIndexExpressionNode(INode node) : base(node) { }
-
-        protected override ExpressionType BinaryType => ExpressionType.ArrayIndex;
-    }
-
     public class AssignExpressionNode : BinaryExpressionNode
     {
         [DebuggerStepThrough]

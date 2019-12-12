@@ -170,6 +170,12 @@ namespace GraphEngine
 
         public static IUriNode ArrayAccessIndexes { get; } = EngineNode("arrayAccessIndexes");
 
+        public static IUriNode ArrayIndexArray { get; } = EngineNode("arrayIndexArray");
+
+        public static IUriNode ArrayIndexIndex { get; } = EngineNode("arrayIndexIndex");
+
+        public static IUriNode ArrayIndexIndexes { get; } = EngineNode("arrayIndexIndexes");
+
         public static IUriNode BinaryLeft { get; } = EngineNode("binaryLeft");
 
         public static IUriNode BinaryRight { get; } = EngineNode("binaryRight");

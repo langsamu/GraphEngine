@@ -118,6 +118,9 @@ private IEnumerable<(string Property, string Uri)> Data {
         // Properties
         yield return ("ArrayAccessArray", "arrayAccessArray");
         yield return ("ArrayAccessIndexes", "arrayAccessIndexes");
+        yield return ("ArrayIndexArray", "arrayIndexArray");
+        yield return ("ArrayIndexIndex", "arrayIndexIndex");
+        yield return ("ArrayIndexIndexes", "arrayIndexIndexes");
         yield return ("BinaryLeft", "binaryLeft");
         yield return ("BinaryRight", "binaryRight");
         yield return ("BlockExpressions", "blockExpressions");

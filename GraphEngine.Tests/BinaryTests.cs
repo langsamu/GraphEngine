@@ -22,7 +22,6 @@ namespace GraphEngine.Tests
                 yield return new object[] { ExpressionType.And };
                 yield return new object[] { ExpressionType.AndAlso, typeof(bool) };
                 yield return new object[] { ExpressionType.AndAssign };
-                yield return new object[] { ExpressionType.ArrayIndex, typeof(object[]), typeof(int) };
                 yield return new object[] { ExpressionType.Assign };
                 yield return new object[] { ExpressionType.Coalesce, typeof(object) };
                 yield return new object[] { ExpressionType.Divide };

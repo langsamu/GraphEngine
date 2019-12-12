@@ -720,6 +720,33 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:arrayIndexArray
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ArrayIndex ;
+	rdfs:range :Expression ;
+	rdfs:label "array index array" ;
+	rdfs:comment "" ;
+.
+
+:arrayIndexIndex
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ArrayIndex ;
+	rdfs:range :Expression ;
+	rdfs:label "array index index" ;
+	rdfs:comment "" ;
+.
+
+:arrayIndexIndexes
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ArrayIndex ;
+	rdfs:range rdf:List ;
+	rdfs:label "array index indexes" ;
+	rdfs:comment "" ;
+.
+
 :binaryLeft
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;

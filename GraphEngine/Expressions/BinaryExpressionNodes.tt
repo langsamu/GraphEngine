@@ -45,7 +45,6 @@ private IEnumerable<ExpressionType> Data {
         yield return ExpressionType.And;
         yield return ExpressionType.AndAlso;
         yield return ExpressionType.AndAssign;
-        yield return ExpressionType.ArrayIndex;
         yield return ExpressionType.Assign;
         yield return ExpressionType.Coalesce;
         yield return ExpressionType.Divide;
