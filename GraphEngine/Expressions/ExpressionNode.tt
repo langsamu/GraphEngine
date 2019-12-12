@@ -79,6 +79,7 @@ private IEnumerable<string> Data {
         yield return "Invoke";
         yield return "IsFalse";
         yield return "IsTrue";
+        yield return "Label";
         yield return "Lambda";
         yield return "LeftShift";
         yield return "LeftShiftAssign";

@@ -76,6 +76,8 @@ namespace GraphEngine
 
         public static IUriNode IsTrue { get; } = EngineNode("IsTrue");
 
+        public static IUriNode Label { get; } = EngineNode("Label");
+
         public static IUriNode Lambda { get; } = EngineNode("Lambda");
 
         public static IUriNode LeftShift { get; } = EngineNode("LeftShift");
@@ -218,9 +220,9 @@ namespace GraphEngine
 
         public static IUriNode InvokeExpression { get; } = EngineNode("invokeExpression");
 
-        public static IUriNode LabelName { get; } = EngineNode("labelName");
+        public static IUriNode LabelDefaultValue { get; } = EngineNode("labelDefaultValue");
 
-        public static IUriNode LabelType { get; } = EngineNode("labelType");
+        public static IUriNode LabelTarget { get; } = EngineNode("labelTarget");
 
         public static IUriNode LambdaBody { get; } = EngineNode("lambdaBody");
 
@@ -241,6 +243,10 @@ namespace GraphEngine
         public static IUriNode NewType { get; } = EngineNode("newType");
 
         public static IUriNode ParameterType { get; } = EngineNode("parameterType");
+
+        public static IUriNode TargetName { get; } = EngineNode("targetName");
+
+        public static IUriNode TargetType { get; } = EngineNode("targetType");
 
         public static IUriNode TryBody { get; } = EngineNode("tryBody");
 

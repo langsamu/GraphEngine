@@ -47,6 +47,7 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.Invoke): return new InvokeExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.IsFalse): return new IsFalseExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.IsTrue): return new IsTrueExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Label): return new LabelExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Lambda): return new LambdaExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.LeftShift): return new LeftShiftExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.LeftShiftAssign): return new LeftShiftAssignExpressionNode(node);

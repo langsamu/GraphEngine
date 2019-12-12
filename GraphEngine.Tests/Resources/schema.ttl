@@ -630,6 +630,13 @@ this:schema
 	rdfs:comment "An arithmetic subtraction operation, such as (a - b), that has overflow checking, for numeric operands." ;
 .
 
+:Target
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Target" ;
+	rdfs:comment "Used to represent the target of a GotoExpression." ;
+.
+
 :Throw
 	a owl:Class ;
 	rdfs:subClassOf :Unary ;
@@ -937,21 +944,21 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:labelName
+:labelDefaultValue
 	a owl:DatatypeProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Label ;
-	rdfs:range xsd:string ;
-	rdfs:label "label name" ;
+	rdfs:range :Expression ;
+	rdfs:label "label default value" ;
 	rdfs:comment "" ;
 .
 
-:labelType
-	a owl:ObjectProperty ;
+:labelTarget
+	a owl:DatatypeProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Label ;
-	rdfs:range :Type ;
-	rdfs:label "label type" ;
+	rdfs:range :LabelTarget ;
+	rdfs:label "label target" ;
 	rdfs:comment "" ;
 .
 
@@ -1042,6 +1049,24 @@ this:schema
 	rdfs:domain :Parameter ;
 	rdfs:range :Type ;
 	rdfs:label "parameter type" ;
+	rdfs:comment "" ;
+.
+
+:targetName
+	a owl:DatatypeProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Target ;
+	rdfs:range xsd:string ;
+	rdfs:label "target name" ;
+	rdfs:comment "" ;
+.
+
+:targetType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Target ;
+	rdfs:range :Type ;
+	rdfs:label "target type" ;
 	rdfs:comment "" ;
 .
 

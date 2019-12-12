@@ -108,8 +108,8 @@ namespace GraphEngine
 
         protected override LabelTarget VisitLabelTarget(LabelTarget node)
         {
-            this.AddStatement(Vocabulary.LabelName, node.Name);
-            this.VisitType(node.Type, Vocabulary.LabelType);
+            this.AddStatement(Vocabulary.TargetName, node.Name);
+            this.VisitType(node.Type, Vocabulary.TargetType);
 
             return base.VisitLabelTarget(node);
         }

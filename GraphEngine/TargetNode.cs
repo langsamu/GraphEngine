@@ -8,19 +8,19 @@ namespace GraphEngine
     using System.Linq.Expressions;
     using VDS.RDF;
 
-    public class LabelTargetNode : WrapperNode
+    public class TargetNode : WrapperNode
     {
         private static readonly IDictionary<INode, LabelTarget> Cache = new Dictionary<INode, LabelTarget>();
 
         [DebuggerStepThrough]
-        private LabelTargetNode(INode node)
+        private TargetNode(INode node)
             : base(node)
         {
         }
 
-        public TypeNode Type => Vocabulary.LabelType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
+        public TypeNode Type => Vocabulary.TargetType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
-        public string Name => Vocabulary.LabelName.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
+        public string Name => Vocabulary.TargetName.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
 
         public LabelTarget LabelTarget
         {
@@ -55,6 +55,6 @@ namespace GraphEngine
             }
         }
 
-        internal static LabelTargetNode Parse(INode node) => new LabelTargetNode(node);
+        internal static TargetNode Parse(INode node) => new TargetNode(node);
     }
 }

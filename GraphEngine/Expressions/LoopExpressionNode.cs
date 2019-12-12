@@ -17,9 +17,9 @@ namespace GraphEngine
 
         public ExpressionNode Body => Vocabulary.LoopBody.ObjectsOf(this).Select(Parse).Single();
 
-        public LabelTargetNode Break => Vocabulary.LoopBreak.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
+        public TargetNode Break => Vocabulary.LoopBreak.ObjectsOf(this).Select(TargetNode.Parse).SingleOrDefault();
 
-        public LabelTargetNode Continue => Vocabulary.LoopContinue.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
+        public TargetNode Continue => Vocabulary.LoopContinue.ObjectsOf(this).Select(TargetNode.Parse).SingleOrDefault();
 
         public override Expression Expression
         {

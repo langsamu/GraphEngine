@@ -615,5 +615,44 @@ _:zero
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
+
+        [TestMethod]
+        public void Label()
+        {
+            var expected = Expression.Label(
+                Expression.Label(
+                    typeof(int), 
+                    "target"), 
+                Expression.Parameter(
+                    typeof(int)));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Label ;
+    :labelTarget [
+        :targetName ""target"" ;
+        :targetType _:int ;
+    ] ;
+    :labelDefaultValue [
+        a :Parameter ;
+        :parameterType _:int ;
+    ] ;
+.
+
+_:int
+    :typeName ""System.Int32"" ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
     }
 }

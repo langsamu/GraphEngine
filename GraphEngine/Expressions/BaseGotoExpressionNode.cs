@@ -15,7 +15,7 @@ namespace GraphEngine
         {
         }
 
-        public LabelTargetNode Target => Vocabulary.GotoTarget.ObjectsOf(this).Select(LabelTargetNode.Parse).SingleOrDefault();
+        public TargetNode Target => Vocabulary.GotoTarget.ObjectsOf(this).Select(TargetNode.Parse).SingleOrDefault();
 
         public TypeNode Type => Vocabulary.GotoType.ObjectsOf(this).Select(TypeNode.Parse).SingleOrDefault();
 
