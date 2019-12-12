@@ -58,6 +58,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Default", "Default");
         yield return ("Divide", "Divide");
         yield return ("DivideAssign", "DivideAssign");
+        yield return ("Empty", "Empty");
         yield return ("Equal", "Equal");
         yield return ("ExclusiveOr", "ExclusiveOr");
         yield return ("ExclusiveOrAssign", "ExclusiveOrAssign");

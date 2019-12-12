@@ -36,6 +36,7 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.Default): return new DefaultExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Divide): return new DivideExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.DivideAssign): return new DivideAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.Empty): return new EmptyExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Equal): return new EqualExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ExclusiveOr): return new ExclusiveOrExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ExclusiveOrAssign): return new ExclusiveOrAssignExpressionNode(node);

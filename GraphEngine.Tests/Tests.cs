@@ -593,5 +593,27 @@ _:zero
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
+
+        [TestMethod]
+        public void Empty()
+        {
+            var expected = Expression.Empty();
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Empty ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
     }
 }

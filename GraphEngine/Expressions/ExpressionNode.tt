@@ -68,6 +68,7 @@ private IEnumerable<string> Data {
         yield return "Default";
         yield return "Divide";
         yield return "DivideAssign";
+        yield return "Empty";
         yield return "Equal";
         yield return "ExclusiveOr";
         yield return "ExclusiveOrAssign";

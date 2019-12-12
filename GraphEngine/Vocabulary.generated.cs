@@ -54,6 +54,8 @@ namespace GraphEngine
 
         public static IUriNode DivideAssign { get; } = EngineNode("DivideAssign");
 
+        public static IUriNode Empty { get; } = EngineNode("Empty");
+
         public static IUriNode Equal { get; } = EngineNode("Equal");
 
         public static IUriNode ExclusiveOr { get; } = EngineNode("ExclusiveOr");

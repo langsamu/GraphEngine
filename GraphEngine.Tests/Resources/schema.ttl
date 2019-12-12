@@ -240,6 +240,14 @@ this:schema
 	rdfs:comment "A node that represents an equality comparison, such as (a == b) in C# or (a = b) in Visual Basic." ;
 .
 
+:Empty
+	a owl:Class ;
+	rdfs:subClassOf :Binary ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Empty" ;
+	rdfs:comment "Creates an empty expression that has Void type." ;
+.
+
 :ExclusiveOr
 	a owl:Class ;
 	rdfs:subClassOf :Binary ;
