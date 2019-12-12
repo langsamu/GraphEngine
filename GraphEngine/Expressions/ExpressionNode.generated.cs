@@ -19,6 +19,7 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.And): return new AndExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.AndAlso): return new AndAlsoExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.AndAssign): return new AndAssignExpressionNode(node);
+                case INode t when t.Equals(Vocabulary.ArrayAccess): return new ArrayAccessExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ArrayIndex): return new ArrayIndexExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.ArrayLength): return new ArrayLengthExpressionNode(node);
                 case INode t when t.Equals(Vocabulary.Assign): return new AssignExpressionNode(node);

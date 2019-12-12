@@ -72,6 +72,14 @@ this:schema
 	rdfs:comment "A bitwise or logical AND compound assignment operation, such as (a &= b) in C#." ;
 .
 
+:ArrayAccess
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Array access" ;
+	rdfs:comment "" ;
+.
+
 :ArrayIndex
 	a owl:Class ;
 	rdfs:subClassOf :Binary ;
@@ -681,6 +689,24 @@ A subtraction compound assignment operation, such as (a -= b), without overflow 
 .
 
 # Properties
+
+:arrayAccessArray
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ArrayAccess ;
+	rdfs:range :Expression ;
+	rdfs:label "array access array" ;
+	rdfs:comment "" ;
+.
+
+:arrayAccessIndexes
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ArrayAccess ;
+	rdfs:range rdf:List ;
+	rdfs:label "array access indexes" ;
+	rdfs:comment "" ;
+.
 
 :binaryLeft
 	a owl:ObjectProperty ;

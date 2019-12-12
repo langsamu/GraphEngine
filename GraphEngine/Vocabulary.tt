@@ -41,6 +41,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("And", "And");
         yield return ("AndAlso", "AndAlso");
         yield return ("AndAssign", "AndAssign");
+        yield return ("ArrayAccess", "ArrayAccess");
         yield return ("ArrayIndex", "ArrayIndex");
         yield return ("ArrayLength", "ArrayLength");
         yield return ("Assign", "Assign");
@@ -113,6 +114,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Variable", "Variable");
 
         // Properties
+        yield return ("ArrayAccessArray", "arrayAccessArray");
+        yield return ("ArrayAccessIndexes", "arrayAccessIndexes");
         yield return ("BinaryLeft", "binaryLeft");
         yield return ("BinaryRight", "binaryRight");
         yield return ("BlockExpressions", "blockExpressions");

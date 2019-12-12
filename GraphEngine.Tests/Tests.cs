@@ -557,5 +557,41 @@ _:zero
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
+
+        [TestMethod]
+        public void ArrayAccess()
+        {
+            var expected = Expression.ArrayAccess(
+                Expression.Parameter(
+                    typeof(int[])),
+                Expression.Parameter(
+                    typeof(int)));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :ArrayAccess ;
+    :arrayAccessArray [
+        a :Parameter ;
+        :parameterType ""System.Int32[]"" ;
+    ] ;
+    :arrayAccessIndexes (
+        [
+            a :Parameter ;
+            :parameterType ""System.Int32"" ;
+        ]
+    ) ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = ExpressionNode.Parse(s).Expression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
     }
 }

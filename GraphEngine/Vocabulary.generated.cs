@@ -20,6 +20,8 @@ namespace GraphEngine
 
         public static IUriNode AndAssign { get; } = EngineNode("AndAssign");
 
+        public static IUriNode ArrayAccess { get; } = EngineNode("ArrayAccess");
+
         public static IUriNode ArrayIndex { get; } = EngineNode("ArrayIndex");
 
         public static IUriNode ArrayLength { get; } = EngineNode("ArrayLength");
@@ -159,6 +161,10 @@ namespace GraphEngine
         public static IUriNode Unbox { get; } = EngineNode("Unbox");
 
         public static IUriNode Variable { get; } = EngineNode("Variable");
+
+        public static IUriNode ArrayAccessArray { get; } = EngineNode("arrayAccessArray");
+
+        public static IUriNode ArrayAccessIndexes { get; } = EngineNode("arrayAccessIndexes");
 
         public static IUriNode BinaryLeft { get; } = EngineNode("binaryLeft");
 

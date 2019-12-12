@@ -51,6 +51,7 @@ private IEnumerable<string> Data {
         yield return "And";
         yield return "AndAlso";
         yield return "AndAssign";
+        yield return "ArrayAccess";
         yield return "ArrayIndex";
         yield return "ArrayLength";
         yield return "Assign";
