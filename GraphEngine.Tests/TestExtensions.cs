@@ -2,11 +2,11 @@
 
 namespace GraphEngine
 {
-    using System.Linq.Expressions;
     using System.Reflection;
+    using Linq = System.Linq.Expressions;
 
     internal static class TestExtensions
     {
-        internal static string GetDebugView(this Expression exp) => (string)typeof(Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp);
+        internal static string GetDebugView(this Linq.Expression exp) => (string)typeof(Linq.Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp);
     }
 }

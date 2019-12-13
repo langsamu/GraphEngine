@@ -3,9 +3,9 @@
 namespace GraphEngine.Tests
 {
     using System;
-    using System.Linq.Expressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
+    using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
     public class CallTests
@@ -13,7 +13,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Static_no_types_no_arguments()
         {
-            var expected = Expression.Call(typeof(C1), nameof(C1.M1), Array.Empty<Type>(), Array.Empty<Expression>());
+            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M1), Array.Empty<Type>(), Array.Empty<LinqExpression>());
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -28,7 +28,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -36,7 +36,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Static_types_no_arguments()
         {
-            var expected = Expression.Call(typeof(C1), nameof(C1.M2), new[] { typeof(object) }, Array.Empty<Expression>());
+            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M2), new[] { typeof(object) }, Array.Empty<LinqExpression>());
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -54,7 +54,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -62,7 +62,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Static_no_types_arguments()
         {
-            var expected = Expression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { Expression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { LinqExpression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -84,7 +84,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -92,7 +92,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Static_types_arguments()
         {
-            var expected = Expression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { Expression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { LinqExpression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -117,7 +117,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -125,7 +125,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Instance_no_types_no_arguments()
         {
-            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M5), Array.Empty<Type>(), Array.Empty<Expression>());
+            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M5), Array.Empty<Type>(), Array.Empty<LinqExpression>());
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -143,7 +143,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -151,7 +151,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Instance_types_no_arguments()
         {
-            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M6), new[] { typeof(object) }, Array.Empty<Expression>());
+            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M6), new[] { typeof(object) }, Array.Empty<LinqExpression>());
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -172,7 +172,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -180,7 +180,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Instance_no_types_arguments()
         {
-            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { Expression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { LinqExpression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -205,7 +205,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
@@ -213,7 +213,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Instance_types_arguments()
         {
-            var expected = Expression.Call(Expression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { Expression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { LinqExpression.Constant(0, typeof(object)) });
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -241,7 +241,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }

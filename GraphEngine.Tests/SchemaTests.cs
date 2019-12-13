@@ -2,8 +2,6 @@
 
 namespace GraphEngine.Tests
 {
-    using System;
-    using System.Linq.Expressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
 
@@ -11,7 +9,7 @@ namespace GraphEngine.Tests
     public class SchemaTests
     {
         [TestMethod]
-        public void POC()
+        public void Valid()
         {
             using var g = new Graph();
             g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.schema.ttl,GraphEngine.Tests");

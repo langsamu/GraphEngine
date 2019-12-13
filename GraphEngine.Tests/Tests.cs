@@ -3,9 +3,10 @@
 namespace GraphEngine.Tests
 {
     using System;
-    using System.Linq.Expressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
+    using Linq = System.Linq.Expressions;
+    using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
     public class Tests
@@ -44,7 +45,7 @@ namespace GraphEngine.Tests
 
             var s = g.GetUriNode(":s");
 
-            var result = ExpressionNode.Parse(s).Expression;
+            var result = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(result.GetDebugView());
         }
@@ -73,7 +74,7 @@ namespace GraphEngine.Tests
 ");
 
             var s = g.GetUriNode(":s");
-            var result = (LambdaExpression)ExpressionNode.Parse(s).Expression;
+            var result = (Linq.LambdaExpression)Expression.Parse(s).LinqExpression;
 
             var a = result.Compile().DynamicInvoke();
 
@@ -101,7 +102,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var result = ExpressionNode.Parse(s).Expression;
+            var result = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(result.GetDebugView());
         }
@@ -121,7 +122,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var result = ExpressionNode.Parse(s).Expression;
+            var result = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(result.GetDebugView());
         }
@@ -142,7 +143,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var result = ExpressionNode.Parse(s).Expression;
+            var result = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(result.GetDebugView());
         }
@@ -169,7 +170,7 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-            var result = ExpressionNode.Parse(s).Expression;
+            var result = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(result.GetDebugView());
         }
@@ -177,24 +178,24 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Factorial()
         {
-            var value = Expression.Parameter(typeof(int));
-            var result = Expression.Parameter(typeof(int));
-            var label = Expression.Label(typeof(int));
-            var expected = Expression.Block(
+            var value = LinqExpression.Parameter(typeof(int));
+            var result = LinqExpression.Parameter(typeof(int));
+            var label = LinqExpression.Label(typeof(int));
+            var expected = LinqExpression.Block(
                 new[] { result },
-                Expression.Assign(
+                LinqExpression.Assign(
                     result,
-                    Expression.Constant(1)),
-                Expression.Loop(
-                    Expression.Condition(
-                        Expression.GreaterThan(
+                    LinqExpression.Constant(1)),
+                LinqExpression.Loop(
+                    LinqExpression.Condition(
+                        LinqExpression.GreaterThan(
                             value,
-                            Expression.Constant(1)),
-                        Expression.MultiplyAssign(
+                            LinqExpression.Constant(1)),
+                        LinqExpression.MultiplyAssign(
                             result,
-                            Expression.PostDecrementAssign(
+                            LinqExpression.PostDecrementAssign(
                                 value)),
-                        Expression.Break(
+                        LinqExpression.Break(
                             label,
                             result),
                         typeof(void)),
@@ -267,7 +268,7 @@ _:one
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -277,7 +278,7 @@ _:one
         [TestMethod]
         public void Default()
         {
-            var expected = Expression.Default(typeof(byte));
+            var expected = LinqExpression.Default(typeof(byte));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -290,7 +291,7 @@ _:one
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -300,7 +301,7 @@ _:one
         [TestMethod]
         public void NewArrayBounds()
         {
-            var expected = Expression.NewArrayBounds(typeof(long), Expression.Constant(0L));
+            var expected = LinqExpression.NewArrayBounds(typeof(long), LinqExpression.Constant(0L));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -319,7 +320,7 @@ _:one
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -329,9 +330,9 @@ _:one
         [TestMethod]
         public void TryFault()
         {
-            var expected = Expression.TryFault(
-                Expression.Constant(0L),
-                Expression.Constant(0L));
+            var expected = LinqExpression.TryFault(
+                LinqExpression.Constant(0L),
+                LinqExpression.Constant(0L));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -349,7 +350,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -359,9 +360,9 @@ _:zero
         [TestMethod]
         public void TryFinally()
         {
-            var expected = Expression.TryFinally(
-                Expression.Constant(0L),
-                Expression.Constant(0L));
+            var expected = LinqExpression.TryFinally(
+                LinqExpression.Constant(0L),
+                LinqExpression.Constant(0L));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -379,7 +380,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -389,11 +390,11 @@ _:zero
         [TestMethod]
         public void TryCatchTypeBody()
         {
-            var expected = Expression.TryCatch(
-                Expression.Constant(0L),
-                Expression.Catch(
+            var expected = LinqExpression.TryCatch(
+                LinqExpression.Constant(0L),
+                LinqExpression.Catch(
                     typeof(Exception),
-                    Expression.Constant(0L)));
+                    LinqExpression.Constant(0L)));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -416,7 +417,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -426,12 +427,12 @@ _:zero
         [TestMethod]
         public void TryCatchVariableBody()
         {
-            var expected = Expression.TryCatch(
-                Expression.Constant(0L),
-                Expression.Catch(
-                    Expression.Parameter(
+            var expected = LinqExpression.TryCatch(
+                LinqExpression.Constant(0L),
+                LinqExpression.Catch(
+                    LinqExpression.Parameter(
                         typeof(Exception)),
-                    Expression.Constant(0L)));
+                    LinqExpression.Constant(0L)));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -457,7 +458,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -467,14 +468,14 @@ _:zero
         [TestMethod]
         public void TryCatchTypeBodyFilter()
         {
-            var expected = Expression.TryCatch(
-                Expression.Constant(0L),
-                Expression.Catch(
+            var expected = LinqExpression.TryCatch(
+                LinqExpression.Constant(0L),
+                LinqExpression.Catch(
                     typeof(Exception),
-                    Expression.Constant(0L),
-                    Expression.Equal(
-                        Expression.Constant(0L),
-                        Expression.Constant(0L))));
+                    LinqExpression.Constant(0L),
+                    LinqExpression.Equal(
+                        LinqExpression.Constant(0L),
+                        LinqExpression.Constant(0L))));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -502,7 +503,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -512,15 +513,15 @@ _:zero
         [TestMethod]
         public void TryCatchVariableBodyFilter()
         {
-            var expected = Expression.TryCatch(
-                Expression.Constant(0L),
-                Expression.Catch(
-                    Expression.Parameter(
+            var expected = LinqExpression.TryCatch(
+                LinqExpression.Constant(0L),
+                LinqExpression.Catch(
+                    LinqExpression.Parameter(
                         typeof(Exception)),
-                    Expression.Constant(0L),
-                    Expression.Equal(
-                        Expression.Constant(0L),
-                        Expression.Constant(0L))));
+                    LinqExpression.Constant(0L),
+                    LinqExpression.Equal(
+                        LinqExpression.Constant(0L),
+                        LinqExpression.Constant(0L))));
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -551,7 +552,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -561,10 +562,10 @@ _:zero
         [TestMethod]
         public void ArrayAccess()
         {
-            var expected = Expression.ArrayAccess(
-                Expression.Parameter(
+            var expected = LinqExpression.ArrayAccess(
+                LinqExpression.Parameter(
                     typeof(int[])),
-                Expression.Parameter(
+                LinqExpression.Parameter(
                     typeof(int)));
 
             using var g = new Graph();
@@ -587,7 +588,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -597,7 +598,7 @@ _:zero
         [TestMethod]
         public void Empty()
         {
-            var expected = Expression.Empty();
+            var expected = LinqExpression.Empty();
 
             using var g = new Graph();
             g.LoadFromString(@"
@@ -609,7 +610,7 @@ _:zero
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -619,11 +620,11 @@ _:zero
         [TestMethod]
         public void Label()
         {
-            var expected = Expression.Label(
-                Expression.Label(
+            var expected = LinqExpression.Label(
+                LinqExpression.Label(
                     typeof(int),
                     "target"),
-                Expression.Parameter(
+                LinqExpression.Parameter(
                     typeof(int)));
 
             using var g = new Graph();
@@ -648,7 +649,7 @@ _:int
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -658,10 +659,10 @@ _:int
         [TestMethod]
         public void ArrayIndex_index()
         {
-            var expected = Expression.ArrayIndex(
-                Expression.Parameter(
+            var expected = LinqExpression.ArrayIndex(
+                LinqExpression.Parameter(
                     typeof(int[])),
-                Expression.Parameter(
+                LinqExpression.Parameter(
                     typeof(int)));
 
             using var g = new Graph();
@@ -682,7 +683,7 @@ _:int
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -692,12 +693,12 @@ _:int
         [TestMethod]
         public void ArrayIndex_indexes()
         {
-            var expected = Expression.ArrayIndex(
-                Expression.Parameter(
+            var expected = LinqExpression.ArrayIndex(
+                LinqExpression.Parameter(
                     typeof(int[])),
                 new[]
                 {
-                    Expression.Parameter(
+                    LinqExpression.Parameter(
                         typeof(int))
                 });
 
@@ -721,7 +722,7 @@ _:int
 ");
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 

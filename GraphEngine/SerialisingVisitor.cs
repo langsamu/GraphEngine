@@ -5,11 +5,11 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
     using VDS.RDF;
     using VDS.RDF.Nodes;
+    using Linq = System.Linq.Expressions;
 
-    public class SerialisingVisitor : ExpressionVisitor
+    public class SerialisingVisitor : Linq.ExpressionVisitor
     {
         private readonly IDictionary<object, INode> mapping = new Dictionary<object, INode>();
         private readonly INode node;
@@ -24,7 +24,7 @@ namespace GraphEngine
 
         protected INode Current => this.path.Peek();
 
-        public override Expression Visit(Expression node)
+        public override Linq.Expression Visit(Linq.Expression node)
         {
             if (node is object)
             {
@@ -37,7 +37,7 @@ namespace GraphEngine
             return null;
         }
 
-        protected override Expression VisitBinary(BinaryExpression node)
+        protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
         {
             this.AddType(node.NodeType.AsNode());
             this.AddStatement(Vocabulary.BinaryLeft, node.Left);
@@ -46,7 +46,7 @@ namespace GraphEngine
             return base.VisitBinary(node);
         }
 
-        protected override Expression VisitBlock(BlockExpression node)
+        protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
         {
             this.AddType(Vocabulary.Block);
 
@@ -63,7 +63,7 @@ namespace GraphEngine
             return base.VisitBlock(node);
         }
 
-        protected override Expression VisitConditional(ConditionalExpression node)
+        protected override Linq.Expression VisitConditional(Linq.ConditionalExpression node)
         {
             this.AddType(Vocabulary.Condition);
             this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
@@ -74,7 +74,7 @@ namespace GraphEngine
             return base.VisitConditional(node);
         }
 
-        protected override Expression VisitConstant(ConstantExpression node)
+        protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
         {
             this.AddType(Vocabulary.Constant);
             // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.ConstantValue, this.Lookup(node.Value));
@@ -83,7 +83,7 @@ namespace GraphEngine
             return base.VisitConstant(node);
         }
 
-        protected override Expression VisitGoto(GotoExpression node)
+        protected override Linq.Expression VisitGoto(Linq.GotoExpression node)
         {
             this.AddType(node.Kind.AsNode());
 
@@ -106,7 +106,7 @@ namespace GraphEngine
             return node;
         }
 
-        protected override LabelTarget VisitLabelTarget(LabelTarget node)
+        protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget node)
         {
             this.AddStatement(Vocabulary.TargetName, node.Name);
             this.VisitType(node.Type, Vocabulary.TargetType);
@@ -114,7 +114,7 @@ namespace GraphEngine
             return base.VisitLabelTarget(node);
         }
 
-        protected override Expression VisitLoop(LoopExpression node)
+        protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
         {
             this.AddType(Vocabulary.Loop);
             this.AddStatement(Vocabulary.LoopBody, node.Body);
@@ -125,7 +125,7 @@ namespace GraphEngine
             return node;
         }
 
-        protected override Expression VisitParameter(ParameterExpression node)
+        protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
         {
             this.AddType(Vocabulary.Parameter);
             this.AddStatement(Vocabulary.ParameterName, node.Name);
@@ -134,7 +134,7 @@ namespace GraphEngine
             return base.VisitParameter(node);
         }
 
-        protected override Expression VisitUnary(UnaryExpression node)
+        protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
         {
             this.AddType(node.NodeType.AsNode());
             this.AddStatement(Vocabulary.UnaryOperand, node.Operand);
@@ -143,7 +143,7 @@ namespace GraphEngine
             return base.VisitUnary(node);
         }
 
-        private void AddStatement(INode p, Expression e)
+        private void AddStatement(INode p, Linq.Expression e)
         {
             this.AddStatement(p, this.Lookup(e));
         }
@@ -190,7 +190,7 @@ namespace GraphEngine
             return current;
         }
 
-        private void VisitLabel(INode predicate, LabelTarget label)
+        private void VisitLabel(INode predicate, Linq.LabelTarget label)
         {
             if (label is object)
             {
@@ -204,7 +204,7 @@ namespace GraphEngine
             }
         }
 
-        private void VisitType(Type type)
+        private void VisitType(System.Type type)
         {
             this.AddStatement(Vocabulary.TypeName, $"{type.Namespace}.{type.Name}");
 
@@ -227,7 +227,7 @@ namespace GraphEngine
             }
         }
 
-        private void VisitType(Type type, INode predicate)
+        private void VisitType(System.Type type, INode predicate)
         {
             //if (type is object)
             //{

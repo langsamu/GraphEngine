@@ -4,9 +4,9 @@ namespace GraphEngine.Tests
 {
     using System;
     using System.Linq;
-    using System.Linq.Expressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
+    using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
     public class ExampleTests
@@ -44,10 +44,10 @@ namespace GraphEngine.Tests
         {
             var s = g.GetUriNode(":s");
 
-            var expression = ExpressionNode.Parse(s).Expression;
+            var expression = Expression.Parse(s).LinqExpression;
             Console.WriteLine(expression.GetDebugView());
 
-            var lambda = Expression.Lambda(expression);
+            var lambda = LinqExpression.Lambda(expression);
             var actual = lambda.Compile().DynamicInvoke();
 
             Assert.AreEqual(21L, actual);

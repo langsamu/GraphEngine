@@ -21,23 +21,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Expressions\BinaryExpressionNodes.generated.cs">
-      <DependentUpon>BinaryExpressionNodes.tt</DependentUpon>
+    <Compile Update="Expressions\Binaries.generated.cs">
+      <DependentUpon>Binaries.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Expressions\ExpressionNode.generated.cs">
-      <DependentUpon>ExpressionNode.tt</DependentUpon>
+    <Compile Update="Expressions\Expression.generated.cs">
+      <DependentUpon>Expression.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Expressions\GotoExpressionNodes.generated.cs">
-      <DependentUpon>GotoExpressionNodes.tt</DependentUpon>
+    <Compile Update="Expressions\Gotos.generated.cs">
+      <DependentUpon>Gotos.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Expressions\UnaryExpressionNodes.generated.cs">
-      <DependentUpon>UnaryExpressionNodes.tt</DependentUpon>
+    <Compile Update="Expressions\Unaries.generated.cs">
+      <DependentUpon>Unaries.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -49,24 +49,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Expressions\BinaryExpressionNodes.tt">
-      <DependentUpon>BinaryExpressionNode.cs</DependentUpon>
-      <LastGenOutput>BinaryExpressionNodes.generated.cs</LastGenOutput>
+    <None Update="Expressions\Binaries.tt">
+      <DependentUpon>Binary.cs</DependentUpon>
+      <LastGenOutput>Binaries.generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Expressions\ExpressionNode.tt">
-      <DependentUpon>ExpressionNode.cs</DependentUpon>
-      <LastGenOutput>ExpressionNode.generated.cs</LastGenOutput>
+    <None Update="Expressions\Expression.tt">
+      <DependentUpon>Expression.cs</DependentUpon>
+      <LastGenOutput>Expression.generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Expressions\GotoExpressionNodes.tt">
-      <DependentUpon>BaseGotoExpressionNode.cs</DependentUpon>
-      <LastGenOutput>GotoExpressionNodes.generated.cs</LastGenOutput>
+    <None Update="Expressions\Gotos.tt">
+      <DependentUpon>BaseGoto.cs</DependentUpon>
+      <LastGenOutput>Gotos.generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
-    <None Update="Expressions\UnaryExpressionNodes.tt">
-      <DependentUpon>UnaryExpressionNode.cs</DependentUpon>
-      <LastGenOutput>UnaryExpressionNodes.generated.cs</LastGenOutput>
+    <None Update="Expressions\Unaries.tt">
+      <DependentUpon>Unary.cs</DependentUpon>
+      <LastGenOutput>Unaries.generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Vocabulary.tt">

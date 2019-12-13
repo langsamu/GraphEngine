@@ -4,9 +4,10 @@ namespace GraphEngine.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
+    using Linq = System.Linq.Expressions;
+    using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
     public class UnaryTests
@@ -15,20 +16,20 @@ namespace GraphEngine.Tests
         {
             get
             {
-                yield return new object[] { ExpressionType.ArrayLength, typeof(object[]) };
-                yield return new object[] { ExpressionType.Decrement };
-                yield return new object[] { ExpressionType.Increment };
-                yield return new object[] { ExpressionType.IsFalse, typeof(bool) };
-                yield return new object[] { ExpressionType.IsTrue, typeof(bool) };
-                yield return new object[] { ExpressionType.Negate };
-                yield return new object[] { ExpressionType.NegateChecked };
-                yield return new object[] { ExpressionType.Not };
-                yield return new object[] { ExpressionType.OnesComplement };
-                yield return new object[] { ExpressionType.PostDecrementAssign };
-                yield return new object[] { ExpressionType.PostIncrementAssign };
-                yield return new object[] { ExpressionType.PreDecrementAssign };
-                yield return new object[] { ExpressionType.PreIncrementAssign };
-                yield return new object[] { ExpressionType.UnaryPlus };
+                yield return new object[] { Linq.ExpressionType.ArrayLength, typeof(object[]) };
+                yield return new object[] { Linq.ExpressionType.Decrement };
+                yield return new object[] { Linq.ExpressionType.Increment };
+                yield return new object[] { Linq.ExpressionType.IsFalse, typeof(bool) };
+                yield return new object[] { Linq.ExpressionType.IsTrue, typeof(bool) };
+                yield return new object[] { Linq.ExpressionType.Negate };
+                yield return new object[] { Linq.ExpressionType.NegateChecked };
+                yield return new object[] { Linq.ExpressionType.Not };
+                yield return new object[] { Linq.ExpressionType.OnesComplement };
+                yield return new object[] { Linq.ExpressionType.PostDecrementAssign };
+                yield return new object[] { Linq.ExpressionType.PostIncrementAssign };
+                yield return new object[] { Linq.ExpressionType.PreDecrementAssign };
+                yield return new object[] { Linq.ExpressionType.PreIncrementAssign };
+                yield return new object[] { Linq.ExpressionType.UnaryPlus };
             }
         }
 
@@ -36,21 +37,21 @@ namespace GraphEngine.Tests
         {
             get
             {
-                yield return new object[] { ExpressionType.Convert };
-                yield return new object[] { ExpressionType.ConvertChecked };
-                yield return new object[] { ExpressionType.Throw };
-                yield return new object[] { ExpressionType.TypeAs };
-                yield return new object[] { ExpressionType.Unbox, typeof(int) };
+                yield return new object[] { Linq.ExpressionType.Convert };
+                yield return new object[] { Linq.ExpressionType.ConvertChecked };
+                yield return new object[] { Linq.ExpressionType.Throw };
+                yield return new object[] { Linq.ExpressionType.TypeAs };
+                yield return new object[] { Linq.ExpressionType.Unbox, typeof(int) };
             }
         }
 
         [TestMethod]
         [DynamicData(nameof(UnTypedData))]
-        public void UnTyped(ExpressionType expression, Type operandType = null)
+        public void UnTyped(Linq.ExpressionType expression, Type operandType = null)
         {
             operandType ??= typeof(int);
 
-            var expected = Expression.MakeUnary(expression, Expression.Parameter(operandType), null);
+            var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), null);
 
             var rdf = $@"
 @prefix : <http://example.com/> .
@@ -69,12 +70,12 @@ namespace GraphEngine.Tests
 
         [TestMethod]
         [DynamicData(nameof(TypedData))]
-        public void Typed(ExpressionType expression, Type type = null)
+        public void Typed(Linq.ExpressionType expression, Type type = null)
         {
             var operandType = typeof(object);
             type ??= operandType;
 
-            var expected = Expression.MakeUnary(expression, Expression.Parameter(operandType), type);
+            var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), type);
 
             var rdf = $@"
 @prefix : <http://example.com/> .
@@ -95,7 +96,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Quote()
         {
-            var expected = Expression.MakeUnary(ExpressionType.Quote, Expression.Lambda(Expression.Constant(0L)), null);
+            var expected = LinqExpression.MakeUnary(Linq.ExpressionType.Quote, LinqExpression.Lambda(LinqExpression.Constant(0L)), null);
 
             var rdf = $@"
 @prefix : <http://example.com/> .
@@ -115,13 +116,13 @@ namespace GraphEngine.Tests
             Assert(rdf, expected);
         }
 
-        private static void Assert(string rdf, Expression expected)
+        private static void Assert(string rdf, LinqExpression expected)
         {
             using var g = new Graph();
             g.LoadFromString(rdf);
             var s = g.GetUriNode(":s");
 
-            var actual = ExpressionNode.Parse(s).Expression;
+            var actual = Expression.Parse(s).LinqExpression;
 
             Console.WriteLine(actual.GetDebugView());
 

@@ -3,10 +3,10 @@
 namespace GraphEngine.Tests
 {
     using System;
-    using System.Linq.Expressions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
     using VDS.RDF.Writing;
+    using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
     public class SerialisingVisitorTests
@@ -26,8 +26,8 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Binary()
         {
-            var param = Expression.Parameter(typeof(int));
-            var expression = Expression.Add(param, param);
+            var param = LinqExpression.Parameter(typeof(int));
+            var expression = LinqExpression.Add(param, param);
 
             var rdf = @"
 @prefix : <http://example.com/> .
@@ -52,7 +52,7 @@ _:param
         [TestMethod]
         public void Parameter()
         {
-            var expression = Expression.Parameter(typeof(object));
+            var expression = LinqExpression.Parameter(typeof(object));
 
             var rdf = @"
 @prefix : <http://example.com/> .
@@ -71,7 +71,7 @@ _:param
         [TestMethod]
         public void Parameter_with_name()
         {
-            var expression = Expression.Parameter(typeof(object), "param");
+            var expression = LinqExpression.Parameter(typeof(object), "param");
 
             var rdf = @"
 @prefix : <http://example.com/> .
@@ -91,7 +91,7 @@ _:param
         [TestMethod]
         public void Unary()
         {
-            var expression = Expression.ArrayLength(Expression.Parameter(typeof(int[])));
+            var expression = LinqExpression.ArrayLength(LinqExpression.Parameter(typeof(int[])));
 
             var rdf = @"
 @prefix : <http://example.com/> .
@@ -116,25 +116,25 @@ _:param
         [TestMethod]
         public void TestMethod1()
         {
-            var value = Expression.Parameter(typeof(int), "value");
-            var result = Expression.Parameter(typeof(int), "result");
-            var label = Expression.Label(typeof(int), "label");
-            var one = Expression.Constant(1);
-            var expected = Expression.Block(
+            var value = LinqExpression.Parameter(typeof(int), "value");
+            var result = LinqExpression.Parameter(typeof(int), "result");
+            var label = LinqExpression.Label(typeof(int), "label");
+            var one = LinqExpression.Constant(1);
+            var expected = LinqExpression.Block(
                 new[] { result },
-                Expression.Assign(
+                LinqExpression.Assign(
                     result,
                     one),
-                Expression.Loop(
-                    Expression.Condition(
-                        Expression.GreaterThan(
+                LinqExpression.Loop(
+                    LinqExpression.Condition(
+                        LinqExpression.GreaterThan(
                             value,
                             one),
-                        Expression.MultiplyAssign(
+                        LinqExpression.MultiplyAssign(
                             result,
-                            Expression.PostDecrementAssign(
+                            LinqExpression.PostDecrementAssign(
                                 value)),
-                        Expression.Break(
+                        LinqExpression.Break(
                             label,
                             result),
                         typeof(void)),
@@ -150,7 +150,7 @@ _:param
         [TestMethod]
         public void TestMethod2()
         {
-            var expected = Expression.Parameter(typeof(IEquatable<int>));
+            var expected = LinqExpression.Parameter(typeof(IEquatable<int>));
 
             using var g = new Graph();
             var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
@@ -162,8 +162,8 @@ _:param
         [TestMethod]
         public void TestMethod3()
         {
-            var expected = Expression.Break(
-                Expression.Label(
+            var expected = LinqExpression.Break(
+                LinqExpression.Label(
                     typeof(void)));
 
             using var g = new Graph();
@@ -173,7 +173,7 @@ _:param
             new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
         }
 
-        private static void Compare(Expression expression, string expectedRdf)
+        private static void Compare(LinqExpression LinqExpression, string expectedRdf)
         {
             using var expected = new Graph();
             expected.LoadFromString(expectedRdf);
@@ -181,7 +181,7 @@ _:param
             var actual = new Graph();
             var s = actual.CreateUriNode(UriFactory.Create("http://example.com/s"));
             var visitor = new SerialisingVisitor(s);
-            visitor.Visit(expression);
+            visitor.Visit(LinqExpression);
 
             var writer = new CompressingTurtleWriter(WriterCompressionLevel.Medium);
             Console.WriteLine(StringWriter.Write(expected, writer));

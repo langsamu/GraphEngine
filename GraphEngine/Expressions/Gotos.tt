@@ -1,0 +1,37 @@
+﻿// MIT License, Copyright 2019 Samu Lang
+
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq.Expressions" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".generated.cs" #>
+<#
+    GenerateNamespace();
+#>
+
+<#+
+private void GenerateNamespace()
+{#>
+namespace GraphEngine
+{
+    using System.Diagnostics;
+    using VDS.RDF;
+    using Linq = System.Linq.Expressions;
+<#+
+    GenerateClasses();
+#>}<#+}
+
+private void GenerateClasses()
+{
+    foreach(var item in Enum.GetValues(typeof(GotoExpressionKind)))
+    {#>
+
+    public class <#= item #> : BaseGoto
+    {
+        [DebuggerStepThrough]
+        internal <#= item #>(INode node) : base(node) { }
+
+        protected override Linq.GotoExpressionKind Kind => Linq.GotoExpressionKind.<#= item #>;
+    }
+<#+}
+}
+#>
