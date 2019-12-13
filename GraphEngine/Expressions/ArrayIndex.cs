@@ -4,8 +4,8 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class ArrayIndex : Expression
@@ -16,11 +16,11 @@ namespace GraphEngine
         {
         }
 
-        public Expression Array => Vocabulary.ArrayIndexArray.ObjectsOf(this).Select(Parse).Single();
+        public Expression Array => Required<Expression>(ArrayIndexArray);
 
-        public Expression Index => Vocabulary.ArrayIndexIndex.ObjectsOf(this).Select(Parse).SingleOrDefault();
+        public Expression Index => Optional<Expression>(ArrayIndexIndex);
 
-        public IEnumerable<Expression> Indexes => Vocabulary.ArrayIndexIndexes.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Indexes => List<Expression>(ArrayIndexIndexes);
 
         public override Linq.Expression LinqExpression
         {
@@ -32,7 +32,7 @@ namespace GraphEngine
                     return Linq.Expression.ArrayIndex(this.Array.LinqExpression, index.LinqExpression);
                 }
 
-                return Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Indexes.Select(i => i.LinqExpression));
+                return Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Indexes.LinqExpressions());
             }
         }
     }

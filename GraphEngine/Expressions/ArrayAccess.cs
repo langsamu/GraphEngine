@@ -4,8 +4,8 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class ArrayAccess : Expression
@@ -16,10 +16,10 @@ namespace GraphEngine
         {
         }
 
-        public Expression Array => Vocabulary.ArrayAccessArray.ObjectsOf(this).Select(Parse).Single();
+        public Expression Array => Required<Expression>(ArrayAccessArray);
 
-        public IEnumerable<Expression> Indexes => Vocabulary.ArrayAccessIndexes.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Indexes => List<Expression>(ArrayAccessIndexes);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.ArrayAccess(this.Array.LinqExpression, this.Indexes.Select(i => i.LinqExpression));
+        public override Linq.Expression LinqExpression => Linq.Expression.ArrayAccess(this.Array.LinqExpression, this.Indexes.LinqExpressions());
     }
 }

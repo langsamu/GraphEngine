@@ -11,7 +11,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Add(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Add;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Add;
     }
 
     public class AddAssign : Binary
@@ -19,7 +19,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal AddAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.AddAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.AddAssign;
     }
 
     public class AddAssignChecked : Binary
@@ -27,7 +27,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal AddAssignChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.AddAssignChecked;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.AddAssignChecked;
     }
 
     public class AddChecked : Binary
@@ -35,7 +35,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal AddChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.AddChecked;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.AddChecked;
     }
 
     public class And : Binary
@@ -43,7 +43,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal And(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.And;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.And;
     }
 
     public class AndAlso : Binary
@@ -51,7 +51,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal AndAlso(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.AndAlso;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.AndAlso;
     }
 
     public class AndAssign : Binary
@@ -59,7 +59,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal AndAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.AndAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.AndAssign;
     }
 
     public class Assign : Binary
@@ -67,7 +67,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Assign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Assign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Assign;
     }
 
     public class Coalesce : Binary
@@ -75,7 +75,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Coalesce(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Coalesce;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Coalesce;
     }
 
     public class Divide : Binary
@@ -83,7 +83,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Divide(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Divide;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Divide;
     }
 
     public class DivideAssign : Binary
@@ -91,7 +91,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal DivideAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.DivideAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.DivideAssign;
     }
 
     public class Equal : Binary
@@ -99,7 +99,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Equal(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Equal;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Equal;
     }
 
     public class ExclusiveOr : Binary
@@ -107,7 +107,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ExclusiveOr(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.ExclusiveOr;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.ExclusiveOr;
     }
 
     public class ExclusiveOrAssign : Binary
@@ -115,7 +115,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ExclusiveOrAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.ExclusiveOrAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.ExclusiveOrAssign;
     }
 
     public class GreaterThan : Binary
@@ -123,7 +123,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal GreaterThan(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.GreaterThan;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.GreaterThan;
     }
 
     public class GreaterThanOrEqual : Binary
@@ -131,7 +131,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal GreaterThanOrEqual(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.GreaterThanOrEqual;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.GreaterThanOrEqual;
     }
 
     public class LeftShift : Binary
@@ -139,7 +139,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal LeftShift(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.LeftShift;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.LeftShift;
     }
 
     public class LeftShiftAssign : Binary
@@ -147,7 +147,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal LeftShiftAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.LeftShiftAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.LeftShiftAssign;
     }
 
     public class LessThan : Binary
@@ -155,7 +155,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal LessThan(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.LessThan;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.LessThan;
     }
 
     public class LessThanOrEqual : Binary
@@ -163,7 +163,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal LessThanOrEqual(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.LessThanOrEqual;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.LessThanOrEqual;
     }
 
     public class Modulo : Binary
@@ -171,7 +171,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Modulo(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Modulo;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Modulo;
     }
 
     public class ModuloAssign : Binary
@@ -179,7 +179,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ModuloAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.ModuloAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.ModuloAssign;
     }
 
     public class Multiply : Binary
@@ -187,7 +187,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Multiply(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Multiply;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Multiply;
     }
 
     public class MultiplyAssign : Binary
@@ -195,7 +195,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal MultiplyAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.MultiplyAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.MultiplyAssign;
     }
 
     public class MultiplyAssignChecked : Binary
@@ -203,7 +203,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal MultiplyAssignChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.MultiplyAssignChecked;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.MultiplyAssignChecked;
     }
 
     public class MultiplyChecked : Binary
@@ -211,7 +211,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal MultiplyChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.MultiplyChecked;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.MultiplyChecked;
     }
 
     public class NotEqual : Binary
@@ -219,7 +219,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal NotEqual(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.NotEqual;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.NotEqual;
     }
 
     public class Or : Binary
@@ -227,7 +227,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Or(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Or;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Or;
     }
 
     public class OrAssign : Binary
@@ -235,7 +235,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal OrAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.OrAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.OrAssign;
     }
 
     public class OrElse : Binary
@@ -243,7 +243,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal OrElse(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.OrElse;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.OrElse;
     }
 
     public class Power : Binary
@@ -251,7 +251,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Power(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Power;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Power;
     }
 
     public class PowerAssign : Binary
@@ -259,7 +259,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal PowerAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.PowerAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.PowerAssign;
     }
 
     public class RightShift : Binary
@@ -267,7 +267,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal RightShift(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.RightShift;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.RightShift;
     }
 
     public class RightShiftAssign : Binary
@@ -275,7 +275,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal RightShiftAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.RightShiftAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.RightShiftAssign;
     }
 
     public class Subtract : Binary
@@ -283,7 +283,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Subtract(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.Subtract;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.Subtract;
     }
 
     public class SubtractAssign : Binary
@@ -291,7 +291,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal SubtractAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.SubtractAssign;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.SubtractAssign;
     }
 
     public class SubtractAssignChecked : Binary
@@ -299,7 +299,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal SubtractAssignChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.SubtractAssignChecked;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.SubtractAssignChecked;
     }
 
     public class SubtractChecked : Binary
@@ -307,6 +307,6 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal SubtractChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType BinaryType => Linq.ExpressionType.SubtractChecked;
+        protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.SubtractChecked;
     }
 }

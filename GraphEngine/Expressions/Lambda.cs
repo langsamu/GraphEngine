@@ -6,6 +6,7 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Lambda : Expression
@@ -16,9 +17,9 @@ namespace GraphEngine
         {
         }
 
-        public Expression Body => Vocabulary.LambdaBody.ObjectsOf(this).Select(Parse).Single();
+        public Expression Body => Required<Expression>(LambdaBody);
 
-        public IEnumerable<Parameter> Parameters => Vocabulary.LambdaParameters.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parameter.Parse);
+        public IEnumerable<Parameter> Parameters => List<Parameter>(LambdaParameters);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Lambda(this.Body.LinqExpression, this.Parameters.Select(param => param.LinqParameter));
     }

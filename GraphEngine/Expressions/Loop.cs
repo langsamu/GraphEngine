@@ -3,8 +3,8 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     internal class Loop : Expression
@@ -15,11 +15,11 @@ namespace GraphEngine
         {
         }
 
-        public Expression Body => Vocabulary.LoopBody.ObjectsOf(this).Select(Parse).Single();
+        public Expression Body => Required<Expression>(LoopBody);
 
-        public Target Break => Vocabulary.LoopBreak.ObjectsOf(this).Select(Target.Parse).SingleOrDefault();
+        public Target Break => Optional<Target>(LoopBreak);
 
-        public Target Continue => Vocabulary.LoopContinue.ObjectsOf(this).Select(Target.Parse).SingleOrDefault();
+        public Target Continue => Optional<Target>(LoopContinue);
 
         public override Linq.Expression LinqExpression
         {

@@ -5,9 +5,9 @@ namespace GraphEngine
     using System;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Linq;
     using VDS.RDF;
     using VDS.RDF.Parsing;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Constant : Expression
@@ -18,7 +18,7 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Vocabulary.ConstantType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(ConstantType);
 
         // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Linq.Expression LinqExpression
@@ -38,7 +38,7 @@ namespace GraphEngine
         {
             get
             {
-                var valueNode = Vocabulary.ConstantValue.ObjectOf(this);
+                var valueNode = ConstantValue.ObjectOf(this);
 
                 switch (valueNode)
                 {

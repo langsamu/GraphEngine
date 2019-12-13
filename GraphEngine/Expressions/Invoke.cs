@@ -4,8 +4,8 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Invoke : Expression
@@ -16,10 +16,10 @@ namespace GraphEngine
         {
         }
 
-        public Expression ExpressionNode => Vocabulary.InvokeExpression.ObjectsOf(this).Select(Parse).Single();
+        public Expression ExpressionNode => Required<Expression>(InvokeExpression);
 
-        public IEnumerable<Expression> Arguments => Vocabulary.InvokeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Arguments => List<Expression>(InvokeArguments);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.ExpressionNode.LinqExpression, this.Arguments.Select(arg => arg.LinqExpression));
+        public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.ExpressionNode.LinqExpression, this.Arguments.LinqExpressions());
     }
 }

@@ -3,8 +3,8 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Condition : Expression
@@ -15,13 +15,13 @@ namespace GraphEngine
         {
         }
 
-        public Expression Test => Vocabulary.ConditionTest.ObjectsOf(this).Select(Parse).Single();
+        public Expression Test => Required<Expression>(ConditionTest);
 
-        public Expression IfTrue => Vocabulary.ConditionIfTrue.ObjectsOf(this).Select(Parse).Single();
+        public Expression IfTrue => Required<Expression>(ConditionIfTrue);
 
-        public Expression IfFalse => Vocabulary.ConditionIfFalse.ObjectsOf(this).Select(Parse).Single();
+        public Expression IfFalse => Required<Expression>(ConditionIfFalse);
 
-        public Type Type => Vocabulary.ConditionType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(ConditionType);
 
         public override Linq.Expression LinqExpression
         {

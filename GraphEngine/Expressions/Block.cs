@@ -6,6 +6,7 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Block : Expression
@@ -16,10 +17,10 @@ namespace GraphEngine
         {
         }
 
-        public IEnumerable<Expression> Expressions => Vocabulary.BlockExpressions.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Expressions => List<Expression>(BlockExpressions);
 
-        public IEnumerable<Parameter> Variables => Vocabulary.BlockVariables.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parameter.Parse);
+        public IEnumerable<Parameter> Variables => List<Parameter>(BlockVariables);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.Block(this.Variables.Select(e => e.LinqParameter), this.Expressions.Select(e => e.LinqExpression));
+        public override Linq.Expression LinqExpression => Linq.Expression.Block(this.Variables.Select(e => e.LinqParameter), this.Expressions.LinqExpressions());
     }
 }

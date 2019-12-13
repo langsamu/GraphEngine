@@ -30,7 +30,7 @@ private void GenerateClasses()
         [DebuggerStepThrough]
         internal <#= item #>(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.<#= item #>;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.<#= item #>;
     }
 <#+}
 }

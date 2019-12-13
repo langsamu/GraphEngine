@@ -3,25 +3,25 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    public class CatchBlock : WrapperNode
+    public class CatchBlock : Node
     {
         [DebuggerStepThrough]
-        public CatchBlock(INode node)
+        internal CatchBlock(INode node)
             : base(node)
         {
         }
 
-        public Type Type => Vocabulary.CatchType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(CatchType);
 
-        public Expression Body => Vocabulary.CatchBody.ObjectsOf(this).Select(Expression.Parse).Single();
+        public Expression Body => Required<Expression>(CatchBody);
 
-        public Parameter Variable => Vocabulary.CatchVariable.ObjectsOf(this).Select(Parameter.Parse).SingleOrDefault();
+        public Parameter Variable => Optional<Parameter>(CatchVariable);
 
-        public Expression Filter => Vocabulary.CatchFilter.ObjectsOf(this).Select(Expression.Parse).SingleOrDefault();
+        public Expression Filter => Optional<Expression>(CatchFilter);
 
         public Linq.CatchBlock LinqCatchBlock
         {
@@ -31,7 +31,5 @@ namespace GraphEngine
                 return Linq.Expression.MakeCatchBlock(this.Type?.SystemType ?? variable.Type, variable, this.Body.LinqExpression, this.Filter?.LinqExpression);
             }
         }
-
-        internal static CatchBlock Parse(INode node) => new CatchBlock(node);
     }
 }

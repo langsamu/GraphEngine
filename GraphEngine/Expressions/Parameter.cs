@@ -4,8 +4,8 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     // TODO: Add name
@@ -19,7 +19,7 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Vocabulary.ParameterType.ObjectsOf(this).Select(Type.Parse).Single();
+        public Type Type => Required<Type>(ParameterType);
 
         public override Linq.Expression LinqExpression => this.LinqParameter;
 

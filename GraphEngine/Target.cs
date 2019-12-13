@@ -4,23 +4,23 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    public class Target : WrapperNode
+    public class Target : Node
     {
         private static readonly IDictionary<INode, Linq.LabelTarget> Cache = new Dictionary<INode, Linq.LabelTarget>();
 
         [DebuggerStepThrough]
-        private Target(INode node)
+        internal Target(INode node)
             : base(node)
         {
         }
 
-        public Type Type => Vocabulary.TargetType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(TargetType);
 
-        public string Name => Vocabulary.TargetName.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).SingleOrDefault();
+        public string Name => Optional<string>(TargetName);
 
         public Linq.LabelTarget LinqTarget
         {
@@ -54,7 +54,5 @@ namespace GraphEngine
                 return label;
             }
         }
-
-        internal static Target Parse(INode node) => new Target(node);
     }
 }

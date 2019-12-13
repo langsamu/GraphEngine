@@ -3,8 +3,8 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public abstract class Unary : Expression
@@ -15,12 +15,12 @@ namespace GraphEngine
         {
         }
 
-        public Expression Operand => Vocabulary.UnaryOperand.ObjectsOf(this).Select(Parse).Single();
+        public Expression Operand => Optional<Expression>(UnaryOperand);
 
-        public Type Type => Vocabulary.UnaryType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(UnaryType);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.UnaryType, this.Operand.LinqExpression, this.Type?.SystemType);
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.LinqUnaryType, this.Operand.LinqExpression, this.Type?.SystemType);
 
-        protected abstract Linq.ExpressionType UnaryType { get; }
+        protected abstract Linq.ExpressionType LinqUnaryType { get; }
     }
 }

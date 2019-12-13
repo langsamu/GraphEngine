@@ -8,15 +8,17 @@ namespace GraphEngine
     using System.Linq;
     using VDS.RDF;
     using VDS.RDF.Nodes;
+    using static Vocabulary;
 
-    public class Type : WrapperNode
+    public class Type : Node
     {
         [DebuggerStepThrough]
-        public Type(INode node)
+        internal Type(INode node)
             : base(node)
         {
         }
 
+        // TODO: make simple
         public string Name
         {
             get
@@ -30,7 +32,7 @@ namespace GraphEngine
             }
         }
 
-        public IEnumerable<Type> Arguments => Vocabulary.TypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Type> Arguments => List<Type>(TypeArguments);
 
         public System.Type SystemType
         {
@@ -46,7 +48,5 @@ namespace GraphEngine
                 return t;
             }
         }
-
-        internal static Type Parse(INode node) => new Type(node);
     }
 }

@@ -3,8 +3,8 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public abstract class Binary : Expression
@@ -15,12 +15,12 @@ namespace GraphEngine
         {
         }
 
-        public Expression Left => Vocabulary.BinaryLeft.ObjectsOf(this).Select(Parse).Single();
+        public Expression Left => Required<Expression>(BinaryLeft);
 
-        public Expression Right => Vocabulary.BinaryRight.ObjectsOf(this).Select(Parse).Single();
+        public Expression Right => Required<Expression>(BinaryRight);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.BinaryType, this.Left.LinqExpression, this.Right.LinqExpression);
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.LinqBinaryType, this.Left.LinqExpression, this.Right.LinqExpression);
 
-        protected abstract Linq.ExpressionType BinaryType { get; }
+        protected abstract Linq.ExpressionType LinqBinaryType { get; }
     }
 }

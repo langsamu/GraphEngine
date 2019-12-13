@@ -4,8 +4,8 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class NewArrayBounds : Expression
@@ -16,10 +16,10 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Vocabulary.NewArrayBoundsType.ObjectsOf(this).Select(Type.Parse).Single();
+        public Type Type => Required<Type>(NewArrayBoundsType);
 
-        public IEnumerable<Expression> Bounds => Vocabulary.NewArrayBoundsBounds.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Bounds => List<Expression>(NewArrayBoundsBounds);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.NewArrayBounds(this.Type.SystemType, this.Bounds.Select(b => b.LinqExpression));
+        public override Linq.Expression LinqExpression => Linq.Expression.NewArrayBounds(this.Type.SystemType, this.Bounds.LinqExpressions());
     }
 }

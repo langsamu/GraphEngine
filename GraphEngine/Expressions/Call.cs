@@ -6,6 +6,7 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Call : Expression
@@ -16,22 +17,22 @@ namespace GraphEngine
         {
         }
 
-        public Expression Instance => Vocabulary.CallInstance.ObjectsOf(this).Select(Parse).SingleOrDefault();
+        public Expression Instance => Optional<Expression>(CallInstance);
 
-        public Type Type => Vocabulary.CallType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(CallType);
 
-        public string Method => Vocabulary.CallMethod.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
+        public string Method => Required<string>(CallMethod);
 
-        public IEnumerable<Expression> Arguments => Vocabulary.CallArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Arguments => List<Expression>(CallArguments);
 
-        public IEnumerable<Type> TypeArguments => Vocabulary.CallTypeArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Type.Parse);
+        public IEnumerable<Type> TypeArguments => List<Type>(CallTypeArguments);
 
         public override Linq.Expression LinqExpression
         {
             get
             {
                 var typeArguments = this.TypeArguments.Select(typeArg => typeArg.SystemType).ToArray();
-                var arguments = this.Arguments.Select(arg => arg.LinqExpression).ToArray();
+                var arguments = this.Arguments.LinqExpressions().ToArray();
 
                 if (this.Instance is Expression instance)
                 {

@@ -5,7 +5,6 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
@@ -17,9 +16,6 @@ namespace GraphEngine
 
         internal static INode ObjectOf(this INode predicate, INode subject) =>
             predicate.ObjectsOf(subject).SingleOrDefault();
-
-        internal static string GetDebugView(this Linq.Expression exp) =>
-            (string)typeof(Linq.Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp);
 
         internal static INode AsNode(this Linq.ExpressionType type) =>
             type switch
@@ -109,5 +105,8 @@ namespace GraphEngine
 
                 _ => throw new NotImplementedException()
             };
+
+        internal static IEnumerable<Linq.Expression> LinqExpressions(this IEnumerable<Expression> expressions) =>
+            expressions.Select(expression => expression.LinqExpression);
     }
 }

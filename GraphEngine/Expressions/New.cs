@@ -6,6 +6,7 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class New : Expression
@@ -16,15 +17,15 @@ namespace GraphEngine
         {
         }
 
-        public IEnumerable<Expression> Arguments => Vocabulary.NewArguments.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse);
+        public IEnumerable<Expression> Arguments => List<Expression>(NewArguments);
 
-        public Type Type => Vocabulary.NewType.ObjectsOf(this).Select(Type.Parse).Single();
+        public Type Type => Required<Type>(NewType);
 
         public override Linq.Expression LinqExpression
         {
             get
             {
-                var argumentExpressions = this.Arguments.Select(arg => arg.LinqExpression);
+                var argumentExpressions = this.Arguments.LinqExpressions();
                 var types = argumentExpressions.Select(expression => expression.Type).ToArray();
                 var constructor = this.Type.SystemType.GetConstructor(types);
 

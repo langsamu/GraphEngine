@@ -3,8 +3,8 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq;
     using VDS.RDF;
+    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public abstract class BaseGoto : Expression
@@ -15,11 +15,11 @@ namespace GraphEngine
         {
         }
 
-        public Target Target => Vocabulary.GotoTarget.ObjectsOf(this).Select(Target.Parse).SingleOrDefault();
+        public Target Target => Optional<Target>(GotoTarget);
 
-        public Type Type => Vocabulary.GotoType.ObjectsOf(this).Select(Type.Parse).SingleOrDefault();
+        public Type Type => Optional<Type>(GotoType);
 
-        public Expression Value => Vocabulary.GotoValue.ObjectsOf(this).Select(Parse).SingleOrDefault();
+        public Expression Value => Optional<Expression>(GotoValue);
 
         public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target?.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType);
 

@@ -11,7 +11,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ArrayLength(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.ArrayLength;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.ArrayLength;
     }
 
     public class Convert : Unary
@@ -19,7 +19,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Convert(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Convert;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Convert;
     }
 
     public class ConvertChecked : Unary
@@ -27,7 +27,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ConvertChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.ConvertChecked;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.ConvertChecked;
     }
 
     public class Decrement : Unary
@@ -35,7 +35,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Decrement(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Decrement;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Decrement;
     }
 
     public class Increment : Unary
@@ -43,7 +43,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Increment(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Increment;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Increment;
     }
 
     public class IsFalse : Unary
@@ -51,7 +51,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal IsFalse(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.IsFalse;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.IsFalse;
     }
 
     public class IsTrue : Unary
@@ -59,7 +59,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal IsTrue(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.IsTrue;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.IsTrue;
     }
 
     public class Negate : Unary
@@ -67,7 +67,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Negate(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Negate;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Negate;
     }
 
     public class NegateChecked : Unary
@@ -75,7 +75,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal NegateChecked(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.NegateChecked;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.NegateChecked;
     }
 
     public class Not : Unary
@@ -83,7 +83,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Not(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Not;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Not;
     }
 
     public class OnesComplement : Unary
@@ -91,7 +91,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal OnesComplement(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.OnesComplement;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.OnesComplement;
     }
 
     public class PostDecrementAssign : Unary
@@ -99,7 +99,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal PostDecrementAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.PostDecrementAssign;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.PostDecrementAssign;
     }
 
     public class PostIncrementAssign : Unary
@@ -107,7 +107,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal PostIncrementAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.PostIncrementAssign;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.PostIncrementAssign;
     }
 
     public class PreDecrementAssign : Unary
@@ -115,7 +115,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal PreDecrementAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.PreDecrementAssign;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.PreDecrementAssign;
     }
 
     public class PreIncrementAssign : Unary
@@ -123,7 +123,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal PreIncrementAssign(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.PreIncrementAssign;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.PreIncrementAssign;
     }
 
     public class Quote : Unary
@@ -131,7 +131,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Quote(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Quote;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Quote;
     }
 
     public class Throw : Unary
@@ -139,7 +139,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Throw(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Throw;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Throw;
     }
 
     public class TypeAs : Unary
@@ -147,7 +147,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal TypeAs(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.TypeAs;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.TypeAs;
     }
 
     public class UnaryPlus : Unary
@@ -155,7 +155,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal UnaryPlus(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.UnaryPlus;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.UnaryPlus;
     }
 
     public class Unbox : Unary
@@ -163,6 +163,6 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Unbox(INode node) : base(node) { }
 
-        protected override Linq.ExpressionType UnaryType => Linq.ExpressionType.Unbox;
+        protected override Linq.ExpressionType LinqUnaryType => Linq.ExpressionType.Unbox;
     }
 }
