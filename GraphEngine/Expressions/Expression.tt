@@ -77,6 +77,8 @@ private IEnumerable<string> Data {
         yield return "GreaterThanOrEqual";
         yield return "Increment";
         yield return "Invoke";
+        yield return "IfThen";
+        yield return "IfThenElse";
         yield return "IsFalse";
         yield return "IsTrue";
         yield return "Label";

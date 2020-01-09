@@ -72,6 +72,10 @@ namespace GraphEngine
 
         public static IUriNode Invoke { get; } = EngineNode("Invoke");
 
+        public static IUriNode IfThen { get; } = EngineNode("IfThen");
+
+        public static IUriNode IfThenElse { get; } = EngineNode("IfThenElse");
+
         public static IUriNode IsFalse { get; } = EngineNode("IsFalse");
 
         public static IUriNode IsTrue { get; } = EngineNode("IsTrue");

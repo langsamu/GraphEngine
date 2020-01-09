@@ -65,11 +65,31 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitConditional(Linq.ConditionalExpression node)
         {
-            this.AddType(Vocabulary.Condition);
-            this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
-            this.AddStatement(Vocabulary.ConditionIfTrue, node.IfTrue);
             this.AddStatement(Vocabulary.ConditionTest, node.Test);
-            this.VisitType(node.Type, Vocabulary.ConditionType);
+            this.AddStatement(Vocabulary.ConditionIfTrue, node.IfTrue);
+
+            if (node.Type == typeof(void))
+            {
+                if (node.IfFalse is Linq.DefaultExpression defaultExpression && defaultExpression.Type == typeof(void))
+                {
+                    this.AddType(Vocabulary.IfThen);
+                }
+                else
+                {
+                    this.AddType(Vocabulary.IfThenElse);
+                    this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
+                }
+            }
+            else
+            {
+                this.AddType(Vocabulary.Condition);
+                this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
+
+                if (node.IfTrue.Type != node.IfFalse.Type)
+                {
+                    this.VisitType(node.Type, Vocabulary.ConditionType);
+                }
+            }
 
             return base.VisitConditional(node);
         }
@@ -206,6 +226,7 @@ namespace GraphEngine
 
         private void VisitType(System.Type type)
         {
+            // TODO: What about assembly name?
             this.AddStatement(Vocabulary.TypeName, $"{type.Namespace}.{type.Name}");
 
             if (type.GenericTypeArguments.Any())

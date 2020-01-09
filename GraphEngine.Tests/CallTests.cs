@@ -265,4 +265,6 @@ namespace GraphEngine.Tests
 
         public void M8<T>(object arg) { }
     }
+
+    public class C2 : C1 { }
 }

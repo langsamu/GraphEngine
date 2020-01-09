@@ -67,6 +67,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("GreaterThanOrEqual", "GreaterThanOrEqual");
         yield return ("Increment", "Increment");
         yield return ("Invoke", "Invoke");
+        yield return ("IfThen", "IfThen");
+        yield return ("IfThenElse", "IfThenElse");
         yield return ("IsFalse", "IsFalse");
         yield return ("IsTrue", "IsTrue");
         yield return ("Label", "Label");

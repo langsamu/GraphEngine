@@ -728,5 +728,135 @@ _:int
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
+
+        [TestMethod]
+        public void Condition()
+        {
+            var param = LinqExpression.Parameter(typeof(bool));
+            var expected = LinqExpression.Condition(param, param, param);
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Condition ;
+    :conditionTest _:param ;
+    :conditionIfTrue _:param ;
+    :conditionIfFalse _:param ;
+.
+
+_:param
+    a :Parameter ;
+    :parameterType [
+        :typeName ""System.Boolean"" ;
+    ] ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = Expression.Parse(s).LinqExpression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void ConditionType()
+        {
+            var expected = LinqExpression.Condition(
+                LinqExpression.Parameter(typeof(bool)),
+                LinqExpression.Parameter(typeof(C1)),
+                LinqExpression.Parameter(typeof(C2)),
+                typeof(C1));
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Condition ;
+    :conditionTest [a :Parameter; :parameterType [:typeName ""System.Boolean"" ;]] ;
+    :conditionIfTrue [a :Parameter; :parameterType _:C1] ;
+    :conditionIfFalse [a :Parameter; :parameterType [:typeName ""GraphEngine.Tests.C2, GraphEngine.Tests"" ;]] ;
+    :conditionType _:C1 ;
+.
+
+_:C1 :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" .
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = Expression.Parse(s).LinqExpression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void IfThen()
+        {
+            var param = LinqExpression.Parameter(typeof(bool));
+            var expected = LinqExpression.IfThen(param, param);
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :IfThen ;
+    :conditionTest _:param ;
+    :conditionIfTrue _:param ;
+.
+
+_:param
+    a :Parameter ;
+    :parameterType [
+        :typeName ""System.Boolean"" ;
+    ] ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = Expression.Parse(s).LinqExpression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
+
+        [TestMethod]
+        public void IfThenElse()
+        {
+            var param = LinqExpression.Parameter(typeof(bool));
+            var expected = LinqExpression.IfThenElse(param, param, param);
+
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :IfThenElse ;
+    :conditionTest _:param ;
+    :conditionIfTrue _:param ;
+    :conditionIfFalse _:param ;
+.
+
+_:param
+    a :Parameter ;
+    :parameterType [
+        :typeName ""System.Boolean"" ;
+    ] ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = Expression.Parse(s).LinqExpression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+        }
     }
 }

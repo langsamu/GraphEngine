@@ -45,6 +45,8 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.GreaterThanOrEqual): return new GreaterThanOrEqual(node);
                 case INode t when t.Equals(Vocabulary.Increment): return new Increment(node);
                 case INode t when t.Equals(Vocabulary.Invoke): return new Invoke(node);
+                case INode t when t.Equals(Vocabulary.IfThen): return new IfThen(node);
+                case INode t when t.Equals(Vocabulary.IfThenElse): return new IfThenElse(node);
                 case INode t when t.Equals(Vocabulary.IsFalse): return new IsFalse(node);
                 case INode t when t.Equals(Vocabulary.IsTrue): return new IsTrue(node);
                 case INode t when t.Equals(Vocabulary.Label): return new Label(node);
