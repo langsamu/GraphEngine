@@ -858,5 +858,41 @@ _:param
 
             Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
         }
+
+        [TestMethod]
+        public void EatYourOwnDogfood()
+        {
+            using var g = new Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :Lambda ;
+    :lambdaBody [
+        a :Call ;
+        :callInstance _:g ;
+        :callMethod ""Clear"" ;
+    ] ;
+    :lambdaParameters (
+        _:g
+    ) ;
+.
+
+_:g
+    a :Parameter ;
+    :parameterType ""VDS.RDF.IGraph, dotNetRDF"" ;
+.
+");
+
+            var s = g.GetUriNode(":s");
+
+            var parsed = Expression.Parse(s).LinqExpression;
+            var lambdaExpression = (Linq.LambdaExpression)parsed;
+            var lambda = lambdaExpression.Compile();
+
+            Assert.AreEqual(g.Triples.Count, 10);
+            var result = lambda.DynamicInvoke(g);
+            Assert.AreEqual(g.Triples.Count, 0);
+        }
     }
 }
