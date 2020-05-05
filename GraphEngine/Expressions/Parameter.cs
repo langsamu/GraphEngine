@@ -35,7 +35,5 @@ namespace GraphEngine
                 return param;
             }
         }
-
-        internal static new Parameter Parse(INode node) => new Parameter(node);
     }
 }

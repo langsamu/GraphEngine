@@ -31,37 +31,17 @@ namespace GraphEngine
         private static T Parse<T>(INode node)
             where T : class
         {
-            if (typeof(T) == typeof(string))
+            switch (node)
             {
-                return ((ILiteralNode)node).Value as T;
-            }
+                case INode _ when typeof(T) == typeof(CatchBlock): return new CatchBlock(node) as T;
+                case INode _ when typeof(T) == typeof(Expression): return Expression.Parse(node) as T;
+                case INode _ when typeof(T) == typeof(Parameter): return new Parameter(node) as T;
+                case INode _ when typeof(T) == typeof(Target): return new Target(node) as T;
+                case INode _ when typeof(T) == typeof(Type): return new Type(node) as T;
+                case INode _ when typeof(T) == typeof(string): return ((ILiteralNode)node).Value as T;
 
-            if (typeof(T) == typeof(Expression))
-            {
-                return Expression.Parse(node) as T;
+                default: throw new Exception($"unknown node {node}");
             }
-
-            if (typeof(T) == typeof(Parameter))
-            {
-                return Parameter.Parse(node) as T;
-            }
-
-            if (typeof(T) == typeof(Type))
-            {
-                return new Type(node) as T;
-            }
-
-            if (typeof(T) == typeof(Target))
-            {
-                return new Target(node) as T;
-            }
-
-            if (typeof(T) == typeof(CatchBlock))
-            {
-                return new CatchBlock(node) as T;
-            }
-
-            throw new Exception();
         }
     }
 }
