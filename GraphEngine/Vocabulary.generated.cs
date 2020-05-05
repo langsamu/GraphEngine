@@ -34,6 +34,10 @@ namespace GraphEngine
 
         public static IUriNode Call { get; } = EngineNode("Call");
 
+        public static IUriNode Case { get; } = EngineNode("Case");
+
+        public static IUriNode Catch { get; } = EngineNode("Catch");
+
         public static IUriNode Coalesce { get; } = EngineNode("Coalesce");
 
         public static IUriNode Condition { get; } = EngineNode("Condition");
@@ -46,6 +50,8 @@ namespace GraphEngine
 
         public static IUriNode ConvertChecked { get; } = EngineNode("ConvertChecked");
 
+        public static IUriNode DebugInfo { get; } = EngineNode("DebugInfo");
+
         public static IUriNode Decrement { get; } = EngineNode("Decrement");
 
         public static IUriNode Default { get; } = EngineNode("Default");
@@ -53,6 +59,8 @@ namespace GraphEngine
         public static IUriNode Divide { get; } = EngineNode("Divide");
 
         public static IUriNode DivideAssign { get; } = EngineNode("DivideAssign");
+
+        public static IUriNode Dynamic { get; } = EngineNode("Dynamic");
 
         public static IUriNode Empty { get; } = EngineNode("Empty");
 
@@ -62,19 +70,21 @@ namespace GraphEngine
 
         public static IUriNode ExclusiveOrAssign { get; } = EngineNode("ExclusiveOrAssign");
 
+        public static IUriNode Field { get; } = EngineNode("Field");
+
         public static IUriNode Goto { get; } = EngineNode("Goto");
 
         public static IUriNode GreaterThan { get; } = EngineNode("GreaterThan");
 
         public static IUriNode GreaterThanOrEqual { get; } = EngineNode("GreaterThanOrEqual");
 
-        public static IUriNode Increment { get; } = EngineNode("Increment");
-
-        public static IUriNode Invoke { get; } = EngineNode("Invoke");
-
         public static IUriNode IfThen { get; } = EngineNode("IfThen");
 
         public static IUriNode IfThenElse { get; } = EngineNode("IfThenElse");
+
+        public static IUriNode Increment { get; } = EngineNode("Increment");
+
+        public static IUriNode Invoke { get; } = EngineNode("Invoke");
 
         public static IUriNode IsFalse { get; } = EngineNode("IsFalse");
 
@@ -92,7 +102,11 @@ namespace GraphEngine
 
         public static IUriNode LessThanOrEqual { get; } = EngineNode("LessThanOrEqual");
 
+        public static IUriNode ListInit { get; } = EngineNode("ListInit");
+
         public static IUriNode Loop { get; } = EngineNode("Loop");
+
+        public static IUriNode MemberInit { get; } = EngineNode("MemberInit");
 
         public static IUriNode Modulo { get; } = EngineNode("Modulo");
 
@@ -114,6 +128,8 @@ namespace GraphEngine
 
         public static IUriNode NewArrayBounds { get; } = EngineNode("NewArrayBounds");
 
+        public static IUriNode NewArrayInit { get; } = EngineNode("NewArrayInit");
+
         public static IUriNode Not { get; } = EngineNode("Not");
 
         public static IUriNode NotEqual { get; } = EngineNode("NotEqual");
@@ -128,8 +144,6 @@ namespace GraphEngine
 
         public static IUriNode Parameter { get; } = EngineNode("Parameter");
 
-        public static IUriNode ParameterName { get; } = EngineNode("parameterName");
-
         public static IUriNode PostDecrementAssign { get; } = EngineNode("PostDecrementAssign");
 
         public static IUriNode PostIncrementAssign { get; } = EngineNode("PostIncrementAssign");
@@ -142,13 +156,25 @@ namespace GraphEngine
 
         public static IUriNode PreIncrementAssign { get; } = EngineNode("PreIncrementAssign");
 
+        public static IUriNode Property { get; } = EngineNode("Property");
+
+        public static IUriNode PropertyOrField { get; } = EngineNode("PropertyOrField");
+
         public static IUriNode Quote { get; } = EngineNode("Quote");
+
+        public static IUriNode ReferenceEqual { get; } = EngineNode("ReferenceEqual");
+
+        public static IUriNode ReferenceNotEqual { get; } = EngineNode("ReferenceNotEqual");
+
+        public static IUriNode Rethrow { get; } = EngineNode("Rethrow");
 
         public static IUriNode Return { get; } = EngineNode("Return");
 
         public static IUriNode RightShift { get; } = EngineNode("RightShift");
 
         public static IUriNode RightShiftAssign { get; } = EngineNode("RightShiftAssign");
+
+        public static IUriNode RuntimeVariables { get; } = EngineNode("RuntimeVariables");
 
         public static IUriNode Subtract { get; } = EngineNode("Subtract");
 
@@ -157,6 +183,8 @@ namespace GraphEngine
         public static IUriNode SubtractAssignChecked { get; } = EngineNode("SubtractAssignChecked");
 
         public static IUriNode SubtractChecked { get; } = EngineNode("SubtractChecked");
+
+        public static IUriNode Switch { get; } = EngineNode("Switch");
 
         public static IUriNode Throw { get; } = EngineNode("Throw");
 
@@ -206,9 +234,9 @@ namespace GraphEngine
 
         public static IUriNode CatchVariable { get; } = EngineNode("catchVariable");
 
-        public static IUriNode ConditionIfTrue { get; } = EngineNode("conditionIfTrue");
-
         public static IUriNode ConditionIfFalse { get; } = EngineNode("conditionIfFalse");
+
+        public static IUriNode ConditionIfTrue { get; } = EngineNode("conditionIfTrue");
 
         public static IUriNode ConditionTest { get; } = EngineNode("conditionTest");
 
@@ -251,6 +279,8 @@ namespace GraphEngine
         public static IUriNode NewArrayBoundsType { get; } = EngineNode("newArrayBoundsType");
 
         public static IUriNode NewType { get; } = EngineNode("newType");
+
+        public static IUriNode ParameterName { get; } = EngineNode("parameterName");
 
         public static IUriNode ParameterType { get; } = EngineNode("parameterType");
 
