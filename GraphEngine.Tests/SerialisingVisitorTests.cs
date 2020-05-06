@@ -1,4 +1,4 @@
-﻿// MIT License, Copyright 2019 Samu Lang
+﻿// MIT License, Copyright 2020 Samu Lang
 
 namespace GraphEngine.Tests
 {

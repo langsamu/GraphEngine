@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- MIT License, Copyright 2019 Samu Lang -->
+<!-- MIT License, Copyright 2020 Samu Lang -->
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://example.com/" xmlns:ex="http://example.com/" xml:base="http://example.com/">
   <Block rdf:about="s">
     <blockVariables rdf:parseType="Collection">

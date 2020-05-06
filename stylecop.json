@@ -4,7 +4,7 @@
     "documentationRules": {
       "documentExposedElements": false,
       "documentInternalElements": false,
-      "copyrightText": "MIT License, Copyright 2019 Samu Lang",
+      "copyrightText": "MIT License, Copyright 2020 Samu Lang",
       "xmlHeader": false
     }
   }
