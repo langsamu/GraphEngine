@@ -28,7 +28,7 @@ namespace GraphEngine
                     return this.AsValuedNode().AsString();
                 }
 
-                return Vocabulary.TypeName.ObjectsOf(this).Cast<ILiteralNode>().Select(n => n.Value).Single();
+                return Required<string>(Vocabulary.TypeName);
             }
         }
 
@@ -38,7 +38,7 @@ namespace GraphEngine
         {
             get
             {
-                var t = System.Type.GetType(this.Name) ?? throw new InvalidOperationException();
+                var t = System.Type.GetType(this.Name) ?? throw new InvalidOperationException($"Type {Name} not found.");
 
                 if (t.IsGenericTypeDefinition)
                 {

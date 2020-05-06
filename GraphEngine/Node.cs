@@ -22,7 +22,16 @@ namespace GraphEngine
 
         protected T Required<T>(INode predicate)
             where T : class
-            => predicate.ObjectsOf(this).Select(Parse<T>).Single();
+        {
+            var t = predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
+
+            if (t is null)
+            {
+                throw new Exception($"Single {predicate} not found on {this}");
+            }
+
+            return t;
+        }
 
         protected IEnumerable<T> List<T>(INode predicate)
             where T : class
@@ -33,8 +42,12 @@ namespace GraphEngine
         {
             switch (node)
             {
+                case INode _ when typeof(Expression).IsAssignableFrom(typeof(T)): return Expression.Parse(node) as T;
+                case INode _ when typeof(T) == typeof(BaseBind): return BaseBind.Parse(node) as T;
                 case INode _ when typeof(T) == typeof(CatchBlock): return new CatchBlock(node) as T;
-                case INode _ when typeof(T) == typeof(Expression): return Expression.Parse(node) as T;
+                case INode _ when typeof(T) == typeof(ElementInit): return new ElementInit(node) as T;
+                case INode _ when typeof(T) == typeof(Member): return new Member(node) as T;
+                case INode _ when typeof(T) == typeof(Method): return new Method(node) as T;
                 case INode _ when typeof(T) == typeof(Parameter): return new Parameter(node) as T;
                 case INode _ when typeof(T) == typeof(Target): return new Target(node) as T;
                 case INode _ when typeof(T) == typeof(Type): return new Type(node) as T;

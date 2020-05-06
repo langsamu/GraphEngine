@@ -28,6 +28,8 @@ namespace GraphEngine
 
         public static IUriNode Assign { get; } = EngineNode("Assign");
 
+        public static IUriNode Bind { get; } = EngineNode("Bind");
+
         public static IUriNode Block { get; } = EngineNode("Block");
 
         public static IUriNode Break { get; } = EngineNode("Break");
@@ -61,6 +63,8 @@ namespace GraphEngine
         public static IUriNode DivideAssign { get; } = EngineNode("DivideAssign");
 
         public static IUriNode Dynamic { get; } = EngineNode("Dynamic");
+
+        public static IUriNode ElementInit { get; } = EngineNode("ElementInit");
 
         public static IUriNode Empty { get; } = EngineNode("Empty");
 
@@ -102,11 +106,19 @@ namespace GraphEngine
 
         public static IUriNode LessThanOrEqual { get; } = EngineNode("LessThanOrEqual");
 
+        public static IUriNode ListBind { get; } = EngineNode("ListBind");
+
         public static IUriNode ListInit { get; } = EngineNode("ListInit");
 
         public static IUriNode Loop { get; } = EngineNode("Loop");
 
+        public static IUriNode Member { get; } = EngineNode("Member");
+
+        public static IUriNode MemberBind { get; } = EngineNode("MemberBind");
+
         public static IUriNode MemberInit { get; } = EngineNode("MemberInit");
+
+        public static IUriNode Method { get; } = EngineNode("Method");
 
         public static IUriNode Modulo { get; } = EngineNode("Modulo");
 
@@ -190,6 +202,8 @@ namespace GraphEngine
 
         public static IUriNode Try { get; } = EngineNode("Try");
 
+        public static IUriNode Type { get; } = EngineNode("Type");
+
         public static IUriNode TypeAs { get; } = EngineNode("TypeAs");
 
         public static IUriNode UnaryPlus { get; } = EngineNode("UnaryPlus");
@@ -211,6 +225,10 @@ namespace GraphEngine
         public static IUriNode BinaryLeft { get; } = EngineNode("binaryLeft");
 
         public static IUriNode BinaryRight { get; } = EngineNode("binaryRight");
+
+        public static IUriNode BindExpression { get; } = EngineNode("bindExpression");
+
+        public static IUriNode BindMember { get; } = EngineNode("bindMember");
 
         public static IUriNode BlockExpressions { get; } = EngineNode("blockExpressions");
 
@@ -248,6 +266,10 @@ namespace GraphEngine
 
         public static IUriNode DefaultType { get; } = EngineNode("defaultType");
 
+        public static IUriNode ElementInitAddMethod { get; } = EngineNode("elementInitAddMethod");
+
+        public static IUriNode ElementInitArguments { get; } = EngineNode("elementInitArguments");
+
         public static IUriNode GotoTarget { get; } = EngineNode("gotoTarget");
 
         public static IUriNode GotoType { get; } = EngineNode("gotoType");
@@ -266,11 +288,23 @@ namespace GraphEngine
 
         public static IUriNode LambdaParameters { get; } = EngineNode("lambdaParameters");
 
+        public static IUriNode ListBindInitializers { get; } = EngineNode("listBindInitializers");
+
         public static IUriNode LoopBody { get; } = EngineNode("loopBody");
 
         public static IUriNode LoopBreak { get; } = EngineNode("loopBreak");
 
         public static IUriNode LoopContinue { get; } = EngineNode("loopContinue");
+
+        public static IUriNode MemberBindBindings { get; } = EngineNode("memberBindBindings");
+
+        public static IUriNode MemberInitBindings { get; } = EngineNode("memberInitBindings");
+
+        public static IUriNode MemberInitNewExpression { get; } = EngineNode("memberInitNewExpression");
+
+        public static IUriNode MemberType { get; } = EngineNode("memberType");
+
+        public static IUriNode MemberName { get; } = EngineNode("memberName");
 
         public static IUriNode NewArguments { get; } = EngineNode("newArguments");
 

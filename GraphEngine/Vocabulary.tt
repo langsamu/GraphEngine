@@ -45,6 +45,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ArrayIndex", "ArrayIndex");
         yield return ("ArrayLength", "ArrayLength");
         yield return ("Assign", "Assign");
+        yield return ("Bind", "Bind");
         yield return ("Block", "Block");
         yield return ("Break", "Break");
         yield return ("Call", "Call");
@@ -62,6 +63,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Divide", "Divide");
         yield return ("DivideAssign", "DivideAssign");
         yield return ("Dynamic", "Dynamic");
+        yield return ("ElementInit", "ElementInit");
         yield return ("Empty", "Empty");
         yield return ("Equal", "Equal");
         yield return ("ExclusiveOr", "ExclusiveOr");
@@ -82,9 +84,13 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("LeftShiftAssign", "LeftShiftAssign");
         yield return ("LessThan", "LessThan");
         yield return ("LessThanOrEqual", "LessThanOrEqual");
+        yield return ("ListBind", "ListBind");
         yield return ("ListInit", "ListInit");
         yield return ("Loop", "Loop");
+        yield return ("Member", "Member");
+        yield return ("MemberBind", "MemberBind");
         yield return ("MemberInit", "MemberInit");
+        yield return ("Method", "Method");
         yield return ("Modulo", "Modulo");
         yield return ("ModuloAssign", "ModuloAssign");
         yield return ("Multiply", "Multiply");
@@ -126,6 +132,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Switch", "Switch");
         yield return ("Throw", "Throw");
         yield return ("Try", "Try");
+        yield return ("Type", "Type");
         yield return ("TypeAs", "TypeAs");
         yield return ("UnaryPlus", "UnaryPlus");
         yield return ("Unbox", "Unbox");
@@ -139,6 +146,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ArrayIndexIndexes", "arrayIndexIndexes");
         yield return ("BinaryLeft", "binaryLeft");
         yield return ("BinaryRight", "binaryRight");
+        yield return ("BindExpression", "bindExpression");
+        yield return ("BindMember", "bindMember");
         yield return ("BlockExpressions", "blockExpressions");
         yield return ("BlockVariables", "blockVariables");
         yield return ("CallArguments", "callArguments");
@@ -157,6 +166,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ConstantType", "constantType");
         yield return ("ConstantValue", "constantValue");
         yield return ("DefaultType", "defaultType");
+        yield return ("ElementInitAddMethod", "elementInitAddMethod");
+        yield return ("ElementInitArguments", "elementInitArguments");
         yield return ("GotoTarget", "gotoTarget");
         yield return ("GotoType", "gotoType");
         yield return ("GotoValue", "gotoValue");
@@ -166,9 +177,15 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("LabelTarget", "labelTarget");
         yield return ("LambdaBody", "lambdaBody");
         yield return ("LambdaParameters", "lambdaParameters");
+        yield return ("ListBindInitializers", "listBindInitializers");
         yield return ("LoopBody", "loopBody");
         yield return ("LoopBreak", "loopBreak");
         yield return ("LoopContinue", "loopContinue");
+        yield return ("MemberBindBindings", "memberBindBindings");
+        yield return ("MemberInitBindings", "memberInitBindings");
+        yield return ("MemberInitNewExpression", "memberInitNewExpression");
+        yield return ("MemberType", "memberType");
+        yield return ("MemberName", "memberName");
         yield return ("NewArguments", "newArguments");
         yield return ("NewArrayBoundsBounds", "newArrayBoundsBounds");
         yield return ("NewArrayBoundsType", "newArrayBoundsType");

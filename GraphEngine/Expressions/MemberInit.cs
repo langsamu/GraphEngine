@@ -2,22 +2,25 @@
 
 namespace GraphEngine
 {
-    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Implement
     public class MemberInit : Expression
     {
         [DebuggerStepThrough]
         internal MemberInit(INode node)
             : base(node)
         {
-            throw new NotImplementedException();
         }
 
-        public override Linq.Expression LinqExpression => default;
+        public New NewExpression => Required<New>(MemberInitNewExpression);
+
+        public IEnumerable<BaseBind> Bindings => List<BaseBind>(MemberInitBindings);
+
+        public override Linq.Expression LinqExpression => Linq.Expression.MemberInit(this.NewExpression.LinqNewExpression, this.Bindings.Select(binding => binding.LinqMemberBinding));
     }
 }

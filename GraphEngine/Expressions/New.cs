@@ -21,7 +21,9 @@ namespace GraphEngine
 
         public Type Type => Required<Type>(NewType);
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this.LinqNewExpression;
+
+        internal Linq.NewExpression LinqNewExpression
         {
             get
             {
