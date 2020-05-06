@@ -244,6 +244,10 @@ namespace GraphEngine
 
         public static IUriNode CallTypeArguments { get; } = EngineNode("callTypeArguments");
 
+        public static IUriNode CaseBody { get; } = EngineNode("caseBody");
+
+        public static IUriNode CaseTestValues { get; } = EngineNode("caseTestValues");
+
         public static IUriNode CatchBody { get; } = EngineNode("catchBody");
 
         public static IUriNode CatchFilter { get; } = EngineNode("catchFilter");
@@ -317,6 +321,16 @@ namespace GraphEngine
         public static IUriNode ParameterName { get; } = EngineNode("parameterName");
 
         public static IUriNode ParameterType { get; } = EngineNode("parameterType");
+
+        public static IUriNode SwitchCases { get; } = EngineNode("switchCases");
+
+        public static IUriNode SwitchComparison { get; } = EngineNode("switchComparison");
+
+        public static IUriNode SwitchDefaultBody { get; } = EngineNode("switchDefaultBody");
+
+        public static IUriNode SwitchSwitchValue { get; } = EngineNode("switchSwitchValue");
+
+        public static IUriNode SwitchType { get; } = EngineNode("switchType");
 
         public static IUriNode TargetName { get; } = EngineNode("targetName");
 

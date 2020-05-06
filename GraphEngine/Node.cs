@@ -36,6 +36,7 @@ namespace GraphEngine
             {
                 INode _ when typeof(Expression).IsAssignableFrom(typeof(T)) => (Expression.Parse(node) as T)!,
                 INode _ when typeof(T) == typeof(BaseBind) => (BaseBind.Parse(node) as T)!,
+                INode _ when typeof(T) == typeof(Case) => (new Case(node) as T)!,
                 INode _ when typeof(T) == typeof(CatchBlock) => (new CatchBlock(node) as T)!,
                 INode _ when typeof(T) == typeof(ElementInit) => (new ElementInit(node) as T)!,
                 INode _ when typeof(T) == typeof(Member) => (new Member(node) as T)!,

@@ -155,6 +155,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("CallMethod", "callMethod");
         yield return ("CallType", "callType");
         yield return ("CallTypeArguments", "callTypeArguments");
+        yield return ("CaseBody", "caseBody");
+        yield return ("CaseTestValues", "caseTestValues");
         yield return ("CatchBody", "catchBody");
         yield return ("CatchFilter", "catchFilter");
         yield return ("CatchType", "catchType");
@@ -192,6 +194,11 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("NewType", "newType");
         yield return ("ParameterName", "parameterName");
         yield return ("ParameterType", "parameterType");
+        yield return ("SwitchCases", "switchCases");
+        yield return ("SwitchComparison", "switchComparison");
+        yield return ("SwitchDefaultBody", "switchDefaultBody");
+        yield return ("SwitchSwitchValue", "switchSwitchValue");
+        yield return ("SwitchType", "switchType");
         yield return ("TargetName", "targetName");
         yield return ("TargetType", "targetType");
         yield return ("TryBody", "tryBody");

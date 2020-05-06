@@ -34,7 +34,7 @@ namespace GraphEngine
                 }
             }
 
-            return null;
+            return null!;
         }
 
         protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
@@ -122,7 +122,7 @@ namespace GraphEngine
                 this.VisitLabelTarget(node.Target);
             }
 
-            this.Visit(node.Value);
+            this.Visit(node.Value!);
 
             return node;
         }

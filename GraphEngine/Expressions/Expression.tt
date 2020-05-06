@@ -58,7 +58,6 @@ private IEnumerable<string> Data {
         yield return "Block";
         yield return "Break";
         yield return "Call";
-        yield return "Case";
         yield return "Catch";
         yield return "Coalesce";
         yield return "Condition";
