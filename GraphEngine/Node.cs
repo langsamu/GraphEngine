@@ -16,22 +16,14 @@ namespace GraphEngine
         {
         }
 
-        protected T Optional<T>(INode predicate)
+        protected T? Optional<T>(INode predicate)
             where T : class
             => predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
 
         protected T Required<T>(INode predicate)
             where T : class
-        {
-            var t = predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
-
-            if (t is null)
-            {
-                throw new Exception($"Single {predicate} not found on {this}");
-            }
-
-            return t;
-        }
+            => Optional<T>(predicate)
+            ?? throw new Exception($"Single {predicate} not found on {this}");
 
         protected IEnumerable<T> List<T>(INode predicate)
             where T : class
@@ -40,21 +32,21 @@ namespace GraphEngine
         private static T Parse<T>(INode node)
             where T : class
         {
-            switch (node)
+            return node switch
             {
-                case INode _ when typeof(Expression).IsAssignableFrom(typeof(T)): return Expression.Parse(node) as T;
-                case INode _ when typeof(T) == typeof(BaseBind): return BaseBind.Parse(node) as T;
-                case INode _ when typeof(T) == typeof(CatchBlock): return new CatchBlock(node) as T;
-                case INode _ when typeof(T) == typeof(ElementInit): return new ElementInit(node) as T;
-                case INode _ when typeof(T) == typeof(Member): return new Member(node) as T;
-                case INode _ when typeof(T) == typeof(Method): return new Method(node) as T;
-                case INode _ when typeof(T) == typeof(Parameter): return new Parameter(node) as T;
-                case INode _ when typeof(T) == typeof(Target): return new Target(node) as T;
-                case INode _ when typeof(T) == typeof(Type): return new Type(node) as T;
-                case INode _ when typeof(T) == typeof(string): return ((ILiteralNode)node).Value as T;
+                INode _ when typeof(Expression).IsAssignableFrom(typeof(T)) => (Expression.Parse(node) as T)!,
+                INode _ when typeof(T) == typeof(BaseBind) => (BaseBind.Parse(node) as T)!,
+                INode _ when typeof(T) == typeof(CatchBlock) => (new CatchBlock(node) as T)!,
+                INode _ when typeof(T) == typeof(ElementInit) => (new ElementInit(node) as T)!,
+                INode _ when typeof(T) == typeof(Member) => (new Member(node) as T)!,
+                INode _ when typeof(T) == typeof(Method) => (new Method(node) as T)!,
+                INode _ when typeof(T) == typeof(Parameter) => (new Parameter(node) as T)!,
+                INode _ when typeof(T) == typeof(Target) => (new Target(node) as T)!,
+                INode _ when typeof(T) == typeof(Type) => (new Type(node) as T)!,
+                INode _ when typeof(T) == typeof(string) => (((ILiteralNode)node).Value as T)!,
 
-                default: throw new Exception($"unknown node {node}");
-            }
+                _ => throw new Exception($"unknown node {node}"),
+            };
         }
     }
 }

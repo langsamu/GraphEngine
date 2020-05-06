@@ -18,6 +18,6 @@ namespace GraphEngine
             throw new NotImplementedException();
         }
 
-        public override Linq.Expression LinqExpression => default;
+        public override Linq.Expression LinqExpression => throw new InvalidOperationException();
     }
 }

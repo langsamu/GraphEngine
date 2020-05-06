@@ -17,9 +17,9 @@ namespace GraphEngine
 
         public Expression Body => Required<Expression>(LoopBody);
 
-        public Target Break => Optional<Target>(LoopBreak);
+        public Target? Break => Optional<Target>(LoopBreak);
 
-        public Target Continue => Optional<Target>(LoopContinue);
+        public Target? Continue => Optional<Target>(LoopContinue);
 
         public override Linq.Expression LinqExpression
         {
@@ -29,13 +29,13 @@ namespace GraphEngine
                 var @continue = this.Continue;
                 var @break = this.Break;
 
-                if (@continue is object)
-                {
-                    return Linq.Expression.Loop(body.LinqExpression, @break.LinqTarget, @continue.LinqTarget);
-                }
-
                 if (@break is object)
                 {
+                    if (@continue is object)
+                    {
+                        return Linq.Expression.Loop(body.LinqExpression, @break.LinqTarget, @continue.LinqTarget);
+                    }
+
                     return Linq.Expression.Loop(body.LinqExpression, @break.LinqTarget);
                 }
 

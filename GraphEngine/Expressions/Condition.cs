@@ -21,7 +21,7 @@ namespace GraphEngine
 
         public Expression IfFalse => Required<Expression>(ConditionIfFalse);
 
-        public Type Type => Optional<Type>(ConditionType);
+        public Type? Type => Optional<Type>(ConditionType);
 
         public override Linq.Expression LinqExpression
         {

@@ -15,20 +15,20 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Optional<Type>(CatchType);
+        public Type? Type => Optional<Type>(CatchType);
 
         public Expression Body => Required<Expression>(CatchBody);
 
-        public Parameter Variable => Optional<Parameter>(CatchVariable);
+        public Parameter? Variable => Optional<Parameter>(CatchVariable);
 
-        public Expression Filter => Optional<Expression>(CatchFilter);
+        public Expression? Filter => Optional<Expression>(CatchFilter);
 
         public Linq.CatchBlock LinqCatchBlock
         {
             get
             {
                 var variable = this.Variable?.LinqParameter;
-                return Linq.Expression.MakeCatchBlock(this.Type?.SystemType ?? variable.Type, variable, this.Body.LinqExpression, this.Filter?.LinqExpression);
+                return Linq.Expression.MakeCatchBlock(this.Type?.SystemType ?? variable?.Type, variable, this.Body.LinqExpression, this.Filter?.LinqExpression);
             }
         }
     }

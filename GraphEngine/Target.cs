@@ -18,9 +18,9 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Optional<Type>(TargetType);
+        public Type? Type => Optional<Type>(TargetType);
 
-        public string Name => Optional<string>(TargetName);
+        public string? Name => Optional<string>(TargetName);
 
         public Linq.LabelTarget LinqTarget
         {

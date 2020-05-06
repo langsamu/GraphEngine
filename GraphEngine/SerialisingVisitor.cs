@@ -97,6 +97,7 @@ namespace GraphEngine
         protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
         {
             this.AddType(Vocabulary.Constant);
+
             // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.ConstantValue, this.Lookup(node.Value));
             this.VisitType(node.Type, Vocabulary.ConstantType);
 
@@ -250,8 +251,8 @@ namespace GraphEngine
 
         private void VisitType(System.Type type, INode predicate)
         {
-            //if (type is object)
-            //{
+            // if (type is object)
+            // {
             var typeNode = this.Lookup(type);
             this.AddStatement(predicate, typeNode);
 
@@ -259,7 +260,8 @@ namespace GraphEngine
             {
                 this.VisitType(type);
             }
-            //}
+
+            // }
         }
 
         private IDisposable Wrap(INode node)

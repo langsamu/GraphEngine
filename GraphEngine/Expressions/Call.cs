@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -9,6 +10,7 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
+    // TODO: Add support for overloads with method
     public class Call : Expression
     {
         [DebuggerStepThrough]
@@ -17,9 +19,9 @@ namespace GraphEngine
         {
         }
 
-        public Expression Instance => Optional<Expression>(CallInstance);
+        public Expression? Instance => Optional<Expression>(CallInstance);
 
-        public Type Type => Optional<Type>(CallType);
+        public Type? Type => Optional<Type>(CallType);
 
         public string Method => Required<string>(CallMethod);
 
@@ -43,11 +45,16 @@ namespace GraphEngine
                         arguments);
                 }
 
-                return Linq.Expression.Call(
-                    this.Type.SystemType,
-                    this.Method,
-                    typeArguments,
-                    arguments);
+                if (this.Type is Type type)
+                {
+                    return Linq.Expression.Call(
+                        type.SystemType,
+                        this.Method,
+                        typeArguments,
+                        arguments);
+                }
+
+                throw new InvalidOperationException($"Missing both instance and type on call {this}");
             }
         }
     }

@@ -32,6 +32,5 @@ namespace GraphEngine
                 default: throw new Exception($"unknown bind type {type} on node {node}");
             }
         }
-
     }
 }

@@ -18,7 +18,7 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Optional<Type>(ConstantType);
+        public Type? Type => Optional<Type>(ConstantType);
 
         // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Linq.Expression LinqExpression

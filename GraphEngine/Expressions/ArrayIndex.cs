@@ -18,7 +18,7 @@ namespace GraphEngine
 
         public Expression Array => Required<Expression>(ArrayIndexArray);
 
-        public Expression Index => Optional<Expression>(ArrayIndexIndex);
+        public Expression? Index => Optional<Expression>(ArrayIndexIndex);
 
         public IEnumerable<Expression> Indexes => List<Expression>(ArrayIndexIndexes);
 

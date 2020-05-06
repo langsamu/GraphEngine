@@ -17,13 +17,13 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Optional<Type>(TryType);
+        public Type? Type => Optional<Type>(TryType);
 
-        public Expression Body => Optional<Expression>(TryBody);
+        public Expression? Body => Optional<Expression>(TryBody);
 
-        public Expression Finally => Optional<Expression>(TryFinally);
+        public Expression? Finally => Optional<Expression>(TryFinally);
 
-        public Expression Fault => Optional<Expression>(TryFault);
+        public Expression? Fault => Optional<Expression>(TryFault);
 
         public IEnumerable<CatchBlock> Handlers => List<CatchBlock>(TryHandlers);
 

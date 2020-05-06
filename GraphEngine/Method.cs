@@ -14,6 +14,6 @@ namespace GraphEngine
         {
         }
 
-        public MethodInfo ReflectionMethod => this.Type.SystemType.GetMethod(this.Name);
+        public MethodInfo? ReflectionMethod => this.Type.SystemType.GetMethod(this.Name);
     }
 }
