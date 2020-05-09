@@ -5,17 +5,27 @@
 :fibonacci 
     a :Variable ;
     :parameterType [
+        a :Type ;
         :typeName "System.Func`2" ;
         :typeArguments (
-            "System.Int64"
-            "System.Int64"
+            [
+                a :Type ;
+                :typeName "System.Int64" ;
+            ]
+            [
+                a :Type ;
+                :typeName "System.Int64" ;
+            ]
         ) ;
     ] ;
 .
 
 :n 
     a :Parameter ;
-    :parameterType "System.Int64" ;
+    :parameterType [
+        a :Type ;
+        :typeName "System.Int64" ;
+    ] ;
 .
 
 :s

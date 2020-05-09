@@ -91,7 +91,10 @@ namespace GraphEngine.Tests
 
 :s
     a :New ;
-    :newType ""System.Text.StringBuilder"" ;
+    :newType [
+        a :Type ;
+        :typeName ""System.Text.StringBuilder"" ;
+    ] ;
     :newArguments (
         [
             a :Constant ;
@@ -117,28 +120,10 @@ namespace GraphEngine.Tests
 
 :s
     a :New ;
-    :newType ""System.Text.StringBuilder"" ;
-.
-");
-            var s = g.GetUriNode(":s");
-
-            var result = Expression.Parse(s).LinqExpression;
-
-            Console.WriteLine(result.GetDebugView());
-        }
-
-        [TestMethod]
-        public void NewWithEmptyArguments()
-        {
-            using var g = new Graph();
-            g.LoadFromString(@"
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix : <http://example.com/> .
-
-:s
-    a :New ;
-    :newType ""System.Text.StringBuilder"" ;
-    :newArguments () ;
+    :newType [
+        a :Type ;
+        :typeName ""System.Text.StringBuilder"" ;
+    ] ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -160,7 +145,10 @@ namespace GraphEngine.Tests
     a :Assign ;
     :binaryLeft [
         a :Variable ;
-        :parameterType ""System.Int64"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""System.Int64"" ;
+        ] ;
     ] ;
     :binaryRight [
         a :Constant ;
@@ -208,17 +196,26 @@ namespace GraphEngine.Tests
 
 _:constantValue
     a :Parameter ;
-    :parameterType ""System.Int32"" ;
+    :parameterType [
+        a :Type ;
+        :typeName ""System.Int32"" ;
+    ] ;
 .
 
 _:result
     a :Parameter ;
-    :parameterType ""System.Int32"" ;
+    :parameterType [
+        a :Type ;
+        :typeName ""System.Int32"" ;
+    ] ;
 .
 
 _:label
     a :Label ;
-    :labelType ""System.Int32"" ;
+    :labelType [
+        a :Type ;
+        :typeName ""System.Int32"" ;
+    ] ;
 .
 
 _:one
@@ -259,7 +256,10 @@ _:one
                     :gotoTarget _:label ;
                     :gotoValue _:result ;
                 ] ;
-                :conditionType ""System.Void"" ;
+                :conditionType [
+                    a :Type ;
+                    :typeName ""System.Void"" ;
+                ] ;
             ] ;
             :loopBreak _:label ;
         ]
@@ -286,7 +286,10 @@ _:one
 
 :s
     a :Default ;
-    :defaultType ""System.Byte"" ;
+    :defaultType [
+        a :Type ;
+        :typeName ""System.Byte"" ;
+    ] ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -309,7 +312,10 @@ _:one
 
 :s
     a :NewArrayBounds ;
-    :newArrayBoundsType ""System.Int64"" ;
+    :newArrayBoundsType [
+        a :Type ;
+        :typeName ""System.Int64"" ;
+    ] ;
     :newArrayBoundsBounds (
         [
             a :Constant ;
@@ -405,7 +411,10 @@ _:zero
     :tryBody _:zero ;
     :tryHandlers (
         [
-            :catchType ""System.Exception"" ;
+            :catchType [
+                a :Type ;
+                :typeName ""System.Exception"" ;
+            ] ;
             :catchBody _:zero ;
         ]
     ) ;
@@ -445,7 +454,10 @@ _:zero
         [
             :catchVariable [
                 a :Parameter ;
-                :parameterType ""System.Exception"" ;
+                :parameterType [
+                    a :Type ;
+                    :typeName ""System.Exception"" ;
+                ] ;
             ] ;
             :catchBody _:zero ;
         ]
@@ -486,7 +498,10 @@ _:zero
     :tryBody _:zero ;
     :tryHandlers (
         [
-            :catchType ""System.Exception"" ;
+            :catchType [
+                a :Type ;
+                :typeName ""System.Exception"" ;
+            ] ;
             :catchBody _:zero ;
             :catchFilter [
                 a :Equal ;
@@ -534,7 +549,10 @@ _:zero
         [
             :catchVariable [
                 a :Parameter ;
-                :parameterType ""System.Exception"" ;
+                :parameterType [
+                    a :Type ;
+                    :typeName ""System.Exception"" ;
+                ] ;
             ] ;
             :catchBody _:zero ;
             :catchFilter [
@@ -576,12 +594,18 @@ _:zero
     a :ArrayAccess ;
     :arrayAccessArray [
         a :Parameter ;
-        :parameterType ""System.Int32[]"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""System.Int32[]"" ;
+        ] ;
     ] ;
     :arrayAccessIndexes (
         [
             a :Parameter ;
-            :parameterType ""System.Int32"" ;
+            :parameterType [
+                a :Type ;
+                :typeName ""System.Int32"" ;
+            ] ;
         ]
     ) ;
 .
@@ -673,11 +697,17 @@ _:int
     a :ArrayIndex ;
     :arrayIndexArray [
         a :Parameter ;
-        :parameterType ""System.Int32[]"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""System.Int32[]"" ;
+        ] ;
     ] ;
     :arrayIndexIndex [
         a :Parameter ;
-        :parameterType ""System.Int32"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""System.Int32"" ;
+        ] ;
     ] ;
 .
 ");
@@ -710,12 +740,18 @@ _:int
     a :ArrayIndex ;
     :arrayIndexArray [
         a :Parameter ;
-        :parameterType ""System.Int32[]"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""System.Int32[]"" ;
+        ] ;
     ] ;
     :arrayIndexIndexes (
         [
             a :Parameter ;
-            :parameterType ""System.Int32"" ;
+            :parameterType [
+                a :Type ;
+                :typeName ""System.Int32"" ;
+            ] ;
         ]
     ) ;
 .
@@ -880,7 +916,10 @@ _:param
 
 _:g
     a :Parameter ;
-    :parameterType ""VDS.RDF.IGraph, dotNetRDF"" ;
+    :parameterType [
+        a :Type ;
+        :typeName ""VDS.RDF.IGraph, dotNetRDF"" ;
+    ] ;
 .
 ");
 
@@ -890,7 +929,7 @@ _:g
             var lambdaExpression = (Linq.LambdaExpression)parsed;
             var lambda = lambdaExpression.Compile();
 
-            Assert.AreEqual(g.Triples.Count, 10);
+            Assert.AreEqual(g.Triples.Count, 12);
             var result = lambda.DynamicInvoke(g);
             Assert.AreEqual(g.Triples.Count, 0);
         }

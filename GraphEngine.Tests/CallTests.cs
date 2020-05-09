@@ -22,7 +22,10 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callType [
+        a :Type ;
+        :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    ] ;
     :callMethod ""M1"" ;
 .
 ");
@@ -45,10 +48,16 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callType [
+        a :Type ;
+        :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    ] ;
     :callMethod ""M2"" ;
     :callTypeArguments (
-        ""System.Object""
+        [
+            a :Type ;
+            :typeName ""System.Object""
+        ]
     ) ;
 .
 ");
@@ -71,12 +80,18 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callType [
+        a :Type ;
+        :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    ] ;
     :callMethod ""M3"" ;
     :callArguments (
         [
             a :Constant ;
-            :constantType ""System.Object"" ;
+            :constantType [
+                a :Type ;
+                :typeName ""System.Object"" ;
+            ] ;
             :constantValue 0;
         ]
     ) ;
@@ -101,15 +116,24 @@ namespace GraphEngine.Tests
 
 :s
     a :Call ;
-    :callType ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    :callType [
+        a :Type ;
+        :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+    ] ;
     :callMethod ""M4"" ;
     :callTypeArguments (
-        ""System.Object""
+        [
+            a :Type ;
+            :typeName ""System.Object"" ;
+        ]
     ) ;
     :callArguments (
         [
             a :Constant ;
-            :constantType ""System.Object"" ;
+            :constantType [
+                a :Type ;
+                :typeName ""System.Object"" ;
+            ] ;
             :constantValue 0;
         ]
     ) ;
@@ -136,7 +160,10 @@ namespace GraphEngine.Tests
     a :Call ;
     :callInstance [
         a :New ;
-        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType [
+            a :Type ;
+            :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+        ] ;
     ] ;
     :callMethod ""M5"" ;
 .
@@ -162,11 +189,17 @@ namespace GraphEngine.Tests
     a :Call ;
     :callInstance [
         a :New ;
-        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType [
+            a :Type ;
+            :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+        ] ;
     ] ;
     :callMethod ""M6"" ;
     :callTypeArguments (
-        ""System.Object""
+        [
+            a :Type ;
+            :typeName ""System.Object"" ;
+        ]
     ) ;
 .
 ");
@@ -191,13 +224,19 @@ namespace GraphEngine.Tests
     a :Call ;
     :callInstance [
         a :New ;
-        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType [
+            a :Type ;
+            :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+        ] ;
     ] ;
     :callMethod ""M7"" ;
     :callArguments (
         [
             a :Constant ;
-            :constantType ""System.Object"" ;
+            :constantType [
+                a :Type ;
+                :typeName ""System.Object"" ;
+            ] ;
             :constantValue 0;
         ]
     ) ;
@@ -224,16 +263,25 @@ namespace GraphEngine.Tests
     a :Call ;
     :callInstance [
         a :New ;
-        :newType ""GraphEngine.Tests.C1, GraphEngine.Tests""
+        :newType [
+            a :Type ;
+            :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
+        ] ;
     ] ;
     :callMethod ""M8"" ;
     :callTypeArguments (
-        ""System.Object""
+        [
+            a :Type ;
+            :typeName ""System.Object"" ;
+        ]
     ) ;
     :callArguments (
         [
             a :Constant ;
-            :constantType ""System.Object"" ;
+            :constantType [
+                a :Type ;
+                :typeName ""System.Object"" ;
+            ] ;
             :constantValue 0;
         ]
     ) ;

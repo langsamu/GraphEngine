@@ -74,11 +74,17 @@ namespace GraphEngine.Tests
     a :{binaryType} ;
     :binaryLeft [
         a :Parameter ;
-        :parameterType ""{leftType}"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""{leftType}"" ;
+        ]
     ] ;
     :binaryRight [
         a :Parameter ;
-        :parameterType ""{rightType}"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""{rightType}"" ;
+        ] ;
     ] ;
 .
 ");

@@ -7,10 +7,17 @@
         "@id": "fibonacci",
         "@type": "Variable",
         "parameterType": {
+          "@type": "Type",
           "typeName": "System.Func`2",
           "typeArguments": [
-            "System.Int64",
-            "System.Int64"
+            {
+              "@type": "Type",
+              "typeName": "System.Int64"
+            },
+            {
+              "@type": "Type",
+              "typeName": "System.Int64"
+            }
           ]
         }
       }
@@ -25,7 +32,10 @@
             {
               "@id": "n",
               "@type": "Parameter",
-              "parameterType": "System.Int64"
+              "parameterType": {
+                "@type": "Type",
+                "typeName": "System.Int64"
+              }
             }
           ],
           "lambdaBody": {

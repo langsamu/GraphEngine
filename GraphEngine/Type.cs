@@ -7,7 +7,6 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using VDS.RDF;
-    using VDS.RDF.Nodes;
     using static Vocabulary;
 
     public class Type : Node
@@ -18,19 +17,7 @@ namespace GraphEngine
         {
         }
 
-        // TODO: make simple
-        public string Name
-        {
-            get
-            {
-                if (this.NodeType == NodeType.Literal)
-                {
-                    return this.AsValuedNode().AsString();
-                }
-
-                return Required<string>(Vocabulary.TypeName);
-            }
-        }
+        public string Name => Required<string>(TypeName);
 
         public IEnumerable<Type> Arguments => List<Type>(TypeArguments);
 

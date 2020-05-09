@@ -60,7 +60,10 @@ namespace GraphEngine.Tests
     a :{expression} ;
     :unaryOperand [
         a :Parameter ;
-        :parameterType ""{operandType}"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""{operandType}"" ;
+        ] ;
     ] ;
 .
 ";
@@ -84,9 +87,15 @@ namespace GraphEngine.Tests
     a :{expression} ;
     :unaryOperand [
         a :Parameter ;
-        :parameterType ""{operandType}"" ;
+        :parameterType [
+            a :Type ;
+            :typeName ""{operandType}"" ;
+        ] ;
     ] ;
-    :unaryType ""{type}"" ;
+    :unaryType [
+        a :Type ;
+        :typeName ""{type}"" ;
+    ] ;
 .
 ";
 
