@@ -16,9 +16,14 @@ namespace GraphEngine
         {
         }
 
-        public Method AddMethod => Required<Method>(ElementInitAddMethod);
+        public Method AddMethod
+        {
+            get => this.GetRequired<Method>(ElementInitAddMethod);
 
-        public IEnumerable<Expression> Arguments => List<Expression>(ElementInitArguments);
+            set => this.SetRequired(ElementInitAddMethod, value);
+        }
+
+        public ICollection<Expression> Arguments => this.Collection<Expression>(ElementInitArguments);
 
         public Linq.ElementInit LinqElementInit => Linq.Expression.ElementInit(this.AddMethod.ReflectionMethod, this.Arguments.LinqExpressions());
     }

@@ -14,7 +14,7 @@ namespace GraphEngine
             from t in subject.Graph.GetTriplesWithSubjectPredicate(subject, predicate)
             select t.Object;
 
-        internal static INode ObjectOf(this INode predicate, INode subject) =>
+        internal static INode? ObjectOf(this INode predicate, INode subject) =>
             predicate.ObjectsOf(subject).SingleOrDefault();
 
         internal static INode AsNode(this Linq.ExpressionType type) =>

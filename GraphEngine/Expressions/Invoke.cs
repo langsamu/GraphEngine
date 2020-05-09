@@ -16,10 +16,15 @@ namespace GraphEngine
         {
         }
 
-        public Expression ExpressionNode => Required<Expression>(InvokeExpression);
+        public Expression Expression
+        {
+            get => this.GetRequired<Expression>(InvokeExpression);
 
-        public IEnumerable<Expression> Arguments => List<Expression>(InvokeArguments);
+            set => this.SetRequired(InvokeExpression, value);
+        }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.ExpressionNode.LinqExpression, this.Arguments.LinqExpressions());
+        public ICollection<Expression> Arguments => this.Collection<Expression>(InvokeArguments);
+
+        public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.Expression.LinqExpression, this.Arguments.LinqExpressions());
     }
 }

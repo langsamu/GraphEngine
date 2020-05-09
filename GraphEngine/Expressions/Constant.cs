@@ -18,7 +18,12 @@ namespace GraphEngine
         {
         }
 
-        public Type? Type => Optional<Type>(ConstantType);
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(ConstantType);
+
+            set => this.SetOptional(ConstantType, value);
+        }
 
         // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Linq.Expression LinqExpression
@@ -38,7 +43,7 @@ namespace GraphEngine
         {
             get
             {
-                var valueNode = ConstantValue.ObjectOf(this);
+                var valueNode = ConstantValue.ObjectOf(this) ?? throw new InvalidOperationException("missing value");
 
                 switch (valueNode)
                 {

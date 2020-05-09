@@ -15,9 +15,19 @@ namespace GraphEngine
         {
         }
 
-        public Expression Operand => Required<Expression>(UnaryOperand);
+        public Expression Operand
+        {
+            get => this.GetRequired<Expression>(UnaryOperand);
 
-        public Type? Type => Optional<Type>(UnaryType);
+            set => this.SetRequired(UnaryOperand, value);
+        }
+
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(UnaryType);
+
+            set => this.SetOptional(UnaryType, value);
+        }
 
         public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.LinqUnaryType, this.Operand.LinqExpression, this.Type?.SystemType);
 

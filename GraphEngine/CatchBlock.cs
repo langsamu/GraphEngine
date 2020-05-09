@@ -15,13 +15,33 @@ namespace GraphEngine
         {
         }
 
-        public Type? Type => Optional<Type>(CatchType);
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(CatchType);
 
-        public Expression Body => Required<Expression>(CatchBody);
+            set => this.SetOptional(CatchType, value);
+        }
 
-        public Parameter? Variable => Optional<Parameter>(CatchVariable);
+        public Expression Body
+        {
+            get => this.GetRequired<Expression>(CatchBody);
 
-        public Expression? Filter => Optional<Expression>(CatchFilter);
+            set => this.SetRequired(CatchBody, value);
+        }
+
+        public Parameter? Variable
+        {
+            get => this.GetOptional<Parameter>(CatchVariable);
+
+            set => this.SetOptional(CatchVariable, value);
+        }
+
+        public Expression? Filter
+        {
+            get => this.GetOptional<Expression>(CatchFilter);
+
+            set => this.SetOptional(CatchFilter, value);
+        }
 
         public Linq.CatchBlock LinqCatchBlock
         {

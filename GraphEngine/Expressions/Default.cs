@@ -15,7 +15,12 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Required<Type>(DefaultType);
+        public Type Type
+        {
+            get => this.GetRequired<Type>(DefaultType);
+
+            set => this.SetRequired(DefaultType, value);
+        }
 
         public override Linq.Expression LinqExpression => Linq.Expression.Default(this.Type.SystemType);
     }

@@ -15,11 +15,26 @@ namespace GraphEngine
         {
         }
 
-        public Expression Body => Required<Expression>(LoopBody);
+        public Expression Body
+        {
+            get => this.GetRequired<Expression>(LoopBody);
 
-        public Target? Break => Optional<Target>(LoopBreak);
+            set => this.SetRequired(LoopBody, value);
+        }
 
-        public Target? Continue => Optional<Target>(LoopContinue);
+        public Target? Break
+        {
+            get => this.GetOptional<Target>(LoopBreak);
+
+            set => this.SetOptional(LoopBreak, value);
+        }
+
+        public Target? Continue
+        {
+            get => this.GetOptional<Target>(LoopContinue);
+
+            set => this.SetOptional(LoopContinue, value);
+        }
 
         public override Linq.Expression LinqExpression
         {

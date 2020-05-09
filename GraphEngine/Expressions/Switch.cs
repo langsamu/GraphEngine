@@ -17,15 +17,35 @@ namespace GraphEngine
         {
         }
 
-        public Type? Type => Optional<Type>(SwitchType);
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(SwitchType);
 
-        public Expression SwitchValue => Required<Expression>(SwitchSwitchValue);
+            set => this.SetOptional(SwitchType, value);
+        }
 
-        public Expression? DeafultBody => Optional<Expression>(SwitchDefaultBody);
+        public Expression SwitchValue
+        {
+            get => this.GetRequired<Expression>(SwitchSwitchValue);
 
-        public Method? Comparison => Optional<Method>(SwitchComparison);
+            set => this.SetRequired(SwitchSwitchValue, value);
+        }
 
-        public IEnumerable<Case> Cases => List<Case>(SwitchCases);
+        public Expression? DeafultBody
+        {
+            get => this.GetOptional<Expression>(SwitchDefaultBody);
+
+            set => this.SetOptional(SwitchDefaultBody, value);
+        }
+
+        public Method? Comparison
+        {
+            get => this.GetOptional<Method>(SwitchComparison);
+
+            set => this.SetOptional(SwitchComparison, value);
+        }
+
+        public ICollection<Case> Cases => this.Collection<Case>(SwitchCases);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Switch(this.Type?.SystemType, this.SwitchValue.LinqExpression, this.DeafultBody?.LinqExpression, this.Comparison?.ReflectionMethod, this.Cases.Select(@case => @case.LinqSwitchCase));
     }

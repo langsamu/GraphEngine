@@ -15,9 +15,19 @@ namespace GraphEngine
         {
         }
 
-        public Expression Left => Required<Expression>(BinaryLeft);
+        public Expression Left
+        {
+            get => this.GetRequired<Expression>(BinaryLeft);
 
-        public Expression Right => Required<Expression>(BinaryRight);
+            set => this.SetRequired(BinaryLeft, GotoValue);
+        }
+
+        public Expression Right
+        {
+            get => this.GetRequired<Expression>(BinaryRight);
+
+            set => this.SetRequired(BinaryRight, value);
+        }
 
         public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.LinqBinaryType, this.Left.LinqExpression, this.Right.LinqExpression);
 

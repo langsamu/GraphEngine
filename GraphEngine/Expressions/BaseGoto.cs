@@ -15,11 +15,26 @@ namespace GraphEngine
         {
         }
 
-        public Target? Target => Optional<Target>(GotoTarget);
+        public Target? Target
+        {
+            get => this.GetOptional<Target>(GotoTarget);
 
-        public Type? Type => Optional<Type>(GotoType);
+            set => this.SetOptional(GotoTarget, value);
+        }
 
-        public Expression? Value => Optional<Expression>(GotoValue);
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(GotoType);
+
+            set => this.SetOptional(GotoType, value);
+        }
+
+        public Expression? Value
+        {
+            get => this.GetOptional<Expression>(GotoValue);
+
+            set => this.SetOptional(GotoValue, value);
+        }
 
         public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target?.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType);
 

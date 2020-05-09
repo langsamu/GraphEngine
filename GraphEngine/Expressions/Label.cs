@@ -15,9 +15,19 @@ namespace GraphEngine
         {
         }
 
-        public Target Target => Required<Target>(LabelTarget);
+        public Target Target
+        {
+            get => this.GetRequired<Target>(LabelTarget);
 
-        public Expression? DefaultValue => Optional<Expression>(LabelDefaultValue);
+            set => this.SetRequired(LabelTarget, value);
+        }
+
+        public Expression? DefaultValue
+        {
+            get => this.GetOptional<Expression>(LabelDefaultValue);
+
+            set => this.SetOptional(LabelDefaultValue, value);
+        }
 
         public override Linq.Expression LinqExpression => Linq.Expression.Label(this.Target.LinqTarget, this.DefaultValue?.LinqExpression);
     }

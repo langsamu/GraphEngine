@@ -19,15 +19,30 @@ namespace GraphEngine
         {
         }
 
-        public Expression? Instance => Optional<Expression>(CallInstance);
+        public Expression? Instance
+        {
+            get => this.GetOptional<Expression>(CallInstance);
 
-        public Type? Type => Optional<Type>(CallType);
+            set => this.SetOptional(CallInstance, value);
+        }
 
-        public string Method => Required<string>(CallMethod);
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(CallType);
 
-        public IEnumerable<Expression> Arguments => List<Expression>(CallArguments);
+            set => this.SetOptional(CallType, value);
+        }
 
-        public IEnumerable<Type> TypeArguments => List<Type>(CallTypeArguments);
+        public string Method
+        {
+            get => this.GetRequired<string>(CallMethod);
+
+            set => this.SetOptional(CallMethod, value);
+        }
+
+        public ICollection<Expression> Arguments => this.Collection<Expression>(CallArguments);
+
+        public ICollection<Type> TypeArguments => this.Collection<Type>(CallTypeArguments);
 
         public override Linq.Expression LinqExpression
         {

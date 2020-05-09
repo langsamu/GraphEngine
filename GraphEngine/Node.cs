@@ -16,20 +16,14 @@ namespace GraphEngine
         {
         }
 
-        protected T? Optional<T>(INode predicate)
-            where T : class
-            => predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
+        public INode? RdfType
+        {
+            get => Vocabulary.RdfType.ObjectOf(this);
 
-        protected T Required<T>(INode predicate)
-            where T : class
-            => Optional<T>(predicate)
-            ?? throw new Exception($"Single {predicate} not found on {this}");
+            set => this.SetOptional(Vocabulary.RdfType, value);
+        }
 
-        protected IEnumerable<T> List<T>(INode predicate)
-            where T : class
-            => predicate.ObjectsOf(this).SelectMany(this.Graph.GetListItems).Select(Parse<T>);
-
-        private static T Parse<T>(INode node)
+        internal static T Parse<T>(INode node)
             where T : class
         {
             return node switch
@@ -47,6 +41,56 @@ namespace GraphEngine
                 INode _ when typeof(T) == typeof(string) => (((ILiteralNode)node).Value as T)!,
 
                 _ => throw new Exception($"unknown node {node}"),
+            };
+        }
+
+        protected T? GetOptional<T>(INode predicate)
+            where T : class
+            => predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
+
+        protected T GetRequired<T>(INode predicate)
+            where T : class
+            => this.GetOptional<T>(predicate)
+            ?? throw new Exception($"Single {predicate} not found on {this}");
+
+        protected ICollection<T> Collection<T>(INode predicate)
+            where T : class, INode
+            => new Collection<T>(this, predicate);
+
+        protected void SetRequired(INode predicate, object @object)
+        {
+            if (@object is null)
+            {
+                throw new ArgumentNullException(nameof(@object));
+            }
+
+            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate))
+            {
+                this.Graph.Retract(t);
+            }
+
+            this.Graph.Assert(this, predicate, this.Convert(@object));
+        }
+
+        protected void SetOptional(INode predicate, object? @object)
+        {
+            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate))
+            {
+                this.Graph.Retract(t);
+            }
+
+            if (@object is object)
+            {
+                this.Graph.Assert(this, predicate, this.Convert(@object));
+            }
+        }
+
+        private INode Convert(object @object)
+        {
+            return @object switch
+            {
+                INode node => node,
+                _ => this.Graph.CreateLiteralNode(@object.ToString())
             };
         }
     }

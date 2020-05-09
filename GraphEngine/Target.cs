@@ -18,9 +18,19 @@ namespace GraphEngine
         {
         }
 
-        public Type? Type => Optional<Type>(TargetType);
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(TargetType);
 
-        public string? Name => Optional<string>(TargetName);
+            set => this.SetOptional(TargetType, value);
+        }
+
+        public string? Name
+        {
+            get => this.GetOptional<string>(TargetName);
+
+            set => this.SetOptional(TargetName, value);
+        }
 
         public Linq.LabelTarget LinqTarget
         {

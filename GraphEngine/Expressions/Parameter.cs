@@ -19,7 +19,12 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Required<Type>(ParameterType);
+        public Type Type
+        {
+            get => this.GetRequired<Type>(ParameterType);
+
+            set => this.SetRequired(ParameterType, value);
+        }
 
         public override Linq.Expression LinqExpression => this.LinqParameter;
 
@@ -34,6 +39,14 @@ namespace GraphEngine
 
                 return param;
             }
+        }
+
+        public static Parameter Create(INode node)
+        {
+            var a = new Parameter(node);
+            a.RdfType = Vocabulary.Parameter;
+
+            return a;
         }
     }
 }

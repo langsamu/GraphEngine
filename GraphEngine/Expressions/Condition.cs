@@ -15,13 +15,33 @@ namespace GraphEngine
         {
         }
 
-        public Expression Test => Required<Expression>(ConditionTest);
+        public Expression Test
+        {
+            get => this.GetRequired<Expression>(ConditionTest);
 
-        public Expression IfTrue => Required<Expression>(ConditionIfTrue);
+            set => this.SetRequired(ConditionTest, value);
+        }
 
-        public Expression IfFalse => Required<Expression>(ConditionIfFalse);
+        public Expression IfTrue
+        {
+            get => this.GetRequired<Expression>(ConditionIfTrue);
 
-        public Type? Type => Optional<Type>(ConditionType);
+            set => this.SetRequired(ConditionIfTrue, value);
+        }
+
+        public Expression IfFalse
+        {
+            get => this.GetRequired<Expression>(ConditionIfFalse);
+
+            set => this.SetRequired(ConditionIfFalse, value);
+        }
+
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(ConditionType);
+
+            set => this.SetOptional(ConditionType, value);
+        }
 
         public override Linq.Expression LinqExpression
         {

@@ -17,9 +17,14 @@ namespace GraphEngine
         {
         }
 
-        public Expression Body => Required<Expression>(LambdaBody);
+        public Expression Body
+        {
+            get => this.GetRequired<Expression>(LambdaBody);
 
-        public IEnumerable<Parameter> Parameters => List<Parameter>(LambdaParameters);
+            set => this.SetRequired(LambdaBody, value);
+        }
+
+        public ICollection<Parameter> Parameters => this.Collection<Parameter>(LambdaParameters);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Lambda(this.Body.LinqExpression, this.Parameters.Select(param => param.LinqParameter));
     }

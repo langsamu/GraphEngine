@@ -17,9 +17,14 @@ namespace GraphEngine
         {
         }
 
-        public IEnumerable<Expression> Arguments => List<Expression>(NewArguments);
+        public ICollection<Expression> Arguments => this.Collection<Expression>(NewArguments);
 
-        public Type Type => Required<Type>(NewType);
+        public Type Type
+        {
+            get => this.GetRequired<Type>(NewType);
+
+            set => this.SetRequired(NewType, value);
+        }
 
         public override Linq.Expression LinqExpression => this.LinqNewExpression;
 

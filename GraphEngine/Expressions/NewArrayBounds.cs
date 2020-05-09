@@ -16,9 +16,14 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Required<Type>(NewArrayBoundsType);
+        public Type Type
+        {
+            get => this.GetRequired<Type>(NewArrayBoundsType);
 
-        public IEnumerable<Expression> Bounds => List<Expression>(NewArrayBoundsBounds);
+            set => this.SetRequired(NewArrayBoundsType, value);
+        }
+
+        public ICollection<Expression> Bounds => this.Collection<Expression>(NewArrayBoundsBounds);
 
         public override Linq.Expression LinqExpression => Linq.Expression.NewArrayBounds(this.Type.SystemType, this.Bounds.LinqExpressions());
     }

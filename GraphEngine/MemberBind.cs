@@ -2,7 +2,6 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -18,7 +17,7 @@ namespace GraphEngine
         {
         }
 
-        public IEnumerable<BaseBind> Bindings => List<BaseBind>(MemberBindBindings);
+        public ICollection<BaseBind> Bindings => this.Collection<BaseBind>(MemberBindBindings);
 
         public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.MemberBind(this.Member.ReflectionMember, this.Bindings.Select(binding => binding.LinqMemberBinding));
     }

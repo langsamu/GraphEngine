@@ -17,15 +17,20 @@ namespace GraphEngine
         {
         }
 
-        public string Name => Required<string>(TypeName);
+        public string Name
+        {
+            get => this.GetRequired<string>(TypeName);
 
-        public IEnumerable<Type> Arguments => List<Type>(TypeArguments);
+            set => this.SetRequired(TypeName, value);
+        }
+
+        public ICollection<Type> Arguments => this.Collection<Type>(TypeArguments);
 
         public System.Type SystemType
         {
             get
             {
-                var t = System.Type.GetType(this.Name) ?? throw new InvalidOperationException($"Type {Name} not found.");
+                var t = System.Type.GetType(this.Name) ?? throw new InvalidOperationException($"Type {this.Name} not found.");
 
                 if (t.IsGenericTypeDefinition)
                 {
@@ -34,6 +39,14 @@ namespace GraphEngine
 
                 return t;
             }
+        }
+
+        public static Type Create(INode node)
+        {
+            var a = new Type(node);
+            a.RdfType = Vocabulary.Type;
+
+            return a;
         }
     }
 }

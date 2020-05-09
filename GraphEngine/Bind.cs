@@ -2,7 +2,6 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Diagnostics;
     using System.Linq.Expressions;
     using VDS.RDF;
@@ -17,7 +16,12 @@ namespace GraphEngine
         {
         }
 
-        public Expression Expression => Required<Expression>(BindExpression);
+        public Expression Expression
+        {
+            get => this.GetRequired<Expression>(BindExpression);
+
+            set => this.SetRequired(BindExpression, value);
+        }
 
         public override MemberBinding LinqMemberBinding => Linq.Expression.Bind(this.Member.ReflectionMember, this.Expression.LinqExpression);
     }

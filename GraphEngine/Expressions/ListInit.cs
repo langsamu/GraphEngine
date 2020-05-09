@@ -5,7 +5,6 @@ namespace GraphEngine
     using System;
     using System.Diagnostics;
     using VDS.RDF;
-    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     // TODO: Implement

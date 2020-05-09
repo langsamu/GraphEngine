@@ -17,9 +17,19 @@ namespace GraphEngine
         {
         }
 
-        public Type Type => Required<Type>(MemberType);
+        public Type Type
+        {
+            get => this.GetRequired<Type>(MemberType);
 
-        public string Name => Required<string>(MemberName);
+            set => this.SetRequired(MemberType, value);
+        }
+
+        public string Name
+        {
+            get => this.GetRequired<string>(MemberName);
+
+            set => this.SetRequired(MemberName, value);
+        }
 
         public MemberInfo ReflectionMember => this.Type.SystemType.GetMember(this.Name).Single();
     }

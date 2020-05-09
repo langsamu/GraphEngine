@@ -16,9 +16,14 @@ namespace GraphEngine
         {
         }
 
-        public Expression Array => Required<Expression>(ArrayAccessArray);
+        public Expression Array
+        {
+            get => this.GetRequired<Expression>(ArrayAccessArray);
 
-        public IEnumerable<Expression> Indexes => List<Expression>(ArrayAccessIndexes);
+            set => this.SetRequired(ArrayAccessArray, value);
+        }
+
+        public ICollection<Expression> Indexes => this.Collection<Expression>(ArrayAccessIndexes);
 
         public override Linq.Expression LinqExpression => Linq.Expression.ArrayAccess(this.Array.LinqExpression, this.Indexes.LinqExpressions());
     }
