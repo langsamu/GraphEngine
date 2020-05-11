@@ -198,6 +198,8 @@ namespace GraphEngine
 
         public static IUriNode Switch { get; } = EngineNode("Switch");
 
+        public static IUriNode Target { get; } = EngineNode("Target");
+
         public static IUriNode Throw { get; } = EngineNode("Throw");
 
         public static IUriNode Try { get; } = EngineNode("Try");

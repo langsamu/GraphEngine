@@ -18,28 +18,7 @@ namespace GraphEngine
         {
         }
 
-        public Type? Type
-        {
-            get => this.GetOptional<Type>(ConstantType);
-
-            set => this.SetOptional(ConstantType, value);
-        }
-
-        // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
-        public override Linq.Expression LinqExpression
-        {
-            get
-            {
-                if (this.Type is Type type)
-                {
-                    return Linq.Expression.Constant(this.Value, type.SystemType);
-                }
-
-                return Linq.Expression.Constant(this.Value);
-            }
-        }
-
-        private object Value
+        public object Value
         {
             get
             {
@@ -65,13 +44,38 @@ namespace GraphEngine
                                 return int.Parse(literalNode.Value, CultureInfo.InvariantCulture);
 
                             default:
-                                throw new Exception($"unknown datatype {literalNode.DataType.AbsoluteUri} on node {literalNode}");
+                                throw new InvalidOperationException($"unknown datatype {literalNode.DataType.AbsoluteUri} on node {literalNode}");
                         }
 
                     default:
-                        throw new Exception($"unknown node type {valueNode.NodeType} on node {valueNode}");
+                        throw new InvalidOperationException($"unknown node type {valueNode.NodeType} on node {valueNode}");
                 }
             }
+
+            set => this.SetRequired(ConstantValue, value);
         }
+
+        public Type? Type
+        {
+            get => this.GetOptional<Type>(ConstantType);
+
+            set => this.SetOptional(ConstantType, value);
+        }
+
+        // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
+        public override Linq.Expression LinqExpression
+        {
+            get
+            {
+                if (this.Type is Type type)
+                {
+                    return Linq.Expression.Constant(this.Value, type.SystemType);
+                }
+
+                return Linq.Expression.Constant(this.Value);
+            }
+        }
+
+        public static Constant Create(INode node) => new Constant(node) { RdfType = Vocabulary.Constant };
     }
 }

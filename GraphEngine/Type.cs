@@ -41,12 +41,6 @@ namespace GraphEngine
             }
         }
 
-        public static Type Create(INode node)
-        {
-            var a = new Type(node);
-            a.RdfType = Vocabulary.Type;
-
-            return a;
-        }
+        public static Type Create(INode node) => new Type(node) { RdfType = Vocabulary.Type };
     }
 }

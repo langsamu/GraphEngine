@@ -55,5 +55,7 @@ namespace GraphEngine
                 return Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression);
             }
         }
+
+        public static Condition Create(INode node) => new Condition(node) { RdfType = Vocabulary.Condition };
     }
 }

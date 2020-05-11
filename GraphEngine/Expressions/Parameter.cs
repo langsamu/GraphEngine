@@ -8,7 +8,6 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Add name
     public class Parameter : Expression
     {
         private static readonly IDictionary<INode, Linq.ParameterExpression> Cache = new Dictionary<INode, Linq.ParameterExpression>();
@@ -26,6 +25,13 @@ namespace GraphEngine
             set => this.SetRequired(ParameterType, value);
         }
 
+        public string? Name
+        {
+            get => this.GetOptional<string>(ParameterName);
+
+            set => this.SetOptional(ParameterName, value);
+        }
+
         public override Linq.Expression LinqExpression => this.LinqParameter;
 
         public Linq.ParameterExpression LinqParameter
@@ -34,19 +40,13 @@ namespace GraphEngine
             {
                 if (!Cache.TryGetValue(this, out var param))
                 {
-                    param = Cache[this] = Linq.Expression.Parameter(this.Type.SystemType);
+                    param = Cache[this] = Linq.Expression.Parameter(this.Type.SystemType, this.Name);
                 }
 
                 return param;
             }
         }
 
-        public static Parameter Create(INode node)
-        {
-            var a = new Parameter(node);
-            a.RdfType = Vocabulary.Parameter;
-
-            return a;
-        }
+        public static Parameter Create(INode node) => new Parameter(node) { RdfType = Vocabulary.Parameter };
     }
 }

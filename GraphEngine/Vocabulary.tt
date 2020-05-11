@@ -130,6 +130,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("SubtractAssignChecked", "SubtractAssignChecked");
         yield return ("SubtractChecked", "SubtractChecked");
         yield return ("Switch", "Switch");
+        yield return ("Target", "Target");
         yield return ("Throw", "Throw");
         yield return ("Try", "Try");
         yield return ("Type", "Type");

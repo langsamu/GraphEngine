@@ -31,6 +31,8 @@ private void GenerateClasses()
         internal <#= item #>(INode node) : base(node) { }
 
         protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.<#= item #>;
+
+        public static <#= item #> Create(INode node) => new <#= item #>(node) { RdfType = Vocabulary.<#= item #> };
     }
 <#+}
 }

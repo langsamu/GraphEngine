@@ -64,7 +64,7 @@ namespace GraphEngine
                 throw new ArgumentNullException(nameof(@object));
             }
 
-            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate))
+            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate).ToList())
             {
                 this.Graph.Retract(t);
             }
@@ -74,7 +74,7 @@ namespace GraphEngine
 
         protected void SetOptional(INode predicate, object? @object)
         {
-            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate))
+            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate).ToList())
             {
                 this.Graph.Retract(t);
             }

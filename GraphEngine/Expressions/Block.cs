@@ -22,5 +22,7 @@ namespace GraphEngine
         public ICollection<Parameter> Variables => this.Collection<Parameter>(BlockVariables);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Block(this.Variables.Select(e => e.LinqParameter), this.Expressions.LinqExpressions());
+
+        public static Block Create(INode node) => new Block(node) { RdfType = Vocabulary.Block };
     }
 }

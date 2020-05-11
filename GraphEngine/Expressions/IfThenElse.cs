@@ -15,5 +15,7 @@ namespace GraphEngine
         }
 
         public override Linq.Expression LinqExpression => Linq.Expression.IfThenElse(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression);
+
+        public static IfThenElse Create(INode node) => new IfThenElse(node) { RdfType = Vocabulary.IfThenElse };
     }
 }

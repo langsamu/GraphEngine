@@ -57,5 +57,7 @@ namespace GraphEngine
                 return Linq.Expression.Loop(body.LinqExpression);
             }
         }
+
+        public static Loop Create(INode node) => new Loop(node) { RdfType = Vocabulary.Loop };
     }
 }

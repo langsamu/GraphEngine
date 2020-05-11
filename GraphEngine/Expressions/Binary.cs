@@ -19,7 +19,7 @@ namespace GraphEngine
         {
             get => this.GetRequired<Expression>(BinaryLeft);
 
-            set => this.SetRequired(BinaryLeft, GotoValue);
+            set => this.SetRequired(BinaryLeft, value);
         }
 
         public Expression Right

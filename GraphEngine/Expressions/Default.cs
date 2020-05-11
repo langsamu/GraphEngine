@@ -23,5 +23,7 @@ namespace GraphEngine
         }
 
         public override Linq.Expression LinqExpression => Linq.Expression.Default(this.Type.SystemType);
+
+        public static Default Create(INode node) => new Default(node) { RdfType = Vocabulary.Default };
     }
 }

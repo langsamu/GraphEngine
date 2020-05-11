@@ -4,9 +4,7 @@ namespace GraphEngine
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using VDS.RDF;
-    using VDS.RDF.Nodes;
     using Linq = System.Linq.Expressions;
 
     public class SerialisingVisitor : Linq.ExpressionVisitor
@@ -17,263 +15,243 @@ namespace GraphEngine
         private bool initialised;
 
         public SerialisingVisitor(INode node)
-            : base()
+          : base()
         {
             this.node = node ?? throw new ArgumentNullException(nameof(node));
         }
 
-        protected INode Current => this.path.Peek();
+        private INode Current => this.path.Peek();
+
+        private INode this[object index]
+        {
+            get
+            {
+                if (!this.initialised)
+                {
+                    this.mapping[index] = this.node;
+                    this.initialised = true;
+
+                    return this.node;
+                }
+
+                if (!this.mapping.TryGetValue(index, out var current))
+                {
+                    current = this.mapping[index] = this.node.Graph.CreateBlankNode();
+                }
+
+                return current;
+            }
+        }
 
         public override Linq.Expression Visit(Linq.Expression node)
         {
-            if (node is object)
+            using (this.Wrap(node))
             {
-                using (this.Wrap(this.Lookup(node)))
-                {
-                    return base.Visit(node);
-                }
+                return base.Visit(node);
             }
-
-            return null!;
         }
 
         protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
         {
-            this.AddType(node.NodeType.AsNode());
-            this.AddStatement(Vocabulary.BinaryLeft, node.Left);
-            this.AddStatement(Vocabulary.BinaryRight, node.Right);
+            var binary = node.NodeType switch
+            {
+                Linq.ExpressionType.Add => Add.Create(this.Current) as Binary,
+                Linq.ExpressionType.Assign => Assign.Create(this.Current) as Binary,
+                Linq.ExpressionType.GreaterThan => GreaterThan.Create(this.Current) as Binary,
+                Linq.ExpressionType.MultiplyAssign => MultiplyAssign.Create(this.Current) as Binary,
+            };
 
-            return base.VisitBinary(node);
+            binary.Left = this.VisitCacheParse(node.Left);
+            binary.Right = this.VisitCacheParse(node.Right);
+
+            return node;
         }
 
         protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
         {
-            this.AddType(Vocabulary.Block);
+            var block = Block.Create(this.Current);
 
-            if (node.Variables.Any())
+            foreach (var variable in node.Variables)
             {
-                this.AddList(Vocabulary.BlockVariables, node.Variables.Select(this.Lookup));
+                block.Variables.Add(new Parameter(this.VisitCache(variable)));
             }
 
-            if (node.Expressions.Any())
+            foreach (var blockExpression in node.Expressions)
             {
-                this.AddList(Vocabulary.BlockExpressions, node.Expressions.Select(this.Lookup));
+                block.Expressions.Add(this.VisitCacheParse(blockExpression));
             }
 
-            return base.VisitBlock(node);
+            return node;
         }
 
         protected override Linq.Expression VisitConditional(Linq.ConditionalExpression node)
         {
-            this.AddStatement(Vocabulary.ConditionTest, node.Test);
-            this.AddStatement(Vocabulary.ConditionIfTrue, node.IfTrue);
+            Condition condition;
 
             if (node.Type == typeof(void))
             {
                 if (node.IfFalse is Linq.DefaultExpression defaultExpression && defaultExpression.Type == typeof(void))
                 {
-                    this.AddType(Vocabulary.IfThen);
+                    condition = IfThen.Create(this.Current);
                 }
                 else
                 {
-                    this.AddType(Vocabulary.IfThenElse);
-                    this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
+                    condition = IfThenElse.Create(this.Current);
+                    condition.IfFalse = this.VisitCacheParse(node.IfFalse);
                 }
             }
             else
             {
-                this.AddType(Vocabulary.Condition);
-                this.AddStatement(Vocabulary.ConditionIfFalse, node.IfFalse);
+                condition = Condition.Create(this.Current);
+                condition.IfFalse = this.VisitCacheParse(node.IfFalse);
 
-                if (node.IfTrue.Type != node.IfFalse.Type)
+                if (node.Type != node.IfTrue.Type)
                 {
-                    this.VisitType(node.Type, Vocabulary.ConditionType);
+                    condition.Type = this.VisitType(node.Type);
                 }
             }
 
-            return base.VisitConditional(node);
+            condition.Test = this.VisitCacheParse(node.Test);
+            condition.IfTrue = this.VisitCacheParse(node.IfTrue);
+
+            return node;
         }
 
         protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
         {
-            this.AddType(Vocabulary.Constant);
+            var constant = Constant.Create(this.Current);
 
-            // TODO: currentNode.Graph.Assert(currentNode, Vocabulary.ConstantValue, this.Lookup(node.Value));
-            this.VisitType(node.Type, Vocabulary.ConstantType);
+            constant.Value = node.Value;
 
             return base.VisitConstant(node);
         }
 
+        protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
+        {
+            var @default = Default.Create(this.Current);
+
+            @default.Type = this.VisitType(node.Type);
+
+            return node;
+        }
+
         protected override Linq.Expression VisitGoto(Linq.GotoExpression node)
         {
-            this.AddType(node.Kind.AsNode());
+            var @goto = node.Kind switch
+            {
+                Linq.GotoExpressionKind.Goto => Goto.Create(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Return => Return.Create(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Break => Break.Create(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Continue => Continue.Create(this.Current) as BaseGoto,
+            };
 
             if (node.Value is object)
             {
-                this.AddStatement(Vocabulary.GotoValue, node.Value);
+                @goto.Value = this.VisitCacheParse(node.Value);
             }
 
-            this.VisitType(node.Type, Vocabulary.GotoType);
-
-            var targetNode = this.Lookup(node.Target);
-            this.AddStatement(Vocabulary.GotoTarget, targetNode);
-            using (this.Wrap(targetNode))
+            if (node.Type != typeof(void))
             {
-                this.VisitLabelTarget(node.Target);
+                @goto.Type = this.VisitType(node.Type);
             }
 
-            this.Visit(node.Value!);
+            @goto.Target = new Target(this[this.VisitLabelTarget(node.Target)]);
 
             return node;
         }
 
         protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget node)
         {
-            this.AddStatement(Vocabulary.TargetName, node.Name);
-            this.VisitType(node.Type, Vocabulary.TargetType);
+            using (this.Wrap(node))
+            {
+                var target = Target.Create(this.Current);
 
-            return base.VisitLabelTarget(node);
+                if (node.Type != typeof(void))
+                {
+                    target.Type = this.VisitType(node.Type);
+                }
+
+                if (node.Name is object)
+                {
+                    target.Name = node.Name;
+                }
+
+                return node;
+            }
         }
 
         protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
         {
-            this.AddType(Vocabulary.Loop);
-            this.AddStatement(Vocabulary.LoopBody, node.Body);
-            this.VisitLabel(Vocabulary.LoopBreak, node.BreakLabel);
-            this.VisitLabel(Vocabulary.LoopContinue, node.ContinueLabel);
-            this.Visit(node.Body);
+            var loop = Loop.Create(this.Current);
+            loop.Body = this.VisitCacheParse(node.Body);
+
+            if (node.ContinueLabel is object)
+            {
+                loop.Continue = new Target(this[this.VisitLabelTarget(node.ContinueLabel)]);
+            }
+
+            if (node.BreakLabel is object)
+            {
+                loop.Break = new Target(this[this.VisitLabelTarget(node.BreakLabel)]);
+            }
 
             return node;
         }
 
         protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
         {
-            this.AddType(Vocabulary.Parameter);
-            this.AddStatement(Vocabulary.ParameterName, node.Name);
-            this.VisitType(node.Type, Vocabulary.ParameterType);
+            var parameter = Parameter.Create(this.Current);
 
-            return base.VisitParameter(node);
+            parameter.Type = this.VisitType(node.Type);
+
+            if (node.Name is object)
+            {
+                parameter.Name = node.Name;
+            }
+
+            return node;
         }
 
         protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
         {
-            this.AddType(node.NodeType.AsNode());
-            this.AddStatement(Vocabulary.UnaryOperand, node.Operand);
-            this.VisitType(node.Type, Vocabulary.UnaryType);
-
-            return base.VisitUnary(node);
-        }
-
-        private void AddStatement(INode p, Linq.Expression e)
-        {
-            this.AddStatement(p, this.Lookup(e));
-        }
-
-        private void AddStatement(INode p, string o)
-        {
-            if (o is object)
+            var unary = node.NodeType switch
             {
-                this.AddStatement(p, new StringNode(this.Current.Graph, o));
+                Linq.ExpressionType.PostDecrementAssign => PostDecrementAssign.Create(this.Current) as Unary,
+                Linq.ExpressionType.ArrayLength => ArrayLength.Create(this.Current) as Unary,
+            };
+
+            unary.Type = this.VisitType(node.Type);
+
+            unary.Operand = this.VisitCacheParse(node.Operand);
+
+            return node;
+        }
+
+        private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(this.VisitCache(node));
+
+        private INode VisitCache(Linq.Expression node) => this[this.Visit(node)];
+
+        private Type VisitType(System.Type type)
+        {
+            using (this.Wrap(type))
+            {
+                var t = Type.Create(this.Current);
+                t.Name = $"{type.Namespace}.{type.Name}";
+
+                return t;
             }
         }
 
-        private void AddStatement(INode p, INode o)
+        private IDisposable Wrap(object node)
         {
-            this.Current.Graph.Assert(this.Current, p, o);
+            return new Wrapper(this, this[node]);
         }
 
-        private void AddList(INode predicate, IEnumerable<INode> nodes)
-        {
-            var root = this.Current.Graph.AssertList(nodes);
-            this.AddStatement(predicate, root);
-        }
-
-        private void AddType(INode type)
-        {
-            this.AddStatement(Vocabulary.RdfType, type);
-        }
-
-        private INode Lookup(object o)
-        {
-            if (!this.initialised)
-            {
-                this.mapping[o] = this.node;
-                this.initialised = true;
-
-                return this.node;
-            }
-
-            if (!this.mapping.TryGetValue(o, out var current))
-            {
-                current = this.mapping[o] = this.node.Graph.CreateBlankNode();
-            }
-
-            return current;
-        }
-
-        private void VisitLabel(INode predicate, Linq.LabelTarget label)
-        {
-            if (label is object)
-            {
-                var labelNode = this.Lookup(label);
-                this.AddStatement(predicate, labelNode);
-
-                using (this.Wrap(labelNode))
-                {
-                    this.VisitLabelTarget(label);
-                }
-            }
-        }
-
-        private void VisitType(System.Type type)
-        {
-            // TODO: What about assembly name?
-            this.AddStatement(Vocabulary.TypeName, $"{type.Namespace}.{type.Name}");
-
-            if (type.GenericTypeArguments.Any())
-            {
-                var nodes = new List<INode>();
-
-                foreach (var typeArgument in type.GenericTypeArguments)
-                {
-                    var typeArgumentNode = this.Lookup(typeArgument);
-                    nodes.Add(typeArgumentNode);
-
-                    using (this.Wrap(typeArgumentNode))
-                    {
-                        this.VisitType(typeArgument);
-                    }
-                }
-
-                this.AddList(Vocabulary.TypeArguments, nodes);
-            }
-        }
-
-        private void VisitType(System.Type type, INode predicate)
-        {
-            // if (type is object)
-            // {
-            var typeNode = this.Lookup(type);
-            this.AddStatement(predicate, typeNode);
-
-            using (this.Wrap(typeNode))
-            {
-                this.VisitType(type);
-            }
-
-            // }
-        }
-
-        private IDisposable Wrap(INode node)
-        {
-            return new Wrapper(this, node);
-        }
-
-        private class Wrapper : IDisposable
+        private struct Wrapper : IDisposable
         {
             private readonly SerialisingVisitor visitor;
 
-            public Wrapper(SerialisingVisitor visitor, INode node)
+            internal Wrapper(SerialisingVisitor visitor, INode node)
             {
                 this.visitor = visitor;
                 this.visitor.path.Push(node);

@@ -5,6 +5,7 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
@@ -108,5 +109,8 @@ namespace GraphEngine
 
         internal static IEnumerable<Linq.Expression> LinqExpressions(this IEnumerable<Expression> expressions) =>
             expressions.Select(expression => expression.LinqExpression);
+
+        // TODO: Remove
+        internal static string GetDebugView(this Linq.Expression exp) => (string)typeof(Linq.Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp);
     }
 }

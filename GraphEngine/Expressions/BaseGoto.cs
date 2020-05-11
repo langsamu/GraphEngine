@@ -15,11 +15,11 @@ namespace GraphEngine
         {
         }
 
-        public Target? Target
+        public Target Target
         {
-            get => this.GetOptional<Target>(GotoTarget);
+            get => this.GetRequired<Target>(GotoTarget);
 
-            set => this.SetOptional(GotoTarget, value);
+            set => this.SetRequired(GotoTarget, value);
         }
 
         public Type? Type
@@ -36,7 +36,7 @@ namespace GraphEngine
             set => this.SetOptional(GotoValue, value);
         }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target?.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType);
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType);
 
         protected abstract Linq.GotoExpressionKind Kind { get; }
     }

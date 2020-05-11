@@ -41,8 +41,63 @@ namespace GraphEngine.Tests
 _:param
     a :Parameter ;
     :parameterType [
+        a :Type ;
         :typeName ""System.Int32"" ;
     ] ;
+.
+";
+
+            Compare(expression, rdf);
+        }
+
+        [TestMethod]
+        public void Empty()
+        {
+            var expression = LinqExpression.Empty();
+
+            var rdf = @"
+@prefix : <http://example.com/> .
+
+:s
+    a :Default ;
+    :defaultType [
+        a :Type; 
+        :typeName ""System.Void"" ;
+    ] ;
+.
+";
+
+            Compare(expression, rdf);
+        }
+
+        [TestMethod]
+        public void Block()
+        {
+            var expression = LinqExpression.Block(new[] { LinqExpression.Parameter(typeof(int)) }, new[] { LinqExpression.Empty() });
+
+            var rdf = @"
+@prefix : <http://example.com/> .
+
+:s
+    a :Block ;
+    :blockVariables (
+        [
+            a :Parameter ;
+            :parameterType [
+                a :Type; 
+                :typeName ""System.Int32"" ;
+            ] ;
+        ]
+    ) ;
+    :blockExpressions (
+        [
+            a :Default ;
+            :defaultType [
+                a :Type; 
+                :typeName ""System.Void"" ;
+            ] ;
+        ]
+    ) ;
 .
 ";
 
@@ -68,6 +123,7 @@ _:param
 _:param
     a :Parameter ;
     :parameterType [
+        a :Type ;
         :typeName ""System.Boolean"" ;
     ] ;
 .
@@ -80,9 +136,9 @@ _:param
         public void ConditionType()
         {
             var expression = LinqExpression.Condition(
-                LinqExpression.Parameter(typeof(bool)), 
-                LinqExpression.Parameter(typeof(C1)), 
-                LinqExpression.Parameter(typeof(C2)), 
+                LinqExpression.Parameter(typeof(bool)),
+                LinqExpression.Parameter(typeof(C2)),
+                LinqExpression.Parameter(typeof(C1)),
                 typeof(C1));
 
             var rdf = @"
@@ -90,13 +146,16 @@ _:param
 
 :s
     a :Condition ;
-    :conditionTest [a :Parameter; :parameterType [:typeName ""System.Boolean"" ;]] ;
-    :conditionIfTrue [a :Parameter; :parameterType _:C1] ;
-    :conditionIfFalse [a :Parameter; :parameterType [:typeName ""GraphEngine.Tests.C2"" ;]] ;
+    :conditionTest [a :Parameter; :parameterType [a :Type ;:typeName ""System.Boolean"" ;]] ;
+    :conditionIfTrue [a :Parameter; :parameterType [a :Type ;:typeName ""GraphEngine.Tests.C2"" ;]] ;
+    :conditionIfFalse [a :Parameter; :parameterType _:C1] ;
     :conditionType _:C1 ;
 .
 
-_:C1 :typeName ""GraphEngine.Tests.C1"" .
+_:C1
+    a :Type ;
+    :typeName ""GraphEngine.Tests.C1"" ;
+.
 ";
 
             Compare(expression, rdf);
@@ -120,6 +179,7 @@ _:C1 :typeName ""GraphEngine.Tests.C1"" .
 _:param
     a :Parameter ;
     :parameterType [
+        a :Type ;
         :typeName ""System.Boolean"" ;
     ] ;
 .
@@ -132,7 +192,7 @@ _:param
         public void IfThenElse()
         {
             var param = LinqExpression.Parameter(typeof(bool));
-            var expression = LinqExpression.IfThenElse(param, param,param);
+            var expression = LinqExpression.IfThenElse(param, param, param);
 
             var rdf = @"
 @prefix : <http://example.com/> .
@@ -147,6 +207,7 @@ _:param
 _:param
     a :Parameter ;
     :parameterType [
+        a :Type ;
         :typeName ""System.Boolean"" ;
     ] ;
 .
@@ -166,6 +227,7 @@ _:param
 :s
     a :Parameter ;
     :parameterType [
+        a :Type ;
         :typeName ""System.Object"" ;
     ] ;
 .
@@ -186,6 +248,7 @@ _:param
     a :Parameter ;
     :parameterName ""param"" ;
     :parameterType [
+        a :Type ;
         :typeName ""System.Object"" ;
     ] ;
 .
@@ -207,10 +270,12 @@ _:param
     :unaryOperand [
         a :Parameter ;
         :parameterType [
+            a :Type ;
             :typeName ""System.Int32[]"" ;
         ] ;
     ] ;
     :unaryType [
+        a :Type ;
         :typeName ""System.Int32"" ;
     ] ;
 .
