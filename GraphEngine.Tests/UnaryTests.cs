@@ -59,9 +59,7 @@ namespace GraphEngine.Tests
 :s
     a :{expression} ;
     :unaryOperand [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""{operandType}"" ;
         ] ;
     ] ;
@@ -86,14 +84,11 @@ namespace GraphEngine.Tests
 :s
     a :{expression} ;
     :unaryOperand [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""{operandType}"" ;
         ] ;
     ] ;
     :unaryType [
-        a :Type ;
         :typeName ""{type}"" ;
     ] ;
 .
@@ -113,9 +108,7 @@ namespace GraphEngine.Tests
 :s
     a :Quote ;
     :unaryOperand [
-        a :Lambda ;
         :lambdaBody [
-            a :Constant ;
             :constantValue 0 ;
         ] ;
     ] ;
@@ -127,7 +120,7 @@ namespace GraphEngine.Tests
 
         private static void Assert(string rdf, LinqExpression expected)
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(rdf);
             var s = g.GetUriNode(":s");
 

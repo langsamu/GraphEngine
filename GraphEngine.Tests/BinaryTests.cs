@@ -66,23 +66,19 @@ namespace GraphEngine.Tests
 
             var expected = LinqExpression.MakeBinary(binaryType, LinqExpression.Parameter(leftType), LinqExpression.Parameter(rightType));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString($@"
 @prefix : <http://example.com/> .
 
 :s
     a :{binaryType} ;
     :binaryLeft [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""{leftType}"" ;
         ]
     ] ;
     :binaryRight [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""{rightType}"" ;
         ] ;
     ] ;

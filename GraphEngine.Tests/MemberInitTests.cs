@@ -19,15 +19,13 @@ namespace GraphEngine.Tests
                     LinqExpression.New(
                         typeof(C3)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :MemberInit ;
     :memberInitNewExpression [
-        a :New ;
         :newType [
             :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
         ] ;
@@ -52,27 +50,22 @@ namespace GraphEngine.Tests
                         typeof(C3).GetField("F1"),
                         LinqExpression.Constant(0L)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :MemberInit ;
     :memberInitNewExpression [
-        a :New ;
         :newType _:C3 ;
     ] ;
     :memberInitBindings (
         [
-            a :Bind ;
             :bindMember [
-                a :Member ;
                 :memberType _:C3 ;
                 :memberName ""F1"" ;
             ] ;
             :bindExpression [
-                a :Constant ;
                 :constantValue 0 ;
             ] ;
         ]
@@ -80,7 +73,6 @@ namespace GraphEngine.Tests
 .
 
 _:C3
-    a :Type ;
     :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
 .
 ");
@@ -104,39 +96,31 @@ _:C3
                             typeof(List<long>).GetMethod("Add"),
                             LinqExpression.Constant(0L))));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :MemberInit ;
     :memberInitNewExpression [
-        a :New ;
         :newType _:C3 ;
     ] ;
     :memberInitBindings (
         [
-            a :ListBind ;
             :bindMember [
-                a :Member ;
                 :memberType _:C3 ;
                 :memberName ""P1"" ;
             ] ;
             :listBindInitializers (
                 [
-                    a :ElementInit ;
                     :elementInitAddMethod [
-                        a :Method ;
                         :memberType [
-                            a :Type ;
                             :typeName ""System.Collections.Generic.List`1[System.Int64]"" ;
                         ] ;
                         :memberName ""Add"" ;
                     ] ;
                     :elementInitArguments (
                         [
-                            a :Constant ;
                             :constantValue 0 ;
                         ]
                     ) ;
@@ -147,7 +131,6 @@ _:C3
 .
 
 _:C3
-    a :Type ;
     :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
 .
 ");
@@ -171,20 +154,17 @@ _:C3
                             typeof(C3).GetField("F1"),
                             LinqExpression.Constant(0L))));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :MemberInit ;
     :memberInitNewExpression [
-        a :New ;
         :newType _:C3 ;
     ] ;
     :memberInitBindings (
         [
-            a :MemberBind ;
             :bindMember [
                 a :Member ;
                 :memberType _:C3 ;
@@ -192,14 +172,11 @@ _:C3
             ] ;
             :memberBindBindings (
                 [
-                    a :Bind ;
                     :bindMember [
-                        a :Member ;
                         :memberType _:C3 ;
                         :memberName ""F1"" ;
                     ] ;
                     :bindExpression [
-                        a :Constant ;
                         :constantValue 0 ;
                     ] ;
                 ]

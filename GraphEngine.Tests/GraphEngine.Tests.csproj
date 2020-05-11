@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Examples\FibonacciSequenceUntyped.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GraphEngine\GraphEngine.csproj" />
   </ItemGroup>
 

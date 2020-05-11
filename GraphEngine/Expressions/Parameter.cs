@@ -46,7 +46,5 @@ namespace GraphEngine
                 return param;
             }
         }
-
-        public static Parameter Create(INode node) => new Parameter(node) { RdfType = Vocabulary.Parameter };
     }
 }

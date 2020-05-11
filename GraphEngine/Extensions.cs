@@ -16,7 +16,7 @@ namespace GraphEngine
             select t.Object;
 
         internal static INode? ObjectOf(this INode predicate, INode subject) =>
-            predicate.ObjectsOf(subject).SingleOrDefault();
+            predicate.ObjectsOf(subject).FirstOrDefault();
 
         internal static INode AsNode(this Linq.ExpressionType type) =>
             type switch

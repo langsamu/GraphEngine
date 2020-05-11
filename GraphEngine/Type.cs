@@ -12,7 +12,7 @@ namespace GraphEngine
     public class Type : Node
     {
         [DebuggerStepThrough]
-        internal Type(INode node)
+        public Type(INode node)
             : base(node)
         {
         }
@@ -40,7 +40,5 @@ namespace GraphEngine
                 return t;
             }
         }
-
-        public static Type Create(INode node) => new Type(node) { RdfType = Vocabulary.Type };
     }
 }

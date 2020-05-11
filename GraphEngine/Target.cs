@@ -64,7 +64,5 @@ namespace GraphEngine
                 return label;
             }
         }
-
-        public static Target Create(INode node) => new Target(node) { RdfType = Vocabulary.Target };
     }
 }

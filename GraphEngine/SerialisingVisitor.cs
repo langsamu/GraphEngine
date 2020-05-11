@@ -55,10 +55,10 @@ namespace GraphEngine
         {
             var binary = node.NodeType switch
             {
-                Linq.ExpressionType.Add => Add.Create(this.Current) as Binary,
-                Linq.ExpressionType.Assign => Assign.Create(this.Current) as Binary,
-                Linq.ExpressionType.GreaterThan => GreaterThan.Create(this.Current) as Binary,
-                Linq.ExpressionType.MultiplyAssign => MultiplyAssign.Create(this.Current) as Binary,
+                Linq.ExpressionType.Add => new Add(this.Current) as Binary,
+                Linq.ExpressionType.Assign => new Assign(this.Current) as Binary,
+                Linq.ExpressionType.GreaterThan => new GreaterThan(this.Current) as Binary,
+                Linq.ExpressionType.MultiplyAssign => new MultiplyAssign(this.Current) as Binary,
             };
 
             binary.Left = this.VisitCacheParse(node.Left);
@@ -69,7 +69,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
         {
-            var block = Block.Create(this.Current);
+            var block = new Block(this.Current);
 
             foreach (var variable in node.Variables)
             {
@@ -92,17 +92,17 @@ namespace GraphEngine
             {
                 if (node.IfFalse is Linq.DefaultExpression defaultExpression && defaultExpression.Type == typeof(void))
                 {
-                    condition = IfThen.Create(this.Current);
+                    condition = new IfThen(this.Current);
                 }
                 else
                 {
-                    condition = IfThenElse.Create(this.Current);
+                    condition = new IfThenElse(this.Current);
                     condition.IfFalse = this.VisitCacheParse(node.IfFalse);
                 }
             }
             else
             {
-                condition = Condition.Create(this.Current);
+                condition = new Condition(this.Current);
                 condition.IfFalse = this.VisitCacheParse(node.IfFalse);
 
                 if (node.Type != node.IfTrue.Type)
@@ -119,7 +119,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
         {
-            var constant = Constant.Create(this.Current);
+            var constant = new Constant(this.Current);
 
             constant.Value = node.Value;
 
@@ -128,7 +128,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
         {
-            var @default = Default.Create(this.Current);
+            var @default = new Default(this.Current);
 
             @default.Type = this.VisitType(node.Type);
 
@@ -139,10 +139,10 @@ namespace GraphEngine
         {
             var @goto = node.Kind switch
             {
-                Linq.GotoExpressionKind.Goto => Goto.Create(this.Current) as BaseGoto,
-                Linq.GotoExpressionKind.Return => Return.Create(this.Current) as BaseGoto,
-                Linq.GotoExpressionKind.Break => Break.Create(this.Current) as BaseGoto,
-                Linq.GotoExpressionKind.Continue => Continue.Create(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Goto => new Goto(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Return => new Return(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Break => new Break(this.Current) as BaseGoto,
+                Linq.GotoExpressionKind.Continue => new Continue(this.Current) as BaseGoto,
             };
 
             if (node.Value is object)
@@ -164,7 +164,7 @@ namespace GraphEngine
         {
             using (this.Wrap(node))
             {
-                var target = Target.Create(this.Current);
+                var target = new Target(this.Current);
 
                 if (node.Type != typeof(void))
                 {
@@ -182,7 +182,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
         {
-            var loop = Loop.Create(this.Current);
+            var loop = new Loop(this.Current);
             loop.Body = this.VisitCacheParse(node.Body);
 
             if (node.ContinueLabel is object)
@@ -200,7 +200,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
         {
-            var parameter = Parameter.Create(this.Current);
+            var parameter = new Parameter(this.Current);
 
             parameter.Type = this.VisitType(node.Type);
 
@@ -216,8 +216,8 @@ namespace GraphEngine
         {
             var unary = node.NodeType switch
             {
-                Linq.ExpressionType.PostDecrementAssign => PostDecrementAssign.Create(this.Current) as Unary,
-                Linq.ExpressionType.ArrayLength => ArrayLength.Create(this.Current) as Unary,
+                Linq.ExpressionType.PostDecrementAssign => new PostDecrementAssign(this.Current) as Unary,
+                Linq.ExpressionType.ArrayLength => new ArrayLength(this.Current) as Unary,
             };
 
             unary.Type = this.VisitType(node.Type);
@@ -235,7 +235,7 @@ namespace GraphEngine
         {
             using (this.Wrap(type))
             {
-                var t = Type.Create(this.Current);
+                var t = new Type(this.Current);
                 t.Name = $"{type.Namespace}.{type.Name}";
 
                 return t;

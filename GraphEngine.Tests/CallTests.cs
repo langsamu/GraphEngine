@@ -15,15 +15,13 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(typeof(C1), nameof(C1.M1), Array.Empty<Type>(), Array.Empty<LinqExpression>());
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callType [
-        a :Type ;
         :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     ] ;
     :callMethod ""M1"" ;
@@ -41,21 +39,18 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(typeof(C1), nameof(C1.M2), new[] { typeof(object) }, Array.Empty<LinqExpression>());
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callType [
-        a :Type ;
         :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     ] ;
     :callMethod ""M2"" ;
     :callTypeArguments (
         [
-            a :Type ;
             :typeName ""System.Object""
         ]
     ) ;
@@ -73,23 +68,19 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { LinqExpression.Constant(0, typeof(object)) });
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callType [
-        a :Type ;
         :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     ] ;
     :callMethod ""M3"" ;
     :callArguments (
         [
-            a :Constant ;
             :constantType [
-                a :Type ;
                 :typeName ""System.Object"" ;
             ] ;
             :constantValue 0;
@@ -109,29 +100,24 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { LinqExpression.Constant(0, typeof(object)) });
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callType [
-        a :Type ;
         :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
     ] ;
     :callMethod ""M4"" ;
     :callTypeArguments (
         [
-            a :Type ;
             :typeName ""System.Object"" ;
         ]
     ) ;
     :callArguments (
         [
-            a :Constant ;
             :constantType [
-                a :Type ;
                 :typeName ""System.Object"" ;
             ] ;
             :constantValue 0;
@@ -151,17 +137,14 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M5), Array.Empty<Type>(), Array.Empty<LinqExpression>());
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callInstance [
-        a :New ;
         :newType [
-            a :Type ;
             :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
         ] ;
     ] ;
@@ -180,24 +163,20 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M6), new[] { typeof(object) }, Array.Empty<LinqExpression>());
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callInstance [
-        a :New ;
         :newType [
-            a :Type ;
             :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
         ] ;
     ] ;
     :callMethod ""M6"" ;
     :callTypeArguments (
         [
-            a :Type ;
             :typeName ""System.Object"" ;
         ]
     ) ;
@@ -215,26 +194,21 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { LinqExpression.Constant(0, typeof(object)) });
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callInstance [
-        a :New ;
         :newType [
-            a :Type ;
             :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
         ] ;
     ] ;
     :callMethod ""M7"" ;
     :callArguments (
         [
-            a :Constant ;
             :constantType [
-                a :Type ;
                 :typeName ""System.Object"" ;
             ] ;
             :constantValue 0;
@@ -254,32 +228,26 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { LinqExpression.Constant(0, typeof(object)) });
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Call ;
     :callInstance [
-        a :New ;
         :newType [
-            a :Type ;
             :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" ;
         ] ;
     ] ;
     :callMethod ""M8"" ;
     :callTypeArguments (
         [
-            a :Type ;
             :typeName ""System.Object"" ;
         ]
     ) ;
     :callArguments (
         [
-            a :Constant ;
             :constantType [
-                a :Type ;
                 :typeName ""System.Object"" ;
             ] ;
             :constantValue 0;

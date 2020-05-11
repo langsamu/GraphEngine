@@ -12,10 +12,9 @@ namespace GraphEngine
         internal IfThen(INode node)
             : base(node)
         {
+            this.RdfType = Vocabulary.IfThen;
         }
 
         public override Linq.Expression LinqExpression => Linq.Expression.IfThen(this.Test.LinqExpression, this.IfTrue.LinqExpression);
-
-        public static IfThen Create(INode node) => new IfThen(node) { RdfType = Vocabulary.IfThen };
     }
 }

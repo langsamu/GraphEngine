@@ -45,6 +45,9 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ArrayIndex", "ArrayIndex");
         yield return ("ArrayLength", "ArrayLength");
         yield return ("Assign", "Assign");
+        yield return ("BaseBind", "BaseBind");
+        yield return ("BaseGoto", "BaseGoto");
+        yield return ("Binary", "Binary");
         yield return ("Bind", "Bind");
         yield return ("Block", "Block");
         yield return ("Break", "Break");
@@ -135,6 +138,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Try", "Try");
         yield return ("Type", "Type");
         yield return ("TypeAs", "TypeAs");
+        yield return ("Unary", "Unary");
         yield return ("UnaryPlus", "UnaryPlus");
         yield return ("Unbox", "Unbox");
         yield return ("Variable", "Variable");

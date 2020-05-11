@@ -28,6 +28,12 @@ namespace GraphEngine
 
         public static IUriNode Assign { get; } = EngineNode("Assign");
 
+        public static IUriNode BaseBind { get; } = EngineNode("BaseBind");
+
+        public static IUriNode BaseGoto { get; } = EngineNode("BaseGoto");
+
+        public static IUriNode Binary { get; } = EngineNode("Binary");
+
         public static IUriNode Bind { get; } = EngineNode("Bind");
 
         public static IUriNode Block { get; } = EngineNode("Block");
@@ -207,6 +213,8 @@ namespace GraphEngine
         public static IUriNode Type { get; } = EngineNode("Type");
 
         public static IUriNode TypeAs { get; } = EngineNode("TypeAs");
+
+        public static IUriNode Unary { get; } = EngineNode("Unary");
 
         public static IUriNode UnaryPlus { get; } = EngineNode("UnaryPlus");
 

@@ -12,10 +12,9 @@ namespace GraphEngine
         internal IfThenElse(INode node)
             : base(node)
         {
+            this.RdfType = Vocabulary.IfThenElse;
         }
 
         public override Linq.Expression LinqExpression => Linq.Expression.IfThenElse(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression);
-
-        public static IfThenElse Create(INode node) => new IfThenElse(node) { RdfType = Vocabulary.IfThenElse };
     }
 }

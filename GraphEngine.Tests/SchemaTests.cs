@@ -12,7 +12,7 @@ namespace GraphEngine.Tests
         public void Valid()
         {
             using var g = new Graph();
-            g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.schema.ttl,GraphEngine.Tests");
+            g.LoadFromEmbeddedResource("GraphEngine.Resources.Schema.ttl, GraphEngine");
         }
     }
 }

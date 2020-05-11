@@ -1,6 +1,6 @@
 ﻿# Class comments mostly from https://docs.microsoft.com/en-us/dotnet/api/system.linq.expressions.expressiontype?view=netcore-3.0#fields
 
-@prefix : <http://example.com/schema/> .
+@prefix : <http://example.com/> .
 @prefix this: <http://example.com/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -765,6 +765,24 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:bindExpression
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Bind ;
+	rdfs:range :Expression ;
+	rdfs:label "bind expression" ;
+	rdfs:comment "" ;
+.
+
+:bindMember
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :BaseBind ;
+	rdfs:range :Member ;
+	rdfs:label "bind member" ;
+	rdfs:comment "" ;
+.
+
 :blockExpressions
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -825,6 +843,24 @@ this:schema
 	rdfs:domain :Call ;
 	rdfs:range rdf:List ;
 	rdfs:label "call type arguments" ;
+	rdfs:comment "" ;
+.
+
+:caseBody
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Case ;
+	rdfs:range :Expression ;
+	rdfs:label "case body" ;
+	rdfs:comment "" ;
+.
+
+:caseTestValues
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Case ;
+	rdfs:range rdf:List ;
+	rdfs:label "case test values" ;
 	rdfs:comment "" ;
 .
 
@@ -926,6 +962,24 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:elementInitArguments
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ElementInit ;
+	rdfs:range rdf:List ;
+	rdfs:label "element init arguments" ;
+	rdfs:comment "" ;
+.
+
+:elementInitAddMethod
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ElementInit ;
+	rdfs:range :Method ;
+	rdfs:label "element init add method" ;
+	rdfs:comment "" ;
+.
+
 :gotoTarget
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -1007,6 +1061,15 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:listBindInitializers
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ListBind ;
+	rdfs:range rdf:List ;
+	rdfs:label "list bind initializers" ;
+	rdfs:comment "" ;
+.
+
 :loopBody
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -1031,6 +1094,51 @@ this:schema
 	rdfs:domain :Loop ;
 	rdfs:range :Label ;
 	rdfs:label "loop continue" ;
+	rdfs:comment "" ;
+.
+
+:memberBindBindings
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :MemberBind ;
+	rdfs:range rdf:List ;
+	rdfs:label "member bind bindings" ;
+	rdfs:comment "" ;
+.
+
+:memberInitBindings
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :MemberInit ;
+	rdfs:range rdf:List ;
+	rdfs:label "member init bindings" ;
+	rdfs:comment "" ;
+.
+
+:memberInitNewExpression
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :MemberInit ;
+	rdfs:range :New ;
+	rdfs:label "member init new expression" ;
+	rdfs:comment "" ;
+.
+
+:memberType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Member ;
+	rdfs:range :Type ;
+	rdfs:label "member type" ;
+	rdfs:comment "" ;
+.
+
+:memberName
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Member ;
+	rdfs:range :xsd:string ;
+	rdfs:label "member name" ;
 	rdfs:comment "" ;
 .
 
@@ -1070,12 +1178,66 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:parameterName
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Parameter ;
+	rdfs:range xsd:string ;
+	rdfs:label "parameter name" ;
+	rdfs:comment "" ;
+.
+
 :parameterType
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Parameter ;
 	rdfs:range :Type ;
 	rdfs:label "parameter type" ;
+	rdfs:comment "" ;
+.
+
+:switchCases
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range rdf:List ;
+	rdfs:label "switch cases" ;
+	rdfs:comment "" ;
+.
+
+:switchComparison
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range :Method ;
+	rdfs:label "switch comparison" ;
+	rdfs:comment "" ;
+.
+
+:switchDefaultBody
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range :Expression ;
+	rdfs:label "switch default body" ;
+	rdfs:comment "" ;
+.
+
+:switchSwitchValue
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range :Expression ;
+	rdfs:label "switch switch value" ;
+	rdfs:comment "" ;
+.
+
+:switchType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range :Type ;
+	rdfs:label "switch type" ;
 	rdfs:comment "" ;
 .
 

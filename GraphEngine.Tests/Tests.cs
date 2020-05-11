@@ -14,28 +14,24 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void POC()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Block ;
     :blockExpressions (
         [
             a :Subtract ;
             :binaryLeft [
                 a :Add ;
                 :binaryLeft [
-                    a :Constant ;
                     :constantValue 1;
                 ] ;
                 :binaryRight [
-                    a :Constant ;
                     :constantValue 2;
                 ] ;
             ] ;
             :binaryRight [
-                a :Constant ;
                 :constantValue 3;
             ] ;
         ]
@@ -53,20 +49,17 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Lambda()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Lambda ;
     :lambdaBody [
         a :Add ;
         :binaryLeft [
-            a :Constant ;
             :constantValue 1;
         ] ;
         :binaryRight [
-            a :Constant ;
             :constantValue 2;
         ] ;
     ]
@@ -84,20 +77,17 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void NewWithArguments()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :New ;
     :newType [
-        a :Type ;
         :typeName ""System.Text.StringBuilder"" ;
     ] ;
     :newArguments (
         [
-            a :Constant ;
             :constantValue ""1""^^xsd:int;
         ]
     ) ;
@@ -113,15 +103,13 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void NewWithoutArguments()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :New ;
     :newType [
-        a :Type ;
         :typeName ""System.Text.StringBuilder"" ;
     ] ;
 .
@@ -136,7 +124,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Assign()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
@@ -144,14 +132,11 @@ namespace GraphEngine.Tests
 :s
     a :Assign ;
     :binaryLeft [
-        a :Variable ;
         :parameterType [
-            a :Type ;
             :typeName ""System.Int64"" ;
         ] ;
     ] ;
     :binaryRight [
-        a :Constant ;
         :constantValue 0;
     ] ;
 .
@@ -189,42 +174,34 @@ namespace GraphEngine.Tests
                         typeof(void)),
                     label));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 _:constantValue
-    a :Parameter ;
     :parameterType [
-        a :Type ;
         :typeName ""System.Int32"" ;
     ] ;
 .
 
 _:result
-    a :Parameter ;
     :parameterType [
-        a :Type ;
         :typeName ""System.Int32"" ;
     ] ;
 .
 
 _:label
-    a :Label ;
     :labelType [
-        a :Type ;
         :typeName ""System.Int32"" ;
     ] ;
 .
 
 _:one
-    a :Constant ;
     :constantValue ""1""^^xsd:int ;
 .
 
 :s
-    a :Block ;
     :blockVariables (
         _:result
     ) ;
@@ -235,9 +212,7 @@ _:one
             :binaryRight _:one ;
         ]
         [
-            a :Loop ;
             :loopBody [
-                a :Condition ;
                 :conditionTest [
                     a :GreaterThan ;
                     :binaryLeft _:constantValue ;
@@ -257,7 +232,6 @@ _:one
                     :gotoValue _:result ;
                 ] ;
                 :conditionType [
-                    a :Type ;
                     :typeName ""System.Void"" ;
                 ] ;
             ] ;
@@ -280,14 +254,12 @@ _:one
         {
             var expected = LinqExpression.Default(typeof(byte));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Default ;
     :defaultType [
-        a :Type ;
         :typeName ""System.Byte"" ;
     ] ;
 .
@@ -306,19 +278,16 @@ _:one
         {
             var expected = LinqExpression.NewArrayBounds(typeof(long), LinqExpression.Constant(0L));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :NewArrayBounds ;
     :newArrayBoundsType [
-        a :Type ;
         :typeName ""System.Int64"" ;
     ] ;
     :newArrayBoundsBounds (
         [
-            a :Constant ;
             :constantValue 0 ;
         ]
     ) ;
@@ -340,17 +309,15 @@ _:one
                 LinqExpression.Constant(0L),
                 LinqExpression.Constant(0L));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Try ;
     :tryBody _:zero ;
     :tryFault _:zero ;
 .
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");
@@ -370,17 +337,15 @@ _:zero
                 LinqExpression.Constant(0L),
                 LinqExpression.Constant(0L));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Try ;
     :tryBody _:zero ;
     :tryFinally _:zero ;
 .
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");
@@ -402,17 +367,15 @@ _:zero
                     typeof(Exception),
                     LinqExpression.Constant(0L)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Try ;
     :tryBody _:zero ;
     :tryHandlers (
         [
             :catchType [
-                a :Type ;
                 :typeName ""System.Exception"" ;
             ] ;
             :catchBody _:zero ;
@@ -420,7 +383,6 @@ _:zero
     ) ;
 .
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");
@@ -443,19 +405,16 @@ _:zero
                         typeof(Exception)),
                     LinqExpression.Constant(0L)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Try ;
     :tryBody _:zero ;
     :tryHandlers (
         [
             :catchVariable [
-                a :Parameter ;
                 :parameterType [
-                    a :Type ;
                     :typeName ""System.Exception"" ;
                 ] ;
             ] ;
@@ -464,7 +423,6 @@ _:zero
     ) ;
 .
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");
@@ -489,17 +447,15 @@ _:zero
                         LinqExpression.Constant(0L),
                         LinqExpression.Constant(0L))));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Try ;
     :tryBody _:zero ;
     :tryHandlers (
         [
             :catchType [
-                a :Type ;
                 :typeName ""System.Exception"" ;
             ] ;
             :catchBody _:zero ;
@@ -512,7 +468,6 @@ _:zero
     ) ;
 .
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");
@@ -538,19 +493,16 @@ _:zero
                         LinqExpression.Constant(0L),
                         LinqExpression.Constant(0L))));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Try ;
     :tryBody _:zero ;
     :tryHandlers (
         [
             :catchVariable [
-                a :Parameter ;
                 :parameterType [
-                    a :Type ;
                     :typeName ""System.Exception"" ;
                 ] ;
             ] ;
@@ -564,7 +516,6 @@ _:zero
     ) ;
 .
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");
@@ -586,24 +537,19 @@ _:zero
                 LinqExpression.Parameter(
                     typeof(int)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :ArrayAccess ;
     :arrayAccessArray [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""System.Int32[]"" ;
         ] ;
     ] ;
     :arrayAccessIndexes (
         [
-            a :Parameter ;
             :parameterType [
-                a :Type ;
                 :typeName ""System.Int32"" ;
             ] ;
         ]
@@ -624,7 +570,7 @@ _:zero
         {
             var expected = LinqExpression.Empty();
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
@@ -651,18 +597,16 @@ _:zero
                 LinqExpression.Parameter(
                     typeof(int)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Label ;
     :labelTarget [
         :targetName ""target"" ;
         :targetType _:int ;
     ] ;
     :labelDefaultValue [
-        a :Parameter ;
         :parameterType _:int ;
     ] ;
 .
@@ -689,23 +633,18 @@ _:int
                 LinqExpression.Parameter(
                     typeof(int)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :ArrayIndex ;
     :arrayIndexArray [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""System.Int32[]"" ;
         ] ;
     ] ;
     :arrayIndexIndex [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""System.Int32"" ;
         ] ;
     ] ;
@@ -732,24 +671,19 @@ _:int
                         typeof(int))
                 });
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :ArrayIndex ;
     :arrayIndexArray [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""System.Int32[]"" ;
         ] ;
     ] ;
     :arrayIndexIndexes (
         [
-            a :Parameter ;
             :parameterType [
-                a :Type ;
                 :typeName ""System.Int32"" ;
             ] ;
         ]
@@ -771,19 +705,17 @@ _:int
             var param = LinqExpression.Parameter(typeof(bool));
             var expected = LinqExpression.Condition(param, param, param);
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Condition ;
     :conditionTest _:param ;
     :conditionIfTrue _:param ;
     :conditionIfFalse _:param ;
 .
 
 _:param
-    a :Parameter ;
     :parameterType [
         :typeName ""System.Boolean"" ;
     ] ;
@@ -807,15 +739,14 @@ _:param
                 LinqExpression.Parameter(typeof(C2)),
                 typeof(C1));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Condition ;
-    :conditionTest [a :Parameter; :parameterType [:typeName ""System.Boolean"" ;]] ;
-    :conditionIfTrue [a :Parameter; :parameterType _:C1] ;
-    :conditionIfFalse [a :Parameter; :parameterType [:typeName ""GraphEngine.Tests.C2, GraphEngine.Tests"" ;]] ;
+    :conditionTest [:parameterType [:typeName ""System.Boolean"" ;]] ;
+    :conditionIfTrue [:parameterType _:C1] ;
+    :conditionIfFalse [:parameterType [:typeName ""GraphEngine.Tests.C2, GraphEngine.Tests"" ;]] ;
     :conditionType _:C1 ;
 .
 
@@ -836,7 +767,7 @@ _:C1 :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" .
             var param = LinqExpression.Parameter(typeof(bool));
             var expected = LinqExpression.IfThen(param, param);
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
@@ -847,7 +778,6 @@ _:C1 :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" .
 .
 
 _:param
-    a :Parameter ;
     :parameterType [
         :typeName ""System.Boolean"" ;
     ] ;
@@ -868,7 +798,7 @@ _:param
             var param = LinqExpression.Parameter(typeof(bool));
             var expected = LinqExpression.IfThenElse(param, param, param);
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
@@ -880,7 +810,6 @@ _:param
 .
 
 _:param
-    a :Parameter ;
     :parameterType [
         :typeName ""System.Boolean"" ;
     ] ;
@@ -898,14 +827,12 @@ _:param
         [TestMethod]
         public void EatYourOwnDogfood()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    a :Lambda ;
     :lambdaBody [
-        a :Call ;
         :callInstance _:g ;
         :callMethod ""Clear"" ;
     ] ;
@@ -915,9 +842,7 @@ _:param
 .
 
 _:g
-    a :Parameter ;
     :parameterType [
-        a :Type ;
         :typeName ""VDS.RDF.IGraph, dotNetRDF"" ;
     ] ;
 .
@@ -929,9 +854,26 @@ _:g
             var lambdaExpression = (Linq.LambdaExpression)parsed;
             var lambda = lambdaExpression.Compile();
 
-            Assert.AreEqual(g.Triples.Count, 12);
+            Assert.AreEqual(g.Triples.Count, 12); // 8 explicit, 4 implicit
             var result = lambda.DynamicInvoke(g);
             Assert.AreEqual(g.Triples.Count, 0);
+        }
+
+        [TestMethod]
+        public void ReasoningPOC()
+        {
+            using var g = new GraphEngine.Graph();
+            g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequenceUntyped.ttl, GraphEngine.Tests");
+
+            var s = g.GetUriNode(new Uri("http://example.com/s"));
+
+            var expression = Expression.Parse(s).LinqExpression;
+            Console.WriteLine(expression.GetDebugView());
+
+            var lambda = LinqExpression.Lambda(expression);
+            var actual = lambda.Compile().DynamicInvoke();
+
+            Assert.AreEqual(21L, actual);
         }
     }
 }

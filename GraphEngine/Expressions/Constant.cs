@@ -75,7 +75,5 @@ namespace GraphEngine
                 return Linq.Expression.Constant(this.Value);
             }
         }
-
-        public static Constant Create(INode node) => new Constant(node) { RdfType = Vocabulary.Constant };
     }
 }

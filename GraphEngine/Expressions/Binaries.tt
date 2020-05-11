@@ -28,11 +28,11 @@ private void GenerateClasses()
     public class <#= item #> : Binary
     {
         [DebuggerStepThrough]
-        internal <#= item #>(INode node) : base(node) { }
+        internal <#= item #>(INode node) : base(node) {
+            this.RdfType = Vocabulary.<#= item #>;
+        }
 
         protected override Linq.ExpressionType LinqBinaryType => Linq.ExpressionType.<#= item #>;
-
-        public static <#= item #> Create(INode node) => new <#= item #>(node) { RdfType = Vocabulary.<#= item #> };
     }
 <#+}
 }

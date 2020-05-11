@@ -26,44 +26,35 @@ namespace GraphEngine.Tests
                         LinqExpression.Default(typeof(C1.C2)),
                         LinqExpression.Constant(0L)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :Switch ;
     :switchType [
-        a :Type ;
         :typeName ""GraphEngine.Tests.SwitchTests+C1, GraphEngine.Tests"" ;
     ] ;
     :switchSwitchValue _:zero ;
     :switchDefaultBody [
-        a :Default ;
         :defaultType [
-            a :Type ;
             :typeName ""GraphEngine.Tests.SwitchTests+C1+C2, GraphEngine.Tests"" ;
         ]
     ] ;
     :switchCases (
         [
-            a :Case ;
             :caseTestValues (
                 _:zero
             ) ;
             :caseBody [
-                a :Default ;
                 :defaultType [
-                    a :Type ;
                     :typeName ""GraphEngine.Tests.SwitchTests+C1+C2, GraphEngine.Tests"" ;
                 ]
             ] ;
         ]
     ) ;
     :switchComparison [
-        a :Method ;
         :memberType [
-            a :Type ;
             :typeName ""GraphEngine.Tests.SwitchTests+C1, GraphEngine.Tests"" ;
         ] ;
         :memberName ""Equal"" ;
@@ -71,7 +62,6 @@ namespace GraphEngine.Tests
 .
 
 _:zero
-    a :Constant ;
     :constantValue 0 ;
 .
 ");

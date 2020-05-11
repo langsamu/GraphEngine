@@ -1,0 +1,85 @@
+# MIT License, Copyright 2020 Samu Lang
+
+@prefix : <http://example.com/> .
+
+:fibonacci 
+    :parameterType [
+        :typeName "System.Func`2" ;
+        :typeArguments (
+            [
+                :typeName "System.Int64" ;
+            ]
+            [
+                :typeName "System.Int64" ;
+            ]
+        ) ;
+    ] ;
+.
+
+:n 
+    :parameterType [
+        :typeName "System.Int64" ;
+    ] ;
+.
+
+:s
+    :blockVariables (
+        :fibonacci
+    ) ;
+    :blockExpressions (
+        [
+            a :Assign ;
+            :binaryLeft :fibonacci ;
+            :binaryRight [
+                :lambdaParameters (
+                    :n
+                ) ;
+                :lambdaBody [
+                    :conditionTest [
+                        a :LessThan ;
+                        :binaryLeft :n ;
+                        :binaryRight [
+                            :constantValue 2 ;
+                        ] ;
+                    ] ;
+                    :conditionIfTrue :n ;
+                    :conditionIfFalse [
+                        a :Add ;
+                        :binaryLeft [
+                            :invokeExpression :fibonacci ;
+                            :invokeArguments (
+                                [
+                                    a :Subtract ;
+                                    :binaryLeft :n ;
+                                    :binaryRight [
+                                        :constantValue 2 ;
+                                    ] ;
+                                ]
+                            ) ;
+                        ] ;
+                        :binaryRight [
+                            :invokeExpression :fibonacci ;
+                            :invokeArguments (
+                                [
+                                    a :Subtract ;
+                                    :binaryLeft :n ;
+                                    :binaryRight [
+                                        :constantValue 1 ;
+                                    ] ;
+                                ]
+                            ) ;
+                        ] ;
+                    ] ;
+                ] ;
+            ] ;
+        ]
+        [
+            :invokeExpression :fibonacci ;
+            :invokeArguments (
+                [
+                    :constantValue 8 ;
+                ]
+            ) ;
+        ]
+    ) ;
+.

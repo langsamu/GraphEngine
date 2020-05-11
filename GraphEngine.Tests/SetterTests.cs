@@ -12,33 +12,25 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void All()
         {
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
 :s
-    a :ArrayIndex ;
     :arrayIndexArray [
-        a :Parameter ;
         :parameterType [
-            a :Type ;
             :typeName ""System.Int32[]"" ;
         ] ;
     ] ;
     :arrayIndexIndexes (
         [
-            a :Parameter ;
             :parameterType [
-                a :Type ;
                 :typeName ""System.Int32"" ;
             ] ;
         ]
-
         [
-            a :Parameter ;
             :parameterType [
-                a :Type ;
                 :typeName ""System.Int64"" ;
             ] ;
         ]
@@ -56,10 +48,10 @@ namespace GraphEngine.Tests
                 Console.WriteLine(index.Type.Name);
             }
 
-            var item = Parameter.Create(s.Graph.CreateBlankNode());
-            var type = GraphEngine.Type.Create(s.Graph.CreateBlankNode());
+            var item = new Parameter(s.Graph.CreateBlankNode());
+            var type = new GraphEngine.Type(s.Graph.CreateBlankNode());
             type.Name = "X";
-            var typeA = GraphEngine.Type.Create(s.Graph.CreateBlankNode());
+            var typeA = new GraphEngine.Type(s.Graph.CreateBlankNode());
             typeA.Name = "Y";
             type.Arguments.Add(typeA);
             item.Type = type;

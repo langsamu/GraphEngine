@@ -311,7 +311,7 @@ _:param
                         typeof(void)),
                     label));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
             new SerialisingVisitor(s).Visit(expected);
 
@@ -323,7 +323,7 @@ _:param
         {
             var expected = LinqExpression.Parameter(typeof(IEquatable<int>));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
             new SerialisingVisitor(s).Visit(expected);
 
@@ -337,7 +337,7 @@ _:param
                 LinqExpression.Label(
                     typeof(void)));
 
-            using var g = new Graph();
+            using var g = new GraphEngine.Graph();
             var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
             new SerialisingVisitor(s).Visit(expected);
 
@@ -346,10 +346,10 @@ _:param
 
         private static void Compare(LinqExpression linqExpression, string expectedRdf)
         {
-            using var expected = new Graph();
+            using var expected = new GraphEngine.Graph();
             expected.LoadFromString(expectedRdf);
 
-            var actual = new Graph();
+            using var actual = new GraphEngine.Graph();
             var s = actual.CreateUriNode(UriFactory.Create("http://example.com/s"));
             var visitor = new SerialisingVisitor(s);
             visitor.Visit(linqExpression);
