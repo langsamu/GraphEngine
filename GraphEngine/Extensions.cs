@@ -18,6 +18,10 @@ namespace GraphEngine
         internal static INode? ObjectOf(this INode predicate, INode subject) =>
             predicate.ObjectsOf(subject).FirstOrDefault();
 
+        internal static IEnumerable<INode> InstancesOf(this IGraph graph, INode @class) =>
+            from t in graph.GetTriplesWithPredicateObject(Vocabulary.RdfType, @class)
+            select t.Subject;
+
         internal static INode AsNode(this Linq.ExpressionType type) =>
             type switch
             {

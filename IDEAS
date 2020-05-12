@@ -1,2 +1,4 @@
-- Eliminate requirements for typed expression nodes in input graph by inferring types from properties using reasoning on vocabulary.
 - class ClassExpression : Linq.Expression {}
+
+DONE
+- Eliminate requirements for typed expression nodes in input graph by inferring types from properties using reasoning on vocabulary.

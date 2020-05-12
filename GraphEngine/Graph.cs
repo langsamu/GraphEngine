@@ -1,4 +1,6 @@
-﻿namespace GraphEngine
+﻿// MIT License, Copyright 2020 Samu Lang
+
+namespace GraphEngine
 {
     using System;
     using System.Collections.Generic;

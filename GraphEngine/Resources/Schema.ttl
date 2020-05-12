@@ -10,7 +10,7 @@
 this:schema
 	a owl:Ontology ;
 	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Temporal thing" ;
+	rdfs:label "schema" ;
 	rdfs:comment "" ;
 .
 
@@ -54,7 +54,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "And" ;
 	rdfs:comment "A bitwise or logical AND operation, such as (a & b) in C# and (a And b) in Visual Basic." ;
-	rdfs:comment "" ;
 .
 
 :AndAlso
@@ -949,6 +948,7 @@ this:schema
 	a owl:DatatypeProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Constant ;
+	rdfs:range rdfs:Resource ;
 	rdfs:label "constant value" ;
 	rdfs:comment "" ;
 .
