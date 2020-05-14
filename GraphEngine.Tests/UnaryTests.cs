@@ -128,7 +128,7 @@ namespace GraphEngine.Tests
 
             Console.WriteLine(actual.GetDebugView());
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
     }
 }

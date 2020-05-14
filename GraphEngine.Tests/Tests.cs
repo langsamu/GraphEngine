@@ -192,7 +192,7 @@ _:result
 .
 
 _:label
-    :labelType [
+    :targetType [
         :typeName ""System.Int32"" ;
     ] ;
 .
@@ -246,7 +246,7 @@ _:one
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -270,7 +270,7 @@ _:one
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -299,7 +299,7 @@ _:one
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -327,7 +327,7 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -355,10 +355,11 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
-        [TestMethod]
+        // TODO: Enable once available https://github.com/alecsg77/ExpressionTreeToolkit/issues/4
+        //[TestMethod]
         public void TryCatchTypeBody()
         {
             var expected = LinqExpression.TryCatch(
@@ -392,7 +393,7 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -432,10 +433,11 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
-        [TestMethod]
+        // TODO: Enable once available https://github.com/alecsg77/ExpressionTreeToolkit/issues/4
+        //[TestMethod]
         public void TryCatchTypeBodyFilter()
         {
             var expected = LinqExpression.TryCatch(
@@ -477,7 +479,7 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -525,7 +527,7 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -562,7 +564,7 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -584,7 +586,7 @@ _:zero
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -621,7 +623,7 @@ _:int
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -656,7 +658,7 @@ _:int
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -696,7 +698,7 @@ _:int
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -727,7 +729,7 @@ _:param
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -758,7 +760,7 @@ _:C1 :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" .
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -789,7 +791,7 @@ _:param
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -821,7 +823,7 @@ _:param
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]

@@ -3,8 +3,6 @@
 namespace GraphEngine.Tests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
@@ -69,7 +67,7 @@ _:zero
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
 
             Console.WriteLine(actual.GetDebugView());
 
@@ -80,7 +78,7 @@ _:zero
             Assert.ThrowsException<TargetInvocationException>(() => LinqExpression.Lambda(actual).Compile().DynamicInvoke());
         }
 
-        class C1
+        private class C1
         {
             internal class C2 : C1 { }
 

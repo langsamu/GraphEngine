@@ -3,7 +3,6 @@
 namespace GraphEngine.Tests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
     using LinqExpression = System.Linq.Expressions.Expression;
@@ -36,7 +35,7 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -80,7 +79,7 @@ _:C3
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -138,7 +137,7 @@ _:C3
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -194,7 +193,7 @@ _:C3
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
     }
 

@@ -24,11 +24,11 @@ namespace GraphEngine
             set => this.SetOptional(TryType, value);
         }
 
-        public Expression? Body
+        public Expression Body
         {
-            get => this.GetOptional<Expression>(TryBody);
+            get => this.GetRequired<Expression>(TryBody);
 
-            set => this.SetOptional(TryBody, value);
+            set => this.SetRequired(TryBody, value);
         }
 
         public Expression? Finally
@@ -47,6 +47,6 @@ namespace GraphEngine
 
         public ICollection<CatchBlock> Handlers => this.Collection<CatchBlock>(TryHandlers);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(this.Type?.SystemType, this.Body?.LinqExpression, this.Finally?.LinqExpression, this.Fault?.LinqExpression, this.Handlers.Select(h => h.LinqCatchBlock));
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(this.Type?.SystemType, this.Body.LinqExpression, this.Finally?.LinqExpression, this.Fault?.LinqExpression, this.Handlers.Select(h => h.LinqCatchBlock));
     }
 }

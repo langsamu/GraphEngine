@@ -31,7 +31,7 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -60,13 +60,13 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
         public void Static_no_types_arguments()
         {
-            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { LinqExpression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M3), Array.Empty<Type>(), new[] { LinqExpression.Constant(0L, typeof(long)) });
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -81,7 +81,7 @@ namespace GraphEngine.Tests
     :callArguments (
         [
             :constantType [
-                :typeName ""System.Object"" ;
+                :typeName ""System.Int64"" ;
             ] ;
             :constantValue 0;
         ]
@@ -92,13 +92,13 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
         public void Static_types_arguments()
         {
-            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { LinqExpression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(typeof(C1), nameof(C1.M4), new[] { typeof(object) }, new[] { LinqExpression.Constant(0L, typeof(long)) });
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -118,7 +118,7 @@ namespace GraphEngine.Tests
     :callArguments (
         [
             :constantType [
-                :typeName ""System.Object"" ;
+                :typeName ""System.Int64"" ;
             ] ;
             :constantValue 0;
         ]
@@ -129,7 +129,7 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -155,7 +155,7 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
@@ -186,13 +186,13 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
         public void Instance_no_types_arguments()
         {
-            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { LinqExpression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M7), Array.Empty<Type>(), new[] { LinqExpression.Constant(0L, typeof(long)) });
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -209,7 +209,7 @@ namespace GraphEngine.Tests
     :callArguments (
         [
             :constantType [
-                :typeName ""System.Object"" ;
+                :typeName ""System.Int64"" ;
             ] ;
             :constantValue 0;
         ]
@@ -220,13 +220,13 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
 
         [TestMethod]
         public void Instance_types_arguments()
         {
-            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { LinqExpression.Constant(0, typeof(object)) });
+            var expected = LinqExpression.Call(LinqExpression.New(typeof(C1)), nameof(C1.M8), new[] { typeof(object) }, new[] { LinqExpression.Constant(0L, typeof(long)) });
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -248,7 +248,7 @@ namespace GraphEngine.Tests
     :callArguments (
         [
             :constantType [
-                :typeName ""System.Object"" ;
+                :typeName ""System.Int64"" ;
             ] ;
             :constantValue 0;
         ]
@@ -259,7 +259,7 @@ namespace GraphEngine.Tests
 
             var actual = Expression.Parse(s).LinqExpression;
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
     }
 
@@ -269,17 +269,17 @@ namespace GraphEngine.Tests
 
         public static void M2<T>() { }
 
-        public static void M3(object arg) { }
+        public static void M3(long arg) { }
 
-        public static void M4<T>(object arg) { }
+        public static void M4<T>(long arg) { }
 
         public void M5() { }
 
         public void M6<T>() { }
 
-        public void M7(object arg) { }
+        public void M7(long arg) { }
 
-        public void M8<T>(object arg) { }
+        public void M8<T>(long arg) { }
     }
 
     public class C2 : C1 { }

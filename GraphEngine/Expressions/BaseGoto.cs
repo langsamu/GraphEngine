@@ -36,7 +36,7 @@ namespace GraphEngine
             set => this.SetOptional(GotoValue, value);
         }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType);
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType ?? typeof(void));
 
         protected abstract Linq.GotoExpressionKind Kind { get; }
     }

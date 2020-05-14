@@ -91,7 +91,7 @@ namespace GraphEngine.Tests
 
             Console.WriteLine(actual.GetDebugView());
 
-            Assert.AreEqual(expected.GetDebugView(), actual.GetDebugView());
+            actual.Should().Be(expected);
         }
     }
 }
