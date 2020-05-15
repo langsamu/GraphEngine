@@ -358,8 +358,7 @@ _:zero
             actual.Should().Be(expected);
         }
 
-        // TODO: Enable once available https://github.com/alecsg77/ExpressionTreeToolkit/issues/4
-        //[TestMethod]
+        [TestMethod]
         public void TryCatchTypeBody()
         {
             var expected = LinqExpression.TryCatch(
@@ -436,8 +435,7 @@ _:zero
             actual.Should().Be(expected);
         }
 
-        // TODO: Enable once available https://github.com/alecsg77/ExpressionTreeToolkit/issues/4
-        //[TestMethod]
+        [TestMethod]
         public void TryCatchTypeBodyFilter()
         {
             var expected = LinqExpression.TryCatch(
