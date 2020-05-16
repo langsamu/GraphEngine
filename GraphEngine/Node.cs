@@ -5,8 +5,10 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using VDS.RDF;
+    using VDS.RDF.Parsing;
 
     public abstract partial class Node : WrapperNode
     {
@@ -90,6 +92,7 @@ namespace GraphEngine
             return @object switch
             {
                 INode node => node,
+                int number => this.Graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInt)),
                 _ => this.Graph.CreateLiteralNode(@object.ToString())
             };
         }

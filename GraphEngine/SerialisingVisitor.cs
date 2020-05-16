@@ -236,7 +236,12 @@ namespace GraphEngine
             using (this.Wrap(type))
             {
                 var t = new Type(this.Current);
-                t.Name = $"{type.Namespace}.{type.Name}";
+                t.Name = $"{type.Namespace}.{type.Name}, {type.Assembly}";
+
+                foreach (var argument in type.GenericTypeArguments)
+                {
+                    t.Arguments.Add(this.VisitType(argument));
+                }
 
                 return t;
             }

@@ -4,7 +4,6 @@ namespace GraphEngine.Tests
 {
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
     using VDS.RDF.Writing;
     using LinqExpression = System.Linq.Expressions.Expression;
 
@@ -29,25 +28,7 @@ namespace GraphEngine.Tests
             var param = LinqExpression.Parameter(typeof(int));
             var expression = LinqExpression.Add(param, param);
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Add ;
-    :binaryLeft _:param ;
-    :binaryRight _:param ;
-.
-
-_:param
-    a :Parameter ;
-    :parameterType [
-        a :Type ;
-        :typeName ""System.Int32"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -55,19 +36,7 @@ _:param
         {
             var expression = LinqExpression.Empty();
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Default ;
-    :defaultType [
-        a :Type; 
-        :typeName ""System.Void"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -75,33 +44,7 @@ _:param
         {
             var expression = LinqExpression.Block(new[] { LinqExpression.Parameter(typeof(int)) }, new[] { LinqExpression.Empty() });
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Block ;
-    :blockVariables (
-        [
-            a :Parameter ;
-            :parameterType [
-                a :Type; 
-                :typeName ""System.Int32"" ;
-            ] ;
-        ]
-    ) ;
-    :blockExpressions (
-        [
-            a :Default ;
-            :defaultType [
-                a :Type; 
-                :typeName ""System.Void"" ;
-            ] ;
-        ]
-    ) ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -110,26 +53,7 @@ _:param
             var param = LinqExpression.Parameter(typeof(bool));
             var expression = LinqExpression.Condition(param, param, param);
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Condition ;
-    :conditionTest _:param ;
-    :conditionIfTrue _:param ;
-    :conditionIfFalse _:param ;
-.
-
-_:param
-    a :Parameter ;
-    :parameterType [
-        a :Type ;
-        :typeName ""System.Boolean"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -141,24 +65,7 @@ _:param
                 LinqExpression.Parameter(typeof(C1)),
                 typeof(C1));
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Condition ;
-    :conditionTest [a :Parameter; :parameterType [a :Type ;:typeName ""System.Boolean"" ;]] ;
-    :conditionIfTrue [a :Parameter; :parameterType [a :Type ;:typeName ""GraphEngine.Tests.C2"" ;]] ;
-    :conditionIfFalse [a :Parameter; :parameterType _:C1] ;
-    :conditionType _:C1 ;
-.
-
-_:C1
-    a :Type ;
-    :typeName ""GraphEngine.Tests.C1"" ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -167,25 +74,7 @@ _:C1
             var param = LinqExpression.Parameter(typeof(bool));
             var expression = LinqExpression.IfThen(param, param);
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :IfThen ;
-    :conditionTest _:param ;
-    :conditionIfTrue _:param ;
-.
-
-_:param
-    a :Parameter ;
-    :parameterType [
-        a :Type ;
-        :typeName ""System.Boolean"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -194,26 +83,7 @@ _:param
             var param = LinqExpression.Parameter(typeof(bool));
             var expression = LinqExpression.IfThenElse(param, param, param);
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :IfThenElse ;
-    :conditionTest _:param ;
-    :conditionIfTrue _:param ;
-    :conditionIfFalse _:param ;
-.
-
-_:param
-    a :Parameter ;
-    :parameterType [
-        a :Type ;
-        :typeName ""System.Boolean"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -221,19 +91,7 @@ _:param
         {
             var expression = LinqExpression.Parameter(typeof(object));
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Parameter ;
-    :parameterType [
-        a :Type ;
-        :typeName ""System.Object"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -241,20 +99,7 @@ _:param
         {
             var expression = LinqExpression.Parameter(typeof(object), "param");
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :Parameter ;
-    :parameterName ""param"" ;
-    :parameterType [
-        a :Type ;
-        :typeName ""System.Object"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -262,36 +107,17 @@ _:param
         {
             var expression = LinqExpression.ArrayLength(LinqExpression.Parameter(typeof(int[])));
 
-            var rdf = @"
-@prefix : <http://example.com/> .
-
-:s
-    a :ArrayLength ;
-    :unaryOperand [
-        a :Parameter ;
-        :parameterType [
-            a :Type ;
-            :typeName ""System.Int32[]"" ;
-        ] ;
-    ] ;
-    :unaryType [
-        a :Type ;
-        :typeName ""System.Int32"" ;
-    ] ;
-.
-";
-
-            Compare(expression, rdf);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void Factorial()
         {
             var value = LinqExpression.Parameter(typeof(int), "value");
             var result = LinqExpression.Parameter(typeof(int), "result");
             var label = LinqExpression.Label(typeof(int), "label");
             var one = LinqExpression.Constant(1);
-            var expected = LinqExpression.Block(
+            var expression = LinqExpression.Block(
                 new[] { result },
                 LinqExpression.Assign(
                     result,
@@ -311,55 +137,45 @@ _:param
                         typeof(void)),
                     label));
 
-            using var g = new GraphEngine.Graph();
-            var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
-            new SerialisingVisitor(s).Visit(expected);
-
-            new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void TestMethod2()
+        public void TypeArguments()
         {
-            var expected = LinqExpression.Parameter(typeof(IEquatable<int>));
+            var expression = LinqExpression.Parameter(typeof(IEquatable<int>));
 
-            using var g = new GraphEngine.Graph();
-            var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
-            new SerialisingVisitor(s).Visit(expected);
-
-            new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void TestMethod3()
+        public void Break()
         {
-            var expected = LinqExpression.Break(
+            var expression = LinqExpression.Break(
                 LinqExpression.Label(
                     typeof(void)));
 
-            using var g = new GraphEngine.Graph();
-            var s = g.CreateUriNode(UriFactory.Create("http://example.com/s"));
-            new SerialisingVisitor(s).Visit(expected);
-
-            new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out);
+            ShouldRoundrip(expression);
         }
 
-        private static void Compare(LinqExpression linqExpression, string expectedRdf)
+        private static void ShouldRoundrip(LinqExpression original)
         {
-            using var expected = new GraphEngine.Graph();
-            expected.LoadFromString(expectedRdf);
+            using var g = new GraphEngine.Graph();
+            var s = g.CreateBlankNode();
 
-            using var actual = new GraphEngine.Graph();
-            var s = actual.CreateUriNode(UriFactory.Create("http://example.com/s"));
-            var visitor = new SerialisingVisitor(s);
-            visitor.Visit(linqExpression);
+            new SerialisingVisitor(s).Visit(original);
+            Console.WriteLine("Graph generated from visitor");
+            Console.WriteLine("-------------------------");
+            new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out, true);
+            Console.WriteLine();
+            Console.WriteLine();
 
-            var writer = new CompressingTurtleWriter(WriterCompressionLevel.Medium);
-            Console.WriteLine(StringWriter.Write(expected, writer));
-            Console.WriteLine("-------------------");
-            Console.WriteLine(StringWriter.Write(actual, writer));
+            var processed = GraphEngine.Expression.Parse(s).LinqExpression;
+            Console.WriteLine("Expression parsed from graph");
+            Console.WriteLine("-------------------------");
+            Console.WriteLine(processed.GetDebugView());
 
-            Assert.AreEqual(expected, actual);
+            processed.Should().Be(original);
         }
     }
 }

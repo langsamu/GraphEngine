@@ -10,7 +10,7 @@ namespace GraphEngine
     using VDS.RDF.Query.Inference;
     using dotNetRDF = VDS.RDF;
 
-    public class Graph : dotNetRDF.Graph
+    public class Graph : dotNetRDF.WrapperGraph
     {
         private static readonly IInferenceEngine Reasoner = new StaticRdfsReasoner();
 
@@ -29,7 +29,16 @@ namespace GraphEngine
         }
 
         public Graph()
+            : base()
         {
+            this.AttachEventHandlers();
+            this.TripleAsserted += this.Graph_TripleAsserted;
+        }
+
+        public Graph(IGraph g)
+            : base(g)
+        {
+            Reasoner.Apply(this);
             this.TripleAsserted += this.Graph_TripleAsserted;
         }
 
