@@ -39,5 +39,18 @@ namespace GraphEngine
         public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType ?? typeof(void));
 
         protected abstract Linq.GotoExpressionKind Kind { get; }
+
+        public static BaseGoto Create(INode node, Linq.GotoExpressionKind kind)
+        {
+            return kind switch
+            {
+                Linq.GotoExpressionKind.Goto => new Goto(node),
+                Linq.GotoExpressionKind.Return => new Return(node),
+                Linq.GotoExpressionKind.Break => new Break(node),
+                Linq.GotoExpressionKind.Continue => new Continue(node),
+
+                _ => throw new System.Exception("{type} is not goto")
+            };
+        }
     }
 }

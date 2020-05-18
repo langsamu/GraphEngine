@@ -3,6 +3,7 @@
 namespace GraphEngine.Tests
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF.Writing;
     using LinqExpression = System.Linq.Expressions.Expression;
@@ -154,6 +155,67 @@ namespace GraphEngine.Tests
             var expression = LinqExpression.Break(
                 LinqExpression.Label(
                     typeof(void)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberInit_no_bindings()
+        {
+            var expression =
+                LinqExpression.MemberInit(
+                    LinqExpression.New(
+                        typeof(C3)));
+
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberInit_bind()
+        {
+            var expression =
+                LinqExpression.MemberInit(
+                    LinqExpression.New(
+                        typeof(C3)),
+                    LinqExpression.Bind(
+                        typeof(C3).GetField("F1"),
+                        LinqExpression.Constant(0L)));
+
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberInit_list_bind()
+        {
+            var expression =
+                LinqExpression.MemberInit(
+                    LinqExpression.New(
+                        typeof(C3)),
+                    LinqExpression.ListBind(
+                        typeof(C3).GetProperty("P1"),
+                        LinqExpression.ElementInit(
+                            typeof(List<long>).GetMethod("Add"),
+                            LinqExpression.Constant(0L))));
+
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberInit_member_bind()
+        {
+            var expression =
+                LinqExpression.MemberInit(
+                    LinqExpression.New(
+                        typeof(C3)),
+                    LinqExpression.MemberBind(
+                        typeof(C3).GetField("F2"),
+                        LinqExpression.Bind(
+                            typeof(C3).GetField("F1"),
+                            LinqExpression.Constant(0L))));
+
 
             ShouldRoundrip(expression);
         }

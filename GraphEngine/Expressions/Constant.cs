@@ -2,11 +2,8 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Diagnostics;
-    using System.Globalization;
     using VDS.RDF;
-    using VDS.RDF.Parsing;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
@@ -18,41 +15,11 @@ namespace GraphEngine
         {
         }
 
-        public object Value
+        public object? Value
         {
-            get
-            {
-                var valueNode = ConstantValue.ObjectOf(this) ?? throw new InvalidOperationException("missing value");
+            get => this.GetOptional<object>(ConstantValue);
 
-                switch (valueNode)
-                {
-                    case IUriNode uriNode when uriNode.NodeType == NodeType.Uri:
-                        return uriNode.Uri;
-
-                    case ILiteralNode literalNode when literalNode.NodeType == NodeType.Literal:
-                        if (literalNode.DataType is null)
-                        {
-                            return literalNode.Value;
-                        }
-
-                        switch (literalNode.DataType.AbsoluteUri)
-                        {
-                            case XmlSpecsHelper.XmlSchemaDataTypeInteger:
-                                return long.Parse(literalNode.Value, CultureInfo.InvariantCulture);
-
-                            case XmlSpecsHelper.XmlSchemaDataTypeInt:
-                                return int.Parse(literalNode.Value, CultureInfo.InvariantCulture);
-
-                            default:
-                                throw new InvalidOperationException($"unknown datatype {literalNode.DataType.AbsoluteUri} on node {literalNode}");
-                        }
-
-                    default:
-                        throw new InvalidOperationException($"unknown node type {valueNode.NodeType} on node {valueNode}");
-                }
-            }
-
-            set => this.SetRequired(ConstantValue, value);
+            set => this.SetOptional(ConstantValue, value);
         }
 
         public Type? Type
@@ -62,7 +29,6 @@ namespace GraphEngine
             set => this.SetOptional(ConstantType, value);
         }
 
-        // TODO: Handle datatypes unknown to RDF e.g. "abc"^^http://example.com/System.Object
         public override Linq.Expression LinqExpression
         {
             get

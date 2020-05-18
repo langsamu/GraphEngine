@@ -25,6 +25,18 @@ namespace GraphEngine
 
         public abstract Linq.MemberBinding LinqMemberBinding { get; }
 
+        public static BaseBind Create(INode node, Linq.MemberBindingType kind)
+        {
+            return kind switch
+            {
+                Linq.MemberBindingType.Assignment => new Bind(node),
+                Linq.MemberBindingType.MemberBinding => new MemberBind(node),
+                Linq.MemberBindingType.ListBinding => new ListBind(node),
+
+                _ => throw new Exception("{type} is not memberbind")
+            };
+        }
+
         internal static BaseBind Parse(INode node)
         {
             var type = Vocabulary.RdfType.ObjectOf(node);

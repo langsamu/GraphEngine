@@ -4,6 +4,7 @@ namespace GraphEngine
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
@@ -53,13 +54,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
         {
-            var binary = node.NodeType switch
-            {
-                Linq.ExpressionType.Add => new Add(this.Current) as Binary,
-                Linq.ExpressionType.Assign => new Assign(this.Current) as Binary,
-                Linq.ExpressionType.GreaterThan => new GreaterThan(this.Current) as Binary,
-                Linq.ExpressionType.MultiplyAssign => new MultiplyAssign(this.Current) as Binary,
-            };
+            var binary = Binary.Create(this.Current, node.NodeType);
 
             binary.Left = this.VisitCacheParse(node.Left);
             binary.Right = this.VisitCacheParse(node.Right);
@@ -96,14 +91,18 @@ namespace GraphEngine
                 }
                 else
                 {
-                    condition = new IfThenElse(this.Current);
-                    condition.IfFalse = this.VisitCacheParse(node.IfFalse);
+                    condition = new IfThenElse(this.Current)
+                    {
+                        IfFalse = this.VisitCacheParse(node.IfFalse),
+                    };
                 }
             }
             else
             {
-                condition = new Condition(this.Current);
-                condition.IfFalse = this.VisitCacheParse(node.IfFalse);
+                condition = new Condition(this.Current)
+                {
+                    IfFalse = this.VisitCacheParse(node.IfFalse),
+                };
 
                 if (node.Type != node.IfTrue.Type)
                 {
@@ -119,31 +118,49 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
         {
-            var constant = new Constant(this.Current);
+            var constant = new Constant(this.Current)
+            {
+                Value = node.Value,
+            };
 
-            constant.Value = node.Value;
-
-            return base.VisitConstant(node);
-        }
-
-        protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
-        {
-            var @default = new Default(this.Current);
-
-            @default.Type = this.VisitType(node.Type);
+            if (node.Type != node.Value.GetType())
+            {
+                constant.Type = this.VisitType(node.Type);
+            }
 
             return node;
         }
 
+        protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
+        {
+            new Default(this.Current).Type = this.VisitType(node.Type);
+
+            return node;
+        }
+
+        protected override Linq.ElementInit VisitElementInit(Linq.ElementInit node)
+        {
+            using (this.Wrap(node))
+            {
+                var elementInit = new ElementInit(this.Current)
+                {
+                    AddMethod = this.VisitMethod(node.AddMethod),
+                };
+
+                foreach (var argument in node.Arguments)
+                {
+                    elementInit.Arguments.Add(this.VisitCacheParse(argument));
+                }
+
+                return node;
+            }
+        }
+
         protected override Linq.Expression VisitGoto(Linq.GotoExpression node)
         {
-            var @goto = node.Kind switch
-            {
-                Linq.GotoExpressionKind.Goto => new Goto(this.Current) as BaseGoto,
-                Linq.GotoExpressionKind.Return => new Return(this.Current) as BaseGoto,
-                Linq.GotoExpressionKind.Break => new Break(this.Current) as BaseGoto,
-                Linq.GotoExpressionKind.Continue => new Continue(this.Current) as BaseGoto,
-            };
+            var @goto = BaseGoto.Create(this.Current, node.Kind);
+
+            @goto.Target = new Target(this[this.VisitLabelTarget(node.Target)]);
 
             if (node.Value is object)
             {
@@ -154,8 +171,6 @@ namespace GraphEngine
             {
                 @goto.Type = this.VisitType(node.Type);
             }
-
-            @goto.Target = new Target(this[this.VisitLabelTarget(node.Target)]);
 
             return node;
         }
@@ -182,8 +197,10 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
         {
-            var loop = new Loop(this.Current);
-            loop.Body = this.VisitCacheParse(node.Body);
+            var loop = new Loop(this.Current)
+            {
+                Body = this.VisitCacheParse(node.Body),
+            };
 
             if (node.ContinueLabel is object)
             {
@@ -198,11 +215,91 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.MemberAssignment VisitMemberAssignment(Linq.MemberAssignment node)
+        {
+            _ = new Bind(this.Current)
+            {
+                Member = this.VisitMember(node.Member),
+                Expression = this.VisitCacheParse(node.Expression),
+            };
+
+            return node;
+        }
+
+        protected override Linq.MemberBinding VisitMemberBinding(Linq.MemberBinding node)
+        {
+            using (this.Wrap(node))
+            {
+                return node switch
+                {
+                    Linq.MemberAssignment binding => this.VisitMemberAssignment(binding),
+                    Linq.MemberMemberBinding binding => this.VisitMemberMemberBinding(binding),
+                    Linq.MemberListBinding binding => this.VisitMemberListBinding(binding),
+                };
+            }
+        }
+
+        protected override Linq.Expression VisitMemberInit(Linq.MemberInitExpression node)
+        {
+            var memberInit = new MemberInit(this.Current)
+            {
+                NewExpression = new New(this.VisitCache(node.NewExpression)),
+            };
+
+            foreach (var binding in node.Bindings)
+            {
+                memberInit.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
+            }
+
+            return node;
+        }
+
+        protected override Linq.MemberListBinding VisitMemberListBinding(Linq.MemberListBinding node)
+        {
+            var listBinding = new ListBind(this.Current)
+            {
+                Member = this.VisitMember(node.Member),
+            };
+
+            foreach (var item in node.Initializers)
+            {
+                listBinding.Initializers.Add(new ElementInit(this[this.VisitElementInit(item)]));
+            }
+
+            return node;
+        }
+
+        protected override Linq.MemberMemberBinding VisitMemberMemberBinding(Linq.MemberMemberBinding node)
+        {
+            var memberBinding = new MemberBind(this.Current)
+            {
+                Member = this.VisitMember(node.Member),
+            };
+
+            foreach (var binding in node.Bindings)
+            {
+                memberBinding.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
+            }
+
+            return node;
+        }
+
+        protected override Linq.Expression VisitNew(Linq.NewExpression node)
+        {
+            var @new = new New(this.Current)
+            {
+                Type = this.VisitType(node.Type),
+            };
+
+            return node;
+        }
+
         protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
         {
-            var parameter = new Parameter(this.Current);
-
-            parameter.Type = this.VisitType(node.Type);
+            var parameter = new Parameter(this.Current)
+            {
+                Type = this.VisitType(node.Type),
+            };
 
             if (node.Name is object)
             {
@@ -214,11 +311,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
         {
-            var unary = node.NodeType switch
-            {
-                Linq.ExpressionType.PostDecrementAssign => new PostDecrementAssign(this.Current) as Unary,
-                Linq.ExpressionType.ArrayLength => new ArrayLength(this.Current) as Unary,
-            };
+            var unary = Unary.Create(this.Current, node.NodeType);
 
             unary.Type = this.VisitType(node.Type);
 
@@ -231,12 +324,42 @@ namespace GraphEngine
 
         private INode VisitCache(Linq.Expression node) => this[this.Visit(node)];
 
+        private Member VisitMember(MemberInfo member)
+        {
+            using (this.Wrap(member))
+            {
+                var m = new Member(this.Current)
+                {
+                    Type = this.VisitType(member.DeclaringType),
+                    Name = member.Name,
+                };
+
+                return m;
+            }
+        }
+
+        private Method VisitMethod(MethodInfo method)
+        {
+            using (this.Wrap(method))
+            {
+                var m = new Method(this.Current)
+                {
+                    Type = this.VisitType(method.DeclaringType),
+                    Name = method.Name,
+                };
+
+                return m;
+            }
+        }
+
         private Type VisitType(System.Type type)
         {
             using (this.Wrap(type))
             {
-                var t = new Type(this.Current);
-                t.Name = $"{type.Namespace}.{type.Name}, {type.Assembly}";
+                var t = new Type(this.Current)
+                {
+                    Name = $"{type.Namespace}.{type.Name}, {type.Assembly}",
+                };
 
                 foreach (var argument in type.GenericTypeArguments)
                 {

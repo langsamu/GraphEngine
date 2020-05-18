@@ -3,7 +3,6 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using System.Linq.Expressions;
     using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
@@ -14,6 +13,7 @@ namespace GraphEngine
         internal Bind(INode node)
             : base(node)
         {
+            this.RdfType = Vocabulary.Bind;
         }
 
         public Expression Expression
@@ -23,6 +23,6 @@ namespace GraphEngine
             set => this.SetRequired(BindExpression, value);
         }
 
-        public override MemberBinding LinqMemberBinding => Linq.Expression.Bind(this.Member.ReflectionMember, this.Expression.LinqExpression);
+        public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.Bind(this.Member.ReflectionMember, this.Expression.LinqExpression);
     }
 }

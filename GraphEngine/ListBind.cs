@@ -15,6 +15,7 @@ namespace GraphEngine
         internal ListBind(INode node)
             : base(node)
         {
+            this.RdfType = Vocabulary.ListBind;
         }
 
         public ICollection<ElementInit> Initializers => this.Collection<ElementInit>(ListBindInitializers);

@@ -32,5 +32,16 @@ namespace GraphEngine
         public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.LinqUnaryType, this.Operand.LinqExpression, this.Type?.SystemType);
 
         protected abstract Linq.ExpressionType LinqUnaryType { get; }
+
+        public static Unary Create(INode node, Linq.ExpressionType type)
+        {
+            return type switch
+            {
+                Linq.ExpressionType.PostDecrementAssign => new PostDecrementAssign(node),
+                Linq.ExpressionType.ArrayLength => new ArrayLength(node),
+
+                _ => throw new System.Exception("{type} is not unary")
+            };
+        }
     }
 }

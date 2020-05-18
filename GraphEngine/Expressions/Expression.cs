@@ -5,7 +5,7 @@ namespace GraphEngine
     using System;
     using System.Diagnostics;
     using VDS.RDF;
-    using LinqExpression = System.Linq.Expressions.Expression;
+    using Linq = System.Linq.Expressions;
 
     public abstract partial class Expression : Node
     {
@@ -15,7 +15,7 @@ namespace GraphEngine
         {
         }
 
-        public abstract LinqExpression LinqExpression { get; }
+        public abstract Linq.Expression LinqExpression { get; }
 
         // TODO: Handle non-expressions, e.g. uri node = System.Uri, blank node = new object()
         public static Expression Parse(INode node)

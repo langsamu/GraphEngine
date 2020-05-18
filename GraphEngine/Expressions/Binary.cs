@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Diagnostics;
     using VDS.RDF;
     using static Vocabulary;
@@ -32,5 +33,18 @@ namespace GraphEngine
         public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.LinqBinaryType, this.Left.LinqExpression, this.Right.LinqExpression);
 
         protected abstract Linq.ExpressionType LinqBinaryType { get; }
+
+        public static Binary Create(INode node, Linq.ExpressionType type)
+        {
+            return type switch
+            {
+                Linq.ExpressionType.Add => new Add(node),
+                Linq.ExpressionType.Assign => new Assign(node),
+                Linq.ExpressionType.GreaterThan => new GreaterThan(node),
+                Linq.ExpressionType.MultiplyAssign => new MultiplyAssign(node),
+
+                _ => throw new Exception("{type} is not binary")
+            };
+        }
     }
 }

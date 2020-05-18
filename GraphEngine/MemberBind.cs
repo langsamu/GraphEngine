@@ -15,6 +15,7 @@ namespace GraphEngine
         internal MemberBind(INode node)
             : base(node)
         {
+            this.RdfType = Vocabulary.MemberBind;
         }
 
         public ICollection<BaseBind> Bindings => this.Collection<BaseBind>(MemberBindBindings);

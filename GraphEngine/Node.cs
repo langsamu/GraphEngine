@@ -5,10 +5,8 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Globalization;
     using System.Linq;
     using VDS.RDF;
-    using VDS.RDF.Parsing;
 
     public abstract partial class Node : WrapperNode
     {
@@ -26,10 +24,10 @@ namespace GraphEngine
         }
 
         internal static T Parse<T>(INode node)
-            where T : class
-        {
-            return node switch
+            where T : class =>
+            node switch
             {
+                INode _ when typeof(T) == typeof(object) => (node.AsObject() as T)!,
                 INode _ when typeof(Expression).IsAssignableFrom(typeof(T)) => (Expression.Parse(node) as T)!,
                 INode _ when typeof(T) == typeof(BaseBind) => (BaseBind.Parse(node) as T)!,
                 INode _ when typeof(T) == typeof(Case) => (new Case(node) as T)!,
@@ -44,57 +42,36 @@ namespace GraphEngine
 
                 _ => throw new Exception($"unknown node {node}"),
             };
-        }
 
         protected T? GetOptional<T>(INode predicate)
-            where T : class
-            => predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
+            where T : class =>
+            predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
 
         protected T GetRequired<T>(INode predicate)
-            where T : class
-            => this.GetOptional<T>(predicate)
+            where T : class =>
+            this.GetOptional<T>(predicate)
             ?? throw new Exception($"Single {predicate} not found on {this}");
 
         protected ICollection<T> Collection<T>(INode predicate)
-            where T : class, INode
-            => new Collection<T>(this, predicate);
+            where T : class, INode =>
+            new Collection<T>(this, predicate);
 
-        protected void SetRequired(INode predicate, object @object)
-        {
-            if (@object is null)
-            {
-                throw new ArgumentNullException(nameof(@object));
-            }
-
-            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate).ToList())
-            {
-                this.Graph.Retract(t);
-            }
-
-            this.Graph.Assert(this, predicate, this.Convert(@object));
-        }
+        protected void SetRequired(INode predicate, object @object) =>
+            this.SetOptional(
+                predicate,
+                @object ?? throw new ArgumentNullException(nameof(@object)));
 
         protected void SetOptional(INode predicate, object? @object)
         {
-            foreach (var t in this.Graph.GetTriplesWithSubjectPredicate(this, predicate).ToList())
-            {
-                this.Graph.Retract(t);
-            }
+            this.Graph.Retract(
+                this.Graph.GetTriplesWithSubjectPredicate(
+                    this,
+                    predicate).ToList());
 
             if (@object is object)
             {
-                this.Graph.Assert(this, predicate, this.Convert(@object));
+                this.Graph.Assert(this, predicate, @object.AsNode(this.Graph));
             }
-        }
-
-        private INode Convert(object @object)
-        {
-            return @object switch
-            {
-                INode node => node,
-                int number => this.Graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInt)),
-                _ => this.Graph.CreateLiteralNode(@object.ToString())
-            };
         }
     }
 }
