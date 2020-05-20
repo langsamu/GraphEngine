@@ -24,10 +24,33 @@ namespace GraphEngine.Tests
             ShouldRoundrip(expression);
         }
 
-        //[TestMethod]
-        public void ArrayIndex()
+        [TestMethod]
+        public void ArrayIndex_index()
         {
-            throw new NotImplementedException();
+            var expression =
+                LinqExpression.ArrayIndex(
+                    LinqExpression.Parameter(
+                        typeof(int[])),
+                    LinqExpression.Parameter(
+                        typeof(int)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void ArrayIndex_indexes()
+        {
+            var expression =
+                LinqExpression.ArrayIndex(
+                    LinqExpression.Parameter(
+                        typeof(int[])),
+                    new[]
+                    {
+                        LinqExpression.Parameter(
+                            typeof(int))
+                    });
+
+            ShouldRoundrip(expression);
         }
 
         [TestMethod]
@@ -53,6 +76,136 @@ namespace GraphEngine.Tests
             var expression = LinqExpression.Block(new[] { LinqExpression.Parameter(typeof(int)) }, new[] { LinqExpression.Empty() });
 
             ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_static_no_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(C1),
+                    nameof(C1.M1),
+                    Array.Empty<Type>(),
+                    Array.Empty<LinqExpression>());
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_static_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(C1),
+                    nameof(C1.M2),
+                    new[] {
+                        typeof(object) },
+                    Array.Empty<LinqExpression>());
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_static_no_types_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(C1),
+                    nameof(C1.M3),
+                    Array.Empty<Type>(),
+                    new[] {
+                        LinqExpression.Constant(
+                            0L,
+                            typeof(long)) });
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_static_types_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(C1),
+                    nameof(C1.M4),
+                    new[] {
+                        typeof(object) },
+                    new[] {
+                        LinqExpression.Constant(
+                            0L,
+                            typeof(long)) });
+
+            ShouldRoundrip(expression);
+
+        }
+
+        [TestMethod]
+        public void Call_instance_no_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(C1)),
+                    nameof(C1.M5),
+                    Array.Empty<Type>(),
+                    Array.Empty<LinqExpression>());
+
+            using var g = new GraphEngine.Graph();
+            ShouldRoundrip(expression);
+
+        }
+
+        [TestMethod]
+        public void Call_instance_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(C1)),
+                    nameof(C1.M6),
+                    new[] {
+                        typeof(object) },
+                    Array.Empty<LinqExpression>());
+
+            ShouldRoundrip(expression);
+
+        }
+
+        [TestMethod]
+        public void Call_instance_no_types_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(C1)),
+                    nameof(C1.M7),
+                    Array.Empty<Type>(),
+                    new[] {
+                        LinqExpression.Constant(
+                            0L,
+                            typeof(long)) });
+
+            ShouldRoundrip(expression);
+
+        }
+
+        [TestMethod]
+        public void Call_instance_types_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(C1)),
+                    nameof(C1.M8),
+                    new[] {
+                        typeof(object) },
+                    new[] {
+                        LinqExpression.Constant(
+                            0L,
+                            typeof(long)) });
+
+            ShouldRoundrip(expression);
+
         }
 
         [TestMethod]

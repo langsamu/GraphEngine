@@ -54,10 +54,21 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
         {
-            var binary = Binary.Create(this.Current, node.NodeType);
+            if (node.NodeType == Linq.ExpressionType.ArrayIndex)
+            {
+                _ = new ArrayIndex(this.Current)
+                {
+                    Array = this.VisitCacheParse(node.Left),
+                    Index = this.VisitCacheParse(node.Right),
+                };
+            }
+            else
+            {
+                var binary = Binary.Create(this.Current, node.NodeType);
 
-            binary.Left = this.VisitCacheParse(node.Left);
-            binary.Right = this.VisitCacheParse(node.Right);
+                binary.Left = this.VisitCacheParse(node.Left);
+                binary.Right = this.VisitCacheParse(node.Right);
+            }
 
             return node;
         }
@@ -74,6 +85,35 @@ namespace GraphEngine
             foreach (var blockExpression in node.Expressions)
             {
                 block.Expressions.Add(this.VisitCacheParse(blockExpression));
+            }
+
+            return node;
+        }
+
+        protected override Linq.Expression VisitMethodCall(Linq.MethodCallExpression node)
+        {
+            var call = new Call(this.Current)
+            {
+                Method = node.Method.Name,
+            };
+
+            if (node.Object is object)
+            {
+                call.Instance = this.VisitCacheParse(node.Object);
+            }
+            else
+            {
+                call.Type = this.VisitType(node.Method.DeclaringType);
+            }
+
+            foreach (var type in node.Method.GetGenericArguments())
+            {
+                call.TypeArguments.Add(this.VisitType(type));
+            }
+
+            foreach (var argument in node.Arguments)
+            {
+                call.Arguments.Add(this.VisitCacheParse(argument));
             }
 
             return node;
