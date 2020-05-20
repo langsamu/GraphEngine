@@ -175,6 +175,21 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.Expression VisitIndex(Linq.IndexExpression node)
+        {
+            var arrayAccess = new ArrayAccess(this.Current)
+            {
+                Array = this.VisitCacheParse(node.Object),
+            };
+
+            foreach (var index in node.Arguments)
+            {
+                arrayAccess.Indexes.Add(this.VisitCacheParse(index));
+            }
+
+            return node;
+        }
+
         protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget node)
         {
             using (this.Wrap(node))

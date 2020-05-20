@@ -11,10 +11,17 @@ namespace GraphEngine.Tests
     [TestClass]
     public class SerialisingVisitorTests
     {
-        //[TestMethod]
+        [TestMethod]
         public void ArrayAccess()
         {
-            throw new NotImplementedException();
+            var expression =
+                LinqExpression.ArrayAccess(
+                    LinqExpression.Parameter(
+                        typeof(int[])),
+                    LinqExpression.Parameter(
+                        typeof(int)));
+
+            ShouldRoundrip(expression);
         }
 
         //[TestMethod]
