@@ -19,6 +19,8 @@ namespace GraphEngine
 
         public static IUriNode RdfType { get; } = AnyNode(RdfSpecsHelper.RdfType);
 
+        public static IUriNode SubClassOf { get; } = AnyNode(OntologyHelper.PropertySubClassOf);
+
         public static IUriNode RdfsComment { get; } = AnyNode(OntologyHelper.PropertyComment);
 
         public static IUriNode RdfsDomain { get; } = AnyNode(OntologyHelper.PropertyDomain);

@@ -104,6 +104,13 @@ this:schema
 	rdfs:comment "An assignment operation, such as (a = b)." ;
 .
 
+:BaseBind
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Base bind" ;
+	rdfs:comment "" ;
+.
+
 :BaseGoto
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -117,6 +124,14 @@ this:schema
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Binary" ;
+	rdfs:comment "" ;
+.
+
+:Bind
+	a owl:Class ;
+	rdfs:subClassOf :BaseBind ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Bind" ;
 	rdfs:comment "" ;
 .
 
@@ -144,6 +159,21 @@ this:schema
 	rdfs:comment "A method call, such as in the obj.sampleMethod() expression." ;
 .
 
+:Case
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Case" ;
+	rdfs:comment "" ;
+.
+
+:Catch
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Catch" ;
+	rdfs:comment "" ;
+.
+
 :Coalesce
 	a owl:Class ;
 	rdfs:subClassOf :Binary ;
@@ -157,13 +187,6 @@ this:schema
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Condition" ;
-	rdfs:comment "" ;
-.
-
-:Catch
-	a owl:Class ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Catch" ;
 	rdfs:comment "" ;
 .
 
@@ -231,12 +254,11 @@ this:schema
 	rdfs:comment "An division compound assignment operation, such as (a /= b), for numeric operands." ;
 .
 
-:Equal
+:ElementInit
 	a owl:Class ;
-	rdfs:subClassOf :Binary ;
 	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Equal" ;
-	rdfs:comment "A node that represents an equality comparison, such as (a == b) in C# or (a = b) in Visual Basic." ;
+	rdfs:label "ElementInit" ;
+	rdfs:comment "" ;
 .
 
 :Empty
@@ -245,6 +267,14 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Empty" ;
 	rdfs:comment "Creates an empty expression that has Void type." ;
+.
+
+:Equal
+	a owl:Class ;
+	rdfs:subClassOf :Binary ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Equal" ;
+	rdfs:comment "A node that represents an equality comparison, such as (a == b) in C# or (a = b) in Visual Basic." ;
 .
 
 :ExclusiveOr
@@ -373,12 +403,51 @@ this:schema
 	rdfs:comment "A 'less than or equal to' comparison, such as (a <= b)." ;
 .
 
+:ListBind
+	a owl:Class ;
+	rdfs:subClassOf :BaseBind ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "List bind" ;
+	rdfs:comment "" ;
+.
+
 :Loop
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Loop" ;
 	rdfs:comment "A loop, such as for or while." ;
+.
+
+:Member
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Member" ;
+	rdfs:comment "" ;
+.
+
+:MemberBind
+	a owl:Class ;
+	rdfs:subClassOf :BaseBind ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Member bind" ;
+	rdfs:comment "" ;
+.
+
+:MemberInit
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Member init" ;
+	rdfs:comment "" ;
+.
+
+:Method
+	a owl:Class ;
+	rdfs:subClassOf :Member ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Method" ;
+	rdfs:comment "" ;
 .
 
 :Modulo
@@ -629,6 +698,14 @@ this:schema
 	rdfs:comment "An arithmetic subtraction operation, such as (a - b), that has overflow checking, for numeric operands." ;
 .
 
+:Switch
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Switch" ;
+	rdfs:comment "" ;
+.
+
 :Target
 	a owl:Class ;
 	rdfs:isDefinedBy this:schema ;
@@ -652,19 +729,19 @@ this:schema
 	rdfs:comment "A try-catch expression." ;
 .
 
+:Type
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Type" ;
+	rdfs:comment "" ;
+.
+
 :TypeAs
 	a owl:Class ;
 	rdfs:subClassOf :Unary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Type as" ;
 	rdfs:comment "An explicit reference or boxing conversion in which null is supplied if the conversion fails, such as (obj as SampleType) in C# or TryCast(obj, SampleType) in Visual Basic." ;
-.
-
-:Type
-	a owl:Class ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Type" ;
-	rdfs:comment "" ;
 .
 
 :Unary
@@ -899,21 +976,21 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:conditionIfTrue
-	a owl:ObjectProperty ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :Condition ;
-	rdfs:range :Expression ;
-	rdfs:label "condition if true" ;
-	rdfs:comment "" ;
-.
-
 :conditionIfFalse
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Condition ;
 	rdfs:range :Expression ;
 	rdfs:label "condition if false" ;
+	rdfs:comment "" ;
+.
+
+:conditionIfTrue
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Condition ;
+	rdfs:range :Expression ;
+	rdfs:label "condition if true" ;
 	rdfs:comment "" ;
 .
 
@@ -962,21 +1039,21 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:elementInitArguments
-	a owl:ObjectProperty ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :ElementInit ;
-	rdfs:range rdf:List ;
-	rdfs:label "element init arguments" ;
-	rdfs:comment "" ;
-.
-
 :elementInitAddMethod
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :ElementInit ;
 	rdfs:range :Method ;
 	rdfs:label "element init add method" ;
+	rdfs:comment "" ;
+.
+
+:elementInitArguments
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ElementInit ;
+	rdfs:range rdf:List ;
+	rdfs:label "element init arguments" ;
 	rdfs:comment "" ;
 .
 
@@ -1124,21 +1201,21 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:memberType
-	a owl:ObjectProperty ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :Member ;
-	rdfs:range :Type ;
-	rdfs:label "member type" ;
-	rdfs:comment "" ;
-.
-
 :memberName
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Member ;
 	rdfs:range :xsd:string ;
 	rdfs:label "member name" ;
+	rdfs:comment "" ;
+.
+
+:memberType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Member ;
+	rdfs:range :Type ;
+	rdfs:label "member type" ;
 	rdfs:comment "" ;
 .
 
@@ -1179,7 +1256,7 @@ this:schema
 .
 
 :parameterName
-	a owl:ObjectProperty ;
+	a owl:DatatypeProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Parameter ;
 	rdfs:range xsd:string ;

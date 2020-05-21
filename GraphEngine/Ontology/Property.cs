@@ -15,7 +15,7 @@ namespace GraphEngine.Ontology
         {
         }
 
-        public IEnumerable<Resource> Domains => Vocabulary.RdfsDomain.ObjectsOf(this).Select(o => new Resource(o));
+        public IEnumerable<Class> Domains => Vocabulary.RdfsDomain.ObjectsOf(this).Select(o => new Class(o));
 
         public IEnumerable<Resource> Ranges => Vocabulary.RdfsRange.ObjectsOf(this).Select(o => new Resource(o));
     }

@@ -3,7 +3,9 @@
 namespace GraphEngine.Tests
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using FluentAssertions;
     using GraphEngine.Ontology;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,99 +15,76 @@ namespace GraphEngine.Tests
     [TestClass]
     public class SchemaTests
     {
-        private static readonly Ontology.Graph ontologyGraph = new GraphEngine.Ontology.Graph();
+        private static readonly Ontology.Graph ontologyGraph = new Ontology.Graph();
+        private static readonly string ontologyString;
 
         static SchemaTests()
         {
             ontologyGraph.LoadFromEmbeddedResource("GraphEngine.Resources.Schema.ttl, GraphEngine");
+            ontologyString = new StreamReader(typeof(Ontology.Graph).Assembly.GetManifestResourceStream("GraphEngine.Resources.Schema.ttl")).ReadToEnd();
         }
 
         private static IEnumerable<object[]> Ontologies => ontologyGraph.Ontologies.Select(o => new[] { o });
 
         private static IEnumerable<object[]> Properties => ontologyGraph.DatatypeProperties.Union(ontologyGraph.ObjectProperties).Select(p => new[] { p });
 
+        private static IEnumerable<object[]> ObjectProperties => ontologyGraph.ObjectProperties.Select(p => new[] { p });
+
         private static IEnumerable<object[]> Classes => ontologyGraph.Classes.Select(c => new[] { c });
 
         private static IEnumerable<object[]> Resources => Ontologies.Union(Classes).Union(Properties);
 
         [TestMethod]
-        public void Only_one_ontology()
-        {
-            Ontologies.Should().ContainSingle("graph must define exactly one ontology");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Ontologies))]
-        public void Ontology_has_correct_uri(Resource ontology)
-        {
-            ontology.Should().Be(Vocabulary.Ontology, "ontology must have correct URI");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Resources))]
-        public void Resource_is_defined_by_one_ontology(Resource resource)
-        {
-            resource.IsDefinedBy.Should().ContainSingle("resources must be defined by exactly one ontology");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Resources))]
-        public void Resource_is_defined_by_correct_ontology(Resource resource)
-        {
-            CollectionAssert.AreEqual(ontologyGraph.Ontologies.ToList(), resource.IsDefinedBy.ToList(), "resources must be defined by correct ontology");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Resources))]
-        public void Resource_has_one_type(Resource resource)
-        {
-            resource.Types.Should().ContainSingle("resources must have exactly one type");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Resources))]
-        public void Resource_is_from_namespace(Resource resource)
-        {
-            resource
-                .Should()
-                .Match<Resource>(r => Vocabulary.BaseUri.IsBaseOf(resource.Uri), "resources must be from correct namespace")
-                .And
-                .Match<Resource>(r => !Vocabulary.BaseUri.MakeRelativeUri(resource.Uri).ToString().Contains("/"), "properties must be camelCased");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Properties))]
-        public void Properties_have_one_domain(Property property)
-        {
-            property.Domains.Should().ContainSingle("properties must have exactly one domain");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Properties))]
-        public void Properties_have_one_range(Property property)
-        {
-            property.Ranges.Should().ContainSingle("properties must have exactly one range");
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(Properties))]
-        public void Properties_are_camel_cased(Property property)
-        {
-            Vocabulary.BaseUri.MakeRelativeUri(property.Uri).ToString().Should().MatchRegex(@"^[a-z]([a-z]|[A-Z]|[0-9])*$", "properties must be camelCased");
-        }
-
-        [TestMethod]
         [DynamicData(nameof(Classes))]
-        public void Classes_are_pascal_cased(Resource @class)
+        public void Class_name_is_in_pascal_case(Class @class)
         {
             Vocabulary.BaseUri.MakeRelativeUri(@class.Uri).ToString().Should().MatchRegex(@"^[A-Z]([a-z]|[A-Z]|[0-9])*$", "classes must be PascalCased");
         }
 
         [TestMethod]
-        [DynamicData(nameof(Resources))]
-        public void Resource_has_one_label(Resource resource)
+        [DynamicData(nameof(Classes))]
+        public void Class_superclasses_are_classes(Class @class)
         {
-            resource.Labels.Should().ContainSingle("resources must have exactly one label");
+            foreach (var superclass in @class.SubClassOf.Where(Is_from_namespace))
+            {
+                superclass.Should().Match(s => ontologyGraph.Classes.Contains(s), "superclasses must have class definitions");
+            }
+        }
+
+        [TestMethod]
+        public void Classes_are_ordered()
+        {
+            Regex.Matches(ontologyString, @"^:\p{Lu}\w*", RegexOptions.Multiline).Select(m => m.Value).Should().BeInAscendingOrder("classes must be ordered alphabetically");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Resources))]
+        public void Comment_is_literal(Resource resource)
+        {
+            foreach (var comment in resource.Comments)
+            {
+                comment.NodeType.Should().Be(NodeType.Literal, "commentss must be literals");
+            }
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Resources))]
+        public void Comment_is_not_empty(Resource resource)
+        {
+            foreach (var comment in resource.Comments.LiteralNodes())
+            {
+                comment.Value.Should().NotBeEmpty("comments must not be empty");
+            }
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Resources))]
+        public void Comment_is_string(Resource resource)
+        {
+            foreach (var comment in resource.Comments.LiteralNodes().Where(comment => comment.DataType is object))
+            {
+                comment.DataType.AbsoluteUri.Should().BeOneOf(RdfSpecsHelper.RdfLangString, XmlSpecsHelper.XmlSchemaDataTypeString, "commentss must be strings");
+            }
         }
 
         [TestMethod]
@@ -139,6 +118,66 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        [DynamicData(nameof(ObjectProperties))]
+        public void Object_property_ranges_are_classes(Property property)
+        {
+            foreach (var range in property.Ranges.Where(Is_from_namespace))
+            {
+                range.Should().Match(r => ontologyGraph.Classes.Contains(r), "ranges must have class definitions");
+            }
+        }
+
+        [TestMethod]
+        public void Only_one_ontology()
+        {
+            Ontologies.Should().ContainSingle("graph must define exactly one ontology");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Ontologies))]
+        public void Ontology_has_correct_uri(Resource ontology)
+        {
+            ontology.Should().Be(Vocabulary.Ontology, "ontology must have correct URI");
+        }
+
+        [TestMethod]
+        public void Properties_are_ordered()
+        {
+            Regex.Matches(ontologyString, @"^:\p{Ll}\w*", RegexOptions.Multiline).Select(m => m.Value).Should().BeInAscendingOrder("properties must be ordered alphabetically");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Properties))]
+        public void Property_domains_are_classes(Property property)
+        {
+            foreach (var domain in property.Domains.Where(Is_from_namespace))
+            {
+                domain.Should().Match(d => ontologyGraph.Classes.Contains(d), "domains must have class definitions");
+            }
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Properties))]
+        public void Property_has_one_domain(Property property)
+        {
+            property.Domains.Should().ContainSingle("properties must have exactly one domain");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Properties))]
+        public void Property_has_one_range(Property property)
+        {
+            property.Ranges.Should().ContainSingle("properties must have exactly one range");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Properties))]
+        public void Property_name_is_in_camel_case(Property property)
+        {
+            Vocabulary.BaseUri.MakeRelativeUri(property.Uri).ToString().Should().MatchRegex(@"^[a-z]([a-z]|[A-Z]|[0-9])*$", "properties must be camelCased");
+        }
+
+        [TestMethod]
         [DynamicData(nameof(Resources))]
         public void Resource_has_one_comment(Resource resource)
         {
@@ -147,32 +186,42 @@ namespace GraphEngine.Tests
 
         [TestMethod]
         [DynamicData(nameof(Resources))]
-        public void Comment_is_literal(Resource resource)
+        public void Resource_has_one_label(Resource resource)
         {
-            foreach (var comment in resource.Comments)
-            {
-                comment.NodeType.Should().Be(NodeType.Literal, "commentss must be literals");
-            }
+            resource.Labels.Should().ContainSingle("resources must have exactly one label");
         }
 
         [TestMethod]
         [DynamicData(nameof(Resources))]
-        public void Comment_is_not_empty(Resource resource)
+        public void Resource_has_one_type(Resource resource)
         {
-            foreach (var comment in resource.Comments.LiteralNodes())
-            {
-                comment.Value.Should().NotBeEmpty("comments must not be empty");
-            }
+            resource.Types.Should().ContainSingle("resources must have exactly one type");
         }
 
         [TestMethod]
         [DynamicData(nameof(Resources))]
-        public void Comment_is_string(Resource resource)
+        public void Resource_is_defined_by_correct_ontology(Resource resource)
         {
-            foreach (var comment in resource.Comments.LiteralNodes().Where(comment => comment.DataType is object))
-            {
-                comment.DataType.AbsoluteUri.Should().BeOneOf(RdfSpecsHelper.RdfLangString, XmlSpecsHelper.XmlSchemaDataTypeString, "commentss must be strings");
-            }
+            CollectionAssert.AreEqual(ontologyGraph.Ontologies.ToList(), resource.IsDefinedBy.ToList(), "resources must be defined by correct ontology");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Resources))]
+        public void Resource_is_defined_by_one_ontology(Resource resource)
+        {
+            resource.IsDefinedBy.Should().ContainSingle("resources must be defined by exactly one ontology");
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(Resources))]
+        public void Resource_is_from_namespace(Resource resource)
+        {
+            resource.Should().Match<Resource>(r => Is_from_namespace(r), "resources must be from correct namespace");
+        }
+
+        private static bool Is_from_namespace(Resource resource)
+        {
+            return Vocabulary.BaseUri.IsBaseOf(resource.Uri) && !Vocabulary.BaseUri.MakeRelativeUri(resource.Uri).ToString().Contains("/");
         }
     }
 }
