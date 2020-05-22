@@ -270,6 +270,29 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.Expression VisitMember(Linq.MemberExpression node)
+        {
+            if (node.Member.MemberType == MemberTypes.Field)
+            {
+                var field = new Field(this.Current)
+                {
+                    Name = node.Member.Name,
+                };
+
+                if (node.Expression is object)
+                {
+                    field.Expression = this.VisitCacheParse(node.Expression);
+                }
+
+                if (node.Expression is null || node.Expression.Type != node.Member.DeclaringType)
+                {
+                    field.Type = this.VisitType(node.Member.DeclaringType);
+                }
+            }
+
+            return node;
+        }
+
         protected override Linq.MemberAssignment VisitMemberAssignment(Linq.MemberAssignment node)
         {
             _ = new Bind(this.Current)

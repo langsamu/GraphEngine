@@ -218,6 +218,41 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void MemberAccess_field_expression()
+        {
+            var expression =
+                LinqExpression.Field(
+                    LinqExpression.Parameter(typeof(Cx1)),
+                    nameof(Cx1.F1));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberAccess_field_expression_type()
+        {
+            var expression =
+                LinqExpression.Field(
+                    LinqExpression.Parameter(typeof(Cx2)),
+                    typeof(Cx1),
+                    nameof(Cx1.F1));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberAccess_field_type()
+        {
+            var expression =
+                LinqExpression.Field(
+                    null,
+                    typeof(Cx1),
+                    nameof(Cx1.F2));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void ConditionType()
         {
             var expression = LinqExpression.Condition(

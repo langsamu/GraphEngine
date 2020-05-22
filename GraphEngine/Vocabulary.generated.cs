@@ -310,6 +310,12 @@ namespace GraphEngine
 
         public static IUriNode LoopContinue { get; } = EngineNode("loopContinue");
 
+        public static IUriNode MemberAccessExpression { get; } = EngineNode("memberAccessExpression");
+
+        public static IUriNode MemberAccessName { get; } = EngineNode("memberAccessName");
+
+        public static IUriNode MemberAccessType { get; } = EngineNode("memberAccessType");
+
         public static IUriNode MemberBindBindings { get; } = EngineNode("memberBindBindings");
 
         public static IUriNode MemberInitBindings { get; } = EngineNode("memberInitBindings");

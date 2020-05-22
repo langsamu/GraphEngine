@@ -188,6 +188,9 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("LoopBody", "loopBody");
         yield return ("LoopBreak", "loopBreak");
         yield return ("LoopContinue", "loopContinue");
+        yield return ("MemberAccessExpression", "memberAccessExpression");
+        yield return ("MemberAccessName", "memberAccessName");
+        yield return ("MemberAccessType", "memberAccessType");
         yield return ("MemberBindBindings", "memberBindBindings");
         yield return ("MemberInitBindings", "memberInitBindings");
         yield return ("MemberInitNewExpression", "memberInitNewExpression");

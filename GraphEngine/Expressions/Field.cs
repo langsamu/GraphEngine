@@ -2,22 +2,30 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Diagnostics;
     using VDS.RDF;
-    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Implement
-    public class Field : Expression
+    public class Field : MemberAccess
     {
         [DebuggerStepThrough]
         internal Field(INode node)
             : base(node)
         {
-            throw new NotImplementedException();
+            this.RdfType = Vocabulary.Field;
         }
 
-        public override Linq.Expression LinqExpression => throw new InvalidOperationException();
+        public override Linq.Expression LinqExpression
+        {
+            get
+            {
+                if (this.Type is Type type)
+                {
+                    return Linq.Expression.Field(this.Expression?.LinqExpression, type.SystemType, this.Name);
+                }
+
+                return Linq.Expression.Field(this.Expression?.LinqExpression, this.Name);
+            }
+        }
     }
 }

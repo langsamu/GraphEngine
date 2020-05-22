@@ -300,6 +300,14 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:Field
+	a owl:Class ;
+	rdfs:subClassOf :MemberAccess ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Field" ;
+	rdfs:comment "" ;
+.
+
 :Goto
 	a owl:Class ;
 	rdfs:subClassOf :BaseGoto ;
@@ -423,6 +431,14 @@ this:schema
 	a owl:Class ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Member" ;
+	rdfs:comment "" ;
+.
+
+:MemberAccess
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "MemberAccess" ;
 	rdfs:comment "" ;
 .
 
@@ -1174,6 +1190,33 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:memberAccessExpression
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :MemberAccess ;
+	rdfs:range :Expression ;
+	rdfs:label "member access expression" ;
+	rdfs:comment "" ;
+.
+
+:memberAccessName
+	a owl:Datatype ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :MemberAccess ;
+	rdfs:range xsd:string ;
+	rdfs:label "member access name" ;
+	rdfs:comment "" ;
+.
+
+:memberAccessType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :MemberAccess ;
+	rdfs:range :Type ;
+	rdfs:label "member access type" ;
+	rdfs:comment "" ;
+.
+
 :memberBindBindings
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -1202,7 +1245,7 @@ this:schema
 .
 
 :memberName
-	a owl:ObjectProperty ;
+	a owl:DatatypeProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Member ;
 	rdfs:range :xsd:string ;
