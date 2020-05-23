@@ -36,7 +36,7 @@ namespace GraphEngine.Tests
 
             ShouldRoundrip(expression);
         }
-
+        
         [TestMethod]
         public void ArrayIndex_indexes()
         {
@@ -248,6 +248,53 @@ namespace GraphEngine.Tests
                     null,
                     typeof(Cx1),
                     nameof(Cx1.F2));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberAccess_property_expression()
+        {
+            var expression =
+                LinqExpression.Property(
+                    LinqExpression.Parameter(typeof(Cx1)),
+                    nameof(Cx1.P1));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberAccess_property_expression_type()
+        {
+            var expression =
+                LinqExpression.Property(
+                    LinqExpression.Parameter(typeof(Cx2)),
+                    typeof(Cx1),
+                    nameof(Cx1.P1));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberAccess_property_type()
+        {
+            var expression =
+                LinqExpression.Property(
+                    null,
+                    typeof(Cx1),
+                    nameof(Cx1.P2));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void MemberAccess_property_expression_arguments()
+        {
+            var expression =
+                LinqExpression.Property(
+                    LinqExpression.Parameter(typeof(Cx1)),
+                    "Pi",
+                    LinqExpression.Parameter(typeof(int)));
 
             ShouldRoundrip(expression);
         }

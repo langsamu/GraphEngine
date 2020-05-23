@@ -650,6 +650,14 @@ this:schema
 	rdfs:comment "A unary prefix increment, such as (++a). The object a should be modified in place." ;
 .
 
+:Property
+	a owl:Class ;
+	rdfs:subClassOf :MemberAccess ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Property" ;
+	rdfs:comment "" ;
+.
+
 :Quote
 	a owl:Class ;
 	rdfs:subClassOf :Unary ;
@@ -1313,6 +1321,15 @@ this:schema
 	rdfs:domain :Parameter ;
 	rdfs:range :Type ;
 	rdfs:label "parameter type" ;
+	rdfs:comment "" ;
+.
+
+:propertyArguments
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Property ;
+	rdfs:range rdf:List ;
+	rdfs:label "property arguments" ;
 	rdfs:comment "" ;
 .
 

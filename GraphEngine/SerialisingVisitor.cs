@@ -217,14 +217,30 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitIndex(Linq.IndexExpression node)
         {
-            var arrayAccess = new ArrayAccess(this.Current)
+            if (node.Indexer is object)
             {
-                Array = this.VisitCacheParse(node.Object),
-            };
+                var property = new Property(this.Current)
+                {
+                    Expression = this.VisitCacheParse(node.Object),
+                    Name = node.Indexer.Name,
+                };
 
-            foreach (var index in node.Arguments)
+                foreach (var index in node.Arguments)
+                {
+                    property.Arguments.Add(this.VisitCacheParse(index));
+                }
+            }
+            else
             {
-                arrayAccess.Indexes.Add(this.VisitCacheParse(index));
+                var arrayAccess = new ArrayAccess(this.Current)
+                {
+                    Array = this.VisitCacheParse(node.Object),
+                };
+
+                foreach (var index in node.Arguments)
+                {
+                    arrayAccess.Indexes.Add(this.VisitCacheParse(index));
+                }
             }
 
             return node;
@@ -272,22 +288,22 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitMember(Linq.MemberExpression node)
         {
-            if (node.Member.MemberType == MemberTypes.Field)
+            var memberAccess = node.Member.MemberType switch
             {
-                var field = new Field(this.Current)
-                {
-                    Name = node.Member.Name,
-                };
+                MemberTypes.Field => (MemberAccess)new Field(this.Current),
+                MemberTypes.Property => (MemberAccess)new Property(this.Current),
+            };
 
-                if (node.Expression is object)
-                {
-                    field.Expression = this.VisitCacheParse(node.Expression);
-                }
+            memberAccess.Name = node.Member.Name;
 
-                if (node.Expression is null || node.Expression.Type != node.Member.DeclaringType)
-                {
-                    field.Type = this.VisitType(node.Member.DeclaringType);
-                }
+            if (node.Expression is object)
+            {
+                memberAccess.Expression = this.VisitCacheParse(node.Expression);
+            }
+
+            if (node.Expression is null || node.Expression.Type != node.Member.DeclaringType)
+            {
+                memberAccess.Type = this.VisitType(node.Member.DeclaringType);
             }
 
             return node;
