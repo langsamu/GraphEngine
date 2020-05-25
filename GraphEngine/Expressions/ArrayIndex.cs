@@ -18,19 +18,19 @@ namespace GraphEngine
 
         public Expression Array
         {
-            get => this.GetRequired<Expression>(ArrayIndexArray);
+            get => this.GetRequired(ArrayIndexArray, AsExpression);
 
             set => this.SetRequired(ArrayIndexArray, value);
         }
 
         public Expression? Index
         {
-            get => this.GetOptional<Expression>(ArrayIndexIndex);
+            get => this.GetOptional(ArrayIndexIndex, AsExpression);
 
             set => this.SetOptional(ArrayIndexIndex, value);
         }
 
-        public ICollection<Expression> Indexes => this.Collection<Expression>(ArrayIndexIndexes);
+        public ICollection<Expression> Indexes => this.Collection(ArrayIndexIndexes, AsExpression);
 
         public override Linq.Expression LinqExpression
         {

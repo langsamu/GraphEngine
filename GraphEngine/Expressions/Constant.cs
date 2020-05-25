@@ -17,14 +17,14 @@ namespace GraphEngine
 
         public object? Value
         {
-            get => this.GetOptional<object>(ConstantValue);
+            get => this.GetOptional(ConstantValue, AsObject);
 
             set => this.SetOptional(ConstantValue, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional<Type>(ConstantType);
+            get => this.GetOptional(ConstantType, AsType);
 
             set => this.SetOptional(ConstantType, value);
         }

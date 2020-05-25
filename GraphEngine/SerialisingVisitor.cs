@@ -4,6 +4,7 @@ namespace GraphEngine
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Reflection;
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
@@ -167,6 +168,20 @@ namespace GraphEngine
             {
                 constant.Type = this.VisitType(node.Type);
             }
+
+            return node;
+        }
+
+        protected override Linq.Expression VisitDebugInfo(Linq.DebugInfoExpression node)
+        {
+            var debugInfo = new DebugInfo(this.Current)
+            {
+                Document = this.VisitSymbolDocument(node.Document),
+                StartLine = node.StartLine,
+                StartColumn = node.StartLine,
+                EndLine = node.EndLine,
+                EndColumn = node.EndLine,
+            };
 
             return node;
         }
@@ -444,6 +459,24 @@ namespace GraphEngine
 
                 return m;
             }
+        }
+
+        private SymbolDocument VisitSymbolDocument(SymbolDocumentInfo document)
+        {
+            using (this.Wrap(document))
+            {
+                var d = new SymbolDocument(this.Current)
+                {
+                    FileName = document.FileName,
+                    Language = NullIfEmpty(document.Language),
+                    LanguageVendor = NullIfEmpty(document.LanguageVendor),
+                    DocumentType = NullIfEmpty(document.DocumentType),
+                };
+
+                return d;
+            }
+
+            static Guid? NullIfEmpty(Guid guid) => guid == Guid.Empty ? (Guid?)null : guid;
         }
 
         private Type VisitType(System.Type type)

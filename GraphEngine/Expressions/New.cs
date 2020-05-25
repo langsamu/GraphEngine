@@ -17,11 +17,11 @@ namespace GraphEngine
         {
         }
 
-        public ICollection<Expression> Arguments => this.Collection<Expression>(NewArguments);
+        public ICollection<Expression> Arguments => this.Collection(NewArguments, AsExpression);
 
         public Type Type
         {
-            get => this.GetRequired<Type>(NewType);
+            get => this.GetRequired(NewType, AsType);
 
             set => this.SetRequired(NewType, value);
         }

@@ -31,6 +31,7 @@ namespace GraphEngine
                 Uri uri => graph.CreateUriNode(uri),
                 long number => graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInteger)),
                 int number => graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInt)),
+                Guid guid => graph.CreateUriNode(new Uri("urn:uuid:" + guid.ToString())),
                 _ => graph.CreateLiteralNode(value.ToString())
             };
 

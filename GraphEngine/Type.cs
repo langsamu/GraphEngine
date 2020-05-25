@@ -19,12 +19,12 @@ namespace GraphEngine
 
         public string Name
         {
-            get => this.GetRequired<string>(TypeName);
+            get => this.GetRequired(TypeName, AsString);
 
             set => this.SetRequired(TypeName, value);
         }
 
-        public ICollection<Type> Arguments => this.Collection<Type>(TypeArguments);
+        public ICollection<Type> Arguments => this.Collection(TypeArguments, AsType);
 
         public System.Type SystemType
         {

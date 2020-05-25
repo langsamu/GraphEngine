@@ -16,21 +16,21 @@ namespace GraphEngine
 
         public Expression? Expression
         {
-            get => this.GetOptional<Expression>(MemberAccessExpression);
+            get => this.GetOptional(MemberAccessExpression, AsExpression);
 
             set => this.SetOptional(MemberAccessExpression, value);
         }
 
         public string Name
         {
-            get => this.GetRequired<string>(MemberAccessName);
+            get => this.GetRequired(MemberAccessName, AsString);
 
             set => this.SetRequired(MemberAccessName, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional<Type>(MemberAccessType);
+            get => this.GetOptional(MemberAccessType, AsType);
 
             set => this.SetOptional(MemberAccessType, value);
         }

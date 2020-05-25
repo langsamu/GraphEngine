@@ -17,14 +17,14 @@ namespace GraphEngine
 
         public Expression Operand
         {
-            get => this.GetRequired<Expression>(UnaryOperand);
+            get => this.GetRequired(UnaryOperand, AsExpression);
 
             set => this.SetRequired(UnaryOperand, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional<Type>(UnaryType);
+            get => this.GetOptional(UnaryType, AsType);
 
             set => this.SetOptional(UnaryType, value);
         }
@@ -37,8 +37,26 @@ namespace GraphEngine
         {
             return type switch
             {
-                Linq.ExpressionType.PostDecrementAssign => new PostDecrementAssign(node),
+                Linq.ExpressionType.Negate => new Negate(node),
+                Linq.ExpressionType.NegateChecked => new NegateChecked(node),
+                Linq.ExpressionType.Not => new Not(node),
+                Linq.ExpressionType.IsFalse => new IsFalse(node),
+                Linq.ExpressionType.IsTrue => new IsTrue(node),
+                Linq.ExpressionType.OnesComplement => new OnesComplement(node),
                 Linq.ExpressionType.ArrayLength => new ArrayLength(node),
+                Linq.ExpressionType.Convert => new Convert(node),
+                Linq.ExpressionType.ConvertChecked => new ConvertChecked(node),
+                Linq.ExpressionType.Throw => new Throw(node),
+                Linq.ExpressionType.TypeAs => new TypeAs(node),
+                Linq.ExpressionType.Quote => new Quote(node),
+                Linq.ExpressionType.UnaryPlus => new UnaryPlus(node),
+                Linq.ExpressionType.Unbox => new Unbox(node),
+                Linq.ExpressionType.Increment => new Increment(node),
+                Linq.ExpressionType.Decrement => new Decrement(node),
+                Linq.ExpressionType.PreIncrementAssign => new PreIncrementAssign(node),
+                Linq.ExpressionType.PostIncrementAssign => new PostIncrementAssign(node),
+                Linq.ExpressionType.PreDecrementAssign => new PreDecrementAssign(node),
+                Linq.ExpressionType.PostDecrementAssign => new PostDecrementAssign(node),
 
                 _ => throw new System.Exception("{type} is not unary")
             };

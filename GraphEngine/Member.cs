@@ -19,14 +19,14 @@ namespace GraphEngine
 
         public Type Type
         {
-            get => this.GetRequired<Type>(MemberType);
+            get => this.GetRequired(MemberType, AsType);
 
             set => this.SetRequired(MemberType, value);
         }
 
         public string Name
         {
-            get => this.GetRequired<string>(MemberName);
+            get => this.GetRequired(MemberName, AsString);
 
             set => this.SetRequired(MemberName, value);
         }

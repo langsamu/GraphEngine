@@ -18,12 +18,12 @@ namespace GraphEngine
 
         public Expression Body
         {
-            get => this.GetRequired<Expression>(CaseBody);
+            get => this.GetRequired(CaseBody, AsExpression);
 
             set => this.SetRequired(CaseBody, value);
         }
 
-        public ICollection<Expression> TestValues => this.Collection<Expression>(CaseTestValues);
+        public ICollection<Expression> TestValues => this.Collection(CaseTestValues, AsExpression);
 
         public Linq.SwitchCase LinqSwitchCase => Linq.Expression.SwitchCase(this.Body.LinqExpression, this.TestValues.LinqExpressions());
     }

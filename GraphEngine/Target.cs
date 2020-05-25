@@ -20,14 +20,14 @@ namespace GraphEngine
 
         public Type? Type
         {
-            get => this.GetOptional<Type>(TargetType);
+            get => this.GetOptional(TargetType, AsType);
 
             set => this.SetOptional(TargetType, value);
         }
 
         public string? Name
         {
-            get => this.GetOptional<string>(TargetName);
+            get => this.GetOptional(TargetName, AsString);
 
             set => this.SetOptional(TargetName, value);
         }

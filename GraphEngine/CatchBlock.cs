@@ -17,28 +17,28 @@ namespace GraphEngine
 
         public Type? Type
         {
-            get => this.GetOptional<Type>(CatchType);
+            get => this.GetOptional(CatchType, AsType);
 
             set => this.SetOptional(CatchType, value);
         }
 
         public Expression Body
         {
-            get => this.GetRequired<Expression>(CatchBody);
+            get => this.GetRequired(CatchBody, AsExpression);
 
             set => this.SetRequired(CatchBody, value);
         }
 
         public Parameter? Variable
         {
-            get => this.GetOptional<Parameter>(CatchVariable);
+            get => this.GetOptional(CatchVariable, AsParameter);
 
             set => this.SetOptional(CatchVariable, value);
         }
 
         public Expression? Filter
         {
-            get => this.GetOptional<Expression>(CatchFilter);
+            get => this.GetOptional(CatchFilter, AsExpression);
 
             set => this.SetOptional(CatchFilter, value);
         }

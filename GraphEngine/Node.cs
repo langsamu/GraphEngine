@@ -5,6 +5,7 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Linq;
     using VDS.RDF;
 
@@ -23,38 +24,199 @@ namespace GraphEngine
             set => this.SetOptional(Vocabulary.RdfType, value);
         }
 
-        internal static T Parse<T>(INode node)
-            where T : class =>
-            node switch
+        // TODO: Move these elsewhere, perhaps X.Parse
+        protected static int AsInt(INode node)
+        {
+            if (node is null)
             {
-                INode _ when typeof(T) == typeof(object) => (node.AsObject() as T)!,
-                INode _ when typeof(Expression).IsAssignableFrom(typeof(T)) => (Expression.Parse(node) as T)!,
-                INode _ when typeof(T) == typeof(BaseBind) => (BaseBind.Parse(node) as T)!,
-                INode _ when typeof(T) == typeof(Case) => (new Case(node) as T)!,
-                INode _ when typeof(T) == typeof(CatchBlock) => (new CatchBlock(node) as T)!,
-                INode _ when typeof(T) == typeof(ElementInit) => (new ElementInit(node) as T)!,
-                INode _ when typeof(T) == typeof(Member) => (new Member(node) as T)!,
-                INode _ when typeof(T) == typeof(Method) => (new Method(node) as T)!,
-                INode _ when typeof(T) == typeof(Parameter) => (new Parameter(node) as T)!,
-                INode _ when typeof(T) == typeof(Target) => (new Target(node) as T)!,
-                INode _ when typeof(T) == typeof(Type) => (new Type(node) as T)!,
-                INode _ when typeof(T) == typeof(string) => (((ILiteralNode)node).Value as T)!,
+                throw new ArgumentNullException(nameof(node));
+            }
 
-                _ => throw new Exception($"unknown node {node}"),
-            };
+            if (!(node.NodeType == NodeType.Literal && node is ILiteralNode literalNode))
+            {
+                throw new InvalidOperationException($"{node} is not literal node");
+            }
 
-        protected T? GetOptional<T>(INode predicate)
-            where T : class =>
-            predicate.ObjectsOf(this).Select(Parse<T>).SingleOrDefault();
+            if (!int.TryParse(literalNode.Value, out var i))
+            {
+                throw new InvalidOperationException($"{node} is not valid int");
+            }
 
-        protected T GetRequired<T>(INode predicate)
-            where T : class =>
-            this.GetOptional<T>(predicate)
-            ?? throw new Exception($"Single {predicate} not found on {this}");
+            return i;
+        }
 
-        protected ICollection<T> Collection<T>(INode predicate)
+        protected static ElementInit AsElementInit(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new ElementInit(node);
+        }
+
+        protected static CatchBlock AsCatchBlock(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new CatchBlock(node);
+        }
+
+        protected static Case AsCase(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Case(node);
+        }
+
+        protected static BaseBind AsBaseBind(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return BaseBind.Parse(node);
+        }
+
+        protected static Parameter AsParameter(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Parameter(node);
+        }
+
+        protected static New AsNew(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new New(node);
+        }
+
+        protected static Method AsMethod(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Method(node);
+        }
+
+        protected static Member AsMember(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Member(node);
+        }
+
+        protected static Target AsTarget(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Target(node);
+        }
+
+        protected static Type AsType(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Type(node);
+        }
+
+        protected static object AsObject(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return node.AsObject();
+        }
+
+        protected static Expression AsExpression(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return Expression.Parse(node);
+        }
+
+        protected static string AsString(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            if (!(node.NodeType == NodeType.Literal && node is ILiteralNode literalNode))
+            {
+                throw new InvalidOperationException($"{node} is not literal node");
+            }
+
+            return literalNode.Value;
+        }
+
+        protected static Guid AsGuid(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            if (!(node.NodeType == NodeType.Uri && node is IUriNode uriNode))
+            {
+                throw new InvalidOperationException($"{node} is not uri node");
+            }
+
+            var uri = uriNode.Uri;
+
+            if (uri.Scheme != "urn")
+            {
+                throw new InvalidOperationException($"{uri} is not URN");
+            }
+
+            const string uuid = "uuid:";
+            var path = uri.AbsolutePath;
+            if (!path.StartsWith(uuid, StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException($"{uri} is not UUID URN");
+            }
+
+            if (!Guid.TryParse(path.AsSpan(uuid.Length), out var g))
+            {
+                throw new InvalidOperationException($"{path} is not valid UUID");
+            }
+
+            return g;
+        }
+
+        protected ICollection<T> Collection<T>(INode predicate, Func<INode, T> parser)
             where T : class, INode =>
-            new Collection<T>(this, predicate);
+            new Collection<T>(this, predicate, parser);
 
         protected void SetRequired(INode predicate, object @object) =>
             this.SetOptional(
@@ -73,5 +235,32 @@ namespace GraphEngine
                 this.Graph.Assert(this, predicate, @object.AsNode(this.Graph));
             }
         }
+
+        protected T? GetOptional<T>(INode predicate, Func<INode, T> parser)
+            where T : class =>
+            predicate.ObjectsOf(this).Select(parser).SingleOrDefault();
+
+        protected T? GetOptionalS<T>(INode predicate, Func<INode, T> parser)
+            where T : struct
+        {
+            var enumerable = predicate.ObjectsOf(this).Select(parser);
+
+            if (!enumerable.Any())
+            {
+                return null;
+            }
+
+            return enumerable.Single();
+        }
+
+        protected T GetRequired<T>(INode predicate, Func<INode, T> parser)
+            where T : class =>
+            this.GetOptional<T>(predicate, parser)
+            ?? throw new Exception($"Single {predicate} not found on {this}");
+
+        protected T GetRequiredS<T>(INode predicate, Func<INode, T> parser)
+            where T : struct =>
+            this.GetOptionalS<T>(predicate, parser)
+            ?? throw new Exception($"Single {predicate} not found on {this}");
     }
 }

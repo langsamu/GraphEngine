@@ -19,12 +19,12 @@ namespace GraphEngine
 
         public New NewExpression
         {
-            get => this.GetRequired<New>(MemberInitNewExpression);
+            get => this.GetRequired(MemberInitNewExpression, AsNew);
 
             set => this.SetRequired(MemberInitNewExpression, value);
         }
 
-        public ICollection<BaseBind> Bindings => this.Collection<BaseBind>(MemberInitBindings);
+        public ICollection<BaseBind> Bindings => this.Collection(MemberInitBindings, AsBaseBind);
 
         public override Linq.Expression LinqExpression => Linq.Expression.MemberInit(this.NewExpression.LinqNewExpression, this.Bindings.Select(binding => binding.LinqMemberBinding));
     }

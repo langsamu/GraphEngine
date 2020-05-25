@@ -18,12 +18,12 @@ namespace GraphEngine
 
         public Expression Expression
         {
-            get => this.GetRequired<Expression>(InvokeExpression);
+            get => this.GetRequired(InvokeExpression, AsExpression);
 
             set => this.SetRequired(InvokeExpression, value);
         }
 
-        public ICollection<Expression> Arguments => this.Collection<Expression>(InvokeArguments);
+        public ICollection<Expression> Arguments => this.Collection(InvokeArguments, AsExpression);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.Expression.LinqExpression, this.Arguments.LinqExpressions());
     }

@@ -18,7 +18,7 @@ namespace GraphEngine
             this.RdfType = Vocabulary.Property;
         }
 
-        public ICollection<Expression> Arguments => this.Collection<Expression>(PropertyArguments);
+        public ICollection<Expression> Arguments => this.Collection(PropertyArguments, AsExpression);
 
         public override Linq.Expression LinqExpression
         {

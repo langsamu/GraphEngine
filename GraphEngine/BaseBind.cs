@@ -18,7 +18,7 @@ namespace GraphEngine
 
         public Member Member
         {
-            get => this.GetRequired<Member>(BindMember);
+            get => this.GetRequired(BindMember, AsMember);
 
             set => this.SetRequired(BindMember, value);
         }

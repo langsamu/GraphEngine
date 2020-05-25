@@ -18,14 +18,14 @@ namespace GraphEngine
 
         public Expression Left
         {
-            get => this.GetRequired<Expression>(BinaryLeft);
+            get => this.GetRequired(BinaryLeft, AsExpression);
 
             set => this.SetRequired(BinaryLeft, value);
         }
 
         public Expression Right
         {
-            get => this.GetRequired<Expression>(BinaryRight);
+            get => this.GetRequired(BinaryRight, AsExpression);
 
             set => this.SetRequired(BinaryRight, value);
         }

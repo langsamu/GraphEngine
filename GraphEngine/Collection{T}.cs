@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,9 +11,12 @@ namespace GraphEngine
     public class Collection<T> : Collection, ICollection<T>
         where T : class, INode
     {
-        public Collection(INode subject, INode predicate)
+        private readonly Func<INode, T> parser;
+
+        public Collection(INode subject, INode predicate, Func<INode, T> parser)
             : base(subject, predicate)
         {
+            this.parser = parser;
         }
 
         public int Count => base.Count;
@@ -27,7 +31,7 @@ namespace GraphEngine
 
         public void CopyTo(T[] array, int arrayIndex) => this.X.ToList().CopyTo(array, arrayIndex);
 
-        public IEnumerator<T> GetEnumerator() => this.X.Select(Node.Parse<T>).GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => this.X.Select(this.parser).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)this).GetEnumerator();
 

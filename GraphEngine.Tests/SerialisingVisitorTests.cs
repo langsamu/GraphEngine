@@ -218,6 +218,72 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void DebugInfo()
+        {
+            var expression =
+                LinqExpression.DebugInfo(
+                    LinqExpression.SymbolDocument(
+                        string.Empty),
+                    1,
+                    1,
+                    1,
+                    1);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void DebugInfo_language()
+        {
+            var expression =
+                LinqExpression.DebugInfo(
+                    LinqExpression.SymbolDocument(
+                        string.Empty,
+                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5")),
+                    1,
+                    1,
+                    1,
+                    1);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void DebugInfo_language_vendor()
+        {
+            var expression =
+                LinqExpression.DebugInfo(
+                    LinqExpression.SymbolDocument(
+                        string.Empty,
+                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5"),
+                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a6")),
+                    1,
+                    1,
+                    1,
+                    1);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void DebugInfo_language_vendor_type()
+        {
+            var expression =
+                LinqExpression.DebugInfo(
+                    LinqExpression.SymbolDocument(
+                        string.Empty,
+                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5"),
+                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a6"),
+                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a7")),
+                    1,
+                    1,
+                    1,
+                    1);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void MemberAccess_field_expression()
         {
             var expression =

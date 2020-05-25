@@ -26,7 +26,6 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.Block): return new Block(node);
                 case INode t when t.Equals(Vocabulary.Break): return new Break(node);
                 case INode t when t.Equals(Vocabulary.Call): return new Call(node);
-                case INode t when t.Equals(Vocabulary.Catch): return new Catch(node);
                 case INode t when t.Equals(Vocabulary.Coalesce): return new Coalesce(node);
                 case INode t when t.Equals(Vocabulary.Condition): return new Condition(node);
                 case INode t when t.Equals(Vocabulary.Constant): return new Constant(node);
@@ -91,7 +90,6 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.Quote): return new Quote(node);
                 case INode t when t.Equals(Vocabulary.ReferenceEqual): return new ReferenceEqual(node);
                 case INode t when t.Equals(Vocabulary.ReferenceNotEqual): return new ReferenceNotEqual(node);
-                case INode t when t.Equals(Vocabulary.Rethrow): return new Rethrow(node);
                 case INode t when t.Equals(Vocabulary.Return): return new Return(node);
                 case INode t when t.Equals(Vocabulary.RightShift): return new RightShift(node);
                 case INode t when t.Equals(Vocabulary.RightShiftAssign): return new RightShiftAssign(node);

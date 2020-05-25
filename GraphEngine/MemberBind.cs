@@ -18,7 +18,7 @@ namespace GraphEngine
             this.RdfType = Vocabulary.MemberBind;
         }
 
-        public ICollection<BaseBind> Bindings => this.Collection<BaseBind>(MemberBindBindings);
+        public ICollection<BaseBind> Bindings => this.Collection(MemberBindBindings, AsBaseBind);
 
         public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.MemberBind(this.Member.ReflectionMember, this.Bindings.Select(binding => binding.LinqMemberBinding));
     }

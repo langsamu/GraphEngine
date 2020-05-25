@@ -19,33 +19,33 @@ namespace GraphEngine
 
         public Type? Type
         {
-            get => this.GetOptional<Type>(TryType);
+            get => this.GetOptional(TryType, AsType);
 
             set => this.SetOptional(TryType, value);
         }
 
         public Expression Body
         {
-            get => this.GetRequired<Expression>(TryBody);
+            get => this.GetRequired(TryBody, AsExpression);
 
             set => this.SetRequired(TryBody, value);
         }
 
         public Expression? Finally
         {
-            get => this.GetOptional<Expression>(TryFinally);
+            get => this.GetOptional(TryFinally, AsExpression);
 
             set => this.SetOptional(TryFinally, value);
         }
 
         public Expression? Fault
         {
-            get => this.GetOptional<Expression>(TryFault);
+            get => this.GetOptional(TryFault, AsExpression);
 
             set => this.SetOptional(TryFault, value);
         }
 
-        public ICollection<CatchBlock> Handlers => this.Collection<CatchBlock>(TryHandlers);
+        public ICollection<CatchBlock> Handlers => this.Collection(TryHandlers, AsCatchBlock);
 
         public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(this.Type?.SystemType, this.Body.LinqExpression, this.Finally?.LinqExpression, this.Fault?.LinqExpression, this.Handlers.Select(h => h.LinqCatchBlock));
     }

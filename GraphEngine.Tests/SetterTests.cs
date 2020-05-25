@@ -42,7 +42,7 @@ namespace GraphEngine.Tests
 
 
 
-            var aa = new Collection<Expression>(s, Vocabulary.ArrayIndexIndexes);
+            var aa = new Collection<Expression>(s, Vocabulary.ArrayIndexIndexes, Expression.Parse);
             foreach (Parameter index in aa)
             {
                 Console.WriteLine(index.Type.Name);
@@ -55,7 +55,7 @@ namespace GraphEngine.Tests
             typeA.Name = "Y";
             type.Arguments.Add(typeA);
             item.Type = type;
-            
+
             aa.Add(item);
 
             foreach (Parameter index in aa)

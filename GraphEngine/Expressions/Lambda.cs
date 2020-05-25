@@ -19,12 +19,12 @@ namespace GraphEngine
 
         public Expression Body
         {
-            get => this.GetRequired<Expression>(LambdaBody);
+            get => this.GetRequired(LambdaBody, AsExpression);
 
             set => this.SetRequired(LambdaBody, value);
         }
 
-        public ICollection<Parameter> Parameters => this.Collection<Parameter>(LambdaParameters);
+        public ICollection<Parameter> Parameters => this.Collection(LambdaParameters, AsParameter);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Lambda(this.Body.LinqExpression, this.Parameters.Select(param => param.LinqParameter));
     }

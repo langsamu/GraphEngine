@@ -278,6 +278,16 @@ namespace GraphEngine
 
         public static IUriNode ConstantValue { get; } = EngineNode("constantValue");
 
+        public static IUriNode DebugInfoDocument { get; } = EngineNode("debugInfoDocument");
+
+        public static IUriNode DebugInfoEndColumn { get; } = EngineNode("debugInfoEndColumn");
+
+        public static IUriNode DebugInfoEndLine { get; } = EngineNode("debugInfoEndLine");
+
+        public static IUriNode DebugInfoStartColumn { get; } = EngineNode("debugInfoStartColumn");
+
+        public static IUriNode DebugInfoStartLine { get; } = EngineNode("debugInfoStartLine");
+
         public static IUriNode DefaultType { get; } = EngineNode("defaultType");
 
         public static IUriNode ElementInitAddMethod { get; } = EngineNode("elementInitAddMethod");
@@ -349,6 +359,14 @@ namespace GraphEngine
         public static IUriNode SwitchSwitchValue { get; } = EngineNode("switchSwitchValue");
 
         public static IUriNode SwitchType { get; } = EngineNode("switchType");
+
+        public static IUriNode SymbolDocumentFileName { get; } = EngineNode("symbolDocumentFileName");
+
+        public static IUriNode SymbolDocumentLanguage { get; } = EngineNode("symbolDocumentLanguage");
+
+        public static IUriNode SymbolDocumentLanguageVendor { get; } = EngineNode("symbolDocumentLanguageVendor");
+
+        public static IUriNode SymbolDocumentDocumentType { get; } = EngineNode("symbolDocumentDocumentType");
 
         public static IUriNode TargetName { get; } = EngineNode("targetName");
 

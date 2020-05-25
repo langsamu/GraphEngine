@@ -18,7 +18,7 @@ namespace GraphEngine
             this.RdfType = Vocabulary.ListBind;
         }
 
-        public ICollection<ElementInit> Initializers => this.Collection<ElementInit>(ListBindInitializers);
+        public ICollection<ElementInit> Initializers => this.Collection(ListBindInitializers, AsElementInit);
 
         public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.ListBind(this.Member.ReflectionMember, this.Initializers.Select(initializer => initializer.LinqElementInit));
     }

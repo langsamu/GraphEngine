@@ -17,21 +17,21 @@ namespace GraphEngine
 
         public Expression Body
         {
-            get => this.GetRequired<Expression>(LoopBody);
+            get => this.GetRequired(LoopBody, AsExpression);
 
             set => this.SetRequired(LoopBody, value);
         }
 
         public Target? Break
         {
-            get => this.GetOptional<Target>(LoopBreak);
+            get => this.GetOptional(LoopBreak, AsTarget);
 
             set => this.SetOptional(LoopBreak, value);
         }
 
         public Target? Continue
         {
-            get => this.GetOptional<Target>(LoopContinue);
+            get => this.GetOptional(LoopContinue, AsTarget);
 
             set => this.SetOptional(LoopContinue, value);
         }

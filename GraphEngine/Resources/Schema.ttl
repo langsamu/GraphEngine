@@ -222,6 +222,14 @@ this:schema
 	rdfs:comment "A cast or conversion operation, such as (SampleType)obj in C#or CType(obj, SampleType) in Visual Basic. For a numeric conversion, if the converted value does not fit the destination type, an exception is thrown." ;
 .
 
+:DebugInfo
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "DebugInfo" ;
+	rdfs:comment "" ;
+.
+
 :Decrement
 	a owl:Class ;
 	rdfs:subClassOf :Unary ;
@@ -730,6 +738,13 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:SymbolDocument
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Symbol document" ;
+	rdfs:comment "" ;
+.
+
 :Target
 	a owl:Class ;
 	rdfs:isDefinedBy this:schema ;
@@ -1054,6 +1069,51 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:debugInfoDocument
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :DebugInfo ;
+	rdfs:range :SymbolDocument ;
+	rdfs:label "debug info document" ;
+	rdfs:comment "" ;
+.
+
+:debugInfoEndColumn
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :DebugInfo ;
+	rdfs:range xsd:int ;
+	rdfs:label "debug info end column" ;
+	rdfs:comment "" ;
+.
+
+:debugInfoEndLine
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :DebugInfo ;
+	rdfs:range xsd:int ;
+	rdfs:label "debug info end Line" ;
+	rdfs:comment "" ;
+.
+
+:debugInfoStartColumn
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :DebugInfo ;
+	rdfs:range xsd:int ;
+	rdfs:label "debug info start column" ;
+	rdfs:comment "" ;
+.
+
+:debugInfoStartLine
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :DebugInfo ;
+	rdfs:range xsd:int ;
+	rdfs:label "debug info start Line" ;
+	rdfs:comment "" ;
+.
+
 :defaultType
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -1375,6 +1435,42 @@ this:schema
 	rdfs:domain :Switch ;
 	rdfs:range :Type ;
 	rdfs:label "switch type" ;
+	rdfs:comment "" ;
+.
+
+:symbolDocumentDocumentType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range rdfs:Resource ;
+	rdfs:label "symbol document document type" ;
+	rdfs:comment "" ;
+.
+
+:symbolDocumentFileName
+	a owl:DatatypeProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :SymbolDocument ;
+	rdfs:range xsd:string ;
+	rdfs:label "symbol document filename" ;
+	rdfs:comment "" ;
+.
+
+:symbolDocumentLanguage
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range rdfs:Resource ;
+	rdfs:label "symbol document language" ;
+	rdfs:comment "" ;
+.
+
+:symbolDocumentLanguageVendor
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Switch ;
+	rdfs:range rdfs:Resource ;
+	rdfs:label "symbol document language vendor" ;
 	rdfs:comment "" ;
 .
 

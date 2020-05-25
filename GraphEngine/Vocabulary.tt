@@ -172,6 +172,11 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ConditionType", "conditionType");
         yield return ("ConstantType", "constantType");
         yield return ("ConstantValue", "constantValue");
+        yield return ("DebugInfoDocument", "debugInfoDocument");
+        yield return ("DebugInfoEndColumn", "debugInfoEndColumn");
+        yield return ("DebugInfoEndLine", "debugInfoEndLine");
+        yield return ("DebugInfoStartColumn", "debugInfoStartColumn");
+        yield return ("DebugInfoStartLine", "debugInfoStartLine");
         yield return ("DefaultType", "defaultType");
         yield return ("ElementInitAddMethod", "elementInitAddMethod");
         yield return ("ElementInitArguments", "elementInitArguments");
@@ -208,6 +213,10 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("SwitchDefaultBody", "switchDefaultBody");
         yield return ("SwitchSwitchValue", "switchSwitchValue");
         yield return ("SwitchType", "switchType");
+        yield return ("SymbolDocumentFileName", "symbolDocumentFileName");
+        yield return ("SymbolDocumentLanguage", "symbolDocumentLanguage");
+        yield return ("SymbolDocumentLanguageVendor", "symbolDocumentLanguageVendor");
+        yield return ("SymbolDocumentDocumentType", "symbolDocumentDocumentType");
         yield return ("TargetName", "targetName");
         yield return ("TargetType", "targetType");
         yield return ("TryBody", "tryBody");
