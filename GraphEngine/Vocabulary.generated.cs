@@ -352,6 +352,8 @@ namespace GraphEngine
 
         public static IUriNode PropertyArguments { get; } = EngineNode("propertyArguments");
 
+        public static IUriNode RuntimeVariablesVariables { get; } = EngineNode("runtimeVariablesVariables");
+
         public static IUriNode SwitchComparison { get; } = EngineNode("switchComparison");
 
         public static IUriNode SwitchDefaultBody { get; } = EngineNode("switchDefaultBody");

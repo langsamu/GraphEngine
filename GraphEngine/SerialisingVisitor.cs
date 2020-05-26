@@ -418,6 +418,18 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.Expression VisitRuntimeVariables(Linq.RuntimeVariablesExpression node)
+        {
+            var runtimeVariables = new RuntimeVariables(this.Current);
+
+            foreach (var variable in node.Variables)
+            {
+                runtimeVariables.Variables.Add(new Parameter(this.VisitCache(variable)));
+            }
+
+            return node;
+        }
+
         protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
         {
             var unary = Unary.Create(this.Current, node.NodeType);

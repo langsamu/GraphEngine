@@ -209,6 +209,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ParameterType", "parameterType");
         yield return ("SwitchCases", "switchCases");
         yield return ("PropertyArguments", "propertyArguments");
+        yield return ("RuntimeVariablesVariables", "runtimeVariablesVariables");
         yield return ("SwitchComparison", "switchComparison");
         yield return ("SwitchDefaultBody", "switchDefaultBody");
         yield return ("SwitchSwitchValue", "switchSwitchValue");

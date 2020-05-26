@@ -698,6 +698,14 @@ this:schema
 	rdfs:comment "A bitwise right-shift compound assignment operation, such as (a >>= b)." ;
 .
 
+:RuntimeVariables
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Runtime variables" ;
+	rdfs:comment "" ;
+.
+
 :Subtract
 	a owl:Class ;
 	rdfs:subClassOf :Binary ;
@@ -1390,6 +1398,15 @@ this:schema
 	rdfs:domain :Property ;
 	rdfs:range rdf:List ;
 	rdfs:label "property arguments" ;
+	rdfs:comment "" ;
+.
+
+:runtimeVariablesVariables
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :RuntimeVariables ;
+	rdfs:range rdf:List ;
+	rdfs:label "runtime variables variables" ;
 	rdfs:comment "" ;
 .
 

@@ -36,7 +36,7 @@ namespace GraphEngine.Tests
 
             ShouldRoundrip(expression);
         }
-        
+
         [TestMethod]
         public void ArrayIndex_indexes()
         {
@@ -407,6 +407,17 @@ namespace GraphEngine.Tests
         public void Parameter_with_name()
         {
             var expression = LinqExpression.Parameter(typeof(object), "param");
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void RuntimeVariables()
+        {
+            var expression =
+                LinqExpression.RuntimeVariables(
+                    LinqExpression.Parameter(
+                        typeof(object)));
 
             ShouldRoundrip(expression);
         }
