@@ -24,7 +24,7 @@ namespace GraphEngine
             set => this.SetRequired(TypeName, value);
         }
 
-        public ICollection<Type> Arguments => this.Collection(TypeArguments, AsType);
+        public ICollection<Type> Arguments => this.Collection(TypeArguments, Parse);
 
         public System.Type SystemType
         {
@@ -39,6 +39,16 @@ namespace GraphEngine
 
                 return t;
             }
+        }
+
+        internal static Type Parse(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Type(node);
         }
     }
 }

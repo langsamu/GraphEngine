@@ -17,14 +17,14 @@ namespace GraphEngine
 
         public Target Target
         {
-            get => this.GetRequired(LabelTarget, AsTarget);
+            get => this.GetRequired(LabelTarget, Target.Parse);
 
             set => this.SetRequired(LabelTarget, value);
         }
 
         public Expression? DefaultValue
         {
-            get => this.GetOptional(LabelDefaultValue, AsExpression);
+            get => this.GetOptional(LabelDefaultValue, Expression.Parse);
 
             set => this.SetOptional(LabelDefaultValue, value);
         }

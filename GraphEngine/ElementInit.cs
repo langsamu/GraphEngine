@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using VDS.RDF;
@@ -18,13 +19,23 @@ namespace GraphEngine
 
         public Method AddMethod
         {
-            get => this.GetRequired(ElementInitAddMethod, AsMethod);
+            get => this.GetRequired(ElementInitAddMethod, Method.Parse);
 
             set => this.SetRequired(ElementInitAddMethod, value);
         }
 
-        public ICollection<Expression> Arguments => this.Collection(ElementInitArguments, AsExpression);
+        public ICollection<Expression> Arguments => this.Collection(ElementInitArguments, Expression.Parse);
 
         public Linq.ElementInit LinqElementInit => Linq.Expression.ElementInit(this.AddMethod.ReflectionMethod, this.Arguments.LinqExpressions());
+
+        internal static ElementInit Parse(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new ElementInit(node);
+        }
     }
 }

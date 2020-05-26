@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using VDS.RDF;
@@ -20,7 +21,7 @@ namespace GraphEngine
 
         public Type Type
         {
-            get => this.GetRequired(ParameterType, AsType);
+            get => this.GetRequired(ParameterType, Type.Parse);
 
             set => this.SetRequired(ParameterType, value);
         }
@@ -45,6 +46,16 @@ namespace GraphEngine
 
                 return param;
             }
+        }
+
+        internal static new Parameter Parse(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Parameter(node);
         }
     }
 }

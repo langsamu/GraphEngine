@@ -18,7 +18,7 @@ namespace GraphEngine
 
         public Expression Expression
         {
-            get => this.GetRequired(BindExpression, AsExpression);
+            get => this.GetRequired(BindExpression, Expression.Parse);
 
             set => this.SetRequired(BindExpression, value);
         }

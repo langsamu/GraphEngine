@@ -17,9 +17,9 @@ namespace GraphEngine
         {
         }
 
-        public ICollection<Expression> Expressions => this.Collection(BlockExpressions, AsExpression);
+        public ICollection<Expression> Expressions => this.Collection(BlockExpressions, Expression.Parse);
 
-        public ICollection<Parameter> Variables => this.Collection(BlockVariables, AsParameter);
+        public ICollection<Parameter> Variables => this.Collection(BlockVariables, Parameter.Parse);
 
         public override Linq.Expression LinqExpression => Linq.Expression.Block(this.Variables.Select(e => e.LinqParameter), this.Expressions.LinqExpressions());
     }

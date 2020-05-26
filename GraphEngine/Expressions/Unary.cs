@@ -17,14 +17,14 @@ namespace GraphEngine
 
         public Expression Operand
         {
-            get => this.GetRequired(UnaryOperand, AsExpression);
+            get => this.GetRequired(UnaryOperand, Expression.Parse);
 
             set => this.SetRequired(UnaryOperand, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional(UnaryType, AsType);
+            get => this.GetOptional(UnaryType, Type.Parse);
 
             set => this.SetOptional(UnaryType, value);
         }

@@ -24,7 +24,7 @@ namespace GraphEngine
 
         public Type? Type
         {
-            get => this.GetOptional(ConstantType, AsType);
+            get => this.GetOptional(ConstantType, Type.Parse);
 
             set => this.SetOptional(ConstantType, value);
         }

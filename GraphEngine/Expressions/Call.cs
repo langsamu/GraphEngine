@@ -21,14 +21,14 @@ namespace GraphEngine
 
         public Expression? Instance
         {
-            get => this.GetOptional(CallInstance, AsExpression);
+            get => this.GetOptional(CallInstance, Expression.Parse);
 
             set => this.SetOptional(CallInstance, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional(CallType, AsType);
+            get => this.GetOptional(CallType, Type.Parse);
 
             set => this.SetOptional(CallType, value);
         }
@@ -40,9 +40,9 @@ namespace GraphEngine
             set => this.SetOptional(CallMethod, value);
         }
 
-        public ICollection<Expression> Arguments => this.Collection(CallArguments, AsExpression);
+        public ICollection<Expression> Arguments => this.Collection(CallArguments, Expression.Parse);
 
-        public ICollection<Type> TypeArguments => this.Collection(CallTypeArguments, AsType);
+        public ICollection<Type> TypeArguments => this.Collection(CallTypeArguments, Type.Parse);
 
         public override Linq.Expression LinqExpression
         {

@@ -17,21 +17,21 @@ namespace GraphEngine
 
         public Target Target
         {
-            get => this.GetRequired(GotoTarget, AsTarget);
+            get => this.GetRequired(GotoTarget, Target.Parse);
 
             set => this.SetRequired(GotoTarget, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional(GotoType, AsType);
+            get => this.GetOptional(GotoType, Type.Parse);
 
             set => this.SetOptional(GotoType, value);
         }
 
         public Expression? Value
         {
-            get => this.GetOptional(GotoValue, AsExpression);
+            get => this.GetOptional(GotoValue, Expression.Parse);
 
             set => this.SetOptional(GotoValue, value);
         }

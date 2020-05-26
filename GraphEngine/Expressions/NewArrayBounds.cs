@@ -18,12 +18,12 @@ namespace GraphEngine
 
         public Type Type
         {
-            get => this.GetRequired(NewArrayBoundsType, AsType);
+            get => this.GetRequired(NewArrayBoundsType, Type.Parse);
 
             set => this.SetRequired(NewArrayBoundsType, value);
         }
 
-        public ICollection<Expression> Bounds => this.Collection(NewArrayBoundsBounds, AsExpression);
+        public ICollection<Expression> Bounds => this.Collection(NewArrayBoundsBounds, Expression.Parse);
 
         public override Linq.Expression LinqExpression => Linq.Expression.NewArrayBounds(this.Type.SystemType, this.Bounds.LinqExpressions());
     }

@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -17,11 +18,11 @@ namespace GraphEngine
         {
         }
 
-        public ICollection<Expression> Arguments => this.Collection(NewArguments, AsExpression);
+        public ICollection<Expression> Arguments => this.Collection(NewArguments, Expression.Parse);
 
         public Type Type
         {
-            get => this.GetRequired(NewType, AsType);
+            get => this.GetRequired(NewType, Type.Parse);
 
             set => this.SetRequired(NewType, value);
         }
@@ -38,6 +39,16 @@ namespace GraphEngine
 
                 return Linq.Expression.New(constructor, argumentExpressions);
             }
+        }
+
+        internal static New Parse(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new New(node);
         }
     }
 }

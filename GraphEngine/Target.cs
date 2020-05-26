@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using VDS.RDF;
@@ -20,7 +21,7 @@ namespace GraphEngine
 
         public Type? Type
         {
-            get => this.GetOptional(TargetType, AsType);
+            get => this.GetOptional(TargetType, Type.Parse);
 
             set => this.SetOptional(TargetType, value);
         }
@@ -63,6 +64,16 @@ namespace GraphEngine
 
                 return label;
             }
+        }
+
+        internal static Target Parse(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Target(node);
         }
     }
 }

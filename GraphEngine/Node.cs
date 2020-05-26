@@ -5,7 +5,6 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Globalization;
     using System.Linq;
     using VDS.RDF;
 
@@ -24,7 +23,6 @@ namespace GraphEngine
             set => this.SetOptional(Vocabulary.RdfType, value);
         }
 
-        // TODO: Move these elsewhere, perhaps X.Parse
         protected static int AsInt(INode node)
         {
             if (node is null)
@@ -45,106 +43,6 @@ namespace GraphEngine
             return i;
         }
 
-        protected static ElementInit AsElementInit(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new ElementInit(node);
-        }
-
-        protected static CatchBlock AsCatchBlock(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new CatchBlock(node);
-        }
-
-        protected static Case AsCase(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Case(node);
-        }
-
-        protected static BaseBind AsBaseBind(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return BaseBind.Parse(node);
-        }
-
-        protected static Parameter AsParameter(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Parameter(node);
-        }
-
-        protected static New AsNew(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new New(node);
-        }
-
-        protected static Method AsMethod(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Method(node);
-        }
-
-        protected static Member AsMember(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Member(node);
-        }
-
-        protected static Target AsTarget(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Target(node);
-        }
-
-        protected static Type AsType(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Type(node);
-        }
-
         protected static object AsObject(INode node)
         {
             if (node is null)
@@ -153,16 +51,6 @@ namespace GraphEngine
             }
 
             return node.AsObject();
-        }
-
-        protected static Expression AsExpression(INode node)
-        {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return Expression.Parse(node);
         }
 
         protected static string AsString(INode node)

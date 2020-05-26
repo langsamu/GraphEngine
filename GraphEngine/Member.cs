@@ -2,6 +2,7 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
@@ -19,7 +20,7 @@ namespace GraphEngine
 
         public Type Type
         {
-            get => this.GetRequired(MemberType, AsType);
+            get => this.GetRequired(MemberType, Type.Parse);
 
             set => this.SetRequired(MemberType, value);
         }
@@ -32,5 +33,15 @@ namespace GraphEngine
         }
 
         public MemberInfo ReflectionMember => this.Type.SystemType.GetMember(this.Name).Single();
+
+        internal static Member Parse(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            return new Member(node);
+        }
     }
 }

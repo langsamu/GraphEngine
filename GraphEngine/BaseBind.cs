@@ -18,7 +18,7 @@ namespace GraphEngine
 
         public Member Member
         {
-            get => this.GetRequired(BindMember, AsMember);
+            get => this.GetRequired(BindMember, Member.Parse);
 
             set => this.SetRequired(BindMember, value);
         }
@@ -39,15 +39,20 @@ namespace GraphEngine
 
         internal static BaseBind Parse(INode node)
         {
-            var type = Vocabulary.RdfType.ObjectOf(node);
-            switch (type)
+            if (node is null)
             {
-                case INode t when t.Equals(Vocabulary.Bind): return new Bind(node);
-                case INode t when t.Equals(Vocabulary.ListBind): return new ListBind(node);
-                case INode t when t.Equals(Vocabulary.MemberBind): return new MemberBind(node);
-
-                default: throw new Exception($"unknown bind type {type} on node {node}");
+                throw new ArgumentNullException(nameof(node));
             }
+
+            return Vocabulary.RdfType.ObjectOf(node) switch
+            {
+                INode t when t.Equals(Vocabulary.Bind) => new Bind(node),
+                INode t when t.Equals(Vocabulary.ListBind) => new ListBind(node),
+                INode t when t.Equals(Vocabulary.MemberBind) => new MemberBind(node),
+
+                null => throw new Exception($"type not found on node {node}"),
+                INode t => throw new Exception($"unknown bind type {t} on node {node}"),
+            };
         }
     }
 }

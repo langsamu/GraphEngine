@@ -17,28 +17,28 @@ namespace GraphEngine
 
         public Expression Test
         {
-            get => this.GetRequired(ConditionTest, AsExpression);
+            get => this.GetRequired(ConditionTest, Expression.Parse);
 
             set => this.SetRequired(ConditionTest, value);
         }
 
         public Expression IfTrue
         {
-            get => this.GetRequired(ConditionIfTrue, AsExpression);
+            get => this.GetRequired(ConditionIfTrue, Expression.Parse);
 
             set => this.SetRequired(ConditionIfTrue, value);
         }
 
         public Expression IfFalse
         {
-            get => this.GetRequired(ConditionIfFalse, AsExpression);
+            get => this.GetRequired(ConditionIfFalse, Expression.Parse);
 
             set => this.SetRequired(ConditionIfFalse, value);
         }
 
         public Type? Type
         {
-            get => this.GetOptional(ConditionType, AsType);
+            get => this.GetOptional(ConditionType, Type.Parse);
 
             set => this.SetOptional(ConditionType, value);
         }

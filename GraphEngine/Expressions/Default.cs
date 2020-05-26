@@ -17,7 +17,7 @@ namespace GraphEngine
 
         public Type Type
         {
-            get => this.GetRequired(DefaultType, AsType);
+            get => this.GetRequired(DefaultType, Type.Parse);
 
             set => this.SetRequired(DefaultType, value);
         }

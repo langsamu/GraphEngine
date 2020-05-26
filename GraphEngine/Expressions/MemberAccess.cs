@@ -16,7 +16,7 @@ namespace GraphEngine
 
         public Expression? Expression
         {
-            get => this.GetOptional(MemberAccessExpression, AsExpression);
+            get => this.GetOptional(MemberAccessExpression, Expression.Parse);
 
             set => this.SetOptional(MemberAccessExpression, value);
         }
@@ -30,7 +30,7 @@ namespace GraphEngine
 
         public Type? Type
         {
-            get => this.GetOptional(MemberAccessType, AsType);
+            get => this.GetOptional(MemberAccessType, Type.Parse);
 
             set => this.SetOptional(MemberAccessType, value);
         }
