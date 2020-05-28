@@ -2,6 +2,7 @@
 
 namespace GraphEngine.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -15,24 +16,27 @@ namespace GraphEngine.Tests
     [TestClass]
     public class SchemaTests
     {
-        private static readonly Ontology.Graph ontologyGraph = new Ontology.Graph();
-        private static readonly string ontologyString;
+        private static readonly Ontology.Graph OntologyGraph = new Ontology.Graph();
+        private static string ontologyString;
 
-        static SchemaTests()
-        {
-            ontologyGraph.LoadFromEmbeddedResource("GraphEngine.Resources.Schema.ttl, GraphEngine");
-            ontologyString = new StreamReader(typeof(Ontology.Graph).Assembly.GetManifestResourceStream("GraphEngine.Resources.Schema.ttl")).ReadToEnd();
-        }
+        private static IEnumerable<object[]> Ontologies => OntologyGraph.Ontologies.Select(o => new[] { o });
 
-        private static IEnumerable<object[]> Ontologies => ontologyGraph.Ontologies.Select(o => new[] { o });
+        private static IEnumerable<object[]> Properties => OntologyGraph.DatatypeProperties.Union(OntologyGraph.ObjectProperties).Select(p => new[] { p });
 
-        private static IEnumerable<object[]> Properties => ontologyGraph.DatatypeProperties.Union(ontologyGraph.ObjectProperties).Select(p => new[] { p });
+        private static IEnumerable<object[]> ObjectProperties => OntologyGraph.ObjectProperties.Select(p => new[] { p });
 
-        private static IEnumerable<object[]> ObjectProperties => ontologyGraph.ObjectProperties.Select(p => new[] { p });
-
-        private static IEnumerable<object[]> Classes => ontologyGraph.Classes.Select(c => new[] { c });
+        private static IEnumerable<object[]> Classes => OntologyGraph.Classes.Select(c => new[] { c });
 
         private static IEnumerable<object[]> Resources => Ontologies.Union(Classes).Union(Properties);
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            OntologyGraph.LoadFromEmbeddedResource("GraphEngine.Resources.Schema.ttl, GraphEngine");
+
+            using var reader = new StreamReader(typeof(Ontology.Graph).Assembly.GetManifestResourceStream("GraphEngine.Resources.Schema.ttl"));
+            ontologyString = reader.ReadToEnd();
+        }
 
         [TestMethod]
         [DynamicData(nameof(Classes))]
@@ -47,7 +51,7 @@ namespace GraphEngine.Tests
         {
             foreach (var superclass in @class.SubClassOf.Where(Is_from_namespace))
             {
-                superclass.Should().Match(s => ontologyGraph.Classes.Contains(s), "superclasses must have class definitions");
+                superclass.Should().Match(s => OntologyGraph.Classes.Contains(s), "superclasses must have class definitions");
             }
         }
 
@@ -123,7 +127,7 @@ namespace GraphEngine.Tests
         {
             foreach (var range in property.Ranges.Where(Is_from_namespace))
             {
-                range.Should().Match(r => ontologyGraph.Classes.Contains(r), "ranges must have class definitions");
+                range.Should().Match(r => OntologyGraph.Classes.Contains(r), "ranges must have class definitions");
             }
         }
 
@@ -152,7 +156,7 @@ namespace GraphEngine.Tests
         {
             foreach (var domain in property.Domains.Where(Is_from_namespace))
             {
-                domain.Should().Match(d => ontologyGraph.Classes.Contains(d), "domains must have class definitions");
+                domain.Should().Match(d => OntologyGraph.Classes.Contains(d), "domains must have class definitions");
             }
         }
 
@@ -202,7 +206,7 @@ namespace GraphEngine.Tests
         [DynamicData(nameof(Resources))]
         public void Resource_is_defined_by_correct_ontology(Resource resource)
         {
-            CollectionAssert.AreEqual(ontologyGraph.Ontologies.ToList(), resource.IsDefinedBy.ToList(), "resources must be defined by correct ontology");
+            CollectionAssert.AreEqual(OntologyGraph.Ontologies.ToList(), resource.IsDefinedBy.ToList(), "resources must be defined by correct ontology");
         }
 
         [TestMethod]
@@ -221,7 +225,7 @@ namespace GraphEngine.Tests
 
         private static bool Is_from_namespace(Resource resource)
         {
-            return Vocabulary.BaseUri.IsBaseOf(resource.Uri) && !Vocabulary.BaseUri.MakeRelativeUri(resource.Uri).ToString().Contains("/");
+            return Vocabulary.BaseUri.IsBaseOf(resource.Uri) && !Vocabulary.BaseUri.MakeRelativeUri(resource.Uri).ToString().Contains("/", StringComparison.Ordinal);
         }
     }
 }

@@ -15,8 +15,8 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Property(
-                    LinqExpression.Parameter(typeof(Cx1)),
-                    nameof(Cx1.P1));
+                    LinqExpression.Parameter(typeof(SampleClass)),
+                    nameof(SampleClass.InstanceProperty));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -25,10 +25,10 @@ namespace GraphEngine.Tests
     a :Property ;
     :memberAccessExpression [
         :parameterType [
-            :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
         ] ;
     ] ;
-    :memberAccessName ""P1"" ;
+    :memberAccessName ""InstanceProperty"" ;
 .
 ";
 
@@ -40,9 +40,9 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Property(
-                    LinqExpression.Parameter(typeof(Cx2)),
-                    typeof(Cx1),
-                    nameof(Cx1.P1));
+                    LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                    typeof(SampleClass),
+                    nameof(SampleClass.InstanceProperty));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -51,13 +51,13 @@ namespace GraphEngine.Tests
     a :Property ;
     :memberAccessExpression [
         :parameterType [
-            :typeName ""GraphEngine.Tests.Cx2, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleDerivedClass, GraphEngine.Tests"" ;
         ] ;
     ] ;
     :memberAccessType [
-        :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+        :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
     ] ;
-    :memberAccessName ""P1"" ;
+    :memberAccessName ""InstanceProperty"" ;
 .
 ";
 
@@ -70,8 +70,8 @@ namespace GraphEngine.Tests
             var expected =
                 LinqExpression.Property(
                     null,
-                    typeof(Cx1),
-                    nameof(Cx1.P2));
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticProperty));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -79,9 +79,9 @@ namespace GraphEngine.Tests
 :s
     a :Property ;
     :memberAccessType [
-        :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+        :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
     ] ;
-    :memberAccessName ""P2"" ;
+    :memberAccessName ""StaticProperty"" ;
 .
 ";
 
@@ -93,8 +93,8 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Property(
-                    LinqExpression.Parameter(typeof(Cx1)),
-                    "Pi",
+                    LinqExpression.Parameter(typeof(SampleClass)),
+                    "Indexer",
                     LinqExpression.Parameter(typeof(int)));
 
             const string actual = @"
@@ -104,10 +104,10 @@ namespace GraphEngine.Tests
     a :Property ;
     :memberAccessExpression [
         :parameterType [
-            :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
         ] ;
     ] ;
-    :memberAccessName ""Pi"" ;
+    :memberAccessName ""Indexer"" ;
     :propertyArguments (
         [
             :parameterType [

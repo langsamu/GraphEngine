@@ -497,7 +497,7 @@ namespace GraphEngine
             {
                 var t = new Type(this.Current)
                 {
-                    Name = $"{type.Namespace}.{type.Name}, {type.Assembly}",
+                    Name = $"{type}, {type.Assembly}",
                 };
 
                 foreach (var argument in type.GenericTypeArguments)

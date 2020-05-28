@@ -13,7 +13,7 @@ namespace GraphEngine.Tests
         [TestMethod]
         public void Null()
         {
-            var expected = 
+            var expected =
                 LinqExpression.Constant(
                     null);
 
@@ -72,7 +72,7 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Constant(
-                    new NodeFactory().CreateLiteralNode("", "en"));
+                    new NodeFactory().CreateLiteralNode(string.Empty, "en"));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -86,7 +86,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Long()
+        public void Long_value()
         {
             var expected =
                 LinqExpression.Constant(
@@ -104,7 +104,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Int()
+        public void Int_value()
         {
             var expected =
                 LinqExpression.Constant(
@@ -123,7 +123,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void String()
+        public void String_value()
         {
             var expected =
                 LinqExpression.Constant(

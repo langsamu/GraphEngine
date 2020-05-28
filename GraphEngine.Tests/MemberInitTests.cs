@@ -8,7 +8,7 @@ namespace GraphEngine.Tests
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
-    public class MembernitTests
+    public class MemberInitTests
     {
         [TestMethod]
         public void No_bindings()
@@ -16,7 +16,7 @@ namespace GraphEngine.Tests
             var expected =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)));
+                        typeof(SampleClass)));
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -26,7 +26,7 @@ namespace GraphEngine.Tests
 :s
     :memberInitNewExpression [
         :newType [
-            :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
         ] ;
     ] ;
 .
@@ -44,10 +44,10 @@ namespace GraphEngine.Tests
             var expected =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)),
+                        typeof(SampleClass)),
                     LinqExpression.Bind(
-                        typeof(C3).GetField("F1"),
-                        LinqExpression.Constant(0L)));
+                        typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
+                        LinqExpression.Constant(string.Empty)));
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -62,17 +62,17 @@ namespace GraphEngine.Tests
         [
             :bindMember [
                 :memberType _:C3 ;
-                :memberName ""F1"" ;
+                :memberName ""InstanceField"" ;
             ] ;
             :bindExpression [
-                :constantValue 0 ;
+                :constantValue """" ;
             ] ;
         ]
     ) ;
 .
 
 _:C3
-    :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
+    :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -88,9 +88,9 @@ _:C3
             var expected =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)),
+                        typeof(SampleClass)),
                     LinqExpression.ListBind(
-                        typeof(C3).GetProperty("P1"),
+                        typeof(SampleClass).GetProperty(nameof(SampleClass.ListProperty)),
                         LinqExpression.ElementInit(
                             typeof(List<long>).GetMethod("Add"),
                             LinqExpression.Constant(0L))));
@@ -108,7 +108,7 @@ _:C3
         [
             :bindMember [
                 :memberType _:C3 ;
-                :memberName ""P1"" ;
+                :memberName ""ListProperty"" ;
             ] ;
             :listBindInitializers (
                 [
@@ -130,7 +130,7 @@ _:C3
 .
 
 _:C3
-    :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
+    :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -146,12 +146,13 @@ _:C3
             var expected =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)),
+                        typeof(SampleClass)),
                     LinqExpression.MemberBind(
-                        typeof(C3).GetField("F2"),
+                        typeof(SampleClass).GetField(nameof(SampleClass.ComplexField)),
                         LinqExpression.Bind(
-                            typeof(C3).GetField("F1"),
-                            LinqExpression.Constant(0L))));
+                            typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
+                            LinqExpression.Constant(
+                                string.Empty))));
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -167,16 +168,16 @@ _:C3
             :bindMember [
                 a :Member ;
                 :memberType _:C3 ;
-                :memberName ""F2"" ;
+                :memberName ""ComplexField"" ;
             ] ;
             :memberBindBindings (
                 [
                     :bindMember [
                         :memberType _:C3 ;
-                        :memberName ""F1"" ;
+                        :memberName ""InstanceField"" ;
                     ] ;
                     :bindExpression [
-                        :constantValue 0 ;
+                        :constantValue """" ;
                     ] ;
                 ]
             ) ;
@@ -186,7 +187,7 @@ _:C3
 
 _:C3
     a :Type ;
-    :typeName ""GraphEngine.Tests.C3, GraphEngine.Tests"" ;
+    :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
 .
 ");
             var s = g.GetUriNode(":s");
@@ -195,13 +196,5 @@ _:C3
 
             actual.Should().Be(expected);
         }
-    }
-
-    public class C3
-    {
-        public long F1;
-        public C3 F2;
-
-        public List<long> P1 { get; set; }
     }
 }

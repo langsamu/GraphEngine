@@ -16,12 +16,12 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Switch(
-                    typeof(C1),
+                    typeof(SampleClass),
                     LinqExpression.Constant(0L),
-                    LinqExpression.Default(typeof(C1.C2)),
-                    typeof(C1).GetMethod("Equal"),
+                    LinqExpression.Default(typeof(SampleDerivedClass)),
+                    typeof(SampleClass).GetMethod("Equal"),
                     LinqExpression.SwitchCase(
-                        LinqExpression.Default(typeof(C1.C2)),
+                        LinqExpression.Default(typeof(SampleDerivedClass)),
                         LinqExpression.Constant(0L)));
 
             using var g = new GraphEngine.Graph();
@@ -31,12 +31,12 @@ namespace GraphEngine.Tests
 
 :s
     :switchType [
-        :typeName ""GraphEngine.Tests.SwitchTests+C1, GraphEngine.Tests"" ;
+        :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
     ] ;
     :switchSwitchValue _:zero ;
     :switchDefaultBody [
         :defaultType [
-            :typeName ""GraphEngine.Tests.SwitchTests+C1+C2, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleDerivedClass, GraphEngine.Tests"" ;
         ]
     ] ;
     :switchCases (
@@ -46,14 +46,14 @@ namespace GraphEngine.Tests
             ) ;
             :caseBody [
                 :defaultType [
-                    :typeName ""GraphEngine.Tests.SwitchTests+C1+C2, GraphEngine.Tests"" ;
+                    :typeName ""GraphEngine.Tests.SampleDerivedClass, GraphEngine.Tests"" ;
                 ]
             ] ;
         ]
     ) ;
     :switchComparison [
         :memberType [
-            :typeName ""GraphEngine.Tests.SwitchTests+C1, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
         ] ;
         :memberName ""Equal"" ;
     ] ;
@@ -72,17 +72,10 @@ _:zero
             Console.WriteLine(actual.GetDebugView());
 
             // Make sure custom type is used
-            Assert.AreEqual(typeof(C1), actual.Type);
+            Assert.AreEqual(typeof(SampleClass), actual.Type);
 
             // Make sure custom comparison is used
             Assert.ThrowsException<TargetInvocationException>(() => LinqExpression.Lambda(actual).Compile().DynamicInvoke());
-        }
-
-        private class C1
-        {
-            internal class C2 : C1 { }
-
-            public static bool Equal(long obj1, long obj2) => throw new NotImplementedException();
         }
     }
 }

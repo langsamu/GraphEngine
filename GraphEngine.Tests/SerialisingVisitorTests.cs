@@ -47,7 +47,7 @@ namespace GraphEngine.Tests
                     new[]
                     {
                         LinqExpression.Parameter(
-                            typeof(int))
+                            typeof(int)),
                     });
 
             ShouldRoundrip(expression);
@@ -83,8 +83,8 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Call(
-                    typeof(C1),
-                    nameof(C1.M1),
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticMethod),
                     Array.Empty<Type>(),
                     Array.Empty<LinqExpression>());
 
@@ -96,10 +96,12 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Call(
-                    typeof(C1),
-                    nameof(C1.M2),
-                    new[] {
-                        typeof(object) },
+                    typeof(SampleClass),
+                    nameof(SampleClass.GenericStaticMethod),
+                    new[]
+                    {
+                        typeof(object),
+                    },
                     Array.Empty<LinqExpression>());
 
             ShouldRoundrip(expression);
@@ -110,13 +112,15 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Call(
-                    typeof(C1),
-                    nameof(C1.M3),
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticMethodWithArgument),
                     Array.Empty<Type>(),
-                    new[] {
+                    new[]
+                    {
                         LinqExpression.Constant(
                             0L,
-                            typeof(long)) });
+                            typeof(long)),
+                    });
 
             ShouldRoundrip(expression);
         }
@@ -126,17 +130,20 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Call(
-                    typeof(C1),
-                    nameof(C1.M4),
-                    new[] {
-                        typeof(object) },
-                    new[] {
+                    typeof(SampleClass),
+                    nameof(SampleClass.GenericStaticMethodWithArgument),
+                    new[]
+                    {
+                        typeof(object),
+                    },
+                    new[]
+                    {
                         LinqExpression.Constant(
                             0L,
-                            typeof(long)) });
+                            typeof(long)),
+                    });
 
             ShouldRoundrip(expression);
-
         }
 
         [TestMethod]
@@ -145,14 +152,13 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Call(
                     LinqExpression.New(
-                        typeof(C1)),
-                    nameof(C1.M5),
+                        typeof(SampleClass)),
+                    nameof(SampleClass.InstanceMethod),
                     Array.Empty<Type>(),
                     Array.Empty<LinqExpression>());
 
             using var g = new GraphEngine.Graph();
             ShouldRoundrip(expression);
-
         }
 
         [TestMethod]
@@ -161,14 +167,15 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Call(
                     LinqExpression.New(
-                        typeof(C1)),
-                    nameof(C1.M6),
-                    new[] {
-                        typeof(object) },
+                        typeof(SampleClass)),
+                    nameof(SampleClass.GenericInstanceMethod),
+                    new[]
+                    {
+                        typeof(object),
+                    },
                     Array.Empty<LinqExpression>());
 
             ShouldRoundrip(expression);
-
         }
 
         [TestMethod]
@@ -177,16 +184,17 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Call(
                     LinqExpression.New(
-                        typeof(C1)),
-                    nameof(C1.M7),
+                        typeof(SampleClass)),
+                    nameof(SampleClass.InstanceMethodWithArgument),
                     Array.Empty<Type>(),
-                    new[] {
+                    new[]
+                    {
                         LinqExpression.Constant(
                             0L,
-                            typeof(long)) });
+                            typeof(long)),
+                    });
 
             ShouldRoundrip(expression);
-
         }
 
         [TestMethod]
@@ -195,17 +203,20 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Call(
                     LinqExpression.New(
-                        typeof(C1)),
-                    nameof(C1.M8),
-                    new[] {
-                        typeof(object) },
-                    new[] {
+                        typeof(SampleClass)),
+                    nameof(SampleClass.GenericInstanceMethodWithArgument),
+                    new[]
+                    {
+                        typeof(object),
+                    },
+                    new[]
+                    {
                         LinqExpression.Constant(
                             0L,
-                            typeof(long)) });
+                            typeof(long)),
+                    });
 
             ShouldRoundrip(expression);
-
         }
 
         [TestMethod]
@@ -288,8 +299,8 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Field(
-                    LinqExpression.Parameter(typeof(Cx1)),
-                    nameof(Cx1.F1));
+                    LinqExpression.Parameter(typeof(SampleClass)),
+                    nameof(SampleClass.InstanceField));
 
             ShouldRoundrip(expression);
         }
@@ -299,9 +310,9 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Field(
-                    LinqExpression.Parameter(typeof(Cx2)),
-                    typeof(Cx1),
-                    nameof(Cx1.F1));
+                    LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                    typeof(SampleClass),
+                    nameof(SampleClass.InstanceField));
 
             ShouldRoundrip(expression);
         }
@@ -312,8 +323,8 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Field(
                     null,
-                    typeof(Cx1),
-                    nameof(Cx1.F2));
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticField));
 
             ShouldRoundrip(expression);
         }
@@ -323,8 +334,8 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Property(
-                    LinqExpression.Parameter(typeof(Cx1)),
-                    nameof(Cx1.P1));
+                    LinqExpression.Parameter(typeof(SampleClass)),
+                    nameof(SampleClass.InstanceProperty));
 
             ShouldRoundrip(expression);
         }
@@ -334,9 +345,9 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Property(
-                    LinqExpression.Parameter(typeof(Cx2)),
-                    typeof(Cx1),
-                    nameof(Cx1.P1));
+                    LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                    typeof(SampleClass),
+                    nameof(SampleClass.InstanceProperty));
 
             ShouldRoundrip(expression);
         }
@@ -347,8 +358,8 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Property(
                     null,
-                    typeof(Cx1),
-                    nameof(Cx1.P2));
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticProperty));
 
             ShouldRoundrip(expression);
         }
@@ -358,8 +369,8 @@ namespace GraphEngine.Tests
         {
             var expression =
                 LinqExpression.Property(
-                    LinqExpression.Parameter(typeof(Cx1)),
-                    "Pi",
+                    LinqExpression.Parameter(typeof(SampleClass)),
+                    "Indexer",
                     LinqExpression.Parameter(typeof(int)));
 
             ShouldRoundrip(expression);
@@ -370,9 +381,9 @@ namespace GraphEngine.Tests
         {
             var expression = LinqExpression.Condition(
                 LinqExpression.Parameter(typeof(bool)),
-                LinqExpression.Parameter(typeof(C2)),
-                LinqExpression.Parameter(typeof(C1)),
-                typeof(C1));
+                LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                LinqExpression.Parameter(typeof(SampleClass)),
+                typeof(SampleClass));
 
             ShouldRoundrip(expression);
         }
@@ -484,8 +495,7 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)));
-
+                        typeof(SampleClass)));
 
             ShouldRoundrip(expression);
         }
@@ -496,11 +506,10 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)),
+                        typeof(SampleClass)),
                     LinqExpression.Bind(
-                        typeof(C3).GetField("F1"),
-                        LinqExpression.Constant(0L)));
-
+                        typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
+                        LinqExpression.Constant(string.Empty)));
 
             ShouldRoundrip(expression);
         }
@@ -511,13 +520,12 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)),
+                        typeof(SampleClass)),
                     LinqExpression.ListBind(
-                        typeof(C3).GetProperty("P1"),
+                        typeof(SampleClass).GetProperty(nameof(SampleClass.ListProperty)),
                         LinqExpression.ElementInit(
                             typeof(List<long>).GetMethod("Add"),
                             LinqExpression.Constant(0L))));
-
 
             ShouldRoundrip(expression);
         }
@@ -528,13 +536,13 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.MemberInit(
                     LinqExpression.New(
-                        typeof(C3)),
+                        typeof(SampleClass)),
                     LinqExpression.MemberBind(
-                        typeof(C3).GetField("F2"),
+                        typeof(SampleClass).GetField(nameof(SampleClass.ComplexField)),
                         LinqExpression.Bind(
-                            typeof(C3).GetField("F1"),
-                            LinqExpression.Constant(0L))));
-
+                            typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
+                            LinqExpression.Constant(
+                                string.Empty))));
 
             ShouldRoundrip(expression);
         }
@@ -545,15 +553,10 @@ namespace GraphEngine.Tests
             var s = g.CreateBlankNode();
 
             new SerialisingVisitor(s).Visit(original);
-            Console.WriteLine("Graph generated from visitor");
-            Console.WriteLine("-------------------------");
             new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out, true);
-            Console.WriteLine();
             Console.WriteLine();
 
             var processed = GraphEngine.Expression.Parse(s).LinqExpression;
-            Console.WriteLine("Expression parsed from graph");
-            Console.WriteLine("-------------------------");
             Console.WriteLine(processed.GetDebugView());
 
             processed.Should().Be(original);

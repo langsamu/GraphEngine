@@ -39,9 +39,6 @@ namespace GraphEngine.Tests
 ");
             var s = g.GetUriNode(":s");
 
-
-
-
             var aa = new Collection<Expression>(s, Vocabulary.ArrayIndexIndexes, Expression.Parse);
             foreach (Parameter index in aa)
             {

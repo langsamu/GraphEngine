@@ -1,7 +1,5 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-using System;
-
 namespace GraphEngine.Tests
 {
     using System;
@@ -154,4 +152,3 @@ namespace GraphEngine.Tests
         }
     }
 }
-

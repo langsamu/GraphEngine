@@ -1,4 +1,4 @@
-// MIT License, Copyright 2020 Samu Lang
+﻿// MIT License, Copyright 2020 Samu Lang
 
 namespace GraphEngine.Tests
 {
@@ -9,7 +9,7 @@ namespace GraphEngine.Tests
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
-    public class Tests
+    public class BasicTests
     {
         [TestMethod]
         public void POC()
@@ -668,7 +668,7 @@ _:int
                 new[]
                 {
                     LinqExpression.Parameter(
-                        typeof(int))
+                        typeof(int)),
                 });
 
             using var g = new GraphEngine.Graph();
@@ -735,9 +735,9 @@ _:param
         {
             var expected = LinqExpression.Condition(
                 LinqExpression.Parameter(typeof(bool)),
-                LinqExpression.Parameter(typeof(C1)),
-                LinqExpression.Parameter(typeof(C2)),
-                typeof(C1));
+                LinqExpression.Parameter(typeof(SampleClass)),
+                LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                typeof(SampleClass));
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
@@ -746,11 +746,11 @@ _:param
 :s
     :conditionTest [:parameterType [:typeName ""System.Boolean"" ;]] ;
     :conditionIfTrue [:parameterType _:C1] ;
-    :conditionIfFalse [:parameterType [:typeName ""GraphEngine.Tests.C2, GraphEngine.Tests"" ;]] ;
+    :conditionIfFalse [:parameterType [:typeName ""GraphEngine.Tests.SampleDerivedClass, GraphEngine.Tests"" ;]] ;
     :conditionType _:C1 ;
 .
 
-_:C1 :typeName ""GraphEngine.Tests.C1, GraphEngine.Tests"" .
+_:C1 :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" .
 ");
             var s = g.GetUriNode(":s");
 

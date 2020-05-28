@@ -3,7 +3,6 @@
 namespace GraphEngine.Tests
 {
     using System;
-    using System.Runtime.CompilerServices;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
     using LinqExpression = System.Linq.Expressions.Expression;
@@ -16,8 +15,8 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Field(
-                    LinqExpression.Parameter(typeof(Cx1)),
-                    nameof(Cx1.F1));
+                    LinqExpression.Parameter(typeof(SampleClass)),
+                    nameof(SampleClass.InstanceField));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -26,10 +25,10 @@ namespace GraphEngine.Tests
     a :Field ;
     :memberAccessExpression [
         :parameterType [
-            :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
         ] ;
     ] ;
-    :memberAccessName ""F1"" ;
+    :memberAccessName ""InstanceField"" ;
 .
 ";
 
@@ -41,9 +40,9 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Field(
-                    LinqExpression.Parameter(typeof(Cx2)),
-                    typeof(Cx1),
-                    nameof(Cx1.F1));
+                    LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                    typeof(SampleClass),
+                    nameof(SampleClass.InstanceField));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -52,13 +51,13 @@ namespace GraphEngine.Tests
     a :Field ;
     :memberAccessExpression [
         :parameterType [
-            :typeName ""GraphEngine.Tests.Cx2, GraphEngine.Tests"" ;
+            :typeName ""GraphEngine.Tests.SampleDerivedClass, GraphEngine.Tests"" ;
         ] ;
     ] ;
     :memberAccessType [
-        :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+        :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
     ] ;
-    :memberAccessName ""F1"" ;
+    :memberAccessName ""InstanceField"" ;
 .
 ";
 
@@ -71,8 +70,8 @@ namespace GraphEngine.Tests
             var expected =
                 LinqExpression.Field(
                     null,
-                    typeof(Cx1),
-                    nameof(Cx1.F2));
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticField));
 
             const string actual = @"
 @prefix : <http://example.com/> .
@@ -80,9 +79,9 @@ namespace GraphEngine.Tests
 :s
     a :Field ;
     :memberAccessType [
-        :typeName ""GraphEngine.Tests.Cx1, GraphEngine.Tests"" ;
+        :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
     ] ;
-    :memberAccessName ""F2"" ;
+    :memberAccessName ""StaticField"" ;
 .
 ";
 
@@ -101,26 +100,5 @@ namespace GraphEngine.Tests
 
             actual.Should().Be(expected);
         }
-    }
-
-    public class Cx1
-    {
-        public string F1;
-        public static string F2;
-
-        [IndexerName("Pi")]
-        public string this[int index]
-        {
-            get => default;
-            set { }
-        }
-
-        public string P1 { get; set; }
-
-        public static string P2 { get; set; }
-    }
-
-    public class Cx2 : Cx1
-    {
     }
 }

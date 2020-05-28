@@ -19,13 +19,7 @@ namespace GraphEngine
             this.parser = parser;
         }
 
-        public int Count => base.Count;
-
-        public bool IsReadOnly => base.IsReadOnly;
-
         public void Add(T item) => base.Add(item);
-
-        public void Clear() => base.Clear();
 
         public bool Contains(T item) => base.Contains(item);
 

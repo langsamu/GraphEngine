@@ -41,7 +41,7 @@ namespace GraphEngine
             }
         }
 
-        internal static New Parse(INode node)
+        internal static new New Parse(INode node)
         {
             if (node is null)
             {

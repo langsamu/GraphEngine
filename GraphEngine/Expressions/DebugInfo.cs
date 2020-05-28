@@ -29,7 +29,6 @@ namespace GraphEngine
             set => this.SetRequired(DebugInfoStartLine, value);
         }
 
-
         public int StartColumn
         {
             get => this.GetRequiredS(DebugInfoStartColumn, AsInt);

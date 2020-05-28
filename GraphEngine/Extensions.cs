@@ -40,17 +40,15 @@ namespace GraphEngine
 
         internal static object AsObject(this INode node)
         {
+            const string e = "";
             return node switch
             {
                 IUriNode { NodeType: NodeType.Uri } uriNode => uriNode.Uri,
-                ILiteralNode { NodeType: NodeType.Literal, DataType: null, Language: "" } literalNode => literalNode.Value,
+                ILiteralNode { NodeType: NodeType.Literal, DataType: null, Language: e } literalNode => literalNode.Value,
                 ILiteralNode { NodeType: NodeType.Literal, DataType: { AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInteger } } literalNode => long.Parse(literalNode.Value, CultureInfo.InvariantCulture),
                 ILiteralNode { NodeType: NodeType.Literal, DataType: { AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInt } } literalNode => int.Parse(literalNode.Value, CultureInfo.InvariantCulture),
                 _ => node,
             };
         }
-
-        // TODO: Remove
-        internal static string GetDebugView(this Linq.Expression exp) => (string)typeof(Linq.Expression).GetProperty("DebugView", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(exp);
     }
 }
