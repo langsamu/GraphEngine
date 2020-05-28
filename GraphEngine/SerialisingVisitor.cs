@@ -69,7 +69,14 @@ namespace GraphEngine
 
                 if (node.IsReferenceComparison())
                 {
-                    binary = new ReferenceEqual(this.Current);
+                    if (node.NodeType == Linq.ExpressionType.Equal)
+                    {
+                        binary = new ReferenceEqual(this.Current);
+                    }
+                    else
+                    {
+                        binary = new ReferenceNotEqual(this.Current);
+                    }
                 }
                 else
                 {

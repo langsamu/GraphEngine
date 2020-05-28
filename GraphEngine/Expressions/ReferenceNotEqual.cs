@@ -2,22 +2,19 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Diagnostics;
     using VDS.RDF;
-    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Implement
-    public class ReferenceNotEqual : Expression
+    public class ReferenceNotEqual : NotEqual
     {
         [DebuggerStepThrough]
         internal ReferenceNotEqual(INode node)
             : base(node)
         {
-            throw new NotImplementedException();
+            this.RdfType = Vocabulary.ReferenceNotEqual;
         }
 
-        public override Linq.Expression LinqExpression => throw new InvalidOperationException();
+        public override Linq.Expression LinqExpression => Linq.Expression.ReferenceNotEqual(this.Left.LinqExpression, this.Right.LinqExpression);
     }
 }

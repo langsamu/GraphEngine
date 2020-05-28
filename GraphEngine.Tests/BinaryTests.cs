@@ -123,6 +123,37 @@ namespace GraphEngine.Tests
             ShouldBe(actual, expected);
         }
 
+        [TestMethod]
+        public void ReferenceNotEquals()
+        {
+            var expected =
+                LinqExpression.ReferenceNotEqual(
+                    LinqExpression.Parameter(
+                        typeof(object)),
+                    LinqExpression.Parameter(
+                        typeof(object)));
+
+            var actual = $@"
+@prefix : <http://example.com/> .
+
+:s
+    a :ReferenceNotEqual ;
+    :binaryLeft [
+        :parameterType [
+            :typeName ""System.Object"" ;
+        ]
+    ] ;
+    :binaryRight [
+        :parameterType [
+            :typeName ""System.Object"" ;
+        ] ;
+    ] ;
+.
+";
+
+            ShouldBe(actual, expected);
+        }
+
         private static void ShouldBe(string rdf, LinqExpression expected)
         {
             using var g = new GraphEngine.Graph();

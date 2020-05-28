@@ -682,6 +682,14 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:ReferenceNotEqual
+	a owl:Class ;
+	rdfs:subClassOf :NotEqual ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Reference not equal" ;
+	rdfs:comment "" ;
+.
+
 :Return
 	a owl:Class ;
 	rdfs:subClassOf :BaseGoto ;
