@@ -59,15 +59,19 @@ namespace GraphEngine.Tests
 
         [TestMethod]
         [DynamicData(nameof(Data))]
-        public void TestMethod1(Linq.ExpressionType binaryType, Type leftType = null, Type rightType = null)
+        public void Regular(Linq.ExpressionType binaryType, Type leftType = null, Type rightType = null)
         {
             leftType ??= typeof(int);
             rightType ??= leftType;
 
-            var expected = LinqExpression.MakeBinary(binaryType, LinqExpression.Parameter(leftType), LinqExpression.Parameter(rightType));
+            var expected = LinqExpression.MakeBinary(
+                binaryType,
+                LinqExpression.Parameter(
+                    leftType),
+                LinqExpression.Parameter(
+                    rightType));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString($@"
+            var actual = $@"
 @prefix : <http://example.com/> .
 
 :s
@@ -83,8 +87,46 @@ namespace GraphEngine.Tests
         ] ;
     ] ;
 .
-");
+";
 
+            ShouldBe(actual, expected);
+        }
+
+        [TestMethod]
+        public void ReferenceEquals()
+        {
+            var expected =
+                LinqExpression.ReferenceEqual(
+                    LinqExpression.Parameter(
+                        typeof(object)),
+                    LinqExpression.Parameter(
+                        typeof(object)));
+
+            var actual = $@"
+@prefix : <http://example.com/> .
+
+:s
+    a :ReferenceEqual ;
+    :binaryLeft [
+        :parameterType [
+            :typeName ""System.Object"" ;
+        ]
+    ] ;
+    :binaryRight [
+        :parameterType [
+            :typeName ""System.Object"" ;
+        ] ;
+    ] ;
+.
+";
+
+            ShouldBe(actual, expected);
+        }
+
+        private static void ShouldBe(string rdf, LinqExpression expected)
+        {
+            using var g = new GraphEngine.Graph();
+            g.LoadFromString(rdf);
             var s = g.GetUriNode(":s");
 
             var actual = Expression.Parse(s).LinqExpression;

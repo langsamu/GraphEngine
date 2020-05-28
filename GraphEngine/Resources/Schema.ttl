@@ -674,6 +674,14 @@ this:schema
 	rdfs:comment "An expression that has a constant value of type Expression. A Quote node can contain references to parameters that are defined in the context of the expression it represents." ;
 .
 
+:ReferenceEqual
+	a owl:Class ;
+	rdfs:subClassOf :Equal ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Reference equal" ;
+	rdfs:comment "" ;
+.
+
 :Return
 	a owl:Class ;
 	rdfs:subClassOf :BaseGoto ;

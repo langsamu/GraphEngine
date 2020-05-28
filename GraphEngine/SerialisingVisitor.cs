@@ -65,7 +65,16 @@ namespace GraphEngine
             }
             else
             {
-                var binary = Binary.Create(this.Current, node.NodeType);
+                Binary binary;
+
+                if (node.IsReferenceComparison())
+                {
+                    binary = new ReferenceEqual(this.Current);
+                }
+                else
+                {
+                    binary = Binary.Create(this.Current, node.NodeType);
+                }
 
                 binary.Left = this.VisitCacheParse(node.Left);
                 binary.Right = this.VisitCacheParse(node.Right);

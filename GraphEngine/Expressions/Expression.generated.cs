@@ -106,6 +106,7 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.Unbox): return new Unbox(node);
                 case INode t when t.Equals(Vocabulary.Variable): return new Variable(node);
 
+                case null: throw new Exception($"no type on node {node}");
                 default: throw new Exception($"unknown type {type} on node {node}");
             }
         }

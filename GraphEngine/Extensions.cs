@@ -6,7 +6,7 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Reflection;
+    using System.Linq.Expressions;
     using VDS.RDF;
     using VDS.RDF.Parsing;
     using Linq = System.Linq.Expressions;
@@ -49,6 +49,18 @@ namespace GraphEngine
                 ILiteralNode { NodeType: NodeType.Literal, DataType: { AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInt } } literalNode => int.Parse(literalNode.Value, CultureInfo.InvariantCulture),
                 _ => node,
             };
+        }
+
+        // See https://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/BinaryExpression.cs,374
+        internal static bool IsReferenceComparison(this Linq.BinaryExpression expression)
+        {
+            var left = expression.Left.Type;
+            var right = expression.Right.Type;
+            var method = expression.Method;
+            var kind = expression.NodeType;
+
+            return (kind == ExpressionType.Equal || kind == ExpressionType.NotEqual) &&
+                method == null && !left.IsValueType && !right.IsValueType;
         }
     }
 }

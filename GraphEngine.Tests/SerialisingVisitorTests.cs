@@ -547,6 +547,19 @@ namespace GraphEngine.Tests
             ShouldRoundrip(expression);
         }
 
+        [TestMethod]
+        public void ReferenceEqual()
+        {
+            var expression =
+                LinqExpression.ReferenceEqual(
+                    LinqExpression.Parameter(
+                        typeof(object)),
+                    LinqExpression.Parameter(
+                        typeof(object)));
+
+            ShouldRoundrip(expression);
+        }
+
         private static void ShouldRoundrip(LinqExpression original)
         {
             using var g = new GraphEngine.Graph();
