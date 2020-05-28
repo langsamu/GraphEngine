@@ -276,17 +276,51 @@ _:one
         [TestMethod]
         public void NewArrayBounds()
         {
-            var expected = LinqExpression.NewArrayBounds(typeof(long), LinqExpression.Constant(0L));
+            var expected =
+                LinqExpression.NewArrayBounds(
+                    typeof(long),
+                    LinqExpression.Constant(0L));
 
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
-    :newArrayBoundsType [
+    a :NewArrayBounds ;
+    :newArrayType [
         :typeName ""System.Int64"" ;
     ] ;
-    :newArrayBoundsBounds (
+    :newArrayExpressions (
+        [
+            :constantValue 0 ;
+        ]
+    ) ;
+.
+");
+            var s = g.GetUriNode(":s");
+
+            var actual = Expression.Parse(s).LinqExpression;
+
+            Console.WriteLine(actual.GetDebugView());
+
+            actual.Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void NewArrayInit()
+        {
+            var expected = LinqExpression.NewArrayInit(typeof(long), LinqExpression.Constant(0L));
+
+            using var g = new GraphEngine.Graph();
+            g.LoadFromString(@"
+@prefix : <http://example.com/> .
+
+:s
+    a :NewArrayInit ;
+    :newArrayType [
+        :typeName ""System.Int64"" ;
+    ] ;
+    :newArrayExpressions (
         [
             :constantValue 0 ;
         ]

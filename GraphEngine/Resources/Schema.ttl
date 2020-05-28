@@ -546,12 +546,28 @@ this:schema
 	rdfs:comment "An operation that calls a constructor to create a new object, such as new SampleType()." ;
 .
 
-:NewArrayBounds
+:NewArray
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
+	rdfs:label "New array" ;
+	rdfs:comment "" ;
+.
+
+:NewArrayBounds
+	a owl:Class ;
+	rdfs:subClassOf :NewArray ;
+	rdfs:isDefinedBy this:schema ;
 	rdfs:label "New array bounds" ;
 	rdfs:comment "An operation that creates a new array, in which the bounds for each dimension are specified, such as new SampleType[dim1, dim2] in C# or New SampleType(dim1, dim2) in Visual Basic." ;
+.
+
+:NewArrayInit
+	a owl:Class ;
+	rdfs:subClassOf :NewArray ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "New array init" ;
+	rdfs:comment "" ;
 .
 
 :Not
@@ -1363,21 +1379,21 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:newArrayBoundsBounds
+:newArrayExpressions
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :NewArrayBounds ;
+	rdfs:domain :NewArray ;
 	rdfs:range rdf:List ;
-	rdfs:label "new array bounds bounds" ;
+	rdfs:label "new array expressions" ;
 	rdfs:comment "" ;
 .
 
-:newArrayBoundsType
+:newArrayType
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :NewArrayBounds ;
+	rdfs:domain :NewArray ;
 	rdfs:range :Type ;
-	rdfs:label "new array bounds type" ;
+	rdfs:label "new array type" ;
 	rdfs:comment "" ;
 .
 

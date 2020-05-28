@@ -338,9 +338,9 @@ namespace GraphEngine
 
         public static IUriNode NewArguments { get; } = EngineNode("newArguments");
 
-        public static IUriNode NewArrayBoundsBounds { get; } = EngineNode("newArrayBoundsBounds");
+        public static IUriNode NewArrayExpressions { get; } = EngineNode("newArrayExpressions");
 
-        public static IUriNode NewArrayBoundsType { get; } = EngineNode("newArrayBoundsType");
+        public static IUriNode NewArrayType { get; } = EngineNode("newArrayType");
 
         public static IUriNode NewType { get; } = EngineNode("newType");
 

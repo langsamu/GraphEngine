@@ -202,8 +202,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("MemberType", "memberType");
         yield return ("MemberName", "memberName");
         yield return ("NewArguments", "newArguments");
-        yield return ("NewArrayBoundsBounds", "newArrayBoundsBounds");
-        yield return ("NewArrayBoundsType", "newArrayBoundsType");
+        yield return ("NewArrayExpressions", "newArrayExpressions");
+        yield return ("NewArrayType", "newArrayType");
         yield return ("NewType", "newType");
         yield return ("ParameterName", "parameterName");
         yield return ("ParameterType", "parameterType");

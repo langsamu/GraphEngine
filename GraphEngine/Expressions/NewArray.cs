@@ -1,0 +1,34 @@
+﻿// MIT License, Copyright 2020 Samu Lang
+
+namespace GraphEngine
+{
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using VDS.RDF;
+    using static Vocabulary;
+    using Linq = System.Linq.Expressions;
+
+    public abstract class NewArray : Expression
+    {
+        [DebuggerStepThrough]
+        internal NewArray(INode node)
+            : base(node)
+        {
+        }
+
+        protected delegate Linq.NewArrayExpression NewArrayExpressionFactory(System.Type type, IEnumerable<Linq.Expression> expressions);
+
+        public Type Type
+        {
+            get => this.GetRequired(NewArrayType, Type.Parse);
+
+            set => this.SetRequired(NewArrayType, value);
+        }
+
+        public ICollection<Expression> Expressions => this.Collection(NewArrayExpressions, Expression.Parse);
+
+        public override Linq.Expression LinqExpression => this.FactoryMethod(this.Type.SystemType, this.Expressions.LinqExpressions());
+
+        protected abstract NewArrayExpressionFactory FactoryMethod { get; }
+    }
+}

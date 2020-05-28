@@ -79,25 +79,79 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Call_static_no_types_no_arguments()
+        public void Break()
         {
-            var expression =
-                LinqExpression.Call(
-                    typeof(SampleClass),
-                    nameof(SampleClass.StaticMethod),
-                    Array.Empty<Type>(),
-                    Array.Empty<LinqExpression>());
+            var expression = LinqExpression.Break(
+                LinqExpression.Label(
+                    typeof(void)));
 
             ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void Call_static_types_no_arguments()
+        public void Call_instance_no_types_arguments()
         {
             var expression =
                 LinqExpression.Call(
-                    typeof(SampleClass),
-                    nameof(SampleClass.GenericStaticMethod),
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    nameof(SampleClass.InstanceMethodWithArgument),
+                    Array.Empty<Type>(),
+                    new[]
+                    {
+                        LinqExpression.Constant(
+                            0L,
+                            typeof(long)),
+                    });
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_instance_no_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    nameof(SampleClass.InstanceMethod),
+                    Array.Empty<Type>(),
+                    Array.Empty<LinqExpression>());
+
+            using var g = new GraphEngine.Graph();
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_instance_types_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    nameof(SampleClass.GenericInstanceMethodWithArgument),
+                    new[]
+                    {
+                        typeof(object),
+                    },
+                    new[]
+                    {
+                        LinqExpression.Constant(
+                            0L,
+                            typeof(long)),
+                    });
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_instance_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    nameof(SampleClass.GenericInstanceMethod),
                     new[]
                     {
                         typeof(object),
@@ -126,6 +180,19 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void Call_static_no_types_no_arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticMethod),
+                    Array.Empty<Type>(),
+                    Array.Empty<LinqExpression>());
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void Call_static_types_arguments()
         {
             var expression =
@@ -147,74 +214,17 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Call_instance_no_types_no_arguments()
+        public void Call_static_types_no_arguments()
         {
             var expression =
                 LinqExpression.Call(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    nameof(SampleClass.InstanceMethod),
-                    Array.Empty<Type>(),
-                    Array.Empty<LinqExpression>());
-
-            using var g = new GraphEngine.Graph();
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Call_instance_types_no_arguments()
-        {
-            var expression =
-                LinqExpression.Call(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    nameof(SampleClass.GenericInstanceMethod),
+                    typeof(SampleClass),
+                    nameof(SampleClass.GenericStaticMethod),
                     new[]
                     {
                         typeof(object),
                     },
                     Array.Empty<LinqExpression>());
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Call_instance_no_types_arguments()
-        {
-            var expression =
-                LinqExpression.Call(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    nameof(SampleClass.InstanceMethodWithArgument),
-                    Array.Empty<Type>(),
-                    new[]
-                    {
-                        LinqExpression.Constant(
-                            0L,
-                            typeof(long)),
-                    });
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Call_instance_types_arguments()
-        {
-            var expression =
-                LinqExpression.Call(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    nameof(SampleClass.GenericInstanceMethodWithArgument),
-                    new[]
-                    {
-                        typeof(object),
-                    },
-                    new[]
-                    {
-                        LinqExpression.Constant(
-                            0L,
-                            typeof(long)),
-                    });
 
             ShouldRoundrip(expression);
         }
@@ -224,6 +234,18 @@ namespace GraphEngine.Tests
         {
             var param = LinqExpression.Parameter(typeof(bool));
             var expression = LinqExpression.Condition(param, param, param);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void ConditionType()
+        {
+            var expression = LinqExpression.Condition(
+                LinqExpression.Parameter(typeof(bool)),
+                LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                LinqExpression.Parameter(typeof(SampleClass)),
+                typeof(SampleClass));
 
             ShouldRoundrip(expression);
         }
@@ -290,6 +312,54 @@ namespace GraphEngine.Tests
                     1,
                     1,
                     1);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Factorial()
+        {
+            var value = LinqExpression.Parameter(typeof(int), "value");
+            var result = LinqExpression.Parameter(typeof(int), "result");
+            var label = LinqExpression.Label(typeof(int), "label");
+            var one = LinqExpression.Constant(1);
+            var expression = LinqExpression.Block(
+                new[] { result },
+                LinqExpression.Assign(
+                    result,
+                    one),
+                LinqExpression.Loop(
+                    LinqExpression.Condition(
+                        LinqExpression.GreaterThan(
+                            value,
+                            one),
+                        LinqExpression.MultiplyAssign(
+                            result,
+                            LinqExpression.PostDecrementAssign(
+                                value)),
+                        LinqExpression.Break(
+                            label,
+                            result),
+                        typeof(void)),
+                    label));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void IfThen()
+        {
+            var param = LinqExpression.Parameter(typeof(bool));
+            var expression = LinqExpression.IfThen(param, param);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void IfThenElse()
+        {
+            var param = LinqExpression.Parameter(typeof(bool));
+            var expression = LinqExpression.IfThenElse(param, param, param);
 
             ShouldRoundrip(expression);
         }
@@ -377,119 +447,6 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void ConditionType()
-        {
-            var expression = LinqExpression.Condition(
-                LinqExpression.Parameter(typeof(bool)),
-                LinqExpression.Parameter(typeof(SampleDerivedClass)),
-                LinqExpression.Parameter(typeof(SampleClass)),
-                typeof(SampleClass));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void IfThen()
-        {
-            var param = LinqExpression.Parameter(typeof(bool));
-            var expression = LinqExpression.IfThen(param, param);
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void IfThenElse()
-        {
-            var param = LinqExpression.Parameter(typeof(bool));
-            var expression = LinqExpression.IfThenElse(param, param, param);
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Parameter()
-        {
-            var expression = LinqExpression.Parameter(typeof(object));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Parameter_with_name()
-        {
-            var expression = LinqExpression.Parameter(typeof(object), "param");
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void RuntimeVariables()
-        {
-            var expression =
-                LinqExpression.RuntimeVariables(
-                    LinqExpression.Parameter(
-                        typeof(object)));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Unary()
-        {
-            var expression = LinqExpression.ArrayLength(LinqExpression.Parameter(typeof(int[])));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Factorial()
-        {
-            var value = LinqExpression.Parameter(typeof(int), "value");
-            var result = LinqExpression.Parameter(typeof(int), "result");
-            var label = LinqExpression.Label(typeof(int), "label");
-            var one = LinqExpression.Constant(1);
-            var expression = LinqExpression.Block(
-                new[] { result },
-                LinqExpression.Assign(
-                    result,
-                    one),
-                LinqExpression.Loop(
-                    LinqExpression.Condition(
-                        LinqExpression.GreaterThan(
-                            value,
-                            one),
-                        LinqExpression.MultiplyAssign(
-                            result,
-                            LinqExpression.PostDecrementAssign(
-                                value)),
-                        LinqExpression.Break(
-                            label,
-                            result),
-                        typeof(void)),
-                    label));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void TypeArguments()
-        {
-            var expression = LinqExpression.Parameter(typeof(IEquatable<int>));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Break()
-        {
-            var expression = LinqExpression.Break(
-                LinqExpression.Label(
-                    typeof(void)));
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
         public void MemberInit_no_bindings()
         {
             var expression =
@@ -548,6 +505,44 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void NewArrayBounds()
+        {
+            var expression =
+                LinqExpression.NewArrayBounds(
+                    typeof(long),
+                    LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void NewArrayInit()
+        {
+            var expression =
+                LinqExpression.NewArrayInit(
+                    typeof(long),
+                    LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Parameter()
+        {
+            var expression = LinqExpression.Parameter(typeof(object));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Parameter_with_name()
+        {
+            var expression = LinqExpression.Parameter(typeof(object), "param");
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void ReferenceEqual()
         {
             var expression =
@@ -569,6 +564,33 @@ namespace GraphEngine.Tests
                         typeof(object)),
                     LinqExpression.Parameter(
                         typeof(object)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void RuntimeVariables()
+        {
+            var expression =
+                LinqExpression.RuntimeVariables(
+                    LinqExpression.Parameter(
+                        typeof(object)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void TypeArguments()
+        {
+            var expression = LinqExpression.Parameter(typeof(IEquatable<int>));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Unary()
+        {
+            var expression = LinqExpression.ArrayLength(LinqExpression.Parameter(typeof(int[])));
 
             ShouldRoundrip(expression);
         }

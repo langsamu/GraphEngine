@@ -2,22 +2,19 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Diagnostics;
     using VDS.RDF;
-    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Implement
-    public class NewArrayInit : Expression
+    public class NewArrayInit : NewArray
     {
         [DebuggerStepThrough]
         internal NewArrayInit(INode node)
             : base(node)
         {
-            throw new NotImplementedException();
+            this.RdfType = Vocabulary.NewArrayInit;
         }
 
-        public override Linq.Expression LinqExpression => throw new InvalidOperationException();
+        protected override NewArrayExpressionFactory FactoryMethod => Linq.Expression.NewArrayInit;
     }
 }

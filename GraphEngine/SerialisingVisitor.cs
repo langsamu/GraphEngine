@@ -419,6 +419,28 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.Expression VisitNewArray(NewArrayExpression node)
+        {
+            NewArray newArray;
+            if (node.NodeType == Linq.ExpressionType.NewArrayBounds)
+            {
+                newArray = new NewArrayBounds(this.Current);
+            }
+            else
+            {
+                newArray = new NewArrayInit(this.Current);
+            }
+
+            newArray.Type = this.VisitType(node.Type.GetElementType());
+
+            foreach (var expression in node.Expressions)
+            {
+                newArray.Expressions.Add(this.VisitCacheParse(expression));
+            }
+
+            return node;
+        }
+
         protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
         {
             var parameter = new Parameter(this.Current)
