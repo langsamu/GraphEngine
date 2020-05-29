@@ -365,6 +365,20 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void ListInit()
+        {
+            var expression =
+                LinqExpression.ListInit(
+                    LinqExpression.New(
+                        typeof(List<long>)),
+                    LinqExpression.ElementInit(
+                        typeof(List<long>).GetMethod("Add"),
+                        LinqExpression.Constant(0L)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void MemberAccess_field_expression()
         {
             var expression =

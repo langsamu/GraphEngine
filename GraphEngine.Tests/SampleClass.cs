@@ -22,7 +22,7 @@ namespace GraphEngine.Tests
 
         public string InstanceProperty { get; set; }
 
-        public List<long> ListProperty { get;  }
+        public List<long> ListProperty { get; }
 
         [IndexerName("Indexer")]
         public string this[int index]

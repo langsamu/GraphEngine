@@ -314,6 +314,10 @@ namespace GraphEngine
 
         public static IUriNode ListBindInitializers { get; } = EngineNode("listBindInitializers");
 
+        public static IUriNode ListInitInitializers { get; } = EngineNode("listInitInitializers");
+
+        public static IUriNode ListInitNewExpression { get; } = EngineNode("listInitNewExpression");
+
         public static IUriNode LoopBody { get; } = EngineNode("loopBody");
 
         public static IUriNode LoopBreak { get; } = EngineNode("loopBreak");

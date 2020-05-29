@@ -107,35 +107,6 @@ namespace GraphEngine
             return node;
         }
 
-        protected override Linq.Expression VisitMethodCall(Linq.MethodCallExpression node)
-        {
-            var call = new Call(this.Current)
-            {
-                Method = node.Method.Name,
-            };
-
-            if (node.Object is object)
-            {
-                call.Instance = this.VisitCacheParse(node.Object);
-            }
-            else
-            {
-                call.Type = this.VisitType(node.Method.DeclaringType);
-            }
-
-            foreach (var type in node.Method.GetGenericArguments())
-            {
-                call.TypeArguments.Add(this.VisitType(type));
-            }
-
-            foreach (var argument in node.Arguments)
-            {
-                call.Arguments.Add(this.VisitCacheParse(argument));
-            }
-
-            return node;
-        }
-
         protected override Linq.Expression VisitConditional(Linq.ConditionalExpression node)
         {
             Condition condition;
@@ -297,6 +268,21 @@ namespace GraphEngine
             }
         }
 
+        protected override Linq.Expression VisitListInit(ListInitExpression node)
+        {
+            var listInit = new ListInit(this.Current)
+            {
+                NewExpression = new New(this.VisitCache(node.NewExpression))
+            };
+
+            foreach (var initializer in node.Initializers)
+            {
+                listInit.Initializers.Add(new ElementInit(this[this.VisitElementInit(initializer)]));
+            }
+
+            return node;
+        }
+
         protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
         {
             var loop = new Loop(this.Current)
@@ -404,6 +390,35 @@ namespace GraphEngine
             foreach (var binding in node.Bindings)
             {
                 memberBinding.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
+            }
+
+            return node;
+        }
+
+        protected override Linq.Expression VisitMethodCall(Linq.MethodCallExpression node)
+        {
+            var call = new Call(this.Current)
+            {
+                Method = node.Method.Name,
+            };
+
+            if (node.Object is object)
+            {
+                call.Instance = this.VisitCacheParse(node.Object);
+            }
+            else
+            {
+                call.Type = this.VisitType(node.Method.DeclaringType);
+            }
+
+            foreach (var type in node.Method.GetGenericArguments())
+            {
+                call.TypeArguments.Add(this.VisitType(type));
+            }
+
+            foreach (var argument in node.Arguments)
+            {
+                call.Arguments.Add(this.VisitCacheParse(argument));
             }
 
             return node;

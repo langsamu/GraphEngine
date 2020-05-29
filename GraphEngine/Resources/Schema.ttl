@@ -427,6 +427,14 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:ListInit
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "List init" ;
+	rdfs:comment "" ;
+.
+
 :Loop
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -1268,6 +1276,24 @@ this:schema
 	rdfs:domain :ListBind ;
 	rdfs:range rdf:List ;
 	rdfs:label "list bind initializers" ;
+	rdfs:comment "" ;
+.
+
+:ListInitInitializers
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ListInit ;
+	rdfs:range rdf:List ;
+	rdfs:label "list init initializers" ;
+	rdfs:comment "" ;
+.
+
+:listInitNewExpression
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :ListInit ;
+	rdfs:range :New ;
+	rdfs:label "list init new expression" ;
 	rdfs:comment "" ;
 .
 

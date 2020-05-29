@@ -190,6 +190,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("LambdaBody", "lambdaBody");
         yield return ("LambdaParameters", "lambdaParameters");
         yield return ("ListBindInitializers", "listBindInitializers");
+        yield return ("ListInitInitializers", "listInitInitializers");
+        yield return ("ListInitNewExpression", "listInitNewExpression");
         yield return ("LoopBody", "loopBody");
         yield return ("LoopBreak", "loopBreak");
         yield return ("LoopContinue", "loopContinue");
