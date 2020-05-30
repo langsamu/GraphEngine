@@ -4,8 +4,10 @@ namespace GraphEngine
 {
     using System;
     using System.Collections.Generic;
+    using System.Dynamic;
     using System.Linq.Expressions;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
@@ -182,18 +184,18 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitDynamic(Linq.DynamicExpression node)
         {
-            var binderName = node.Binder.GetType().FullName;
-            switch (binderName)
+            var dynamicNode = new Dynamic(this.Current)
             {
-                case "Microsoft.CSharp.RuntimeBinder.CSharpInvokeMemberBinder":
-                    // TODO: Use binder.Name and binder._arguments
-                    throw new NotImplementedException();
+                Binder = this.VisitBinder(node.Binder),
+                ReturnType = this.VisitType(node.Type),
+            };
 
-                    return node;
-
-                default:
-                    throw new Exception($"Unkown binder {binderName}");
+            foreach (var argument in node.Arguments)
+            {
+                dynamicNode.Arguments.Add(this.VisitCacheParse(argument));
             }
+
+            return node;
         }
 
         protected override Linq.ElementInit VisitElementInit(Linq.ElementInit node)
@@ -523,6 +525,42 @@ namespace GraphEngine
         private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(this.VisitCache(node));
 
         private INode VisitCache(Linq.Expression node) => this[this.Visit(node)];
+
+        private ArgumentInfo VisitArgumentInfo(string argument)
+        {
+            using (this.Wrap(argument))
+            {
+                return new ArgumentInfo(this.Current);
+            }
+        }
+
+        private Binder VisitBinder(CallSiteBinder callSiteBinder)
+        {
+            using (this.Wrap(callSiteBinder))
+            {
+                switch (callSiteBinder)
+                {
+                    case InvokeMemberBinder invokeMemberBinder:
+                        var binder = new InvokeMember(this.Current)
+                        {
+                            Name = invokeMemberBinder.Name,
+                        };
+
+                        // TODO: Why?
+                        binder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+
+                        foreach (var argument in invokeMemberBinder.CallInfo.ArgumentNames)
+                        {
+                            binder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(argument)]));
+                        }
+
+                        return binder;
+
+                    case var x:
+                        throw new Exception($"Unkown binder {x}");
+                }
+            }
+        }
 
         private Member VisitMember(MemberInfo member)
         {
