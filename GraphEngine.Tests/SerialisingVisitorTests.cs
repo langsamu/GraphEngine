@@ -4,6 +4,7 @@ namespace GraphEngine.Tests
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.CSharp.RuntimeBinder;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF.Writing;
     using LinqExpression = System.Linq.Expressions.Expression;
@@ -58,6 +59,26 @@ namespace GraphEngine.Tests
         {
             var param = LinqExpression.Parameter(typeof(int));
             var expression = LinqExpression.Add(param, param);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Dynamic()
+        {
+            var expression =
+                LinqExpression.Dynamic(
+                    Binder.InvokeMember(
+                        CSharpBinderFlags.None,
+                        "ToString",
+                        null,
+                        null,
+                        new[]
+                        {
+                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                        }),
+                    typeof(object),
+                    LinqExpression.Constant(0L));
 
             ShouldRoundrip(expression);
         }

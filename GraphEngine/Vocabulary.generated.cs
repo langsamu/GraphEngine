@@ -96,6 +96,8 @@ namespace GraphEngine
 
         public static IUriNode Invoke { get; } = EngineNode("Invoke");
 
+        public static IUriNode InvokeMember { get; } = EngineNode("InvokeMember");
+
         public static IUriNode IsFalse { get; } = EngineNode("IsFalse");
 
         public static IUriNode IsTrue { get; } = EngineNode("IsTrue");
@@ -240,6 +242,10 @@ namespace GraphEngine
 
         public static IUriNode BindMember { get; } = EngineNode("bindMember");
 
+        public static IUriNode BinderArguments { get; } = EngineNode("binderArguments");
+
+        public static IUriNode BinderName { get; } = EngineNode("binderName");
+
         public static IUriNode BlockExpressions { get; } = EngineNode("blockExpressions");
 
         public static IUriNode BlockVariables { get; } = EngineNode("blockVariables");
@@ -289,6 +295,12 @@ namespace GraphEngine
         public static IUriNode DebugInfoStartLine { get; } = EngineNode("debugInfoStartLine");
 
         public static IUriNode DefaultType { get; } = EngineNode("defaultType");
+
+        public static IUriNode DynamicArguments { get; } = EngineNode("dynamicArguments");
+
+        public static IUriNode DynamicBinder { get; } = EngineNode("dynamicBinder");
+
+        public static IUriNode DynamicReturnType { get; } = EngineNode("dynamicReturnType");
 
         public static IUriNode ElementInitAddMethod { get; } = EngineNode("elementInitAddMethod");
 

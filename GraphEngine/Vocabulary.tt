@@ -79,6 +79,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("IfThenElse", "IfThenElse");
         yield return ("Increment", "Increment");
         yield return ("Invoke", "Invoke");
+        yield return ("InvokeMember", "InvokeMember");
         yield return ("IsFalse", "IsFalse");
         yield return ("IsTrue", "IsTrue");
         yield return ("Label", "Label");
@@ -153,6 +154,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("BinaryRight", "binaryRight");
         yield return ("BindExpression", "bindExpression");
         yield return ("BindMember", "bindMember");
+        yield return ("BinderArguments", "binderArguments");
+        yield return ("BinderName", "binderName");
         yield return ("BlockExpressions", "blockExpressions");
         yield return ("BlockVariables", "blockVariables");
         yield return ("CallArguments", "callArguments");
@@ -178,6 +181,9 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("DebugInfoStartColumn", "debugInfoStartColumn");
         yield return ("DebugInfoStartLine", "debugInfoStartLine");
         yield return ("DefaultType", "defaultType");
+        yield return ("DynamicArguments", "dynamicArguments");
+        yield return ("DynamicBinder", "dynamicBinder");
+        yield return ("DynamicReturnType", "dynamicReturnType");
         yield return ("ElementInitAddMethod", "elementInitAddMethod");
         yield return ("ElementInitArguments", "elementInitArguments");
         yield return ("GotoTarget", "gotoTarget");

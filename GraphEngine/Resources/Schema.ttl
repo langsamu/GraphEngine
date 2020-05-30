@@ -135,6 +135,13 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:Binder
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Binder" ;
+	rdfs:comment "" ;
+.
+
 :Block
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -262,6 +269,14 @@ this:schema
 	rdfs:comment "An division compound assignment operation, such as (a /= b), for numeric operands." ;
 .
 
+:Dynamic
+	a owl:Class ;
+	rdfs:subClassOf :Expression ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Dynamic" ;
+	rdfs:comment "" ;
+.
+
 :ElementInit
 	a owl:Class ;
 	rdfs:isDefinedBy this:schema ;
@@ -354,6 +369,14 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Invoke" ;
 	rdfs:comment "An operation that invokes a delegate or lambda expression, such as sampleDelegate.Invoke()." ;
+.
+
+:InvokeMember
+	a owl:Class ;
+	rdfs:subClassOf :Binder ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Invoke member" ;
+	rdfs:comment "" ;
 .
 
 :IsFalse
@@ -946,6 +969,24 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:binderArguments
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binder ;
+	rdfs:range rdf:List ;
+	rdfs:label "binder arguments" ;
+	rdfs:comment "" ;
+.
+
+:binderName
+	a owl:DatatypeProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binder ;
+	rdfs:range xsd:string ;
+	rdfs:label "binder name" ;
+	rdfs:comment "" ;
+.
+
 :blockExpressions
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -1168,6 +1209,33 @@ this:schema
 	rdfs:domain :Default ;
 	rdfs:range :Type ;
 	rdfs:label "default type" ;
+	rdfs:comment "" ;
+.
+
+:dynamicArguments
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Dynamic ;
+	rdfs:range rdf:List ;
+	rdfs:label "dynamic arguments" ;
+	rdfs:comment "" ;
+.
+
+:dynamicBinder
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Dynamic ;
+	rdfs:range :Binder ;
+	rdfs:label "dynamic binder" ;
+	rdfs:comment "" ;
+.
+
+:dynamicReturnType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Dynamic ;
+	rdfs:range :Type ;
+	rdfs:label "dynamic return type" ;
 	rdfs:comment "" ;
 .
 

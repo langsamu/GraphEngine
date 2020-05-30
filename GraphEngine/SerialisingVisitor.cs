@@ -180,6 +180,22 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.Expression VisitDynamic(Linq.DynamicExpression node)
+        {
+            var binderName = node.Binder.GetType().FullName;
+            switch (binderName)
+            {
+                case "Microsoft.CSharp.RuntimeBinder.CSharpInvokeMemberBinder":
+                    // TODO: Use binder.Name and binder._arguments
+                    throw new NotImplementedException();
+
+                    return node;
+
+                default:
+                    throw new Exception($"Unkown binder {binderName}");
+            }
+        }
+
         protected override Linq.ElementInit VisitElementInit(Linq.ElementInit node)
         {
             using (this.Wrap(node))
@@ -196,6 +212,16 @@ namespace GraphEngine
 
                 return node;
             }
+        }
+
+        protected override Linq.Expression VisitExtension(Linq.Expression node)
+        {
+            if (node is DynamicExpression dynamicExpression)
+            {
+                return this.VisitDynamic(dynamicExpression);
+            }
+
+            throw new InvalidOperationException($"unknown extension {node}");
         }
 
         protected override Linq.Expression VisitGoto(Linq.GotoExpression node)

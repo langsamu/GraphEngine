@@ -2,22 +2,40 @@
 
 namespace GraphEngine
 {
-    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Implement
     public class Dynamic : Expression
     {
         [DebuggerStepThrough]
         internal Dynamic(INode node)
             : base(node)
         {
-            throw new NotImplementedException();
         }
 
-        public override Linq.Expression LinqExpression => throw new InvalidOperationException();
+        public Binder Binder
+        {
+            get => this.GetRequired(DynamicBinder, Binder.Parse);
+
+            set => this.SetRequired(DynamicBinder, value);
+        }
+
+        public Type ReturnType
+        {
+            get => this.GetRequired(DynamicReturnType, Type.Parse);
+
+            set => this.SetRequired(DynamicReturnType, value);
+        }
+
+        public ICollection<Expression> Arguments => this.Collection(DynamicArguments, Expression.Parse);
+
+        public override Linq.Expression LinqExpression =>
+            Linq.Expression.Dynamic(
+                this.Binder.SystemBinder,
+                this.ReturnType.SystemType,
+                this.Arguments.LinqExpressions());
     }
 }
