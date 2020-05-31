@@ -7,6 +7,7 @@ namespace GraphEngine.Tests
     using Microsoft.CSharp.RuntimeBinder;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF.Writing;
+    using Linq = System.Linq.Expressions;
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
@@ -64,7 +65,7 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Dynamic()
+        public void Dynamic_InvokeMember()
         {
             var expression =
                 LinqExpression.Dynamic(
@@ -79,6 +80,27 @@ namespace GraphEngine.Tests
                         }),
                     typeof(object),
                     LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Dynamic_BinaryOperation()
+        {
+            var expression =
+                LinqExpression.Dynamic(
+                    Binder.BinaryOperation(
+                        CSharpBinderFlags.None,
+                        Linq.ExpressionType.Add,
+                        null,
+                        new[]
+                        {
+                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                        }),
+                    typeof(object),
+                    LinqExpression.Constant(2L),
+                    LinqExpression.Constant(3L));
 
             ShouldRoundrip(expression);
         }

@@ -522,9 +522,11 @@ namespace GraphEngine
             return node;
         }
 
-        private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(this.VisitCache(node));
+        private Expression VisitCacheParse(Linq.Expression node) =>
+            Expression.Parse(this.VisitCache(node));
 
-        private INode VisitCache(Linq.Expression node) => this[this.Visit(node)];
+        private INode VisitCache(Linq.Expression node) =>
+            this[this.Visit(node)];
 
         private ArgumentInfo VisitArgumentInfo(string argument)
         {
@@ -540,25 +542,47 @@ namespace GraphEngine
             {
                 switch (callSiteBinder)
                 {
-                    case InvokeMemberBinder invokeMemberBinder:
-                        var binder = new InvokeMember(this.Current)
+                    case InvokeMemberBinder invokeMember:
+                        var invokeMemberBinder = new InvokeMember(this.Current)
                         {
-                            Name = invokeMemberBinder.Name,
+                            Name = invokeMember.Name,
                         };
 
-                        // TODO: Why?
-                        binder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+                        // Object member is invoked on
+                        invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
 
-                        foreach (var argument in invokeMemberBinder.CallInfo.ArgumentNames)
+                        foreach (var argument in invokeMember.CallInfo.ArgumentNames)
                         {
-                            binder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(argument)]));
+                            invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(argument)]));
                         }
 
-                        return binder;
+                        return invokeMemberBinder;
 
-                    case var x:
-                        throw new Exception($"Unkown binder {x}");
+                    case BinaryOperationBinder binaryOperation:
+                        var binaryOperationBinder = new BinaryOperation(this.Current)
+                        {
+                            ExpressionType = this.VisitExpressionType(binaryOperation.Operation),
+                        };
+
+                        // Left operand
+                        binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+                        
+                        // Right operand
+                        binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+
+                        return binaryOperationBinder;
+
+                    case var unknown:
+                        throw new Exception($"Unkown binder {unknown}");
                 }
+            }
+        }
+
+        private ExpressionType VisitExpressionType(Linq.ExpressionType expressionType)
+        {
+            using (this.Wrap(expressionType))
+            {
+                return ExpressionType.Create(expressionType);
             }
         }
 
@@ -566,13 +590,11 @@ namespace GraphEngine
         {
             using (this.Wrap(member))
             {
-                var m = new Member(this.Current)
+                return new Member(this.Current)
                 {
                     Type = this.VisitType(member.DeclaringType),
                     Name = member.Name,
                 };
-
-                return m;
             }
         }
 
@@ -580,13 +602,11 @@ namespace GraphEngine
         {
             using (this.Wrap(method))
             {
-                var m = new Method(this.Current)
+                return new Method(this.Current)
                 {
                     Type = this.VisitType(method.DeclaringType),
                     Name = method.Name,
                 };
-
-                return m;
             }
         }
 
@@ -594,15 +614,13 @@ namespace GraphEngine
         {
             using (this.Wrap(document))
             {
-                var d = new SymbolDocument(this.Current)
+                return new SymbolDocument(this.Current)
                 {
                     FileName = document.FileName,
                     Language = NullIfEmpty(document.Language),
                     LanguageVendor = NullIfEmpty(document.LanguageVendor),
                     DocumentType = NullIfEmpty(document.DocumentType),
                 };
-
-                return d;
             }
 
             static Guid? NullIfEmpty(Guid guid) => guid == Guid.Empty ? (Guid?)null : guid;
@@ -626,10 +644,8 @@ namespace GraphEngine
             }
         }
 
-        private IDisposable Wrap(object node)
-        {
-            return new Wrapper(this, this[node]);
-        }
+        private IDisposable Wrap(object node) =>
+            new Wrapper(this, this[node]);
 
         private struct Wrapper : IDisposable
         {

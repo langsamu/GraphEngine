@@ -34,6 +34,8 @@ namespace GraphEngine
 
         public static IUriNode Binary { get; } = EngineNode("Binary");
 
+        public static IUriNode BinaryOperation { get; } = EngineNode("BinaryOperation");
+
         public static IUriNode Bind { get; } = EngineNode("Bind");
 
         public static IUriNode Block { get; } = EngineNode("Block");
@@ -243,6 +245,8 @@ namespace GraphEngine
         public static IUriNode BindMember { get; } = EngineNode("bindMember");
 
         public static IUriNode BinderArguments { get; } = EngineNode("binderArguments");
+
+        public static IUriNode BinderExpressionType { get; } = EngineNode("binderExpressionType");
 
         public static IUriNode BinderName { get; } = EngineNode("binderName");
 

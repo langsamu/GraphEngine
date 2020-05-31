@@ -42,5 +42,14 @@ namespace GraphEngine
         private static IUriNode EngineNode(string name) => AnyNode($"{BaseUriString}{name}");
 
         private static IUriNode AnyNode(string uri) => Factory.CreateUriNode(UriFactory.Create(uri));
+
+        public static class ExpressionTypes
+        {
+            private const string BaseUriString = "ExpressionTypes/";
+
+            public static IUriNode Add { get; } = ExpressionTypeNode("Add");
+
+            private static IUriNode ExpressionTypeNode(string name) => EngineNode($"{BaseUriString}{name}");
+        }
     }
 }

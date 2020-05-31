@@ -6,7 +6,6 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Linq.Expressions;
     using VDS.RDF;
     using VDS.RDF.Parsing;
     using Linq = System.Linq.Expressions;
@@ -59,7 +58,7 @@ namespace GraphEngine
             var method = expression.Method;
             var kind = expression.NodeType;
 
-            return (kind == ExpressionType.Equal || kind == ExpressionType.NotEqual) &&
+            return (kind == Linq.ExpressionType.Equal || kind == Linq.ExpressionType.NotEqual) &&
                 method == null && !left.IsValueType && !right.IsValueType;
         }
     }

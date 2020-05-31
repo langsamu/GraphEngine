@@ -48,6 +48,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("BaseBind", "BaseBind");
         yield return ("BaseGoto", "BaseGoto");
         yield return ("Binary", "Binary");
+        yield return ("BinaryOperation", "BinaryOperation");
         yield return ("Bind", "Bind");
         yield return ("Block", "Block");
         yield return ("Break", "Break");
@@ -155,6 +156,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("BindExpression", "bindExpression");
         yield return ("BindMember", "bindMember");
         yield return ("BinderArguments", "binderArguments");
+        yield return ("BinderExpressionType", "binderExpressionType");
         yield return ("BinderName", "binderName");
         yield return ("BlockExpressions", "blockExpressions");
         yield return ("BlockVariables", "blockVariables");

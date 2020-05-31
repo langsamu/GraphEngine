@@ -323,6 +323,13 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:ExpressionType
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Expression type" ;
+	rdfs:comment "" ;
+.
+
 :Field
 	a owl:Class ;
 	rdfs:subClassOf :MemberAccess ;
@@ -975,6 +982,15 @@ this:schema
 	rdfs:domain :Binder ;
 	rdfs:range rdf:List ;
 	rdfs:label "binder arguments" ;
+	rdfs:comment "" ;
+.
+
+:binderExpressionType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binder ;
+	rdfs:range :ExpressionType ;
+	rdfs:label "binder expression type" ;
 	rdfs:comment "" ;
 .
 

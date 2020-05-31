@@ -6,13 +6,14 @@ namespace GraphEngine.Tests
     using Microsoft.CSharp.RuntimeBinder;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
+    using Linq = System.Linq.Expressions;
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
     public class DynamicTests
     {
         [TestMethod]
-        public void Default()
+        public void InvokeMember()
         {
             var expected =
                 LinqExpression.Dynamic(
@@ -45,6 +46,54 @@ namespace GraphEngine.Tests
     :dynamicArguments (
         [
             :constantValue 0 ;
+        ]
+    ) ;
+.
+";
+
+            ShouldBe(actual, expected);
+        }
+
+        [TestMethod]
+        public void BinaryOperation()
+        {
+            var expected =
+                LinqExpression.Dynamic(
+                    Binder.BinaryOperation(
+                        CSharpBinderFlags.None,
+                        Linq.ExpressionType.Add,
+                        null,
+                        new[]
+                        {
+                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                        }),
+                    typeof(object),
+                    LinqExpression.Constant(2L),
+                    LinqExpression.Constant(3L));
+
+            const string actual = @"
+@prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
+
+:s
+    :dynamicBinder [
+        a :BinaryOperation ;
+        :binderExpressionType xt:Add ;
+        :binderArguments (
+            []
+            []
+        ) ;
+    ] ;
+    :dynamicReturnType [
+        :typeName ""System.Object"" ;
+    ] ;
+    :dynamicArguments (
+        [
+            :constantValue 2 ;
+        ]
+        [
+            :constantValue 3 ;
         ]
     ) ;
 .
