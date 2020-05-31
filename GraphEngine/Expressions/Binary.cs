@@ -8,10 +8,10 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    public abstract class Binary : Expression
+    public class Binary : Expression
     {
         [DebuggerStepThrough]
-        protected Binary(INode node)
+        public Binary(INode node)
             : base(node)
         {
         }
@@ -30,21 +30,65 @@ namespace GraphEngine
             set => this.SetRequired(BinaryRight, value);
         }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.LinqBinaryType, this.Left.LinqExpression, this.Right.LinqExpression);
+        public ExpressionType ExpressionType
+        {
+            get => this.GetRequired(BinaryExpressionType, ExpressionType.Parse);
 
-        protected abstract Linq.ExpressionType LinqBinaryType { get; }
+            set => this.SetRequired(BinaryExpressionType, value);
+        }
+
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.ExpressionType.LinqExpressionType, this.Left.LinqExpression, this.Right.LinqExpression);
 
         public static Binary Create(INode node, Linq.ExpressionType type)
         {
-            return type switch
+            switch (type)
             {
-                Linq.ExpressionType.Add => new Add(node),
-                Linq.ExpressionType.Assign => new Assign(node),
-                Linq.ExpressionType.GreaterThan => new GreaterThan(node),
-                Linq.ExpressionType.MultiplyAssign => new MultiplyAssign(node),
+                case Linq.ExpressionType.Add:
+                case Linq.ExpressionType.AddAssign:
+                case Linq.ExpressionType.AddAssignChecked:
+                case Linq.ExpressionType.AddChecked:
+                case Linq.ExpressionType.And:
+                case Linq.ExpressionType.AndAlso:
+                case Linq.ExpressionType.AndAssign:
+                case Linq.ExpressionType.Assign:
+                case Linq.ExpressionType.Coalesce:
+                case Linq.ExpressionType.Divide:
+                case Linq.ExpressionType.DivideAssign:
+                case Linq.ExpressionType.Equal:
+                case Linq.ExpressionType.ExclusiveOr:
+                case Linq.ExpressionType.ExclusiveOrAssign:
+                case Linq.ExpressionType.GreaterThan:
+                case Linq.ExpressionType.GreaterThanOrEqual:
+                case Linq.ExpressionType.LeftShift:
+                case Linq.ExpressionType.LeftShiftAssign:
+                case Linq.ExpressionType.LessThan:
+                case Linq.ExpressionType.LessThanOrEqual:
+                case Linq.ExpressionType.Modulo:
+                case Linq.ExpressionType.ModuloAssign:
+                case Linq.ExpressionType.Multiply:
+                case Linq.ExpressionType.MultiplyAssign:
+                case Linq.ExpressionType.MultiplyAssignChecked:
+                case Linq.ExpressionType.MultiplyChecked:
+                case Linq.ExpressionType.NotEqual:
+                case Linq.ExpressionType.Or:
+                case Linq.ExpressionType.OrAssign:
+                case Linq.ExpressionType.OrElse:
+                case Linq.ExpressionType.Power:
+                case Linq.ExpressionType.PowerAssign:
+                case Linq.ExpressionType.RightShift:
+                case Linq.ExpressionType.RightShiftAssign:
+                case Linq.ExpressionType.Subtract:
+                case Linq.ExpressionType.SubtractAssign:
+                case Linq.ExpressionType.SubtractAssignChecked:
+                case Linq.ExpressionType.SubtractChecked:
+                    return new Binary(node)
+                    {
+                        ExpressionType = ExpressionType.Create(type),
+                    };
 
-                _ => throw new Exception("{type} is not binary")
-            };
+                default:
+                    throw new Exception($"{type} is not binary");
+            }
         }
     }
 }

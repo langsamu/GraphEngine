@@ -31,11 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Expressions\Binaries.generated.cs">
-      <DependentUpon>Binaries.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Expressions\Expression.generated.cs">
       <DependentUpon>Expression.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -59,11 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Expressions\Binaries.tt">
-      <DependentUpon>Binary.cs</DependentUpon>
-      <LastGenOutput>Binaries.generated.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
     <None Update="Expressions\Expression.tt">
       <DependentUpon>Expression.cs</DependentUpon>
       <LastGenOutput>Expression.generated.cs</LastGenOutput>

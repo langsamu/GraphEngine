@@ -6,27 +6,11 @@ namespace GraphEngine
 
     public static partial class Vocabulary
     {
-        public static IUriNode Add { get; } = EngineNode("Add");
-
-        public static IUriNode AddAssign { get; } = EngineNode("AddAssign");
-
-        public static IUriNode AddAssignChecked { get; } = EngineNode("AddAssignChecked");
-
-        public static IUriNode AddChecked { get; } = EngineNode("AddChecked");
-
-        public static IUriNode And { get; } = EngineNode("And");
-
-        public static IUriNode AndAlso { get; } = EngineNode("AndAlso");
-
-        public static IUriNode AndAssign { get; } = EngineNode("AndAssign");
-
         public static IUriNode ArrayAccess { get; } = EngineNode("ArrayAccess");
 
         public static IUriNode ArrayIndex { get; } = EngineNode("ArrayIndex");
 
         public static IUriNode ArrayLength { get; } = EngineNode("ArrayLength");
-
-        public static IUriNode Assign { get; } = EngineNode("Assign");
 
         public static IUriNode BaseBind { get; } = EngineNode("BaseBind");
 
@@ -48,8 +32,6 @@ namespace GraphEngine
 
         public static IUriNode Catch { get; } = EngineNode("Catch");
 
-        public static IUriNode Coalesce { get; } = EngineNode("Coalesce");
-
         public static IUriNode Condition { get; } = EngineNode("Condition");
 
         public static IUriNode Constant { get; } = EngineNode("Constant");
@@ -66,29 +48,15 @@ namespace GraphEngine
 
         public static IUriNode Default { get; } = EngineNode("Default");
 
-        public static IUriNode Divide { get; } = EngineNode("Divide");
-
-        public static IUriNode DivideAssign { get; } = EngineNode("DivideAssign");
-
         public static IUriNode Dynamic { get; } = EngineNode("Dynamic");
 
         public static IUriNode ElementInit { get; } = EngineNode("ElementInit");
 
         public static IUriNode Empty { get; } = EngineNode("Empty");
 
-        public static IUriNode Equal { get; } = EngineNode("Equal");
-
-        public static IUriNode ExclusiveOr { get; } = EngineNode("ExclusiveOr");
-
-        public static IUriNode ExclusiveOrAssign { get; } = EngineNode("ExclusiveOrAssign");
-
         public static IUriNode Field { get; } = EngineNode("Field");
 
         public static IUriNode Goto { get; } = EngineNode("Goto");
-
-        public static IUriNode GreaterThan { get; } = EngineNode("GreaterThan");
-
-        public static IUriNode GreaterThanOrEqual { get; } = EngineNode("GreaterThanOrEqual");
 
         public static IUriNode IfThen { get; } = EngineNode("IfThen");
 
@@ -108,14 +76,6 @@ namespace GraphEngine
 
         public static IUriNode Lambda { get; } = EngineNode("Lambda");
 
-        public static IUriNode LeftShift { get; } = EngineNode("LeftShift");
-
-        public static IUriNode LeftShiftAssign { get; } = EngineNode("LeftShiftAssign");
-
-        public static IUriNode LessThan { get; } = EngineNode("LessThan");
-
-        public static IUriNode LessThanOrEqual { get; } = EngineNode("LessThanOrEqual");
-
         public static IUriNode ListBind { get; } = EngineNode("ListBind");
 
         public static IUriNode ListInit { get; } = EngineNode("ListInit");
@@ -130,18 +90,6 @@ namespace GraphEngine
 
         public static IUriNode Method { get; } = EngineNode("Method");
 
-        public static IUriNode Modulo { get; } = EngineNode("Modulo");
-
-        public static IUriNode ModuloAssign { get; } = EngineNode("ModuloAssign");
-
-        public static IUriNode Multiply { get; } = EngineNode("Multiply");
-
-        public static IUriNode MultiplyAssign { get; } = EngineNode("MultiplyAssign");
-
-        public static IUriNode MultiplyAssignChecked { get; } = EngineNode("MultiplyAssignChecked");
-
-        public static IUriNode MultiplyChecked { get; } = EngineNode("MultiplyChecked");
-
         public static IUriNode Negate { get; } = EngineNode("Negate");
 
         public static IUriNode NegateChecked { get; } = EngineNode("NegateChecked");
@@ -154,25 +102,13 @@ namespace GraphEngine
 
         public static IUriNode Not { get; } = EngineNode("Not");
 
-        public static IUriNode NotEqual { get; } = EngineNode("NotEqual");
-
         public static IUriNode OnesComplement { get; } = EngineNode("OnesComplement");
-
-        public static IUriNode Or { get; } = EngineNode("Or");
-
-        public static IUriNode OrAssign { get; } = EngineNode("OrAssign");
-
-        public static IUriNode OrElse { get; } = EngineNode("OrElse");
 
         public static IUriNode Parameter { get; } = EngineNode("Parameter");
 
         public static IUriNode PostDecrementAssign { get; } = EngineNode("PostDecrementAssign");
 
         public static IUriNode PostIncrementAssign { get; } = EngineNode("PostIncrementAssign");
-
-        public static IUriNode Power { get; } = EngineNode("Power");
-
-        public static IUriNode PowerAssign { get; } = EngineNode("PowerAssign");
 
         public static IUriNode PreDecrementAssign { get; } = EngineNode("PreDecrementAssign");
 
@@ -192,19 +128,7 @@ namespace GraphEngine
 
         public static IUriNode Return { get; } = EngineNode("Return");
 
-        public static IUriNode RightShift { get; } = EngineNode("RightShift");
-
-        public static IUriNode RightShiftAssign { get; } = EngineNode("RightShiftAssign");
-
         public static IUriNode RuntimeVariables { get; } = EngineNode("RuntimeVariables");
-
-        public static IUriNode Subtract { get; } = EngineNode("Subtract");
-
-        public static IUriNode SubtractAssign { get; } = EngineNode("SubtractAssign");
-
-        public static IUriNode SubtractAssignChecked { get; } = EngineNode("SubtractAssignChecked");
-
-        public static IUriNode SubtractChecked { get; } = EngineNode("SubtractChecked");
 
         public static IUriNode Switch { get; } = EngineNode("Switch");
 
@@ -235,6 +159,8 @@ namespace GraphEngine
         public static IUriNode ArrayIndexIndex { get; } = EngineNode("arrayIndexIndex");
 
         public static IUriNode ArrayIndexIndexes { get; } = EngineNode("arrayIndexIndexes");
+
+        public static IUriNode BinaryExpressionType { get; } = EngineNode("binaryExpressionType");
 
         public static IUriNode BinaryLeft { get; } = EngineNode("binaryLeft");
 

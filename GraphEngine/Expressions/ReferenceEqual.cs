@@ -6,7 +6,7 @@ namespace GraphEngine
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
-    public class ReferenceEqual : Equal
+    public class ReferenceEqual : Binary
     {
         [DebuggerStepThrough]
         internal ReferenceEqual(INode node)

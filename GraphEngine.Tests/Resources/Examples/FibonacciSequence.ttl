@@ -1,6 +1,7 @@
 # MIT License, Copyright 2020 Samu Lang
 
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :fibonacci 
     a :Variable ;
@@ -35,7 +36,8 @@
     ) ;
     :blockExpressions (
         [
-            a :Assign ;
+            a :Binary ;
+            :binaryExpressionType xt:Assign ;
             :binaryLeft :fibonacci ;
             :binaryRight [
                 a :Lambda ;
@@ -45,7 +47,8 @@
                 :lambdaBody [
                     a :Condition ;
                     :conditionTest [
-                        a :LessThan ;
+                        a :Binary ;
+                        :binaryExpressionType xt:LessThan ;
                         :binaryLeft :n ;
                         :binaryRight [
                             a :Constant ;
@@ -54,13 +57,15 @@
                     ] ;
                     :conditionIfTrue :n ;
                     :conditionIfFalse [
-                        a :Add ;
+                        a :Binary ;
+                        :binaryExpressionType xt:Add ;
                         :binaryLeft [
                             a :Invoke ;
                             :invokeExpression :fibonacci ;
                             :invokeArguments (
                                 [
-                                    a :Subtract ;
+                                    a :Binary ;
+                                    :binaryExpressionType xt:Subtract ;
                                     :binaryLeft :n ;
                                     :binaryRight [
                                         a :Constant ;
@@ -74,7 +79,8 @@
                             :invokeExpression :fibonacci ;
                             :invokeArguments (
                                 [
-                                    a :Subtract ;
+                                    a :Binary ;
+                                    :binaryExpressionType xt:Subtract ;
                                     :binaryLeft :n ;
                                     :binaryRight [
                                         a :Constant ;

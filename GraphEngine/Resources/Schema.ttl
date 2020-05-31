@@ -16,62 +16,6 @@ this:schema
 
 # Classes
 
-:Add
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Add" ;
-	rdfs:comment "An addition operation, such as a + b, without overflow checking, for numeric operands." ;
-.
-
-:AddAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Add assign" ;
-	rdfs:comment "An addition compound assignment operation, such as (a += b), without overflow checking, for numeric operands." ;
-.
-
-:AddAssignChecked
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Add assign checked" ;
-	rdfs:comment "An addition compound assignment operation, such as (a += b), with overflow checking, for numeric operands." ;
-.
-
-:AddChecked
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Add checked" ;
-	rdfs:comment "An addition operation, such as (a + b), with overflow checking, for numeric operands." ;
-.
-
-:And
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "And" ;
-	rdfs:comment "A bitwise or logical AND operation, such as (a & b) in C# and (a And b) in Visual Basic." ;
-.
-
-:AndAlso
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "And also" ;
-	rdfs:comment "A conditional AND operation that evaluates the second operand only if the first operand evaluates to true. It corresponds to (a && b) in C# and (a AndAlso b) in Visual Basic." ;
-.
-
-:AndAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "And assign" ;
-	rdfs:comment "A bitwise or logical AND compound assignment operation, such as (a &= b) in C#." ;
-.
-
 :ArrayAccess
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -94,14 +38,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Array length" ;
 	rdfs:comment "An operation that obtains the length of a one-dimensional array, such as array.Length." ;
-.
-
-:Assign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Assign" ;
-	rdfs:comment "An assignment operation, such as (a = b)." ;
 .
 
 :BaseBind
@@ -181,14 +117,6 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:Coalesce
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Coalesce" ;
-	rdfs:comment "A node that represents a null coalescing operation, such as (a ?? b) in C# or If(a, b) in Visual Basic." ;
-.
-
 :Condition
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -253,22 +181,6 @@ this:schema
 	rdfs:comment "A default value." ;
 .
 
-:Divide
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Divide" ;
-	rdfs:comment "A division operation, such as (a / b), for numeric operands." ;
-.
-
-:DivideAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Divide assign" ;
-	rdfs:comment "An division compound assignment operation, such as (a /= b), for numeric operands." ;
-.
-
 :Dynamic
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -282,38 +194,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "ElementInit" ;
 	rdfs:comment "" ;
-.
-
-:Empty
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Empty" ;
-	rdfs:comment "Creates an empty expression that has Void type." ;
-.
-
-:Equal
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Equal" ;
-	rdfs:comment "A node that represents an equality comparison, such as (a == b) in C# or (a = b) in Visual Basic." ;
-.
-
-:ExclusiveOr
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Exclusive or" ;
-	rdfs:comment "A bitwise or logical XOR operation, such as (a ^ b) in C# or (a Xor b) in Visual Basic." ;
-.
-
-:ExclusiveOrAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Exclusive or assign" ;
-	rdfs:comment "A bitwise or logical XOR compound assignment operation, such as (a ^= b) in C#." ;
 .
 
 :Expression
@@ -344,22 +224,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Goto" ;
 	rdfs:comment "A 'go to' expression, such as goto Label in C# or GoTo Label in Visual Basic." ;
-.
-
-:GreaterThan
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Greater than" ;
-	rdfs:comment "A 'greater than or equal to' comparison, such as (a >= b)." ;
-.
-
-:GreaterThanOrEqual
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Greater than or equal" ;
-	rdfs:comment "" ;
 .
 
 :Increment
@@ -415,38 +279,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Lambda" ;
 	rdfs:comment "A lambda expression, such as a => a + a in C# or Function(a) a + a in Visual Basic." ;
-.
-
-:LeftShift
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Left shift" ;
-	rdfs:comment "A bitwise left-shift operation, such as (a << b)." ;
-.
-
-:LeftShiftAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Left shift assign" ;
-	rdfs:comment "A bitwise left-shift compound assignment, such as (a <<= b)." ;
-.
-
-:LessThan
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Less than" ;
-	rdfs:comment "A 'less than' comparison, such as (a < b)." ;
-.
-
-:LessThanOrEqual
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Less than or equal" ;
-	rdfs:comment "A 'less than or equal to' comparison, such as (a <= b)." ;
 .
 
 :ListBind
@@ -512,54 +344,6 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:Modulo
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Modulo" ;
-	rdfs:comment "An arithmetic remainder operation, such as (a % b) in C# or (a Mod b) in Visual Basic." ;
-.
-
-:ModuloAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Modulo assign" ;
-	rdfs:comment "An arithmetic remainder compound assignment operation, such as (a %= b) in C#." ;
-.
-
-:Multiply
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Multiply" ;
-	rdfs:comment "A multiplication operation, such as (a * b), without overflow checking, for numeric operands." ;
-.
-
-:MultiplyAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Multiply assign" ;
-	rdfs:comment "A multiplication compound assignment operation, such as (a *= b), without overflow checking, for numeric operands." ;
-.
-
-:MultiplyAssignChecked
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Multiply assign checked" ;
-	rdfs:comment "A multiplication compound assignment operation, such as (a *= b), that has overflow checking, for numeric operands." ;
-.
-
-:MultiplyChecked
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Multiply checked" ;
-	rdfs:comment "An multiplication operation, such as (a * b), that has overflow checking, for numeric operands." ;
-.
-
 :Negate
 	a owl:Class ;
 	rdfs:subClassOf :Unary ;
@@ -616,44 +400,12 @@ this:schema
 	rdfs:comment "A bitwise complement or logical negation operation. In C#, it is equivalent to (~a) for integral types and to (!a) for Boolean values. In Visual Basic, it is equivalent to (Not a). The object a should not be modified in place." ;
 .
 
-:NotEqual
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Not equal" ;
-	rdfs:comment "An inequality comparison, such as (a != b) in C# or (a <> b) in Visual Basic." ;
-.
-
 :OnesComplement
 	a owl:Class ;
 	rdfs:subClassOf :Unary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Ones complement" ;
 	rdfs:comment "A ones complement operation, such as (~a) in C#." ;
-.
-
-:Or
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Or" ;
-	rdfs:comment "A bitwise or logical OR operation, such as (a | b) in C# or (a Or b) in Visual Basic." ;
-.
-
-:OrAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "OrAssign" ;
-	rdfs:comment "A bitwise or logical OR compound assignment, such as (a |= b) in C#." ;
-.
-
-:OrElse
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Or else" ;
-	rdfs:comment "A short-circuiting conditional OR operation, such as (a || b) in C# or (a OrElse b) in Visual Basic." ;
 .
 
 :Parameter
@@ -678,22 +430,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Post increment assign" ;
 	rdfs:comment "A unary postfix increment, such as (a++). The object a should be modified in place." ;
-.
-
-:Power
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Power" ;
-	rdfs:comment "A mathematical operation that raises a number to a power, such as (a ^ b) in Visual Basic." ;
-.
-
-:PowerAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Power assign" ;
-	rdfs:comment "A compound assignment operation that raises a number to a power, such as (a ^= b) in Visual Basic." ;
 .
 
 :PreDecrementAssign
@@ -730,7 +466,7 @@ this:schema
 
 :ReferenceEqual
 	a owl:Class ;
-	rdfs:subClassOf :Equal ;
+	rdfs:subClassOf :Binary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Reference equal" ;
 	rdfs:comment "" ;
@@ -738,7 +474,7 @@ this:schema
 
 :ReferenceNotEqual
 	a owl:Class ;
-	rdfs:subClassOf :NotEqual ;
+	rdfs:subClassOf :Binary ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Reference not equal" ;
 	rdfs:comment "" ;
@@ -752,60 +488,12 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:RightShift
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Right shift" ;
-	rdfs:comment "A bitwise right-shift operation, such as (a >> b)." ;
-.
-
-:RightShiftAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Right shift assign" ;
-	rdfs:comment "A bitwise right-shift compound assignment operation, such as (a >>= b)." ;
-.
-
 :RuntimeVariables
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Runtime variables" ;
 	rdfs:comment "" ;
-.
-
-:Subtract
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Subtract" ;
-	rdfs:comment "A subtraction operation, such as (a - b), without overflow checking, for numeric operands." ;
-.
-
-:SubtractAssign
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Subtract assign" ;
-	rdfs:comment "A subtraction compound assignment operation, such as (a -= b), without overflow checking, for numeric operands." ;
-.
-
-:SubtractAssignChecked
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Subtract assign checked" ;
-	rdfs:comment "A subtraction compound assignment operation, such as (a -= b), that has overflow checking, for numeric operands." ;
-.
-
-:SubtractChecked
-	a owl:Class ;
-	rdfs:subClassOf :Binary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Subtract checked" ;
-	rdfs:comment "An arithmetic subtraction operation, such as (a - b), that has overflow checking, for numeric operands." ;
 .
 
 :Switch
@@ -940,6 +628,15 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:binaryExpressionType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binary ;
+	rdfs:range :ExpressionType ;
+	rdfs:label "binary expression type" ;
+	rdfs:comment "" ;
+.
+
 :binaryLeft
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
@@ -955,24 +652,6 @@ this:schema
 	rdfs:domain :Binary ;
 	rdfs:range :Expression ;
 	rdfs:label "binary right" ;
-	rdfs:comment "" ;
-.
-
-:bindExpression
-	a owl:ObjectProperty ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :Bind ;
-	rdfs:range :Expression ;
-	rdfs:label "bind expression" ;
-	rdfs:comment "" ;
-.
-
-:bindMember
-	a owl:ObjectProperty ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :BaseBind ;
-	rdfs:range :Member ;
-	rdfs:label "bind member" ;
 	rdfs:comment "" ;
 .
 
@@ -1000,6 +679,24 @@ this:schema
 	rdfs:domain :Binder ;
 	rdfs:range xsd:string ;
 	rdfs:label "binder name" ;
+	rdfs:comment "" ;
+.
+
+:bindExpression
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Bind ;
+	rdfs:range :Expression ;
+	rdfs:label "bind expression" ;
+	rdfs:comment "" ;
+.
+
+:bindMember
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :BaseBind ;
+	rdfs:range :Member ;
+	rdfs:label "bind member" ;
 	rdfs:comment "" ;
 .
 
@@ -1363,7 +1060,7 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:ListInitInitializers
+:listInitInitializers
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :ListInit ;

@@ -24,7 +24,8 @@
     ],
     "blockExpressions": [
       {
-        "@type": "Assign",
+        "@type": "Binary",
+        "binaryExpressionType": { "@id": "ExpressionTypes/Assign" },
         "binaryLeft": { "@id": "fibonacci" },
         "binaryRight": {
           "@type": "Lambda",
@@ -41,7 +42,8 @@
           "lambdaBody": {
             "@type": "Condition",
             "conditionTest": {
-              "@type": "LessThan",
+              "@type": "Binary",
+              "binaryExpressionType": { "@id": "ExpressionTypes/LessThan" },
               "binaryLeft": { "@id": "n" },
               "binaryRight": {
                 "@type": "Constant",
@@ -50,13 +52,15 @@
             },
             "conditionIfTrue": { "@id": "n" },
             "conditionIfFalse": {
-              "@type": "Add",
+              "@type": "Binary",
+              "binaryExpressionType": { "@id": "ExpressionTypes/Add" },
               "binaryLeft": {
                 "@type": "Invoke",
                 "invokeExpression": { "@id": "fibonacci" },
                 "invokeArguments": [
                   {
-                    "@type": "Subtract",
+                    "@type": "Binary",
+                    "binaryExpressionType": { "@id": "ExpressionTypes/Subtract" },
                     "binaryLeft": { "@id": "n" },
                     "binaryRight": {
                       "@type": "Constant",
@@ -70,7 +74,8 @@
                 "invokeExpression": { "@id": "fibonacci" },
                 "invokeArguments": [
                   {
-                    "@type": "Subtract",
+                    "@type": "Binary",
+                    "binaryExpressionType": { "@id": "ExpressionTypes/Subtract" },
                     "binaryLeft": { "@id": "n" },
                     "binaryRight": {
                       "@type": "Constant",

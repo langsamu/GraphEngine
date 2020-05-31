@@ -15,7 +15,8 @@
       </Variable>
     </blockVariables>
     <blockExpressions rdf:parseType="Collection">
-      <Assign>
+      <Binary>
+        <binaryExpressionType rdf:resource="ExpressionTypes/Assign"/>
         <binaryLeft rdf:resource="fibonacci"/>
         <binaryRight>
           <Lambda>
@@ -29,30 +30,33 @@
             <lambdaBody>
               <Condition>
                 <conditionTest>
-                  <LessThan>
+                  <Binary>
+                    <binaryExpressionType rdf:resource="ExpressionTypes/LessThan"/>
                     <binaryLeft rdf:resource="n"/>
                     <binaryRight>
                       <Constant>
                         <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</constantValue>
                       </Constant>
                     </binaryRight>
-                  </LessThan>
+                  </Binary>
                 </conditionTest>
                 <conditionIfTrue rdf:resource="n"/>
                 <conditionIfFalse>
-                  <Add>
+                  <Binary>
+                    <binaryExpressionType rdf:resource="ExpressionTypes/Add"/>
                     <binaryLeft>
                       <Invoke>
                         <invokeExpression rdf:resource="fibonacci"/>
                         <invokeArguments rdf:parseType="Collection">
-                          <Subtract>
+                          <Binary>
+                            <binaryExpressionType rdf:resource="ExpressionTypes/Subtract"/>
                             <binaryLeft rdf:resource="n"/>
                             <binaryRight>
                               <Constant>
                                 <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</constantValue>
                               </Constant>
                             </binaryRight>
-                          </Subtract>
+                          </Binary>
                         </invokeArguments>
                       </Invoke>
                     </binaryLeft>
@@ -60,24 +64,25 @@
                       <Invoke>
                         <invokeExpression rdf:resource="fibonacci"/>
                         <invokeArguments rdf:parseType="Collection">
-                          <Subtract>
+                          <Binary>
+                            <binaryExpressionType rdf:resource="ExpressionTypes/Subtract"/>
                             <binaryLeft rdf:resource="n"/>
                             <binaryRight>
                               <Constant>
                                 <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</constantValue>
                               </Constant>
                             </binaryRight>
-                          </Subtract>
+                          </Binary>
                         </invokeArguments>
                       </Invoke>
                     </binaryRight>
-                  </Add>
+                  </Binary>
                 </conditionIfFalse>
               </Condition>
             </lambdaBody>
           </Lambda>
         </binaryRight>
-      </Assign>
+      </Binary>
       <Invoke>
         <invokeExpression rdf:resource="fibonacci" />
         <invokeArguments rdf:parseType="Collection">

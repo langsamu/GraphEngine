@@ -17,13 +17,14 @@ namespace GraphEngine.Tests
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
     :blockExpressions (
         [
-            a :Subtract ;
+            :binaryExpressionType xt:Subtract ;
             :binaryLeft [
-                a :Add ;
+                :binaryExpressionType xt:Add ;
                 :binaryLeft [
                     :constantValue 1;
                 ] ;
@@ -52,10 +53,11 @@ namespace GraphEngine.Tests
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
     :lambdaBody [
-        a :Add ;
+        :binaryExpressionType xt:Add ;
         :binaryLeft [
             :constantValue 1;
         ] ;
@@ -128,9 +130,10 @@ namespace GraphEngine.Tests
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
-    a :Assign ;
+    :binaryExpressionType xt:Assign ;
     :binaryLeft [
         :parameterType [
             :typeName ""System.Int64"" ;
@@ -178,6 +181,7 @@ namespace GraphEngine.Tests
             g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 _:constantValue
     :parameterType [
@@ -207,19 +211,19 @@ _:one
     ) ;
     :blockExpressions (
         [
-            a :Assign ;
+            :binaryExpressionType xt:Assign ;
             :binaryLeft _:result ;
             :binaryRight _:one ;
         ]
         [
             :loopBody [
                 :conditionTest [
-                    a :GreaterThan ;
+                    :binaryExpressionType xt:GreaterThan ;
                     :binaryLeft _:constantValue ;
                     :binaryRight _:one ;
                 ] ;
                 :conditionIfTrue [
-                    a :MultiplyAssign ;
+                    :binaryExpressionType xt:MultiplyAssign ;
                     :binaryLeft _:result ;
                     :binaryRight [
                         a :PostDecrementAssign ;
@@ -484,6 +488,7 @@ _:zero
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
     :tryBody _:zero ;
@@ -494,7 +499,7 @@ _:zero
             ] ;
             :catchBody _:zero ;
             :catchFilter [
-                a :Equal ;
+                :binaryExpressionType xt:Equal ;
                 :binaryLeft _:zero ;
                 :binaryRight _:zero ;
             ] ;
@@ -530,6 +535,7 @@ _:zero
             using var g = new GraphEngine.Graph();
             g.LoadFromString(@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
     :tryBody _:zero ;
@@ -542,7 +548,7 @@ _:zero
             ] ;
             :catchBody _:zero ;
             :catchFilter [
-                a :Equal ;
+                :binaryExpressionType xt:Equal ;
                 :binaryLeft _:zero ;
                 :binaryRight _:zero ;
             ] ;

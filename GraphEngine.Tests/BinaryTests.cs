@@ -73,9 +73,10 @@ namespace GraphEngine.Tests
 
             var actual = $@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
-    a :{binaryType} ;
+    :binaryExpressionType xt:{binaryType} ;
     :binaryLeft [
         :parameterType [
             :typeName ""{leftType}"" ;

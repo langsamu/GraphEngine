@@ -1,6 +1,7 @@
 # MIT License, Copyright 2020 Samu Lang
 
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :fibonacci 
     :parameterType [
@@ -28,7 +29,7 @@
     ) ;
     :blockExpressions (
         [
-            a :Assign ;
+            :binaryExpressionType xt:Assign ;
             :binaryLeft :fibonacci ;
             :binaryRight [
                 :lambdaParameters (
@@ -36,7 +37,7 @@
                 ) ;
                 :lambdaBody [
                     :conditionTest [
-                        a :LessThan ;
+                        :binaryExpressionType xt:LessThan ;
                         :binaryLeft :n ;
                         :binaryRight [
                             :constantValue 2 ;
@@ -44,12 +45,12 @@
                     ] ;
                     :conditionIfTrue :n ;
                     :conditionIfFalse [
-                        a :Add ;
+                        :binaryExpressionType xt:Add ;
                         :binaryLeft [
                             :invokeExpression :fibonacci ;
                             :invokeArguments (
                                 [
-                                    a :Subtract ;
+                                    :binaryExpressionType xt:Subtract ;
                                     :binaryLeft :n ;
                                     :binaryRight [
                                         :constantValue 2 ;
@@ -61,7 +62,7 @@
                             :invokeExpression :fibonacci ;
                             :invokeArguments (
                                 [
-                                    a :Subtract ;
+                                    :binaryExpressionType xt:Subtract ;
                                     :binaryLeft :n ;
                                     :binaryRight [
                                         :constantValue 1 ;

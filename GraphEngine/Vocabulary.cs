@@ -49,6 +49,80 @@ namespace GraphEngine
 
             public static IUriNode Add { get; } = ExpressionTypeNode("Add");
 
+            public static IUriNode AddAssign { get; } = ExpressionTypeNode("AddAssign");
+
+            public static IUriNode AddAssignChecked { get; } = ExpressionTypeNode("AddAssignChecked");
+
+            public static IUriNode AddChecked { get; } = ExpressionTypeNode("AddChecked");
+
+            public static IUriNode And { get; } = ExpressionTypeNode("And");
+
+            public static IUriNode AndAlso { get; } = ExpressionTypeNode("AndAlso");
+
+            public static IUriNode AndAssign { get; } = ExpressionTypeNode("AndAssign");
+
+            public static IUriNode Assign { get; } = ExpressionTypeNode("Assign");
+
+            public static IUriNode Coalesce { get; } = ExpressionTypeNode("Coalesce");
+
+            public static IUriNode Divide { get; } = ExpressionTypeNode("Divide");
+
+            public static IUriNode DivideAssign { get; } = ExpressionTypeNode("DivideAssign");
+
+            public static IUriNode Equal { get; } = ExpressionTypeNode("Equal");
+
+            public static IUriNode ExclusiveOr { get; } = ExpressionTypeNode("ExclusiveOr");
+
+            public static IUriNode ExclusiveOrAssign { get; } = ExpressionTypeNode("ExclusiveOrAssign");
+
+            public static IUriNode GreaterThan { get; } = ExpressionTypeNode("GreaterThan");
+
+            public static IUriNode GreaterThanOrEqual { get; } = ExpressionTypeNode("GreaterThanOrEqual");
+
+            public static IUriNode LeftShift { get; } = ExpressionTypeNode("LeftShift");
+
+            public static IUriNode LeftShiftAssign { get; } = ExpressionTypeNode("LeftShiftAssign");
+
+            public static IUriNode LessThan { get; } = ExpressionTypeNode("LessThan");
+
+            public static IUriNode LessThanOrEqual { get; } = ExpressionTypeNode("LessThanOrEqual");
+
+            public static IUriNode Modulo { get; } = ExpressionTypeNode("Modulo");
+
+            public static IUriNode ModuloAssign { get; } = ExpressionTypeNode("ModuloAssign");
+
+            public static IUriNode Multiply { get; } = ExpressionTypeNode("Multiply");
+
+            public static IUriNode MultiplyAssign { get; } = ExpressionTypeNode("MultiplyAssign");
+
+            public static IUriNode MultiplyAssignChecked { get; } = ExpressionTypeNode("MultiplyAssignChecked");
+
+            public static IUriNode MultiplyChecked { get; } = ExpressionTypeNode("MultiplyChecked");
+
+            public static IUriNode NotEqual { get; } = ExpressionTypeNode("NotEqual");
+
+            public static IUriNode Or { get; } = ExpressionTypeNode("Or");
+
+            public static IUriNode OrAssign { get; } = ExpressionTypeNode("OrAssign");
+
+            public static IUriNode OrElse { get; } = ExpressionTypeNode("OrElse");
+
+            public static IUriNode Power { get; } = ExpressionTypeNode("Power");
+
+            public static IUriNode PowerAssign { get; } = ExpressionTypeNode("PowerAssign");
+
+            public static IUriNode RightShift { get; } = ExpressionTypeNode("RightShift");
+
+            public static IUriNode RightShiftAssign { get; } = ExpressionTypeNode("RightShiftAssign");
+
+            public static IUriNode Subtract { get; } = ExpressionTypeNode("Subtract");
+
+            public static IUriNode SubtractAssign { get; } = ExpressionTypeNode("SubtractAssign");
+
+            public static IUriNode SubtractAssignChecked { get; } = ExpressionTypeNode("SubtractAssignChecked");
+
+            public static IUriNode SubtractChecked { get; } = ExpressionTypeNode("SubtractChecked");
+
             private static IUriNode ExpressionTypeNode(string name) => EngineNode($"{BaseUriString}{name}");
         }
     }
