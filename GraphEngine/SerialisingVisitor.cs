@@ -163,14 +163,17 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitDebugInfo(Linq.DebugInfoExpression node)
         {
-            var debugInfo = new DebugInfo(this.Current)
+            var debugInfo = node.IsClear switch
             {
-                Document = this.VisitSymbolDocument(node.Document),
-                StartLine = node.StartLine,
-                StartColumn = node.StartLine,
-                EndLine = node.EndLine,
-                EndColumn = node.EndLine,
+                true => new ClearDebugInfo(this.Current),
+                false => new DebugInfo(this.Current),
             };
+
+            debugInfo.Document = this.VisitSymbolDocument(node.Document);
+            debugInfo.StartLine = node.StartLine;
+            debugInfo.StartColumn = node.StartLine;
+            debugInfo.EndLine = node.EndLine;
+            debugInfo.EndColumn = node.EndLine;
 
             return node;
         }

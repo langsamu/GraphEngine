@@ -109,6 +109,14 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:ClearDebugInfo
+	a owl:Class ;
+	rdfs:subClassOf :DebugInfo ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Clear Debug Info" ;
+	rdfs:comment "" ;
+.
+
 :Condition
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;

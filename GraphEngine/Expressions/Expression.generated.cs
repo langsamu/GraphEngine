@@ -18,6 +18,7 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.Binary): return new Binary(node);
                 case INode t when t.Equals(Vocabulary.Break): return new Break(node);
                 case INode t when t.Equals(Vocabulary.Call): return new Call(node);
+                case INode t when t.Equals(Vocabulary.ClearDebugInfo): return new ClearDebugInfo(node);
                 case INode t when t.Equals(Vocabulary.Condition): return new Condition(node);
                 case INode t when t.Equals(Vocabulary.Constant): return new Constant(node);
                 case INode t when t.Equals(Vocabulary.Continue): return new Continue(node);

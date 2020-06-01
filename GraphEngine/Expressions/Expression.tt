@@ -50,6 +50,7 @@ private IEnumerable<string> Data {
         yield return "Binary";
         yield return "Break";
         yield return "Call";
+        yield return "ClearDebugInfo";
         yield return "Condition";
         yield return "Constant";
         yield return "Continue";

@@ -45,7 +45,7 @@ namespace GraphEngine
             set => this.SetOptional(TryFault, value);
         }
 
-        public ICollection<CatchBlock> Handlers => this.Collection(TryHandlers, CatchBlock.Parse);
+        public ICollection<Catch> Handlers => this.Collection(TryHandlers, Catch.Parse);
 
         public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(this.Type?.SystemType, this.Body.LinqExpression, this.Finally?.LinqExpression, this.Fault?.LinqExpression, this.Handlers.Select(h => h.LinqCatchBlock));
     }

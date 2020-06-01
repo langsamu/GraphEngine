@@ -47,6 +47,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Call", "Call");
         yield return ("Case", "Case");
         yield return ("Catch", "Catch");
+        yield return ("ClearDebugInfo", "ClearDebugInfo");
         yield return ("Condition", "Condition");
         yield return ("Constant", "Constant");
         yield return ("Continue", "Continue");

@@ -32,6 +32,8 @@ namespace GraphEngine
 
         public static IUriNode Catch { get; } = EngineNode("Catch");
 
+        public static IUriNode ClearDebugInfo { get; } = EngineNode("ClearDebugInfo");
+
         public static IUriNode Condition { get; } = EngineNode("Condition");
 
         public static IUriNode Constant { get; } = EngineNode("Constant");

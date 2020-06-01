@@ -360,6 +360,17 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void DebugInfo_clear()
+        {
+            var expression =
+                LinqExpression.ClearDebugInfo(
+                    LinqExpression.SymbolDocument(
+                        string.Empty));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void Factorial()
         {
             var value = LinqExpression.Parameter(typeof(int), "value");

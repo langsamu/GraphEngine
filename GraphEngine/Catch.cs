@@ -8,10 +8,10 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    public class CatchBlock : Node
+    public class Catch : Node
     {
         [DebuggerStepThrough]
-        internal CatchBlock(INode node)
+        internal Catch(INode node)
             : base(node)
         {
         }
@@ -53,14 +53,14 @@ namespace GraphEngine
             }
         }
 
-        internal static CatchBlock Parse(INode node)
+        internal static Catch Parse(INode node)
         {
             if (node is null)
             {
                 throw new ArgumentNullException(nameof(node));
             }
 
-            return new CatchBlock(node);
+            return new Catch(node);
         }
     }
 }
