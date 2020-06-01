@@ -157,6 +157,10 @@ namespace GraphEngine
 
             public static IUriNode TypeAs { get; } = ExpressionTypeNode("TypeAs");
 
+            public static IUriNode TypeEqual { get; } = ExpressionTypeNode("TypeEqual");
+
+            public static IUriNode TypeIs { get; } = ExpressionTypeNode("TypeIs");
+
             public static IUriNode UnaryPlus { get; } = ExpressionTypeNode("UnaryPlus");
 
             public static IUriNode Unbox { get; } = ExpressionTypeNode("Unbox");

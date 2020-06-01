@@ -142,7 +142,7 @@ namespace GraphEngine
 
         public static IUriNode Type { get; } = EngineNode("Type");
 
-        public static IUriNode TypeAs { get; } = EngineNode("TypeAs");
+        public static IUriNode TypeBinary { get; } = EngineNode("TypeBinary");
 
         public static IUriNode Unary { get; } = EngineNode("Unary");
 
@@ -337,6 +337,12 @@ namespace GraphEngine
         public static IUriNode TryType { get; } = EngineNode("tryType");
 
         public static IUriNode TypeArguments { get; } = EngineNode("typeArguments");
+
+        public static IUriNode TypeBinaryExpression { get; } = EngineNode("typeBinaryExpression");
+
+        public static IUriNode TypeBinaryExpressionType { get; } = EngineNode("typeBinaryExpressionType");
+
+        public static IUriNode TypeBinaryType { get; } = EngineNode("typeBinaryType");
 
         public static IUriNode TypeName { get; } = EngineNode("typeName");
 

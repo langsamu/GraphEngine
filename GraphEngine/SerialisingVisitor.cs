@@ -514,6 +514,18 @@ namespace GraphEngine
             return node;
         }
 
+        protected override Linq.Expression VisitTypeBinary(TypeBinaryExpression node)
+        {
+            _ = new TypeBinary(this.Current)
+            {
+                ExpressionType = this.VisitExpressionType(node.NodeType),
+                Expression = this.VisitCacheParse(node.Expression),
+                Type = this.VisitType(node.TypeOperand),
+            };
+
+            return node;
+        }
+
         protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
         {
             if (node.NodeType == Linq.ExpressionType.Throw)

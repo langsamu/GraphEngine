@@ -73,6 +73,8 @@ namespace GraphEngine
                 var n when n.Equals(Vocabulary.ExpressionTypes.SubtractAssignChecked) => Linq.ExpressionType.SubtractAssignChecked,
                 var n when n.Equals(Vocabulary.ExpressionTypes.SubtractChecked) => Linq.ExpressionType.SubtractChecked,
                 var n when n.Equals(Vocabulary.ExpressionTypes.TypeAs) => Linq.ExpressionType.TypeAs,
+                var n when n.Equals(Vocabulary.ExpressionTypes.TypeEqual) => Linq.ExpressionType.TypeEqual,
+                var n when n.Equals(Vocabulary.ExpressionTypes.TypeIs) => Linq.ExpressionType.TypeIs,
                 var n when n.Equals(Vocabulary.ExpressionTypes.UnaryPlus) => Linq.ExpressionType.UnaryPlus,
                 var n when n.Equals(Vocabulary.ExpressionTypes.Unbox) => Linq.ExpressionType.Unbox,
 
@@ -138,6 +140,8 @@ namespace GraphEngine
                     Linq.ExpressionType.SubtractAssignChecked => Vocabulary.ExpressionTypes.SubtractAssignChecked,
                     Linq.ExpressionType.SubtractChecked => Vocabulary.ExpressionTypes.SubtractChecked,
                     Linq.ExpressionType.TypeAs => Vocabulary.ExpressionTypes.TypeAs,
+                    Linq.ExpressionType.TypeEqual => Vocabulary.ExpressionTypes.TypeEqual,
+                    Linq.ExpressionType.TypeIs => Vocabulary.ExpressionTypes.TypeIs,
                     Linq.ExpressionType.UnaryPlus => Vocabulary.ExpressionTypes.UnaryPlus,
                     Linq.ExpressionType.Unbox => Vocabulary.ExpressionTypes.Unbox,
 

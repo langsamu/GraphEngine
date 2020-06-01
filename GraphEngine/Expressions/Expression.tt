@@ -82,6 +82,7 @@ private IEnumerable<string> Data {
         yield return "Switch";
         yield return "Throw";
         yield return "Try";
+        yield return "TypeBinary";
         yield return "Unary";
         yield return "Variable";
     }

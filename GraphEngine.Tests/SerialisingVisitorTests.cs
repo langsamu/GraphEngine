@@ -718,6 +718,28 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void TypeBinary_equal()
+        {
+            var expression =
+                LinqExpression.TypeEqual(
+                    LinqExpression.Empty(),
+                    typeof(object));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void TypeBinary_is()
+        {
+            var expression =
+                LinqExpression.TypeIs(
+                    LinqExpression.Empty(),
+                    typeof(object));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void Unary()
         {
             var expression = LinqExpression.ArrayLength(LinqExpression.Parameter(typeof(int[])));

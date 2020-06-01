@@ -436,6 +436,13 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:TypeBinary
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Type binary" ;
+	rdfs:comment "" ;
+.
+
 :Unary
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -1288,6 +1295,33 @@ this:schema
 	rdfs:domain :Type ;
 	rdfs:range rdf:List ;
 	rdfs:label "type arguments" ;
+	rdfs:comment "" ;
+.
+
+:typeBinaryExpression
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :TypeBinary ;
+	rdfs:range :Expression ;
+	rdfs:label "type name" ;
+	rdfs:comment "" ;
+.
+
+:typeBinaryExpressionType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :TypeBinary ;
+	rdfs:range :ExpressionType ;
+	rdfs:label "type name" ;
+	rdfs:comment "" ;
+.
+
+:typeBinaryType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :TypeBinary ;
+	rdfs:range :Type ;
+	rdfs:label "type name" ;
 	rdfs:comment "" ;
 .
 

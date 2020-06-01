@@ -102,7 +102,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Throw", "Throw");
         yield return ("Try", "Try");
         yield return ("Type", "Type");
-        yield return ("TypeAs", "TypeAs");
+        yield return ("TypeBinary", "TypeBinary");
         yield return ("Unary", "Unary");
         yield return ("UnaryPlus", "UnaryPlus");
         yield return ("Unbox", "Unbox");
@@ -202,6 +202,9 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("TryHandlers", "tryHandlers");
         yield return ("TryType", "tryType");
         yield return ("TypeArguments", "typeArguments");
+        yield return ("TypeBinaryExpression", "typeBinaryExpression");
+        yield return ("TypeBinaryExpressionType", "typeBinaryExpressionType");
+        yield return ("TypeBinaryType", "typeBinaryType");
         yield return ("TypeName", "typeName");
         yield return ("UnaryExpressionType", "unaryExpressionType");
         yield return ("UnaryOperand", "unaryOperand");
