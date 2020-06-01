@@ -194,6 +194,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("SymbolDocumentDocumentType", "symbolDocumentDocumentType");
         yield return ("TargetName", "targetName");
         yield return ("TargetType", "targetType");
+        yield return ("ThrowType", "throwType");
+        yield return ("ThrowValue", "throwValue");
         yield return ("TryBody", "tryBody");
         yield return ("TryFault", "tryFault");
         yield return ("TryFinally", "tryFinally");

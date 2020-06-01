@@ -322,6 +322,10 @@ namespace GraphEngine
 
         public static IUriNode TargetType { get; } = EngineNode("targetType");
 
+        public static IUriNode ThrowType { get; } = EngineNode("throwType");
+
+        public static IUriNode ThrowValue { get; } = EngineNode("throwValue");
+
         public static IUriNode TryBody { get; } = EngineNode("tryBody");
 
         public static IUriNode TryFault { get; } = EngineNode("tryFault");

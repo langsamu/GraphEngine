@@ -76,9 +76,11 @@ private IEnumerable<string> Data {
         yield return "PropertyOrField";
         yield return "ReferenceEqual";
         yield return "ReferenceNotEqual";
+        yield return "Rethrow";
         yield return "Return";
         yield return "RuntimeVariables";
         yield return "Switch";
+        yield return "Throw";
         yield return "Try";
         yield return "Unary";
         yield return "Variable";

@@ -648,6 +648,68 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void Throw()
+        {
+            var expression =
+                LinqExpression.Throw(null);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Throw_value()
+        {
+            var expression =
+                LinqExpression.Throw(
+                    LinqExpression.New(
+                        typeof(ArgumentException)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Throw_type()
+        {
+            var expression =
+                LinqExpression.Throw(
+                    null,
+                    typeof(Exception)); ;
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Throw_value_type()
+        {
+            var expression =
+                LinqExpression.Throw(
+                    LinqExpression.New(
+                        typeof(ArgumentException)),
+                    typeof(Exception));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Rethrow()
+        {
+            var expression =
+                LinqExpression.Rethrow();
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Rethrow_type()
+        {
+            var expression =
+                LinqExpression.Rethrow(
+                    typeof(Exception));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void TypeArguments()
         {
             var expression = LinqExpression.Parameter(typeof(IEquatable<int>));

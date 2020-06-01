@@ -44,9 +44,11 @@ namespace GraphEngine
                 case INode t when t.Equals(Vocabulary.PropertyOrField): return new PropertyOrField(node);
                 case INode t when t.Equals(Vocabulary.ReferenceEqual): return new ReferenceEqual(node);
                 case INode t when t.Equals(Vocabulary.ReferenceNotEqual): return new ReferenceNotEqual(node);
+                case INode t when t.Equals(Vocabulary.Rethrow): return new Rethrow(node);
                 case INode t when t.Equals(Vocabulary.Return): return new Return(node);
                 case INode t when t.Equals(Vocabulary.RuntimeVariables): return new RuntimeVariables(node);
                 case INode t when t.Equals(Vocabulary.Switch): return new Switch(node);
+                case INode t when t.Equals(Vocabulary.Throw): return new Throw(node);
                 case INode t when t.Equals(Vocabulary.Try): return new Try(node);
                 case INode t when t.Equals(Vocabulary.Unary): return new Unary(node);
                 case INode t when t.Equals(Vocabulary.Variable): return new Variable(node);

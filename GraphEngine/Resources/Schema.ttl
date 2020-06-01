@@ -414,6 +414,13 @@ this:schema
 	rdfs:comment "Used to represent the target of a GotoExpression." ;
 .
 
+:Throw
+	a owl:Class ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Throw" ;
+	rdfs:comment "" ;
+.
+
 :Try
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -1209,6 +1216,24 @@ this:schema
 	rdfs:domain :Target ;
 	rdfs:range :Type ;
 	rdfs:label "target type" ;
+	rdfs:comment "" ;
+.
+
+:throwType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Throw ;
+	rdfs:range :Type ;
+	rdfs:label "throw type" ;
+	rdfs:comment "" ;
+.
+
+:throwValue
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Throw ;
+	rdfs:range :Expression ;
+	rdfs:label "throw value" ;
 	rdfs:comment "" ;
 .
 

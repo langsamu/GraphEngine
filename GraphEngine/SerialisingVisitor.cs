@@ -516,11 +516,33 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
         {
-            var unary = Unary.Create(this.Current, node.NodeType);
+            if (node.NodeType == Linq.ExpressionType.Throw)
+            {
+                if (node.Operand is null && node.Type == typeof(void))
+                {
+                    _ = new Rethrow(this.Current);
+                }
 
-            unary.Type = this.VisitType(node.Type);
+                var @throw = new Throw(this.Current);
 
-            unary.Operand = this.VisitCacheParse(node.Operand);
+                if (node.Operand is Linq.Expression value)
+                {
+                    @throw.Value = this.VisitCacheParse(value);
+                }
+
+                if (node.Type is System.Type type)
+                {
+                    @throw.Type = this.VisitType(type);
+                }
+            }
+            else
+            {
+                var unary = Unary.Create(this.Current, node.NodeType);
+
+                unary.Type = this.VisitType(node.Type);
+
+                unary.Operand = this.VisitCacheParse(node.Operand);
+            }
 
             return node;
         }

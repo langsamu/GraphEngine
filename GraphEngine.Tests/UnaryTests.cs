@@ -39,7 +39,6 @@ namespace GraphEngine.Tests
             {
                 yield return new object[] { Linq.ExpressionType.Convert };
                 yield return new object[] { Linq.ExpressionType.ConvertChecked };
-                yield return new object[] { Linq.ExpressionType.Throw };
                 yield return new object[] { Linq.ExpressionType.TypeAs };
                 yield return new object[] { Linq.ExpressionType.Unbox, typeof(int) };
             }

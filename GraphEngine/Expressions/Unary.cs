@@ -59,7 +59,6 @@ namespace GraphEngine
                 case Linq.ExpressionType.PreDecrementAssign:
                 case Linq.ExpressionType.PreIncrementAssign:
                 case Linq.ExpressionType.Quote:
-                case Linq.ExpressionType.Throw:
                 case Linq.ExpressionType.TypeAs:
                 case Linq.ExpressionType.UnaryPlus:
                 case Linq.ExpressionType.Unbox:

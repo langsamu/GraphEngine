@@ -155,8 +155,6 @@ namespace GraphEngine
 
             public static IUriNode SubtractChecked { get; } = ExpressionTypeNode("SubtractChecked");
 
-            public static IUriNode Throw { get; } = ExpressionTypeNode("Throw");
-
             public static IUriNode TypeAs { get; } = ExpressionTypeNode("TypeAs");
 
             public static IUriNode UnaryPlus { get; } = ExpressionTypeNode("UnaryPlus");
