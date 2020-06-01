@@ -5,19 +5,28 @@ namespace GraphEngine
     using System;
     using System.Diagnostics;
     using VDS.RDF;
-    using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Implement
-    public class PropertyOrField : Expression
+    public class PropertyOrField : MemberAccess
     {
         [DebuggerStepThrough]
         internal PropertyOrField(INode node)
             : base(node)
         {
-            throw new NotImplementedException();
+            this.RdfType = Vocabulary.PropertyOrField;
         }
 
-        public override Linq.Expression LinqExpression => throw new InvalidOperationException();
+        public override Linq.Expression LinqExpression
+        {
+            get
+            {
+                if (this.Expression is Expression expression)
+                {
+                    return Linq.Expression.PropertyOrField(expression.LinqExpression, this.Name);
+                }
+
+                throw new InvalidOperationException($"Expression missing from node {this}");
+            }
+        }
     }
 }

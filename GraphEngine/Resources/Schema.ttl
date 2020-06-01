@@ -344,6 +344,14 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:PropertyOrField
+	a owl:Class ;
+	rdfs:subClassOf :MemberAccess ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:label "Property or field" ;
+	rdfs:comment "" ;
+.
+
 :ReferenceEqual
 	a owl:Class ;
 	rdfs:subClassOf :Binary ;
