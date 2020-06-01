@@ -55,9 +55,10 @@ namespace GraphEngine.Tests
 
             var rdf = $@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
-    a :{expression} ;
+    :unaryExpressionType xt:{expression} ;
     :unaryOperand [
         :parameterType [
             :typeName ""{operandType}"" ;
@@ -80,9 +81,10 @@ namespace GraphEngine.Tests
 
             var rdf = $@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
-    a :{expression} ;
+    :unaryExpressionType xt:{expression} ;
     :unaryOperand [
         :parameterType [
             :typeName ""{operandType}"" ;
@@ -104,9 +106,10 @@ namespace GraphEngine.Tests
 
             var rdf = $@"
 @prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
 
 :s
-    a :Quote ;
+    :unaryExpressionType xt:Quote ;
     :unaryOperand [
         :lambdaBody [
             :constantValue 0 ;

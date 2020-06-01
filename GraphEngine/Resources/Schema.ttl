@@ -32,14 +32,6 @@ this:schema
 	rdfs:comment "An indexing operation in a one-dimensional array, such as array[index] in C# or array(index) in Visual Basic." ;
 .
 
-:ArrayLength
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Array length" ;
-	rdfs:comment "An operation that obtains the length of a one-dimensional array, such as array.Length." ;
-.
-
 :BaseBind
 	a owl:Class ;
 	rdfs:isDefinedBy this:schema ;
@@ -141,36 +133,12 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:Convert
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Convert" ;
-	rdfs:comment "A cast or conversion operation, such as (SampleType)obj in C#or CType(obj, SampleType) in Visual Basic. For a numeric conversion, if the converted value is too large for the destination type, no exception is thrown." ;
-.
-
-:ConvertChecked
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Convert checked" ;
-	rdfs:comment "A cast or conversion operation, such as (SampleType)obj in C#or CType(obj, SampleType) in Visual Basic. For a numeric conversion, if the converted value does not fit the destination type, an exception is thrown." ;
-.
-
 :DebugInfo
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "DebugInfo" ;
 	rdfs:comment "" ;
-.
-
-:Decrement
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Decrement" ;
-	rdfs:comment "A unary decrement operation, such as (a - 1) in C# and Visual Basic. The object a should not be modified in place." ;
 .
 
 :Default
@@ -226,14 +194,6 @@ this:schema
 	rdfs:comment "A 'go to' expression, such as goto Label in C# or GoTo Label in Visual Basic." ;
 .
 
-:Increment
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Increment" ;
-	rdfs:comment "A unary increment operation, such as (a + 1) in C# and Visual Basic. The object a should not be modified in place." ;
-.
-
 :Invoke
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -248,22 +208,6 @@ this:schema
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Invoke member" ;
 	rdfs:comment "" ;
-.
-
-:IsFalse
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Is false" ;
-	rdfs:comment "A false condition value." ;
-.
-
-:IsTrue
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Is true" ;
-	rdfs:comment "A true condition value." ;
 .
 
 :Label
@@ -344,22 +288,6 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:Negate
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Negate" ;
-	rdfs:comment "An arithmetic negation operation, such as (-a). The object a should not be modified in place." ;
-.
-
-:NegateChecked
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Negate checked" ;
-	rdfs:comment "An arithmetic negation operation, such as (-a), that has overflow checking. The object a should not be modified in place." ;
-.
-
 :New
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -392,22 +320,6 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:Not
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Not" ;
-	rdfs:comment "A bitwise complement or logical negation operation. In C#, it is equivalent to (~a) for integral types and to (!a) for Boolean values. In Visual Basic, it is equivalent to (Not a). The object a should not be modified in place." ;
-.
-
-:OnesComplement
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Ones complement" ;
-	rdfs:comment "A ones complement operation, such as (~a) in C#." ;
-.
-
 :Parameter
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -424,44 +336,12 @@ this:schema
 	rdfs:comment "A unary postfix decrement, such as (a--). The object a should be modified in place." ;
 .
 
-:PostIncrementAssign
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Post increment assign" ;
-	rdfs:comment "A unary postfix increment, such as (a++). The object a should be modified in place." ;
-.
-
-:PreDecrementAssign
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Pre decrement assign" ;
-	rdfs:comment "A unary prefix decrement, such as (--a). The object a should be modified in place." ;
-.
-
-:PreIncrementAssign
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Pre increment assign" ;
-	rdfs:comment "A unary prefix increment, such as (++a). The object a should be modified in place." ;
-.
-
 :Property
 	a owl:Class ;
 	rdfs:subClassOf :MemberAccess ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Property" ;
 	rdfs:comment "" ;
-.
-
-:Quote
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Quote" ;
-	rdfs:comment "An expression that has a constant value of type Expression. A Quote node can contain references to parameters that are defined in the context of the expression it represents." ;
 .
 
 :ReferenceEqual
@@ -518,14 +398,6 @@ this:schema
 	rdfs:comment "Used to represent the target of a GotoExpression." ;
 .
 
-:Throw
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Throw" ;
-	rdfs:comment "An operation that throws an exception, such as throw new Exception()." ;
-.
-
 :Try
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
@@ -541,36 +413,12 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:TypeAs
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Type as" ;
-	rdfs:comment "An explicit reference or boxing conversion in which null is supplied if the conversion fails, such as (obj as SampleType) in C# or TryCast(obj, SampleType) in Visual Basic." ;
-.
-
 :Unary
 	a owl:Class ;
 	rdfs:subClassOf :Expression ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:label "Unary" ;
 	rdfs:comment "" ;
-.
-
-:UnaryPlus
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Unary plus" ;
-	rdfs:comment "A unary plus operation, such as (+a). The result of a predefined unary plus operation is the value of the operand, but user-defined implementations might have unusual results." ;
-.
-
-:Unbox
-	a owl:Class ;
-	rdfs:subClassOf :Unary ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:label "Unbox" ;
-	rdfs:comment "An unbox value type operation, such as unbox and unbox.any instructions in MSIL." ;
 .
 
 :Variable
@@ -1408,6 +1256,15 @@ this:schema
 	rdfs:domain :Type ;
 	rdfs:range xsd:string ;
 	rdfs:label "type name" ;
+	rdfs:comment "" ;
+.
+
+:unaryExpressionType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Unary ;
+	rdfs:range :ExpressionType ;
+	rdfs:label "unary expression type" ;
 	rdfs:comment "" ;
 .
 

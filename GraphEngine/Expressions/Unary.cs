@@ -2,15 +2,16 @@
 
 namespace GraphEngine
 {
+    using System;
     using System.Diagnostics;
     using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    public abstract class Unary : Expression
+    public class Unary : Expression
     {
         [DebuggerStepThrough]
-        protected Unary(INode node)
+        public Unary(INode node)
             : base(node)
         {
         }
@@ -29,37 +30,47 @@ namespace GraphEngine
             set => this.SetOptional(UnaryType, value);
         }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.LinqUnaryType, this.Operand.LinqExpression, this.Type?.SystemType);
+        public ExpressionType ExpressionType
+        {
+            get => this.GetRequired(UnaryExpressionType, ExpressionType.Parse);
 
-        protected abstract Linq.ExpressionType LinqUnaryType { get; }
+            set => this.SetRequired(UnaryExpressionType, value);
+        }
+
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.ExpressionType.LinqExpressionType, this.Operand.LinqExpression, this.Type?.SystemType);
 
         public static Unary Create(INode node, Linq.ExpressionType type)
         {
-            return type switch
+            switch (type)
             {
-                Linq.ExpressionType.Negate => new Negate(node),
-                Linq.ExpressionType.NegateChecked => new NegateChecked(node),
-                Linq.ExpressionType.Not => new Not(node),
-                Linq.ExpressionType.IsFalse => new IsFalse(node),
-                Linq.ExpressionType.IsTrue => new IsTrue(node),
-                Linq.ExpressionType.OnesComplement => new OnesComplement(node),
-                Linq.ExpressionType.ArrayLength => new ArrayLength(node),
-                Linq.ExpressionType.Convert => new Convert(node),
-                Linq.ExpressionType.ConvertChecked => new ConvertChecked(node),
-                Linq.ExpressionType.Throw => new Throw(node),
-                Linq.ExpressionType.TypeAs => new TypeAs(node),
-                Linq.ExpressionType.Quote => new Quote(node),
-                Linq.ExpressionType.UnaryPlus => new UnaryPlus(node),
-                Linq.ExpressionType.Unbox => new Unbox(node),
-                Linq.ExpressionType.Increment => new Increment(node),
-                Linq.ExpressionType.Decrement => new Decrement(node),
-                Linq.ExpressionType.PreIncrementAssign => new PreIncrementAssign(node),
-                Linq.ExpressionType.PostIncrementAssign => new PostIncrementAssign(node),
-                Linq.ExpressionType.PreDecrementAssign => new PreDecrementAssign(node),
-                Linq.ExpressionType.PostDecrementAssign => new PostDecrementAssign(node),
+                case Linq.ExpressionType.ArrayLength:
+                case Linq.ExpressionType.Convert:
+                case Linq.ExpressionType.ConvertChecked:
+                case Linq.ExpressionType.Decrement:
+                case Linq.ExpressionType.Increment:
+                case Linq.ExpressionType.IsFalse:
+                case Linq.ExpressionType.IsTrue:
+                case Linq.ExpressionType.Negate:
+                case Linq.ExpressionType.NegateChecked:
+                case Linq.ExpressionType.Not:
+                case Linq.ExpressionType.OnesComplement:
+                case Linq.ExpressionType.PostDecrementAssign:
+                case Linq.ExpressionType.PostIncrementAssign:
+                case Linq.ExpressionType.PreDecrementAssign:
+                case Linq.ExpressionType.PreIncrementAssign:
+                case Linq.ExpressionType.Quote:
+                case Linq.ExpressionType.Throw:
+                case Linq.ExpressionType.TypeAs:
+                case Linq.ExpressionType.UnaryPlus:
+                case Linq.ExpressionType.Unbox:
+                    return new Unary(node)
+                    {
+                        ExpressionType = ExpressionType.Create(type),
+                    };
 
-                _ => throw new System.Exception("{type} is not unary")
-            };
+                default:
+                    throw new Exception($"{type} is not unary");
+            }
         }
     }
 }

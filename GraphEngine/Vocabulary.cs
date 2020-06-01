@@ -61,9 +61,17 @@ namespace GraphEngine
 
             public static IUriNode AndAssign { get; } = ExpressionTypeNode("AndAssign");
 
+            public static IUriNode ArrayLength { get; } = ExpressionTypeNode("ArrayLength");
+
             public static IUriNode Assign { get; } = ExpressionTypeNode("Assign");
 
             public static IUriNode Coalesce { get; } = ExpressionTypeNode("Coalesce");
+
+            public static IUriNode Convert { get; } = ExpressionTypeNode("Convert");
+
+            public static IUriNode ConvertChecked { get; } = ExpressionTypeNode("ConvertChecked");
+
+            public static IUriNode Decrement { get; } = ExpressionTypeNode("Decrement");
 
             public static IUriNode Divide { get; } = ExpressionTypeNode("Divide");
 
@@ -78,6 +86,12 @@ namespace GraphEngine
             public static IUriNode GreaterThan { get; } = ExpressionTypeNode("GreaterThan");
 
             public static IUriNode GreaterThanOrEqual { get; } = ExpressionTypeNode("GreaterThanOrEqual");
+
+            public static IUriNode Increment { get; } = ExpressionTypeNode("Increment");
+
+            public static IUriNode IsFalse { get; } = ExpressionTypeNode("IsFalse");
+
+            public static IUriNode IsTrue { get; } = ExpressionTypeNode("IsTrue");
 
             public static IUriNode LeftShift { get; } = ExpressionTypeNode("LeftShift");
 
@@ -99,7 +113,15 @@ namespace GraphEngine
 
             public static IUriNode MultiplyChecked { get; } = ExpressionTypeNode("MultiplyChecked");
 
+            public static IUriNode Negate { get; } = ExpressionTypeNode("Negate");
+
+            public static IUriNode NegateChecked { get; } = ExpressionTypeNode("NegateChecked");
+
+            public static IUriNode Not { get; } = ExpressionTypeNode("Not");
+
             public static IUriNode NotEqual { get; } = ExpressionTypeNode("NotEqual");
+
+            public static IUriNode OnesComplement { get; } = ExpressionTypeNode("OnesComplement");
 
             public static IUriNode Or { get; } = ExpressionTypeNode("Or");
 
@@ -107,9 +129,19 @@ namespace GraphEngine
 
             public static IUriNode OrElse { get; } = ExpressionTypeNode("OrElse");
 
+            public static IUriNode PostDecrementAssign { get; } = ExpressionTypeNode("PostDecrementAssign");
+
+            public static IUriNode PostIncrementAssign { get; } = ExpressionTypeNode("PostIncrementAssign");
+
             public static IUriNode Power { get; } = ExpressionTypeNode("Power");
 
             public static IUriNode PowerAssign { get; } = ExpressionTypeNode("PowerAssign");
+
+            public static IUriNode PreDecrementAssign { get; } = ExpressionTypeNode("PreDecrementAssign");
+
+            public static IUriNode PreIncrementAssign { get; } = ExpressionTypeNode("PreIncrementAssign");
+
+            public static IUriNode Quote { get; } = ExpressionTypeNode("Quote");
 
             public static IUriNode RightShift { get; } = ExpressionTypeNode("RightShift");
 
@@ -122,6 +154,14 @@ namespace GraphEngine
             public static IUriNode SubtractAssignChecked { get; } = ExpressionTypeNode("SubtractAssignChecked");
 
             public static IUriNode SubtractChecked { get; } = ExpressionTypeNode("SubtractChecked");
+
+            public static IUriNode Throw { get; } = ExpressionTypeNode("Throw");
+
+            public static IUriNode TypeAs { get; } = ExpressionTypeNode("TypeAs");
+
+            public static IUriNode UnaryPlus { get; } = ExpressionTypeNode("UnaryPlus");
+
+            public static IUriNode Unbox { get; } = ExpressionTypeNode("Unbox");
 
             private static IUriNode ExpressionTypeNode(string name) => EngineNode($"{BaseUriString}{name}");
         }

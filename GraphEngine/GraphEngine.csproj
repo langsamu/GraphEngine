@@ -41,11 +41,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="Expressions\Unaries.generated.cs">
-      <DependentUpon>Unaries.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Update="Vocabulary.generated.cs">
       <DependentUpon>Vocabulary.tt</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -62,11 +57,6 @@
     <None Update="Expressions\Gotos.tt">
       <DependentUpon>BaseGoto.cs</DependentUpon>
       <LastGenOutput>Gotos.generated.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Expressions\Unaries.tt">
-      <DependentUpon>Unary.cs</DependentUpon>
-      <LastGenOutput>Unaries.generated.cs</LastGenOutput>
       <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="Vocabulary.tt">

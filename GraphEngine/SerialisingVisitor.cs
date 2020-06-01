@@ -300,7 +300,7 @@ namespace GraphEngine
         {
             var listInit = new ListInit(this.Current)
             {
-                NewExpression = new New(this.VisitCache(node.NewExpression))
+                NewExpression = new New(this.VisitCache(node.NewExpression)),
             };
 
             foreach (var initializer in node.Initializers)
@@ -566,7 +566,7 @@ namespace GraphEngine
 
                         // Left operand
                         binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
-                        
+
                         // Right operand
                         binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
 

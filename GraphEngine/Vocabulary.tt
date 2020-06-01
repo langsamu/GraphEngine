@@ -200,6 +200,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("TryType", "tryType");
         yield return ("TypeArguments", "typeArguments");
         yield return ("TypeName", "typeName");
+        yield return ("UnaryExpressionType", "unaryExpressionType");
         yield return ("UnaryOperand", "unaryOperand");
         yield return ("UnaryType", "unaryType");
     }

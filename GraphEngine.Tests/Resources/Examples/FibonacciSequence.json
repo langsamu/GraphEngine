@@ -74,13 +74,9 @@
                 "invokeExpression": { "@id": "fibonacci" },
                 "invokeArguments": [
                   {
-                    "@type": "Binary",
-                    "binaryExpressionType": { "@id": "ExpressionTypes/Subtract" },
-                    "binaryLeft": { "@id": "n" },
-                    "binaryRight": {
-                      "@type": "Constant",
-                      "constantValue": 1
-                    }
+                    "@type": "Unary",
+                    "unaryExpressionType": { "@id": "ExpressionTypes/Decrement" },
+                    "unaryOperand": { "@id": "n" }
                   }
                 ]
               }

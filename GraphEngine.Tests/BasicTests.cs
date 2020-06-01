@@ -226,7 +226,7 @@ _:one
                     :binaryExpressionType xt:MultiplyAssign ;
                     :binaryLeft _:result ;
                     :binaryRight [
-                        a :PostDecrementAssign ;
+                        :unaryExpressionType xt:PostDecrementAssign ;
                         :unaryOperand _:constantValue ;
                     ] ;
                 ] ;

@@ -79,13 +79,9 @@
                             :invokeExpression :fibonacci ;
                             :invokeArguments (
                                 [
-                                    a :Binary ;
-                                    :binaryExpressionType xt:Subtract ;
-                                    :binaryLeft :n ;
-                                    :binaryRight [
-                                        a :Constant ;
-                                        :constantValue 1 ;
-                                    ] ;
+                                    a :Unary ;
+                                    :unaryExpressionType xt:Decrement ;
+                                    :unaryOperand :n ;
                                 ]
                             ) ;
                         ] ;

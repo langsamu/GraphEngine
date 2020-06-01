@@ -46,7 +46,6 @@ namespace GraphEngine
         {
             get
             {
-                yield return Vocabulary.Unary;
                 yield return Vocabulary.BaseGoto;
                 yield return Vocabulary.BaseBind;
             }

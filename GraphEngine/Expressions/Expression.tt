@@ -46,7 +46,6 @@ private IEnumerable<string> Data {
     {
         yield return "ArrayAccess";
         yield return "ArrayIndex";
-        yield return "ArrayLength";
         yield return "Block";
         yield return "Binary";
         yield return "Break";
@@ -54,10 +53,7 @@ private IEnumerable<string> Data {
         yield return "Condition";
         yield return "Constant";
         yield return "Continue";
-        yield return "Convert";
-        yield return "ConvertChecked";
         yield return "DebugInfo";
-        yield return "Decrement";
         yield return "Default";
         yield return "Dynamic";
         yield return "Empty";
@@ -65,40 +61,25 @@ private IEnumerable<string> Data {
         yield return "Goto";
         yield return "IfThen";
         yield return "IfThenElse";
-        yield return "Increment";
         yield return "Invoke";
-        yield return "IsFalse";
-        yield return "IsTrue";
         yield return "Label";
         yield return "Lambda";
         yield return "ListInit";
         yield return "Loop";
         yield return "MemberInit";
-        yield return "Negate";
-        yield return "NegateChecked";
         yield return "New";
         yield return "NewArrayBounds";
         yield return "NewArrayInit";
-        yield return "Not";
-        yield return "OnesComplement";
         yield return "Parameter";
-        yield return "PostDecrementAssign";
-        yield return "PostIncrementAssign";
-        yield return "PreDecrementAssign";
-        yield return "PreIncrementAssign";
         yield return "Property";
         yield return "PropertyOrField";
-        yield return "Quote";
         yield return "ReferenceEqual";
         yield return "ReferenceNotEqual";
         yield return "Return";
         yield return "RuntimeVariables";
         yield return "Switch";
-        yield return "Throw";
         yield return "Try";
-        yield return "TypeAs";
-        yield return "UnaryPlus";
-        yield return "Unbox";
+        yield return "Unary";
         yield return "Variable";
     }
 }

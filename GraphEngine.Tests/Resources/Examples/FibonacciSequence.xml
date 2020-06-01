@@ -64,15 +64,10 @@
                       <Invoke>
                         <invokeExpression rdf:resource="fibonacci"/>
                         <invokeArguments rdf:parseType="Collection">
-                          <Binary>
-                            <binaryExpressionType rdf:resource="ExpressionTypes/Subtract"/>
-                            <binaryLeft rdf:resource="n"/>
-                            <binaryRight>
-                              <Constant>
-                                <constantValue rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</constantValue>
-                              </Constant>
-                            </binaryRight>
-                          </Binary>
+                          <Unary>
+                            <unaryExpressionType rdf:resource="ExpressionTypes/Decrement"/>
+                            <unaryOperand rdf:resource="n"/>
+                          </Unary>
                         </invokeArguments>
                       </Invoke>
                     </binaryRight>
