@@ -615,11 +615,20 @@ this:schema
 .
 
 :callMethod
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Call ;
+	rdfs:range :Method ;
+	rdfs:label "call method" ;
+	rdfs:comment "" ;
+.
+
+:callMethodName
 	a owl:DatatypeProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Call ;
 	rdfs:range xsd:string ;
-	rdfs:label "call method" ;
+	rdfs:label "call method name" ;
 	rdfs:comment "" ;
 .
 
@@ -1052,6 +1061,15 @@ this:schema
 	rdfs:domain :Member ;
 	rdfs:range :Type ;
 	rdfs:label "member type" ;
+	rdfs:comment "" ;
+.
+
+:methodTypeArguments
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Method ;
+	rdfs:range rdf:List ;
+	rdfs:label "method type arguments" ;
 	rdfs:comment "" ;
 .
 

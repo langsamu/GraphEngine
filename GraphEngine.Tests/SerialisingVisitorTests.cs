@@ -132,26 +132,163 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Call_instance_no_types_arguments()
+        public void Call_Method()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.StaticMethod)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_Arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.StaticMethodWithArgument)),
+                    LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_TypeArguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.GenericStaticMethod)).MakeGenericMethod(typeof(object)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_TypeArguments_Arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.GenericStaticMethodWithArgument)).MakeGenericMethod(typeof(object)),
+                    LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_Instance()
         {
             var expression =
                 LinqExpression.Call(
                     LinqExpression.New(
                         typeof(SampleClass)),
-                    nameof(SampleClass.InstanceMethodWithArgument),
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.InstanceMethod)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_Instance_Arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.InstanceMethodWithArgument)),
+                    LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_Instance_TypeArguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.GenericInstanceMethod)).MakeGenericMethod(typeof(object)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Method_Instance_TypeArguments_Arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.GenericInstanceMethodWithArgument)).MakeGenericMethod(typeof(object)),
+                    LinqExpression.Constant(0L));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Type()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticMethod),
+                    Array.Empty<Type>(),
+                    Array.Empty<LinqExpression>());
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Type_Arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass),
+                    nameof(SampleClass.StaticMethodWithArgument),
                     Array.Empty<Type>(),
                     new[]
                     {
-                        LinqExpression.Constant(
-                            0L,
-                            typeof(long)),
+                        LinqExpression.Constant(0L),
                     });
 
             ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void Call_instance_no_types_no_arguments()
+        public void Call_Type_TypeArguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass),
+                    nameof(SampleClass.GenericStaticMethod),
+                    new[]
+                    {
+                        typeof(object),
+                    },
+                    Array.Empty<LinqExpression>());
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Type_TypeArguments_Arguments()
+        {
+            var expression =
+                LinqExpression.Call(
+                    typeof(SampleClass),
+                    nameof(SampleClass.GenericStaticMethodWithArgument),
+                    new[]
+                    {
+                        typeof(object),
+                    },
+                    new[]
+                    {
+                        LinqExpression.Constant(0L),
+                    });
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Call_Default()
         {
             var expression =
                 LinqExpression.Call(
@@ -161,34 +298,28 @@ namespace GraphEngine.Tests
                     Array.Empty<Type>(),
                     Array.Empty<LinqExpression>());
 
-            using var g = new GraphEngine.Graph();
             ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void Call_instance_types_arguments()
+        public void Call_Default_Arguments()
         {
             var expression =
                 LinqExpression.Call(
                     LinqExpression.New(
                         typeof(SampleClass)),
-                    nameof(SampleClass.GenericInstanceMethodWithArgument),
+                    nameof(SampleClass.InstanceMethodWithArgument),
+                    Array.Empty<Type>(),
                     new[]
                     {
-                        typeof(object),
-                    },
-                    new[]
-                    {
-                        LinqExpression.Constant(
-                            0L,
-                            typeof(long)),
+                        LinqExpression.Constant(0L),
                     });
 
             ShouldRoundrip(expression);
         }
 
         [TestMethod]
-        public void Call_instance_types_no_arguments()
+        public void Call_Default_TypeArguments()
         {
             var expression =
                 LinqExpression.Call(
@@ -205,69 +336,21 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Call_static_no_types_arguments()
+        public void Call_Instance_TypeArgumentss_Arguments()
         {
             var expression =
                 LinqExpression.Call(
-                    typeof(SampleClass),
-                    nameof(SampleClass.StaticMethodWithArgument),
-                    Array.Empty<Type>(),
-                    new[]
-                    {
-                        LinqExpression.Constant(
-                            0L,
-                            typeof(long)),
-                    });
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Call_static_no_types_no_arguments()
-        {
-            var expression =
-                LinqExpression.Call(
-                    typeof(SampleClass),
-                    nameof(SampleClass.StaticMethod),
-                    Array.Empty<Type>(),
-                    Array.Empty<LinqExpression>());
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Call_static_types_arguments()
-        {
-            var expression =
-                LinqExpression.Call(
-                    typeof(SampleClass),
-                    nameof(SampleClass.GenericStaticMethodWithArgument),
+                    LinqExpression.New(
+                        typeof(SampleClass)),
+                    nameof(SampleClass.GenericInstanceMethodWithArgument),
                     new[]
                     {
                         typeof(object),
                     },
                     new[]
                     {
-                        LinqExpression.Constant(
-                            0L,
-                            typeof(long)),
+                        LinqExpression.Constant(0L),
                     });
-
-            ShouldRoundrip(expression);
-        }
-
-        [TestMethod]
-        public void Call_static_types_no_arguments()
-        {
-            var expression =
-                LinqExpression.Call(
-                    typeof(SampleClass),
-                    nameof(SampleClass.GenericStaticMethod),
-                    new[]
-                    {
-                        typeof(object),
-                    },
-                    Array.Empty<LinqExpression>());
 
             ShouldRoundrip(expression);
         }
@@ -673,7 +756,7 @@ namespace GraphEngine.Tests
             var expression =
                 LinqExpression.Throw(
                     null,
-                    typeof(Exception)); ;
+                    typeof(Exception));
 
             ShouldRoundrip(expression);
         }

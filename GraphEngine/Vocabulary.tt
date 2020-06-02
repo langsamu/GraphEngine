@@ -127,6 +127,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("CallArguments", "callArguments");
         yield return ("CallInstance", "callInstance");
         yield return ("CallMethod", "callMethod");
+        yield return ("CallMethodName", "callMethodName");
         yield return ("CallType", "callType");
         yield return ("CallTypeArguments", "callTypeArguments");
         yield return ("CaseBody", "caseBody");
@@ -175,6 +176,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("MemberInitNewExpression", "memberInitNewExpression");
         yield return ("MemberType", "memberType");
         yield return ("MemberName", "memberName");
+        yield return ("MethodTypeArguments", "methodTypeArguments");
         yield return ("NewArguments", "newArguments");
         yield return ("NewArrayExpressions", "newArrayExpressions");
         yield return ("NewArrayType", "newArrayType");

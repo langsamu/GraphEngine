@@ -874,7 +874,7 @@ _:param
 :s
     :lambdaBody [
         :callInstance _:g ;
-        :callMethod ""Clear"" ;
+        :callMethodName ""Clear"" ;
     ] ;
     :lambdaParameters (
         _:g

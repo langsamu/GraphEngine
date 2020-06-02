@@ -3,9 +3,12 @@
 namespace GraphEngine
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reflection;
     using VDS.RDF;
+    using static Vocabulary;
 
     public class Method : Member
     {
@@ -15,7 +18,23 @@ namespace GraphEngine
         {
         }
 
-        public MethodInfo? ReflectionMethod => this.Type.SystemType.GetMethod(this.Name);
+        public ICollection<Type> TypeArguments => this.Collection(MethodTypeArguments, Type.Parse);
+
+        public MethodInfo? ReflectionMethod
+        {
+            get
+            {
+                var methodInfo = this.Type.SystemType.GetMethod(this.Name);
+
+                var typeArguments = this.TypeArguments.Select(ta => ta.SystemType).ToArray();
+                if (typeArguments.Any())
+                {
+                    methodInfo = methodInfo.MakeGenericMethod(typeArguments);
+                }
+
+                return methodInfo;
+            }
+        }
 
         internal static new Method Parse(INode node)
         {

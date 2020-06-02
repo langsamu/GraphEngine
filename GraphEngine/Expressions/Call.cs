@@ -2,7 +2,6 @@
 
 namespace GraphEngine
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -10,7 +9,6 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
-    // TODO: Add support for overloads with method
     public class Call : Expression
     {
         [DebuggerStepThrough]
@@ -33,11 +31,18 @@ namespace GraphEngine
             set => this.SetOptional(CallType, value);
         }
 
-        public string Method
+        public Method? Method
         {
-            get => this.GetRequired(CallMethod, AsString);
+            get => this.GetOptional(CallMethod, Method.Parse);
 
             set => this.SetOptional(CallMethod, value);
+        }
+
+        public string? MethodName
+        {
+            get => this.GetOptional(CallMethodName, AsString);
+
+            set => this.SetOptional(CallMethodName, value);
         }
 
         public ICollection<Expression> Arguments => this.Collection(CallArguments, Expression.Parse);
@@ -48,28 +53,29 @@ namespace GraphEngine
         {
             get
             {
-                var typeArguments = this.TypeArguments.Select(typeArg => typeArg.SystemType).ToArray();
-                var arguments = this.Arguments.LinqExpressions().ToArray();
-
-                if (this.Instance is Expression instance)
+                if (this.Method is Method method)
                 {
                     return Linq.Expression.Call(
-                        instance.LinqExpression,
-                        this.Method,
-                        typeArguments,
-                        arguments);
+                       this.Instance?.LinqExpression,
+                       method.ReflectionMethod,
+                       this.Arguments.LinqExpressions());
                 }
-
-                if (this.Type is Type type)
+                else if (this.Type is Type type)
                 {
                     return Linq.Expression.Call(
                         type.SystemType,
-                        this.Method,
-                        typeArguments,
-                        arguments);
+                        this.MethodName,
+                        this.TypeArguments.Select(typeArg => typeArg.SystemType).ToArray(),
+                        this.Arguments.LinqExpressions().ToArray());
                 }
-
-                throw new InvalidOperationException($"Missing both instance and type on call {this}");
+                else
+                {
+                    return Linq.Expression.Call(
+                        this.Instance?.LinqExpression,
+                        this.MethodName,
+                        this.TypeArguments.Select(typeArg => typeArg.SystemType).ToArray(),
+                        this.Arguments.LinqExpressions().ToArray());
+                }
             }
         }
     }

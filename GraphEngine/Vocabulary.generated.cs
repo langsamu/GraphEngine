@@ -188,6 +188,8 @@ namespace GraphEngine
 
         public static IUriNode CallMethod { get; } = EngineNode("callMethod");
 
+        public static IUriNode CallMethodName { get; } = EngineNode("callMethodName");
+
         public static IUriNode CallType { get; } = EngineNode("callType");
 
         public static IUriNode CallTypeArguments { get; } = EngineNode("callTypeArguments");
@@ -283,6 +285,8 @@ namespace GraphEngine
         public static IUriNode MemberType { get; } = EngineNode("memberType");
 
         public static IUriNode MemberName { get; } = EngineNode("memberName");
+
+        public static IUriNode MethodTypeArguments { get; } = EngineNode("methodTypeArguments");
 
         public static IUriNode NewArguments { get; } = EngineNode("newArguments");
 

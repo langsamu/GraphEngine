@@ -430,21 +430,12 @@ namespace GraphEngine
         {
             var call = new Call(this.Current)
             {
-                Method = node.Method.Name,
+                Method = this.VisitMethod(node.Method),
             };
 
             if (node.Object is object)
             {
                 call.Instance = this.VisitCacheParse(node.Object);
-            }
-            else
-            {
-                call.Type = this.VisitType(node.Method.DeclaringType);
-            }
-
-            foreach (var type in node.Method.GetGenericArguments())
-            {
-                call.TypeArguments.Add(this.VisitType(type));
             }
 
             foreach (var argument in node.Arguments)
@@ -639,11 +630,18 @@ namespace GraphEngine
         {
             using (this.Wrap(method))
             {
-                return new Method(this.Current)
+                var methodNode = new Method(this.Current)
                 {
                     Type = this.VisitType(method.DeclaringType),
                     Name = method.Name,
                 };
+
+                foreach (var type in method.GetGenericArguments())
+                {
+                    methodNode.TypeArguments.Add(this.VisitType(type));
+                }
+
+                return methodNode;
             }
         }
 

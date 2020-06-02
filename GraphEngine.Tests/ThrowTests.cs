@@ -83,7 +83,7 @@ namespace GraphEngine.Tests
             var expected =
                 LinqExpression.Throw(
                     null,
-                    typeof(Exception)); ;
+                    typeof(Exception));
 
             const string actual = @"
 @prefix : <http://example.com/> .
