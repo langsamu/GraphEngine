@@ -5,11 +5,10 @@ namespace GraphEngine.Tests
     using System;
     using FluentAssertions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
-    public class PropertyOrFieldTests
+    public class PropertyOrFieldTests : TestBase
     {
         [TestMethod]
         public void Name()
@@ -54,19 +53,6 @@ namespace GraphEngine.Tests
 ";
 
             ShouldBe(actual, expected);
-        }
-
-        private static void ShouldBe(string rdf, LinqExpression expected)
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(rdf);
-            var s = g.GetUriNode(":s");
-
-            var actual = Expression.Parse(s).LinqExpression;
-
-            Console.WriteLine(actual.GetDebugView());
-
-            actual.Should().Be(expected);
         }
     }
 }

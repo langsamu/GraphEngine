@@ -4,11 +4,10 @@ namespace GraphEngine.Tests
 {
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
-    public class MemberInitTests
+    public class MemberInitTests : TestBase
     {
         [TestMethod]
         public void No_bindings()
@@ -18,8 +17,7 @@ namespace GraphEngine.Tests
                     LinqExpression.New(
                         typeof(SampleClass)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+            var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -30,12 +28,9 @@ namespace GraphEngine.Tests
         ] ;
     ] ;
 .
-");
-            var s = g.GetUriNode(":s");
+";
 
-            var actual = Expression.Parse(s).LinqExpression;
-
-            actual.Should().Be(expected);
+            ShouldBe(actual, expected);
         }
 
         [TestMethod]
@@ -49,8 +44,7 @@ namespace GraphEngine.Tests
                         typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
                         LinqExpression.Constant(string.Empty)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+            var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -74,12 +68,9 @@ namespace GraphEngine.Tests
 _:C3
     :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
 .
-");
-            var s = g.GetUriNode(":s");
+";
 
-            var actual = Expression.Parse(s).LinqExpression;
-
-            actual.Should().Be(expected);
+            ShouldBe(actual, expected);
         }
 
         [TestMethod]
@@ -95,8 +86,7 @@ _:C3
                             typeof(List<long>).GetMethod("Add"),
                             LinqExpression.Constant(0L))));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+            var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -132,12 +122,9 @@ _:C3
 _:C3
     :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
 .
-");
-            var s = g.GetUriNode(":s");
+";
 
-            var actual = Expression.Parse(s).LinqExpression;
-
-            actual.Should().Be(expected);
+            ShouldBe(actual, expected);
         }
 
         [TestMethod]
@@ -154,8 +141,7 @@ _:C3
                             LinqExpression.Constant(
                                 string.Empty))));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+            var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -189,12 +175,9 @@ _:C3
     a :Type ;
     :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
 .
-");
-            var s = g.GetUriNode(":s");
+";
 
-            var actual = Expression.Parse(s).LinqExpression;
-
-            actual.Should().Be(expected);
+            ShouldBe(actual, expected);
         }
     }
 }

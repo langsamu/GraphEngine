@@ -5,12 +5,11 @@ namespace GraphEngine.Tests
     using System;
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
-    public class UnaryTests
+    public class UnaryTests : TestBase
     {
         public static IEnumerable<object[]> UnTypedData
         {
@@ -52,7 +51,7 @@ namespace GraphEngine.Tests
 
             var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), null);
 
-            var rdf = $@"
+            var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -66,7 +65,7 @@ namespace GraphEngine.Tests
 .
 ";
 
-            Assert(rdf, expected);
+            ShouldBe(actual, expected);
         }
 
         [TestMethod]
@@ -78,7 +77,7 @@ namespace GraphEngine.Tests
 
             var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), type);
 
-            var rdf = $@"
+            var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -95,7 +94,7 @@ namespace GraphEngine.Tests
 .
 ";
 
-            Assert(rdf, expected);
+            ShouldBe(actual, expected);
         }
 
         [TestMethod]
@@ -103,7 +102,7 @@ namespace GraphEngine.Tests
         {
             var expected = LinqExpression.MakeUnary(Linq.ExpressionType.Quote, LinqExpression.Lambda(LinqExpression.Constant(0L)), null);
 
-            var rdf = $@"
+            var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -117,20 +116,7 @@ namespace GraphEngine.Tests
 .
 ";
 
-            Assert(rdf, expected);
-        }
-
-        private static void Assert(string rdf, LinqExpression expected)
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(rdf);
-            var s = g.GetUriNode(":s");
-
-            var actual = Expression.Parse(s).LinqExpression;
-
-            Console.WriteLine(actual.GetDebugView());
-
-            actual.Should().Be(expected);
+            ShouldBe(actual, expected);
         }
     }
 }
