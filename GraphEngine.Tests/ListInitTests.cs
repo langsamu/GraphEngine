@@ -6,7 +6,6 @@ namespace GraphEngine.Tests
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
-    using Linq = System.Linq.Expressions;
     using LinqExpression = System.Linq.Expressions.Expression;
 
     [TestClass]
@@ -33,7 +32,7 @@ namespace GraphEngine.Tests
             :typeName ""System.Collections.Generic.List`1[System.Int64]"" ;
         ] ;
     ] ;
-    :listInitElementInitInitializers (
+    :listInitInitializers (
         [
             :elementInitAddMethod [
                 :memberType [
@@ -50,7 +49,6 @@ namespace GraphEngine.Tests
     ) ;
 .
 ";
-
             ShouldBe(actual, expected);
         }
 
