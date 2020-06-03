@@ -126,9 +126,15 @@ namespace GraphEngine
 
         public static IUriNode ArrayIndexIndexes { get; } = EngineNode("arrayIndexIndexes");
 
+        public static IUriNode BinaryConversion { get; } = EngineNode("binaryConversion");
+
         public static IUriNode BinaryExpressionType { get; } = EngineNode("binaryExpressionType");
 
         public static IUriNode BinaryLeft { get; } = EngineNode("binaryLeft");
+
+        public static IUriNode BinaryLiftToNull { get; } = EngineNode("binaryLiftToNull");
+
+        public static IUriNode BinaryMethod { get; } = EngineNode("binaryMethod");
 
         public static IUriNode BinaryRight { get; } = EngineNode("binaryRight");
 

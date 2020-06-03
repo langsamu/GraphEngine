@@ -153,5 +153,121 @@ namespace GraphEngine.Tests
 
             ShouldBe(actual, expected);
         }
+
+        [TestMethod]
+        public void Method()
+        {
+            var zero =
+                LinqExpression.Default(
+                    typeof(long));
+
+            var expected =
+                LinqExpression.Add(
+                    zero,
+                    zero,
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.Equal)));
+
+            var actual = $@"
+@prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
+
+:s
+    :binaryExpressionType xt:Add ;
+    :binaryLeft _:zero ;
+    :binaryRight _:zero ;
+    :binaryMethod [
+        :memberType [
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
+        ] ;
+        :memberName ""Equal"" ;
+    ] ;
+.
+
+_:zero
+    :defaultType [
+        :typeName ""System.Int64"" ;
+    ] ;
+.
+";
+
+            ShouldBe(actual, expected);
+        }
+
+        [TestMethod]
+        public void Conversion()
+        {
+            var @object = typeof(object);
+            var @null =
+                LinqExpression.Default(
+                    @object);
+
+            var expected =
+                LinqExpression.Coalesce(
+                    @null,
+                    @null,
+                    LinqExpression.Lambda(
+                        @null,
+                        LinqExpression.Parameter(
+                            @object)));
+
+            var actual = $@"
+@prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
+
+:s
+    :binaryExpressionType xt:Coalesce ;
+    :binaryLeft _:null ;
+    :binaryRight _:null ;
+    :binaryConversion [
+        :lambdaBody _:null ;
+        :lambdaParameters (
+            [
+                :parameterType _:object ;
+            ]
+        ) ;
+    ] ;
+.
+
+_:object :typeName ""System.Object"" .
+_:null :defaultType _:object .
+";
+
+            ShouldBe(actual, expected);
+        }
+
+        [TestMethod]
+        public void LiftToNull()
+        {
+            var zero =
+                LinqExpression.Default(
+                    typeof(int?));
+
+            var expected =
+                LinqExpression.LessThan(
+                    zero,
+                    zero,
+                    true,
+                    null);
+
+            var actual = $@"
+@prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
+
+:s
+    :binaryExpressionType xt:LessThan ;
+    :binaryLeft _:zero ;
+    :binaryRight _:zero ;
+    :binaryLiftToNull true ;
+.
+
+_:zero
+    :defaultType [
+        :typeName ""System.Nullable`1[System.Int32]"" ;
+    ] ;
+.
+";
+
+            ShouldBe(actual, expected);
+        }
     }
 }

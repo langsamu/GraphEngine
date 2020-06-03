@@ -515,12 +515,39 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:binaryConversion
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binary ;
+	rdfs:range :Lambda ;
+	rdfs:label "binary conversion" ;
+	rdfs:comment "" ;
+.
+
 :binaryLeft
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Binary ;
 	rdfs:range :Expression ;
 	rdfs:label "binary left" ;
+	rdfs:comment "" ;
+.
+
+:binaryLiftToNull
+	a owl:DatatypeProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binary ;
+	rdfs:range xsd:boolean ;
+	rdfs:label "binary lift to null" ;
+	rdfs:comment "" ;
+.
+
+:binaryMethod
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binary ;
+	rdfs:range :Method ;
+	rdfs:label "binary method" ;
 	rdfs:comment "" ;
 .
 

@@ -9,7 +9,6 @@ namespace GraphEngine
     using VDS.RDF;
     using static Vocabulary;
 
-    // TODO: Implement
     public class Member : Node
     {
         [DebuggerStepThrough]

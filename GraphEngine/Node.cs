@@ -102,6 +102,26 @@ namespace GraphEngine
             return g;
         }
 
+        protected static bool AsBool(INode node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            if (!(node.NodeType == NodeType.Literal && node is ILiteralNode literalNode))
+            {
+                throw new InvalidOperationException($"{node} is not literal node");
+            }
+
+            if (!bool.TryParse(literalNode.Value, out var b))
+            {
+                throw new InvalidOperationException($"{node} is not valid bool");
+            }
+
+            return b;
+        }
+
         protected ICollection<T> Collection<T>(INode predicate, Func<INode, T> parser)
             where T : class, INode =>
             new Collection<T>(this, predicate, parser);

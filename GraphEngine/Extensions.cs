@@ -7,6 +7,7 @@ namespace GraphEngine
     using System.Globalization;
     using System.Linq;
     using VDS.RDF;
+    using VDS.RDF.Nodes;
     using VDS.RDF.Parsing;
     using Linq = System.Linq.Expressions;
 
@@ -31,6 +32,7 @@ namespace GraphEngine
                 long number => graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInteger)),
                 int number => graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInt)),
                 Guid guid => graph.CreateUriNode(new Uri("urn:uuid:" + guid.ToString())),
+                bool bit => new BooleanNode(graph, bit),
                 _ => graph.CreateLiteralNode(value.ToString())
             };
 

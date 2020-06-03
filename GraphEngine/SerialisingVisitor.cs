@@ -83,6 +83,21 @@ namespace GraphEngine
                 else
                 {
                     binary = Binary.Create(this.Current, node.NodeType);
+
+                    if (node.Method is MethodInfo method)
+                    {
+                        binary.Method = this.VisitMethod(method);
+                    }
+
+                    if (node.Conversion is LambdaExpression lambda)
+                    {
+                        binary.Conversion = new Lambda(this.VisitCache(lambda));
+                    }
+
+                    if (node.IsLiftedToNull)
+                    {
+                        binary.LiftToNull = true;
+                    }
                 }
 
                 binary.Left = this.VisitCacheParse(node.Left);
@@ -180,7 +195,17 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
         {
-            new Default(this.Current).Type = this.VisitType(node.Type);
+            if (node.Type == typeof(void))
+            {
+                _ = new Empty(this.Current);
+            }
+            else
+            {
+                _ = new Default(this.Current)
+                {
+                    Type = this.VisitType(node.Type),
+                };
+            }
 
             return node;
         }
@@ -309,6 +334,21 @@ namespace GraphEngine
             foreach (var initializer in node.Initializers)
             {
                 listInit.Initializers.Add(new ElementInit(this[this.VisitElementInit(initializer)]));
+            }
+
+            return node;
+        }
+
+        protected override Linq.Expression VisitLambda<T>(Expression<T> node)
+        {
+            var lambda = new Lambda(this.Current)
+            {
+                Body = this.VisitCacheParse(node.Body),
+            };
+
+            foreach (var parameter in node.Parameters)
+            {
+                lambda.Parameters.Add(new Parameter(this.VisitCache(parameter)));
             }
 
             return node;

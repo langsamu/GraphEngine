@@ -96,8 +96,11 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("ArrayIndexArray", "arrayIndexArray");
         yield return ("ArrayIndexIndex", "arrayIndexIndex");
         yield return ("ArrayIndexIndexes", "arrayIndexIndexes");
+        yield return ("BinaryConversion", "binaryConversion");
         yield return ("BinaryExpressionType", "binaryExpressionType");
         yield return ("BinaryLeft", "binaryLeft");
+        yield return ("BinaryLiftToNull", "binaryLiftToNull");
+        yield return ("BinaryMethod", "binaryMethod");
         yield return ("BinaryRight", "binaryRight");
         yield return ("BindExpression", "bindExpression");
         yield return ("BindMember", "bindMember");

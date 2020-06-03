@@ -37,7 +37,35 @@ namespace GraphEngine
             set => this.SetRequired(BinaryExpressionType, value);
         }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeBinary(this.ExpressionType.LinqExpressionType, this.Left.LinqExpression, this.Right.LinqExpression);
+        public Method? Method
+        {
+            get => this.GetOptional(BinaryMethod, Method.Parse);
+
+            set => this.SetOptional(BinaryMethod, value);
+        }
+
+        public bool? LiftToNull
+        {
+            get => this.GetOptionalS(BinaryLiftToNull, AsBool);
+
+            set => this.SetOptional(BinaryLiftToNull, value);
+        }
+
+        public Lambda? Conversion
+        {
+            get => this.GetOptional(BinaryConversion, Lambda.Parse);
+
+            set => this.SetOptional(BinaryConversion, value);
+        }
+
+        public override Linq.Expression LinqExpression =>
+            Linq.Expression.MakeBinary(
+                this.ExpressionType.LinqExpressionType,
+                this.Left.LinqExpression,
+                this.Right.LinqExpression,
+                this.LiftToNull ?? false,
+                this.Method?.ReflectionMethod,
+                this.Conversion?.LinqLambda);
 
         public static Binary Create(INode node, Linq.ExpressionType type)
         {
@@ -87,7 +115,7 @@ namespace GraphEngine
                     };
 
                 default:
-                    throw new Exception($"{type} is not binary");
+                    throw new InvalidOperationException($"{type} is not binary");
             }
         }
     }

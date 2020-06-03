@@ -65,6 +65,59 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
+        public void BinaryMethod()
+        {
+            var zero =
+                LinqExpression.Default(
+                    typeof(long));
+
+            var expression =
+                LinqExpression.Add(
+                    zero,
+                    zero,
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.Equal)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void BinaryLiftToNull()
+        {
+            var zero =
+                LinqExpression.Default(
+                    typeof(int?));
+
+            var expression =
+                LinqExpression.LessThan(
+                    zero,
+                    zero,
+                    true,
+                    null);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void BinaryConversion()
+        {
+            var @object = typeof(object);
+            var @null =
+                LinqExpression.Default(
+                    @object);
+
+            var expression =
+                LinqExpression.Coalesce(
+                    @null,
+                    @null,
+                    LinqExpression.Lambda(
+                        @null,
+                        LinqExpression.Parameter(
+                            @object)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
         public void Dynamic_InvokeMember()
         {
             var expression =
@@ -497,6 +550,15 @@ namespace GraphEngine.Tests
         {
             var param = LinqExpression.Parameter(typeof(bool));
             var expression = LinqExpression.IfThenElse(param, param, param);
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Lambda()
+        {
+            var expression =
+                LinqExpression.Lambda(LinqExpression.Empty());
 
             ShouldRoundrip(expression);
         }
