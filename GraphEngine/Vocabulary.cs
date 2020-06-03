@@ -63,6 +63,8 @@ namespace GraphEngine
 
             public static IUriNode ArrayLength { get; } = ExpressionTypeNode("ArrayLength");
 
+            public static IUriNode ArrayIndex { get; } = ExpressionTypeNode("ArrayIndex");
+
             public static IUriNode Assign { get; } = ExpressionTypeNode("Assign");
 
             public static IUriNode Coalesce { get; } = ExpressionTypeNode("Coalesce");

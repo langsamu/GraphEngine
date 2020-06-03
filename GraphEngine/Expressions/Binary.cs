@@ -78,6 +78,7 @@ namespace GraphEngine
                 case Linq.ExpressionType.And:
                 case Linq.ExpressionType.AndAlso:
                 case Linq.ExpressionType.AndAssign:
+                case Linq.ExpressionType.ArrayIndex:
                 case Linq.ExpressionType.Assign:
                 case Linq.ExpressionType.Coalesce:
                 case Linq.ExpressionType.Divide:
