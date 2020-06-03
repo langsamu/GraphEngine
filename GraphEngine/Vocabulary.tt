@@ -36,7 +36,6 @@ private IEnumerable<(string Property, string Uri)> Data {
         // Classes
         yield return ("ArrayAccess", "ArrayAccess");
         yield return ("ArrayIndex", "ArrayIndex");
-        yield return ("ArrayLength", "ArrayLength");
         yield return ("BaseBind", "BaseBind");
         yield return ("BaseGoto", "BaseGoto");
         yield return ("Binary", "Binary");
@@ -51,10 +50,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Condition", "Condition");
         yield return ("Constant", "Constant");
         yield return ("Continue", "Continue");
-        yield return ("Convert", "Convert");
-        yield return ("ConvertChecked", "ConvertChecked");
         yield return ("DebugInfo", "DebugInfo");
-        yield return ("Decrement", "Decrement");
         yield return ("Default", "Default");
         yield return ("Dynamic", "Dynamic");
         yield return ("ElementInit", "ElementInit");
@@ -63,11 +59,8 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Goto", "Goto");
         yield return ("IfThen", "IfThen");
         yield return ("IfThenElse", "IfThenElse");
-        yield return ("Increment", "Increment");
         yield return ("Invoke", "Invoke");
         yield return ("InvokeMember", "InvokeMember");
-        yield return ("IsFalse", "IsFalse");
-        yield return ("IsTrue", "IsTrue");
         yield return ("Label", "Label");
         yield return ("Lambda", "Lambda");
         yield return ("ListBind", "ListBind");
@@ -77,21 +70,12 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("MemberBind", "MemberBind");
         yield return ("MemberInit", "MemberInit");
         yield return ("Method", "Method");
-        yield return ("Negate", "Negate");
-        yield return ("NegateChecked", "NegateChecked");
         yield return ("New", "New");
         yield return ("NewArrayBounds", "NewArrayBounds");
         yield return ("NewArrayInit", "NewArrayInit");
-        yield return ("Not", "Not");
-        yield return ("OnesComplement", "OnesComplement");
         yield return ("Parameter", "Parameter");
-        yield return ("PostDecrementAssign", "PostDecrementAssign");
-        yield return ("PostIncrementAssign", "PostIncrementAssign");
-        yield return ("PreDecrementAssign", "PreDecrementAssign");
-        yield return ("PreIncrementAssign", "PreIncrementAssign");
         yield return ("Property", "Property");
         yield return ("PropertyOrField", "PropertyOrField");
-        yield return ("Quote", "Quote");
         yield return ("ReferenceEqual", "ReferenceEqual");
         yield return ("ReferenceNotEqual", "ReferenceNotEqual");
         yield return ("Rethrow", "Rethrow");
@@ -104,8 +88,6 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("Type", "Type");
         yield return ("TypeBinary", "TypeBinary");
         yield return ("Unary", "Unary");
-        yield return ("UnaryPlus", "UnaryPlus");
-        yield return ("Unbox", "Unbox");
         yield return ("Variable", "Variable");
 
         // Properties

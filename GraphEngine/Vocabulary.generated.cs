@@ -10,8 +10,6 @@ namespace GraphEngine
 
         public static IUriNode ArrayIndex { get; } = EngineNode("ArrayIndex");
 
-        public static IUriNode ArrayLength { get; } = EngineNode("ArrayLength");
-
         public static IUriNode BaseBind { get; } = EngineNode("BaseBind");
 
         public static IUriNode BaseGoto { get; } = EngineNode("BaseGoto");
@@ -40,13 +38,7 @@ namespace GraphEngine
 
         public static IUriNode Continue { get; } = EngineNode("Continue");
 
-        public static IUriNode Convert { get; } = EngineNode("Convert");
-
-        public static IUriNode ConvertChecked { get; } = EngineNode("ConvertChecked");
-
         public static IUriNode DebugInfo { get; } = EngineNode("DebugInfo");
-
-        public static IUriNode Decrement { get; } = EngineNode("Decrement");
 
         public static IUriNode Default { get; } = EngineNode("Default");
 
@@ -64,15 +56,9 @@ namespace GraphEngine
 
         public static IUriNode IfThenElse { get; } = EngineNode("IfThenElse");
 
-        public static IUriNode Increment { get; } = EngineNode("Increment");
-
         public static IUriNode Invoke { get; } = EngineNode("Invoke");
 
         public static IUriNode InvokeMember { get; } = EngineNode("InvokeMember");
-
-        public static IUriNode IsFalse { get; } = EngineNode("IsFalse");
-
-        public static IUriNode IsTrue { get; } = EngineNode("IsTrue");
 
         public static IUriNode Label { get; } = EngineNode("Label");
 
@@ -92,35 +78,17 @@ namespace GraphEngine
 
         public static IUriNode Method { get; } = EngineNode("Method");
 
-        public static IUriNode Negate { get; } = EngineNode("Negate");
-
-        public static IUriNode NegateChecked { get; } = EngineNode("NegateChecked");
-
         public static IUriNode New { get; } = EngineNode("New");
 
         public static IUriNode NewArrayBounds { get; } = EngineNode("NewArrayBounds");
 
         public static IUriNode NewArrayInit { get; } = EngineNode("NewArrayInit");
 
-        public static IUriNode Not { get; } = EngineNode("Not");
-
-        public static IUriNode OnesComplement { get; } = EngineNode("OnesComplement");
-
         public static IUriNode Parameter { get; } = EngineNode("Parameter");
-
-        public static IUriNode PostDecrementAssign { get; } = EngineNode("PostDecrementAssign");
-
-        public static IUriNode PostIncrementAssign { get; } = EngineNode("PostIncrementAssign");
-
-        public static IUriNode PreDecrementAssign { get; } = EngineNode("PreDecrementAssign");
-
-        public static IUriNode PreIncrementAssign { get; } = EngineNode("PreIncrementAssign");
 
         public static IUriNode Property { get; } = EngineNode("Property");
 
         public static IUriNode PropertyOrField { get; } = EngineNode("PropertyOrField");
-
-        public static IUriNode Quote { get; } = EngineNode("Quote");
 
         public static IUriNode ReferenceEqual { get; } = EngineNode("ReferenceEqual");
 
@@ -145,10 +113,6 @@ namespace GraphEngine
         public static IUriNode TypeBinary { get; } = EngineNode("TypeBinary");
 
         public static IUriNode Unary { get; } = EngineNode("Unary");
-
-        public static IUriNode UnaryPlus { get; } = EngineNode("UnaryPlus");
-
-        public static IUriNode Unbox { get; } = EngineNode("Unbox");
 
         public static IUriNode Variable { get; } = EngineNode("Variable");
 
