@@ -1397,6 +1397,15 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:unaryMethod
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Unary ;
+	rdfs:range :Method ;
+	rdfs:label "unary method" ;
+	rdfs:comment "" ;
+.
+
 :unaryOperand
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;

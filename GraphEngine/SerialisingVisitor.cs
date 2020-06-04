@@ -591,6 +591,11 @@ namespace GraphEngine
                 unary.Type = this.VisitType(node.Type);
 
                 unary.Operand = this.VisitCacheParse(node.Operand);
+
+                if (node.Method is MethodInfo method)
+                {
+                    unary.Method = this.VisitMethod(method);
+                }
             }
 
             return node;

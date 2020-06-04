@@ -195,6 +195,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("TypeBinaryType", "typeBinaryType");
         yield return ("TypeName", "typeName");
         yield return ("UnaryExpressionType", "unaryExpressionType");
+        yield return ("UnaryMethod", "unaryMethod");
         yield return ("UnaryOperand", "unaryOperand");
         yield return ("UnaryType", "unaryType");
     }

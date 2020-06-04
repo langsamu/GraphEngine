@@ -944,6 +944,18 @@ namespace GraphEngine.Tests
             ShouldRoundrip(expression);
         }
 
+        [TestMethod]
+        public void UnaryMethod()
+        {
+            var expression =
+                LinqExpression.Negate(
+                    LinqExpression.Default(
+                        typeof(bool)),
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.StaticFunctionWithArgument)));
+
+            ShouldRoundrip(expression);
+        }
+
         private static void ShouldRoundrip(LinqExpression original)
         {
             using var g = new GraphEngine.Graph();

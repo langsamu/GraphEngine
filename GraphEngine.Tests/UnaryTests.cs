@@ -118,5 +118,37 @@ namespace GraphEngine.Tests
 
             ShouldBe(actual, expected);
         }
+
+        [TestMethod]
+        public void Method()
+        {
+            var expected =
+                LinqExpression.Negate(
+                    LinqExpression.Default(
+                        typeof(bool)),
+                    typeof(SampleClass).GetMethod(nameof(SampleClass.StaticFunctionWithArgument)));
+
+            var actual = $@"
+@prefix : <http://example.com/> .
+@prefix xt: <http://example.com/ExpressionTypes/> .
+
+:s
+    :unaryExpressionType xt:Negate ;
+    :unaryOperand [
+        :defaultType [
+            :typeName ""System.Boolean"" ;
+        ] ;
+    ] ;
+    :unaryMethod [
+        :memberType [
+            :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" ;
+        ] ;
+        :memberName ""StaticFunctionWithArgument"" ;
+    ] ;
+.
+";
+
+            ShouldBe(actual, expected);
+        }
     }
 }

@@ -37,7 +37,19 @@ namespace GraphEngine
             set => this.SetRequired(UnaryExpressionType, value);
         }
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(this.ExpressionType.LinqExpressionType, this.Operand.LinqExpression, this.Type?.SystemType);
+        public Method? Method
+        {
+            get => this.GetOptional(UnaryMethod, Method.Parse);
+
+            set => this.SetOptional(UnaryMethod, value);
+        }
+
+        public override Linq.Expression LinqExpression =>
+            Linq.Expression.MakeUnary(
+                this.ExpressionType.LinqExpressionType,
+                this.Operand.LinqExpression,
+                this.Type?.SystemType,
+                this.Method?.ReflectionMethod);
 
         public static Unary Create(INode node, Linq.ExpressionType type)
         {

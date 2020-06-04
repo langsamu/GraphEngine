@@ -324,6 +324,8 @@ namespace GraphEngine
 
         public static IUriNode UnaryExpressionType { get; } = EngineNode("unaryExpressionType");
 
+        public static IUriNode UnaryMethod { get; } = EngineNode("unaryMethod");
+
         public static IUriNode UnaryOperand { get; } = EngineNode("unaryOperand");
 
         public static IUriNode UnaryType { get; } = EngineNode("unaryType");

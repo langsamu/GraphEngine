@@ -45,6 +45,8 @@ namespace GraphEngine.Tests
         {
         }
 
+        public static bool StaticFunctionWithArgument(bool arg) => default;
+
         public static void GenericStaticMethodWithArgument<T>(long arg)
         {
         }
