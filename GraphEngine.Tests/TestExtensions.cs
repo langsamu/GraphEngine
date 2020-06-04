@@ -2,6 +2,7 @@
 
 namespace GraphEngine.Tests
 {
+    using System.Collections.Generic;
     using System.Reflection;
     using Linq = System.Linq.Expressions;
 
@@ -17,5 +18,26 @@ namespace GraphEngine.Tests
          * and https://github.com/fluentassertions/fluentassertions/blob/c7ec7c6d1603478566c09062d90dcc2433fdf534/Src/FluentAssertions/Equivalency/EqualityComparerEquivalencyStep.cs
          */
         internal static ExpressionAssertions Should(this Linq.Expression expression) => new ExpressionAssertions(expression);
+
+        internal static IEnumerable<T[]> Pairwise<T>(this IEnumerable<T> enumerable)
+        {
+            var previous = default(T);
+
+            using var e = enumerable.GetEnumerator();
+            if (e.MoveNext())
+            {
+                previous = e.Current;
+            }
+
+            while (e.MoveNext())
+            {
+                yield return new[]
+                {
+                    previous,
+                    previous = e.Current,
+                };
+            }
+        }
+
     }
 }

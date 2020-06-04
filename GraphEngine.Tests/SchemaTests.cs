@@ -29,6 +29,16 @@ namespace GraphEngine.Tests
 
         private static IEnumerable<object[]> Resources => Ontologies.Union(Classes).Union(Properties);
 
+        private static IEnumerable<object[]> ClassNames =>
+            Regex.Matches(ontologyString, @"^:\p{Lu}\w*", RegexOptions.Multiline)
+            .Select(m => m.Value)
+            .Pairwise();
+
+        private static IEnumerable<object[]> PropertyNames =>
+            Regex.Matches(ontologyString, @"^:\p{Ll}\w*", RegexOptions.Multiline)
+            .Select(m => m.Value)
+            .Pairwise();
+
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
@@ -56,9 +66,10 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Classes_are_ordered()
+        [DynamicData(nameof(ClassNames))]
+        public void Classes_are_ordered(string a, string b)
         {
-            Regex.Matches(ontologyString, @"^:\p{Lu}\w*", RegexOptions.Multiline).Select(m => m.Value).Should().BeInAscendingOrder("classes must be ordered alphabetically");
+            new[] { a, b }.Should().BeInAscendingOrder("classes must be ordered alphabetically");
         }
 
         [TestMethod]
@@ -146,9 +157,10 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Properties_are_ordered()
+        [DynamicData(nameof(PropertyNames))]
+        public void Properties_are_ordered(string a, string b)
         {
-            Regex.Matches(ontologyString, @"^:\p{Ll}\w*", RegexOptions.Multiline).Select(m => m.Value).Should().BeInAscendingOrder("properties must be ordered alphabetically");
+            new[] { a, b }.Should().BeInAscendingOrder("properties must be ordered alphabetically");
         }
 
         [TestMethod]
