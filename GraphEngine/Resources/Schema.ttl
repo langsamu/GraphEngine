@@ -614,6 +614,15 @@ this:schema
 	rdfs:comment "" ;
 .
 
+:blockType
+	a owl:ObjectProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Block ;
+	rdfs:range :Type ;
+	rdfs:label "block type" ;
+	rdfs:comment "" ;
+.
+
 :blockVariables
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;

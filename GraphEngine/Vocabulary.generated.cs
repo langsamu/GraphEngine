@@ -150,6 +150,8 @@ namespace GraphEngine
 
         public static IUriNode BlockExpressions { get; } = EngineNode("blockExpressions");
 
+        public static IUriNode BlockType { get; } = EngineNode("blockType");
+
         public static IUriNode BlockVariables { get; } = EngineNode("blockVariables");
 
         public static IUriNode CallArguments { get; } = EngineNode("callArguments");

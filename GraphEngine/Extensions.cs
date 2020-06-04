@@ -63,5 +63,11 @@ namespace GraphEngine
             return (kind == Linq.ExpressionType.Equal || kind == Linq.ExpressionType.NotEqual) &&
                 method == null && !left.IsValueType && !right.IsValueType;
         }
+
+        // See https://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/TypeUtils.cs,d20b8274c8dc7b89
+        internal static bool AreEquivalent(System.Type t1, System.Type t2)
+        {
+            return t1 == t2 || t1.IsEquivalentTo(t2);
+        }
     }
 }

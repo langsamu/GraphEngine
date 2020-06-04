@@ -167,9 +167,61 @@ namespace GraphEngine.Tests
         }
 
         [TestMethod]
-        public void Block()
+        public void Block_Expressions()
         {
-            var expression = LinqExpression.Block(new[] { LinqExpression.Parameter(typeof(int)) }, new[] { LinqExpression.Empty() });
+            var expression =
+                LinqExpression.Block(
+                    LinqExpression.Default(typeof(string)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Block_ExpressionsVariables()
+        {
+            var expression =
+                LinqExpression.Block(
+                    new[]
+                    {
+                        LinqExpression.Parameter(
+                            typeof(string)),
+                    },
+                    new[]
+                    {
+                        LinqExpression.Default(
+                            typeof(string)),
+                    });
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Block_TypeExpressions()
+        {
+            var expression =
+                LinqExpression.Block(
+                    typeof(object),
+                    LinqExpression.Default(typeof(string)));
+
+            ShouldRoundrip(expression);
+        }
+
+        [TestMethod]
+        public void Block_TypeExpressionsVariables()
+        {
+            var expression =
+                LinqExpression.Block(
+                    typeof(object),
+                    new[]
+                    {
+                        LinqExpression.Parameter(
+                            typeof(string)),
+                    },
+                    new[]
+                    {
+                        LinqExpression.Default(
+                            typeof(string)),
+                    });
 
             ShouldRoundrip(expression);
         }

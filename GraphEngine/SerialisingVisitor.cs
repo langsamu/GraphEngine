@@ -5,6 +5,7 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Dynamic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Runtime.CompilerServices;
@@ -110,6 +111,11 @@ namespace GraphEngine
         protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
         {
             var block = new Block(this.Current);
+
+            if (!Extensions.AreEquivalent(node.Type, node.Expressions.Last().Type))
+            {
+                block.Type = this.VisitType(node.Type);
+            }
 
             foreach (var variable in node.Variables)
             {

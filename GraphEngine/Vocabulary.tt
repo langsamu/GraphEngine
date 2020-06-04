@@ -108,6 +108,7 @@ private IEnumerable<(string Property, string Uri)> Data {
         yield return ("BinderExpressionType", "binderExpressionType");
         yield return ("BinderName", "binderName");
         yield return ("BlockExpressions", "blockExpressions");
+        yield return ("BlockType", "blockType");
         yield return ("BlockVariables", "blockVariables");
         yield return ("CallArguments", "callArguments");
         yield return ("CallInstance", "callInstance");
