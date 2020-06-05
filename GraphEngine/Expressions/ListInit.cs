@@ -9,6 +9,7 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
+    // TODO: Add overloads
     public class ListInit : Expression
     {
         [DebuggerStepThrough]
@@ -26,6 +27,9 @@ namespace GraphEngine
 
         public ICollection<ElementInit> Initializers => this.Collection(ListInitInitializers, ElementInit.Parse);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.ListInit(this.NewExpression.LinqNewExpression, this.Initializers.Select(i => i.LinqElementInit));
+        public override Linq.Expression LinqExpression =>
+            Linq.Expression.ListInit(
+                this.NewExpression.LinqNewExpression,
+                this.Initializers.Select(i => i.LinqElementInit));
     }
 }

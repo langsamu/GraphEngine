@@ -10,6 +10,7 @@ namespace GraphEngine
     using VDS.RDF;
     using static Vocabulary;
 
+    // TODO: Improve derivation
     public class Method : Member
     {
         [DebuggerStepThrough]

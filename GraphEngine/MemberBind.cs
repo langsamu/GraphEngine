@@ -9,6 +9,7 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
+    // TODO: Add overloads
     public class MemberBind : BaseBind
     {
         [DebuggerStepThrough]
@@ -20,6 +21,9 @@ namespace GraphEngine
 
         public ICollection<BaseBind> Bindings => this.Collection(MemberBindBindings, BaseBind.Parse);
 
-        public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.MemberBind(this.Member.ReflectionMember, this.Bindings.Select(binding => binding.LinqMemberBinding));
+        public override Linq.MemberBinding LinqMemberBinding =>
+            Linq.Expression.MemberBind(
+                this.Member.ReflectionMember,
+                this.Bindings.Select(binding => binding.LinqMemberBinding));
     }
 }

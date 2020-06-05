@@ -10,6 +10,8 @@ namespace GraphEngine
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
+    // TODO: Add overloads
+    // TODO: Create ConstructorInfo node
     public class New : Expression
     {
         [DebuggerStepThrough]
