@@ -46,4 +46,4 @@ jobs:
     - name: Publish NuGet
       env:
         NugetKey: ${{ secrets.NuGetKey }}
-      run: dotnet nuget push **/*.nupkg -k $Env:NuGetKey -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push (Get-ChildItem *.nupkg -Recurse) -k $Env:NuGetKey -s https://api.nuget.org/v3/index.json
