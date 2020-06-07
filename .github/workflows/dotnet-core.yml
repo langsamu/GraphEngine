@@ -39,3 +39,11 @@ jobs:
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
+
+    - name: Pack
+      run: dotnet pack -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
+
+    - name: Publish NuGet
+      env:
+        NugetKey: ${{ secrets.NuGetKey }}
+      run: dotnet nuget push **/*.nupkg -k $Env:NuGetKey -s https://api.nuget.org/v3/index.json
