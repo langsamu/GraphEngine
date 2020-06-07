@@ -4,6 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
+    <PackageId>ExpressionRDF</PackageId>
+    <Authors>Samu Lang</Authors>
+    <RepositoryUrl>https://github.com/langsamu/GraphEngine</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>linq expression rdf</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/langsamu/GraphEngine</PackageProjectUrl>
+    <Copyright>Copyright © Samu Lang</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

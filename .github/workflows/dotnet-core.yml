@@ -11,14 +11,22 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
 
+    - name: Install tools
+      run: dotnet tool restore
+
     - name: Install dependencies
       run: dotnet restore
+
+    - name: GitVersion
+      run: dotnet dotnet-gitversion /output buildserver /updateprojectfiles
 
     - name: Build
       run: dotnet build --configuration Release --no-restore
@@ -31,3 +39,11 @@ jobs:
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
+
+    - name: Pack
+      run: dotnet pack -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
+
+    - name: Publish NuGet
+      env:
+        NugetKey: ${{ secrets.NuGetKey }}
+      run: dotnet nuget push **/*.nupkg -k $Env:NuGetKey -s https://api.nuget.org/v3/index.json
