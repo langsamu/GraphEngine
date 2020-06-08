@@ -41,7 +41,7 @@ jobs:
       uses: codecov/codecov-action@v1
 
     - name: Pack
-      run: dotnet pack -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
+      run: dotnet pack --configuration Release -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
 
     - name: Publish NuGet
       env:
