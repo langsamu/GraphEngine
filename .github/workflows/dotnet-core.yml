@@ -1,5 +1,10 @@
 name: Test
 
+env:
+    PROJECT: .\GraphEngine\GraphEngine.csproj
+    TEST_PROJECT: .\GraphEngine.Tests\GraphEngine.Tests.csproj
+    CONFIGURATION: Release
+
 on:
   push:
     branches: [ master ]
@@ -17,7 +22,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.101
+        dotnet-version: 3.1.x
 
     - name: Install tools
       run: dotnet tool restore
@@ -25,25 +30,30 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
 
+# gitversion calculates assembly version based on tag (etc)
+# adds properties to project file
+# also adds environment variables
     - name: GitVersion
       run: dotnet dotnet-gitversion /output buildserver /updateprojectfiles
 
+# ContinuousIntegrationBuild obfuscates source file paths
     - name: Build
-      run: dotnet build .\GraphEngine\GraphEngine.csproj --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
+      run: dotnet build $Env:PROJECT --configuration $Env:CONFIGURATION --no-restore /p:ContinuousIntegrationBuild=true
 
+# Use coverlet instead of vstest code coverage
     - name: Install coverlet
-      run: dotnet add .\GraphEngine.Tests\GraphEngine.Tests.csproj package coverlet.msbuild
+      run: dotnet add $Env:TEST_PROJECT package coverlet.msbuild
 
     - name: Test
-      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet test $Env:TEST_PROJECT --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
 
     - name: Pack
-      run: dotnet pack --configuration Release -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
+      run: dotnet pack $Env:PROJECT --configuration $Env:CONFIGURATION --no-build -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
 
     - name: Publish NuGet
       env:
         NugetKey: ${{ secrets.NuGetKey }}
-      run: dotnet nuget push (Get-ChildItem *.nupkg -Recurse) -k $Env:NuGetKey -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push (Get-ChildItem *.nupkg -Recurse) --api-key $Env:NuGetKey --source https://api.nuget.org/v3/index.json
