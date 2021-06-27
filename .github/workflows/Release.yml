@@ -1,0 +1,49 @@
+name: Release
+
+env:
+    CONFIGURATION: Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Install tools
+      run: dotnet tool restore
+
+# gitversion calculates assembly version based on tag (etc)
+# adds properties to project file
+# also adds environment variables
+    - name: GitVersion
+      run: dotnet dotnet-gitversion /output buildserver /updateprojectfiles
+
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+        include-prerelease: true
+
+    - name: Install dependencies
+      run: dotnet restore
+
+# ContinuousIntegrationBuild obfuscates source file paths
+    - name: Build
+      run: dotnet build --no-restore --configuration $Env:CONFIGURATION /p:ContinuousIntegrationBuild=true
+
+    - name: Test
+      run: dotnet test --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+    - name: Pack
+      run: dotnet pack --no-build -p:PackageVersion=$Env:GitVersion_NuGetVersionV2
+
+    - name: Publish
+      env:
+        NugetKey: ${{ secrets.NuGetKey }}
+      run: dotnet nuget push (Get-ChildItem *.nupkg -Recurse) --api-key $Env:NuGetKey --source https://api.nuget.org/v3/index.json
