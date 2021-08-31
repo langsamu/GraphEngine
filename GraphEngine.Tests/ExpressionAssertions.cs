@@ -10,8 +10,8 @@ namespace GraphEngine.Tests
     internal class ExpressionAssertions : ReferenceTypeAssertions<LinqExpression, ExpressionAssertions>
     {
         internal ExpressionAssertions(LinqExpression expression)
+            : base(expression)
         {
-            this.Subject = expression;
         }
 
         protected override string Identifier => "expression";
