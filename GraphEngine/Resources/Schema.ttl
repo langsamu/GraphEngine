@@ -578,21 +578,21 @@ this:schema
 	rdfs:comment "" ;
 .
 
-:binderName
-	a owl:DatatypeProperty ;
-	rdfs:isDefinedBy this:schema ;
-	rdfs:domain :Binder ;
-	rdfs:range xsd:string ;
-	rdfs:label "binder name" ;
-	rdfs:comment "" ;
-.
-
 :bindExpression
 	a owl:ObjectProperty ;
 	rdfs:isDefinedBy this:schema ;
 	rdfs:domain :Bind ;
 	rdfs:range :Expression ;
 	rdfs:label "bind expression" ;
+	rdfs:comment "" ;
+.
+
+:binderName
+	a owl:DatatypeProperty ;
+	rdfs:isDefinedBy this:schema ;
+	rdfs:domain :Binder ;
+	rdfs:range xsd:string ;
+	rdfs:label "binder name" ;
 	rdfs:comment "" ;
 .
 
