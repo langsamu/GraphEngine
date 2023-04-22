@@ -7,14 +7,13 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using System.Linq.Expressions;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Lambda : Expression
     {
         [DebuggerStepThrough]
-        internal Lambda(INode node)
+        internal Lambda(NodeWithGraph node)
             : base(node)
         {
         }
@@ -35,7 +34,7 @@ namespace GraphEngine
                 this.Body.LinqExpression,
                 this.Parameters.Select(param => param.LinqParameter));
 
-        internal static new Lambda Parse(INode node)
+        internal static new Lambda Parse(NodeWithGraph node)
         {
             if (node is null)
             {

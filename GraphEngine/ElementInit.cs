@@ -5,14 +5,13 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class ElementInit : Node
     {
         [DebuggerStepThrough]
-        internal ElementInit(INode node)
+        internal ElementInit(NodeWithGraph node)
             : base(node)
         {
         }
@@ -28,7 +27,7 @@ namespace GraphEngine
 
         public Linq.ElementInit LinqElementInit => Linq.Expression.ElementInit(this.AddMethod.ReflectionMethod, this.Arguments.LinqExpressions());
 
-        internal static ElementInit Parse(INode node)
+        internal static ElementInit Parse(NodeWithGraph node)
         {
             if (node is null)
             {

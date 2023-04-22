@@ -4,14 +4,13 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public abstract class NewArray : Expression
     {
         [DebuggerStepThrough]
-        internal NewArray(INode node)
+        internal NewArray(NodeWithGraph node)
             : base(node)
         {
         }

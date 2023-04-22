@@ -4,13 +4,12 @@ namespace GraphEngine
 {
     using System;
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class PropertyOrField : MemberAccess
     {
         [DebuggerStepThrough]
-        internal PropertyOrField(INode node)
+        internal PropertyOrField(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.PropertyOrField;

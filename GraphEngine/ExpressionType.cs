@@ -10,7 +10,7 @@ namespace GraphEngine
     public class ExpressionType : Node
     {
         [DebuggerStepThrough]
-        public ExpressionType(INode node)
+        public ExpressionType(NodeWithGraph node)
             : base(node)
         {
         }
@@ -82,8 +82,8 @@ namespace GraphEngine
                 var unknown => throw new InvalidOperationException($"Unknown expression type node {unknown}"),
             };
 
-        internal static ExpressionType Create(Linq.ExpressionType expressionType) =>
-            Parse(
+        internal static ExpressionType Create(Linq.ExpressionType expressionType, IGraph graph) =>
+            Parse(new NodeWithGraph(
                 expressionType switch
                 {
                     Linq.ExpressionType.Add => Vocabulary.ExpressionTypes.Add,
@@ -148,9 +148,9 @@ namespace GraphEngine
                     Linq.ExpressionType.Unbox => Vocabulary.ExpressionTypes.Unbox,
 
                     var unknown => throw new InvalidOperationException($"Uknown expression type {unknown}")
-                });
+                }, graph));
 
-        internal static ExpressionType Parse(INode node) =>
+        internal static ExpressionType Parse(NodeWithGraph node) =>
             new ExpressionType(node);
     }
 }

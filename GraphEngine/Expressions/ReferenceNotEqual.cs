@@ -3,13 +3,12 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class ReferenceNotEqual : Binary
     {
         [DebuggerStepThrough]
-        internal ReferenceNotEqual(INode node)
+        internal ReferenceNotEqual(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.ReferenceNotEqual;

@@ -12,7 +12,7 @@ namespace GraphEngine.Tests
         {
             using var g = new GraphEngine.Graph();
             g.LoadFromString(rdf);
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 

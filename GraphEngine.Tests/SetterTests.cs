@@ -37,7 +37,7 @@ namespace GraphEngine.Tests
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var aa = new Collection<Expression>(s, Vocabulary.ArrayIndexIndexes, Expression.Parse);
             foreach (Parameter index in aa)
@@ -45,10 +45,10 @@ namespace GraphEngine.Tests
                 Console.WriteLine(index.Type.Name);
             }
 
-            var item = new Parameter(s.Graph.CreateBlankNode());
-            var type = new GraphEngine.Type(s.Graph.CreateBlankNode());
+            var item = new Parameter(s.Graph.CreateBlankNode().In(g));
+            var type = new GraphEngine.Type(s.Graph.CreateBlankNode().In(g));
             type.Name = "X";
-            var typeA = new GraphEngine.Type(s.Graph.CreateBlankNode());
+            var typeA = new GraphEngine.Type(s.Graph.CreateBlankNode().In(g));
             typeA.Name = "Y";
             type.Arguments.Add(typeA);
             item.Type = type;

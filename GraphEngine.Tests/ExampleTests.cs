@@ -42,7 +42,7 @@ namespace GraphEngine.Tests
 
         private static void NewMethod(IGraph g)
         {
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var expression = Expression.Parse(s).LinqExpression;
             Console.WriteLine(expression.GetDebugView());

@@ -2,11 +2,9 @@
 
 namespace GraphEngine
 {
-    using VDS.RDF;
-
     public class Variable : Parameter
     {
-        public Variable(INode node)
+        public Variable(NodeWithGraph node)
             : base(node)
         {
         }

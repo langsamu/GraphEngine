@@ -8,12 +8,12 @@ namespace GraphEngine
     using System.Linq;
     using VDS.RDF;
 
-    public class Collection : ICollection<INode>
+    public class Collection : ICollection<NodeWithGraph>
     {
-        private readonly INode subject;
+        private readonly NodeWithGraph subject;
         private readonly INode predicate;
 
-        public Collection(INode subject, INode predicate)
+        public Collection(NodeWithGraph subject, INode predicate)
         {
             this.subject = subject;
             this.predicate = predicate;
@@ -34,20 +34,20 @@ namespace GraphEngine
 
         public bool IsReadOnly => false;
 
-        protected IEnumerable<INode> X
+        protected IEnumerable<NodeWithGraph> X
         {
             get
             {
                 if (!this.IsValid(out var listRoot))
                 {
-                    return Enumerable.Empty<INode>();
+                    return Enumerable.Empty<NodeWithGraph>();
                 }
 
-                return this.subject.Graph.GetListItems(listRoot);
+                return this.subject.Graph.GetListItems(listRoot).Select(n => n.In(this.subject.Graph));
             }
         }
 
-        public void Add(INode item)
+        public void Add(NodeWithGraph item)
         {
             if (!this.IsValid(out var listRoot))
             {
@@ -69,7 +69,7 @@ namespace GraphEngine
             this.subject.Graph.Retract(this.subject, this.predicate, listRoot);
         }
 
-        public bool Contains(INode item)
+        public bool Contains(NodeWithGraph item)
         {
             if (!this.IsValid(out var listRoot))
             {
@@ -79,7 +79,7 @@ namespace GraphEngine
             return this.subject.Graph.GetListItems(listRoot).Contains(item);
         }
 
-        public void CopyTo(INode[] array, int arrayIndex)
+        public void CopyTo(NodeWithGraph[] array, int arrayIndex)
         {
             if (!this.IsValid(out var listRoot))
             {
@@ -89,12 +89,12 @@ namespace GraphEngine
             this.subject.Graph.GetListItems(listRoot).ToList().CopyTo(array, arrayIndex);
         }
 
-        IEnumerator<INode> IEnumerable<INode>.GetEnumerator() => this.X.GetEnumerator();
+        IEnumerator<NodeWithGraph> IEnumerable<NodeWithGraph>.GetEnumerator() => this.X.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
             ((IEnumerable<INode>)this).GetEnumerator();
 
-        public bool Remove(INode item)
+        public bool Remove(NodeWithGraph item)
         {
             if (!this.IsValid(out var listRoot))
             {
@@ -108,7 +108,7 @@ namespace GraphEngine
             return contains;
         }
 
-        private bool IsValid(out INode? listRoot)
+        private bool IsValid(out NodeWithGraph? listRoot)
         {
             listRoot = this.predicate.ObjectOf(this.subject);
 

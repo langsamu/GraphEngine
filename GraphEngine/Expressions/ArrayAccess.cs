@@ -4,14 +4,13 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class ArrayAccess : Expression
     {
         [DebuggerStepThrough]
-        internal ArrayAccess(INode node)
+        internal ArrayAccess(NodeWithGraph node)
             : base(node)
         {
         }

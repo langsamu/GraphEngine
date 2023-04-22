@@ -3,13 +3,12 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class IfThenElse : Condition
     {
         [DebuggerStepThrough]
-        internal IfThenElse(INode node)
+        internal IfThenElse(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.IfThenElse;

@@ -3,13 +3,12 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class Goto : BaseGoto
     {
         [DebuggerStepThrough]
-        internal Goto(INode node) : base(node) {
+        internal Goto(NodeWithGraph node) : base(node) {
             this.RdfType = Vocabulary.Goto;
         }
 
@@ -19,7 +18,7 @@ namespace GraphEngine
     public class Return : BaseGoto
     {
         [DebuggerStepThrough]
-        internal Return(INode node) : base(node) {
+        internal Return(NodeWithGraph node) : base(node) {
             this.RdfType = Vocabulary.Return;
         }
 
@@ -29,7 +28,7 @@ namespace GraphEngine
     public class Break : BaseGoto
     {
         [DebuggerStepThrough]
-        internal Break(INode node) : base(node) {
+        internal Break(NodeWithGraph node) : base(node) {
             this.RdfType = Vocabulary.Break;
         }
 
@@ -39,7 +38,7 @@ namespace GraphEngine
     public class Continue : BaseGoto
     {
         [DebuggerStepThrough]
-        internal Continue(INode node) : base(node) {
+        internal Continue(NodeWithGraph node) : base(node) {
             this.RdfType = Vocabulary.Continue;
         }
 

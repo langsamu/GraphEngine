@@ -5,14 +5,13 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Property : MemberAccess
     {
         [DebuggerStepThrough]
-        internal Property(INode node)
+        internal Property(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.Property;

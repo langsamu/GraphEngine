@@ -4,14 +4,13 @@ namespace GraphEngine
 {
     using System.Collections.Generic;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class ArrayIndex : Expression
     {
         [DebuggerStepThrough]
-        internal ArrayIndex(INode node)
+        internal ArrayIndex(NodeWithGraph node)
             : base(node)
         {
         }

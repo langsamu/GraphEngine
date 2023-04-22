@@ -6,13 +6,12 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
     using static Vocabulary;
 
     public class Type : Node
     {
         [DebuggerStepThrough]
-        public Type(INode node)
+        public Type(NodeWithGraph node)
             : base(node)
         {
         }
@@ -41,7 +40,7 @@ namespace GraphEngine
             }
         }
 
-        internal static Type Parse(INode node)
+        internal static Type Parse(NodeWithGraph node)
         {
             if (node is null)
             {

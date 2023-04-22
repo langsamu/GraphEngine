@@ -10,7 +10,7 @@ namespace GraphEngine
     public class ArgumentInfo : Node
     {
         [DebuggerStepThrough]
-        public ArgumentInfo(INode node)
+        public ArgumentInfo(NodeWithGraph node)
             : base(node)
         {
         }
@@ -18,7 +18,7 @@ namespace GraphEngine
         internal CSharpArgumentInfo Info =>
             CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null);
 
-        internal static ArgumentInfo Parse(INode node)
+        internal static ArgumentInfo Parse(NodeWithGraph node)
         {
             if (node is null)
             {
