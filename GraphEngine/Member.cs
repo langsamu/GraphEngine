@@ -6,13 +6,12 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using VDS.RDF;
     using static Vocabulary;
 
     public class Member : Node
     {
         [DebuggerStepThrough]
-        internal Member(INode node)
+        internal Member(NodeWithGraph node)
             : base(node)
         {
         }
@@ -33,7 +32,7 @@ namespace GraphEngine
 
         public MemberInfo ReflectionMember => this.Type.SystemType.GetMember(this.Name).Single();
 
-        internal static Member Parse(INode node)
+        internal static Member Parse(NodeWithGraph node)
         {
             if (node is null)
             {

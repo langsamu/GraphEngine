@@ -3,14 +3,13 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Default : Expression
     {
         [DebuggerStepThrough]
-        internal Default(INode node)
+        internal Default(NodeWithGraph node)
             : base(node)
         {
         }

@@ -10,7 +10,7 @@ namespace GraphEngine
     public abstract partial class Expression : Node
     {
         [DebuggerStepThrough]
-        protected Expression(INode node)
+        protected Expression(NodeWithGraph node)
             : base(node)
         {
         }
@@ -18,7 +18,7 @@ namespace GraphEngine
         public abstract Linq.Expression LinqExpression { get; }
 
         // TODO: Handle non-expressions, e.g. uri node = System.Uri, blank node = new object()
-        public static Expression Parse(INode node)
+        public static Expression Parse(NodeWithGraph node)
         {
             if (node is null)
             {

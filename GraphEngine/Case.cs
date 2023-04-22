@@ -12,7 +12,7 @@ namespace GraphEngine
     public class Case : Node
     {
         [DebuggerStepThrough]
-        internal Case(INode node)
+        internal Case(NodeWithGraph node)
             : base(node)
         {
         }
@@ -28,7 +28,7 @@ namespace GraphEngine
 
         public Linq.SwitchCase LinqSwitchCase => Linq.Expression.SwitchCase(this.Body.LinqExpression, this.TestValues.LinqExpressions());
 
-        internal static Case Parse(INode node)
+        internal static Case Parse(NodeWithGraph node)
         {
             if (node is null)
             {

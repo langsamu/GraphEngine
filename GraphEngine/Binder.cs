@@ -11,7 +11,7 @@ namespace GraphEngine
     public abstract class Binder : Node
     {
         [DebuggerStepThrough]
-        public Binder(INode node)
+        public Binder(NodeWithGraph node)
             : base(node)
         {
         }
@@ -34,7 +34,7 @@ namespace GraphEngine
 
         internal abstract System.Runtime.CompilerServices.CallSiteBinder SystemBinder { get; }
 
-        internal static Binder Parse(INode node)
+        internal static Binder Parse(NodeWithGraph node)
         {
             if (node is null)
             {

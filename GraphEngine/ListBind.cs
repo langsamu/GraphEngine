@@ -5,14 +5,13 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class ListBind : BaseBind
     {
         [DebuggerStepThrough]
-        internal ListBind(INode node)
+        internal ListBind(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.ListBind;

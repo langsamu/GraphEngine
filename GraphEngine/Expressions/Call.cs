@@ -5,14 +5,13 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Call : Expression
     {
         [DebuggerStepThrough]
-        internal Call(INode node)
+        internal Call(NodeWithGraph node)
             : base(node)
         {
         }

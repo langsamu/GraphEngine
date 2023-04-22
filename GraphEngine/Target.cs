@@ -14,7 +14,7 @@ namespace GraphEngine
         private static readonly IDictionary<INode, Linq.LabelTarget> Cache = new Dictionary<INode, Linq.LabelTarget>();
 
         [DebuggerStepThrough]
-        internal Target(INode node)
+        internal Target(NodeWithGraph node)
             : base(node)
         {
         }
@@ -66,7 +66,7 @@ namespace GraphEngine
             }
         }
 
-        internal static Target Parse(INode node)
+        internal static Target Parse(NodeWithGraph node)
         {
             if (node is null)
             {

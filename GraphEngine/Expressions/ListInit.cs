@@ -5,7 +5,6 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
@@ -13,7 +12,7 @@ namespace GraphEngine
     public class ListInit : Expression
     {
         [DebuggerStepThrough]
-        internal ListInit(INode node)
+        internal ListInit(NodeWithGraph node)
             : base(node)
         {
         }

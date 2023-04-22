@@ -3,14 +3,13 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Bind : BaseBind
     {
         [DebuggerStepThrough]
-        internal Bind(INode node)
+        internal Bind(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.Bind;

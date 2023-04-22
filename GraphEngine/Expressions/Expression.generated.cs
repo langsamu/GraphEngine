@@ -7,7 +7,7 @@ namespace GraphEngine
 
     public abstract partial class Expression
     {
-        private static Expression ParseResource(INode node)
+        private static Expression ParseResource(NodeWithGraph node)
         {
             var type = Vocabulary.RdfType.ObjectOf(node);
             switch (type)

@@ -22,7 +22,7 @@ namespace GraphEngine
             using var schemaClean = new NonIndexedGraph();
             schemaClean.Assert(
                 schemaFull
-                    .GetTriplesWithPredicate(UriFactory.Create(OntologyHelper.PropertyDomain))
+                    .GetTriplesWithPredicate(dotNetRDF.UriFactory.Create(OntologyHelper.PropertyDomain))
                     .Where(t => !ExcludedClasses.Contains(t.Object)));
 
             Reasoner.Initialise(schemaClean);

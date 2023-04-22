@@ -63,7 +63,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 

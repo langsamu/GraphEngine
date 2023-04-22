@@ -8,13 +8,13 @@ namespace GraphEngine
     using System.Linq;
     using VDS.RDF;
 
-    public abstract partial class Node : WrapperNode
+    public abstract partial class Node : NodeWithGraph
     {
         [DebuggerStepThrough]
-        protected Node(INode node)
-            : base(node)
-        {
-        }
+        protected Node(NodeWithGraph node)
+            : base(node, node?.Graph ?? throw new ArgumentNullException(nameof(node)))
+            {
+            }
 
         public INode? RdfType
         {
@@ -23,7 +23,7 @@ namespace GraphEngine
             set => this.SetOptional(Vocabulary.RdfType, value);
         }
 
-        protected static int AsInt(INode node)
+        protected static int AsInt(NodeWithGraph node)
         {
             if (node is null)
             {
@@ -43,7 +43,7 @@ namespace GraphEngine
             return i;
         }
 
-        protected static object AsObject(INode node)
+        protected static object AsObject(NodeWithGraph node)
         {
             if (node is null)
             {
@@ -53,7 +53,7 @@ namespace GraphEngine
             return node.AsObject();
         }
 
-        protected static string AsString(INode node)
+        protected static string AsString(NodeWithGraph node)
         {
             if (node is null)
             {
@@ -68,7 +68,7 @@ namespace GraphEngine
             return literalNode.Value;
         }
 
-        protected static Guid AsGuid(INode node)
+        protected static Guid AsGuid(NodeWithGraph node)
         {
             if (node is null)
             {
@@ -102,7 +102,7 @@ namespace GraphEngine
             return g;
         }
 
-        protected static bool AsBool(INode node)
+        protected static bool AsBool(NodeWithGraph node)
         {
             if (node is null)
             {
@@ -122,8 +122,8 @@ namespace GraphEngine
             return b;
         }
 
-        protected ICollection<T> Collection<T>(INode predicate, Func<INode, T> parser)
-            where T : class, INode =>
+        protected ICollection<T> Collection<T>(INode predicate, Func<NodeWithGraph, T> parser)
+            where T : NodeWithGraph =>
             new Collection<T>(this, predicate, parser);
 
         protected void SetRequired(INode predicate, object @object) =>
@@ -138,17 +138,17 @@ namespace GraphEngine
                     this,
                     predicate).ToList());
 
-            if (@object is object)
+            if (@object is not null)
             {
                 this.Graph.Assert(this, predicate, @object.AsNode(this.Graph));
             }
         }
 
-        protected T? GetOptional<T>(INode predicate, Func<INode, T> parser)
+        protected T? GetOptional<T>(INode predicate, Func<NodeWithGraph, T> parser)
             where T : class =>
             predicate.ObjectsOf(this).Select(parser).SingleOrDefault();
 
-        protected T? GetOptionalS<T>(INode predicate, Func<INode, T> parser)
+        protected T? GetOptionalS<T>(INode predicate, Func<NodeWithGraph, T> parser)
             where T : struct
         {
             var enumerable = predicate.ObjectsOf(this).Select(parser);
@@ -161,12 +161,12 @@ namespace GraphEngine
             return enumerable.Single();
         }
 
-        protected T GetRequired<T>(INode predicate, Func<INode, T> parser)
+        protected T GetRequired<T>(INode predicate, Func<NodeWithGraph, T> parser)
             where T : class =>
             this.GetOptional<T>(predicate, parser)
             ?? throw new Exception($"Single {predicate} not found on {this}");
 
-        protected T GetRequiredS<T>(INode predicate, Func<INode, T> parser)
+        protected T GetRequiredS<T>(INode predicate, Func<NodeWithGraph, T> parser)
             where T : struct =>
             this.GetOptionalS<T>(predicate, parser)
             ?? throw new Exception($"Single {predicate} not found on {this}");

@@ -4,14 +4,13 @@ namespace GraphEngine
 {
     using System;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Catch : Node
     {
         [DebuggerStepThrough]
-        internal Catch(INode node)
+        internal Catch(NodeWithGraph node)
             : base(node)
         {
         }
@@ -53,7 +52,7 @@ namespace GraphEngine
             }
         }
 
-        internal static Catch Parse(INode node)
+        internal static Catch Parse(NodeWithGraph node)
         {
             if (node is null)
             {

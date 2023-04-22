@@ -5,12 +5,11 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using Microsoft.CSharp.RuntimeBinder;
-    using VDS.RDF;
 
     public class InvokeMember : Binder
     {
         [DebuggerStepThrough]
-        public InvokeMember(INode node)
+        public InvokeMember(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.InvokeMember;

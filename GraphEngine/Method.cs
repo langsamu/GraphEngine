@@ -14,7 +14,7 @@ namespace GraphEngine
     public class Method : Member
     {
         [DebuggerStepThrough]
-        internal Method(INode node)
+        internal Method(NodeWithGraph node)
             : base(node)
         {
         }
@@ -37,7 +37,7 @@ namespace GraphEngine
             }
         }
 
-        internal static new Method Parse(INode node)
+        internal static new Method Parse(NodeWithGraph node)
         {
             if (node is null)
             {

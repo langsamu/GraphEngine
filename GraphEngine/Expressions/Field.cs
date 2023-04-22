@@ -3,13 +3,12 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class Field : MemberAccess
     {
         [DebuggerStepThrough]
-        internal Field(INode node)
+        internal Field(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.Field;

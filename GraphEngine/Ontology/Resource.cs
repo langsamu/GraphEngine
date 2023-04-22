@@ -8,11 +8,11 @@ namespace GraphEngine.Ontology
     using System.Linq;
     using VDS.RDF;
 
-    public class Resource : WrapperNode
+    public class Resource : NodeWithGraph
     {
         [DebuggerStepThrough]
-        public Resource(INode node)
-            : base(node)
+        public Resource(NodeWithGraph node)
+            : base(node, node.Graph)
         {
         }
 

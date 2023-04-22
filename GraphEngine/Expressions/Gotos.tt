@@ -14,7 +14,6 @@ private void GenerateNamespace()
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 <#+
     GenerateClasses();
@@ -28,7 +27,7 @@ private void GenerateClasses()
     public class <#= item #> : BaseGoto
     {
         [DebuggerStepThrough]
-        internal <#= item #>(INode node) : base(node) {
+        internal <#= item #>(NodeWithGraph node) : base(node) {
             this.RdfType = Vocabulary.<#= item #>;
         }
 

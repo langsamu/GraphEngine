@@ -5,12 +5,11 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using Microsoft.CSharp.RuntimeBinder;
-    using VDS.RDF;
 
     public class BinaryOperation : Binder
     {
         [DebuggerStepThrough]
-        public BinaryOperation(INode node)
+        public BinaryOperation(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.BinaryOperation;

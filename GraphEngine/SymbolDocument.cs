@@ -4,14 +4,13 @@ namespace GraphEngine
 {
     using System;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class SymbolDocument : Node
     {
         [DebuggerStepThrough]
-        internal SymbolDocument(INode node)
+        internal SymbolDocument(NodeWithGraph node)
             : base(node)
         {
         }

@@ -3,14 +3,13 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     internal class Loop : Expression
     {
         [DebuggerStepThrough]
-        public Loop(INode node)
+        public Loop(NodeWithGraph node)
             : base(node)
         {
         }
