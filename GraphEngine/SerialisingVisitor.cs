@@ -14,20 +14,20 @@ namespace GraphEngine
 
     public class SerialisingVisitor : Linq.ExpressionVisitor
     {
-        private readonly IDictionary<object, INode> mapping = new Dictionary<object, INode>();
-        private readonly INode node;
-        private readonly Stack<INode> path = new Stack<INode>();
+        private readonly IDictionary<object, NodeWithGraph> mapping = new Dictionary<object, NodeWithGraph>();
+        private readonly NodeWithGraph node;
+        private readonly Stack<NodeWithGraph> path = new Stack<NodeWithGraph>();
         private bool initialised;
 
-        public SerialisingVisitor(INode node)
+        public SerialisingVisitor(NodeWithGraph node)
           : base()
         {
             this.node = node ?? throw new ArgumentNullException(nameof(node));
         }
 
-        private INode Current => this.path.Peek();
+        private NodeWithGraph Current => this.path.Peek();
 
-        private INode this[object index]
+        private NodeWithGraph this[object index]
         {
             get
             {
@@ -41,7 +41,7 @@ namespace GraphEngine
 
                 if (!this.mapping.TryGetValue(index, out var current))
                 {
-                    current = this.mapping[index] = this.node.Graph.CreateBlankNode();
+                    current = this.mapping[index] = this.node.Graph.CreateBlankNode().In(this.node.Graph);
                 }
 
                 return current;
@@ -604,7 +604,7 @@ namespace GraphEngine
         private Expression VisitCacheParse(Linq.Expression node) =>
             Expression.Parse(this.VisitCache(node));
 
-        private INode VisitCache(Linq.Expression node) =>
+        private NodeWithGraph VisitCache(Linq.Expression node) =>
             this[this.Visit(node)];
 
         private ArgumentInfo VisitArgumentInfo(string argument)
@@ -661,7 +661,7 @@ namespace GraphEngine
         {
             using (this.Wrap(expressionType))
             {
-                return ExpressionType.Create(expressionType);
+                return ExpressionType.Create(expressionType, this.node.Graph);
             }
         }
 
@@ -737,7 +737,7 @@ namespace GraphEngine
         {
             private readonly SerialisingVisitor visitor;
 
-            internal Wrapper(SerialisingVisitor visitor, INode node)
+            internal Wrapper(SerialisingVisitor visitor, NodeWithGraph node)
             {
                 this.visitor = visitor;
                 this.visitor.path.Push(node);

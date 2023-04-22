@@ -14,7 +14,7 @@ namespace GraphEngine
         private static readonly IDictionary<INode, Linq.ParameterExpression> Cache = new Dictionary<INode, Linq.ParameterExpression>();
 
         [DebuggerStepThrough]
-        public Parameter(INode node)
+        public Parameter(NodeWithGraph node)
             : base(node)
         {
         }
@@ -48,7 +48,7 @@ namespace GraphEngine
             }
         }
 
-        internal static new Parameter Parse(INode node)
+        internal static new Parameter Parse(NodeWithGraph node)
         {
             if (node is null)
             {

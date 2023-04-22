@@ -11,7 +11,7 @@ namespace GraphEngine
     public class Unary : Expression
     {
         [DebuggerStepThrough]
-        public Unary(INode node)
+        public Unary(NodeWithGraph node)
             : base(node)
         {
         }
@@ -51,7 +51,7 @@ namespace GraphEngine
                 this.Type?.SystemType,
                 this.Method?.ReflectionMethod);
 
-        public static Unary Create(INode node, Linq.ExpressionType type)
+        public static Unary Create(NodeWithGraph node, Linq.ExpressionType type)
         {
             switch (type)
             {
@@ -76,7 +76,7 @@ namespace GraphEngine
                 case Linq.ExpressionType.Unbox:
                     return new Unary(node)
                     {
-                        ExpressionType = ExpressionType.Create(type),
+                        ExpressionType = ExpressionType.Create(type, node.Graph),
                     };
 
                 default:

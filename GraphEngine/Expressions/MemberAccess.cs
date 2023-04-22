@@ -3,13 +3,12 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
 
     public abstract class MemberAccess : Expression
     {
         [DebuggerStepThrough]
-        internal MemberAccess(INode node)
+        internal MemberAccess(NodeWithGraph node)
             : base(node)
         {
         }

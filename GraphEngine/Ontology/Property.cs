@@ -5,12 +5,11 @@ namespace GraphEngine.Ontology
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
 
     public class Property : Resource
     {
         [DebuggerStepThrough]
-        public Property(INode node)
+        public Property(NodeWithGraph node)
             : base(node)
         {
         }

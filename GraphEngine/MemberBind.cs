@@ -5,7 +5,6 @@ namespace GraphEngine
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
@@ -13,7 +12,7 @@ namespace GraphEngine
     public class MemberBind : BaseBind
     {
         [DebuggerStepThrough]
-        internal MemberBind(INode node)
+        internal MemberBind(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.MemberBind;

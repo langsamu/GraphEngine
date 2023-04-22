@@ -959,7 +959,7 @@ namespace GraphEngine.Tests
         private static void ShouldRoundrip(LinqExpression original)
         {
             using var g = new GraphEngine.Graph();
-            var s = g.CreateBlankNode();
+            var s = g.CreateBlankNode().In(g);
 
             new SerialisingVisitor(s).Visit(original);
             new CompressingTurtleWriter(WriterCompressionLevel.Medium).Save(g, Console.Out, true);

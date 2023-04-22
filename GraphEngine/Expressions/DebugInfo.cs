@@ -3,14 +3,13 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class DebugInfo : Expression
     {
         [DebuggerStepThrough]
-        internal DebugInfo(INode node)
+        internal DebugInfo(NodeWithGraph node)
             : base(node)
         {
         }

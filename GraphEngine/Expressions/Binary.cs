@@ -11,7 +11,7 @@ namespace GraphEngine
     public class Binary : Expression
     {
         [DebuggerStepThrough]
-        public Binary(INode node)
+        public Binary(NodeWithGraph node)
             : base(node)
         {
         }
@@ -67,7 +67,7 @@ namespace GraphEngine
                 this.Method?.ReflectionMethod,
                 this.Conversion?.LinqLambda);
 
-        public static Binary Create(INode node, Linq.ExpressionType type)
+        public static Binary Create(NodeWithGraph node, Linq.ExpressionType type)
         {
             switch (type)
             {
@@ -112,7 +112,7 @@ namespace GraphEngine
                 case Linq.ExpressionType.SubtractChecked:
                     return new Binary(node)
                     {
-                        ExpressionType = ExpressionType.Create(type),
+                        ExpressionType = ExpressionType.Create(type, node.Graph),
                     };
 
                 default:

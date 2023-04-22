@@ -3,6 +3,7 @@
 namespace GraphEngine.Tests
 {
     using System;
+    using GraphEngine;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VDS.RDF;
     using Linq = System.Linq.Expressions;
@@ -40,7 +41,7 @@ namespace GraphEngine.Tests
 .
 ");
 
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var result = Expression.Parse(s).LinqExpression;
 
@@ -68,7 +69,7 @@ namespace GraphEngine.Tests
 .
 ");
 
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
             var result = (Linq.LambdaExpression)Expression.Parse(s).LinqExpression;
 
             var a = result.Compile().DynamicInvoke();
@@ -95,7 +96,7 @@ namespace GraphEngine.Tests
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var result = Expression.Parse(s).LinqExpression;
 
@@ -116,7 +117,7 @@ namespace GraphEngine.Tests
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var result = Expression.Parse(s).LinqExpression;
 
@@ -144,7 +145,7 @@ namespace GraphEngine.Tests
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var result = Expression.Parse(s).LinqExpression;
 
@@ -244,7 +245,7 @@ _:one
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -268,7 +269,7 @@ _:one
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -301,7 +302,7 @@ _:one
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -331,7 +332,7 @@ _:one
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -359,7 +360,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -387,7 +388,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -424,7 +425,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -464,7 +465,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -510,7 +511,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -559,7 +560,7 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -596,7 +597,7 @@ _:zero
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -618,7 +619,7 @@ _:zero
     a :Empty ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -655,7 +656,7 @@ _:int
     :typeName ""System.Int32"" ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -690,7 +691,7 @@ _:int
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -730,7 +731,7 @@ _:int
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -761,7 +762,7 @@ _:param
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -792,7 +793,7 @@ _:param
 
 _:C1 :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -823,7 +824,7 @@ _:param
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -855,7 +856,7 @@ _:param
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var actual = Expression.Parse(s).LinqExpression;
 
@@ -888,7 +889,7 @@ _:g
 .
 ");
 
-            var s = g.GetUriNode(":s");
+            var s = g.GetUriNode(":s").In(g);
 
             var parsed = Expression.Parse(s).LinqExpression;
             var lambdaExpression = (Linq.LambdaExpression)parsed;
@@ -905,7 +906,7 @@ _:g
             using var g = new GraphEngine.Graph();
             g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequenceUntyped.ttl, GraphEngine.Tests");
 
-            var s = g.GetUriNode(new Uri("http://example.com/s"));
+            var s = g.GetUriNode(new Uri("http://example.com/s")).In(g);
 
             var expression = Expression.Parse(s).LinqExpression;
             Console.WriteLine(expression.GetDebugView());

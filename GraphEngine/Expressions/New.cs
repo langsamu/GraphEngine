@@ -15,7 +15,7 @@ namespace GraphEngine
     public class New : Expression
     {
         [DebuggerStepThrough]
-        internal New(INode node)
+        internal New(NodeWithGraph node)
             : base(node)
         {
         }
@@ -43,7 +43,7 @@ namespace GraphEngine
             }
         }
 
-        internal static new New Parse(INode node)
+        internal static new New Parse(NodeWithGraph node)
         {
             if (node is null)
             {

@@ -4,14 +4,13 @@ namespace GraphEngine
 {
     using System;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class TypeBinary : Expression
     {
         [DebuggerStepThrough]
-        public TypeBinary(INode node)
+        public TypeBinary(NodeWithGraph node)
             : base(node)
         {
         }

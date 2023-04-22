@@ -3,13 +3,12 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class NewArrayInit : NewArray
     {
         [DebuggerStepThrough]
-        internal NewArrayInit(INode node)
+        internal NewArrayInit(NodeWithGraph node)
             : base(node)
         {
             this.RdfType = Vocabulary.NewArrayInit;

@@ -11,7 +11,7 @@ namespace GraphEngine
     public abstract class BaseBind : Node
     {
         [DebuggerStepThrough]
-        internal BaseBind(INode node)
+        internal BaseBind(NodeWithGraph node)
             : base(node)
         {
         }
@@ -25,7 +25,7 @@ namespace GraphEngine
 
         public abstract Linq.MemberBinding LinqMemberBinding { get; }
 
-        public static BaseBind Create(INode node, Linq.MemberBindingType kind)
+        public static BaseBind Create(NodeWithGraph node, Linq.MemberBindingType kind)
         {
             return kind switch
             {
@@ -37,7 +37,7 @@ namespace GraphEngine
             };
         }
 
-        internal static BaseBind Parse(INode node)
+        internal static BaseBind Parse(NodeWithGraph node)
         {
             if (node is null)
             {

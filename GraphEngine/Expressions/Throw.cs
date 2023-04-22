@@ -3,14 +3,13 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public class Throw : Expression
     {
         [DebuggerStepThrough]
-        public Throw(INode node)
+        public Throw(NodeWithGraph node)
             : base(node)
         {
         }

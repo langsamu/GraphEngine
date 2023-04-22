@@ -3,14 +3,13 @@
 namespace GraphEngine
 {
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
     public abstract class BaseGoto : Expression
     {
         [DebuggerStepThrough]
-        public BaseGoto(INode node)
+        public BaseGoto(NodeWithGraph node)
             : base(node)
         {
         }
@@ -40,7 +39,7 @@ namespace GraphEngine
 
         protected abstract Linq.GotoExpressionKind Kind { get; }
 
-        public static BaseGoto Create(INode node, Linq.GotoExpressionKind kind)
+        public static BaseGoto Create(NodeWithGraph node, Linq.GotoExpressionKind kind)
         {
             return kind switch
             {

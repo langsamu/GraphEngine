@@ -9,11 +9,11 @@ namespace GraphEngine
     using VDS.RDF;
 
     public class Collection<T> : Collection, ICollection<T>
-        where T : class, INode
+        where T : NodeWithGraph
     {
-        private readonly Func<INode, T> parser;
+        private readonly Func<NodeWithGraph, T> parser;
 
-        public Collection(INode subject, INode predicate, Func<INode, T> parser)
+        public Collection(NodeWithGraph subject, INode predicate, Func<NodeWithGraph, T> parser)
             : base(subject, predicate)
         {
             this.parser = parser;
