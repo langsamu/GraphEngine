@@ -9,8 +9,6 @@ namespace GraphEngine
         [DebuggerStepThrough]
         public Rethrow(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.Rethrow;
-        }
+            => this.RdfType = Vocabulary.Rethrow;
     }
 }

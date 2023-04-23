@@ -10,9 +10,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal IfThenElse(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.IfThenElse;
-        }
+            => this.RdfType = Vocabulary.IfThenElse;
 
         public override Linq.Expression LinqExpression => Linq.Expression.IfThenElse(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression);
     }

@@ -7,55 +7,51 @@ namespace GraphEngine
 
     public abstract partial class Expression
     {
-        private static Expression ParseResource(NodeWithGraph node)
+        private static Expression ParseResource(NodeWithGraph node) => Vocabulary.RdfType.ObjectOf(node) switch
         {
-            var type = Vocabulary.RdfType.ObjectOf(node);
-            switch (type)
-            {
-                case INode t when t.Equals(Vocabulary.ArrayAccess): return new ArrayAccess(node);
-                case INode t when t.Equals(Vocabulary.ArrayIndex): return new ArrayIndex(node);
-                case INode t when t.Equals(Vocabulary.Block): return new Block(node);
-                case INode t when t.Equals(Vocabulary.Binary): return new Binary(node);
-                case INode t when t.Equals(Vocabulary.Break): return new Break(node);
-                case INode t when t.Equals(Vocabulary.Call): return new Call(node);
-                case INode t when t.Equals(Vocabulary.ClearDebugInfo): return new ClearDebugInfo(node);
-                case INode t when t.Equals(Vocabulary.Condition): return new Condition(node);
-                case INode t when t.Equals(Vocabulary.Constant): return new Constant(node);
-                case INode t when t.Equals(Vocabulary.Continue): return new Continue(node);
-                case INode t when t.Equals(Vocabulary.DebugInfo): return new DebugInfo(node);
-                case INode t when t.Equals(Vocabulary.Default): return new Default(node);
-                case INode t when t.Equals(Vocabulary.Dynamic): return new Dynamic(node);
-                case INode t when t.Equals(Vocabulary.Empty): return new Empty(node);
-                case INode t when t.Equals(Vocabulary.Field): return new Field(node);
-                case INode t when t.Equals(Vocabulary.Goto): return new Goto(node);
-                case INode t when t.Equals(Vocabulary.IfThen): return new IfThen(node);
-                case INode t when t.Equals(Vocabulary.IfThenElse): return new IfThenElse(node);
-                case INode t when t.Equals(Vocabulary.Invoke): return new Invoke(node);
-                case INode t when t.Equals(Vocabulary.Label): return new Label(node);
-                case INode t when t.Equals(Vocabulary.Lambda): return new Lambda(node);
-                case INode t when t.Equals(Vocabulary.ListInit): return new ListInit(node);
-                case INode t when t.Equals(Vocabulary.Loop): return new Loop(node);
-                case INode t when t.Equals(Vocabulary.MemberInit): return new MemberInit(node);
-                case INode t when t.Equals(Vocabulary.New): return new New(node);
-                case INode t when t.Equals(Vocabulary.NewArrayBounds): return new NewArrayBounds(node);
-                case INode t when t.Equals(Vocabulary.NewArrayInit): return new NewArrayInit(node);
-                case INode t when t.Equals(Vocabulary.Parameter): return new Parameter(node);
-                case INode t when t.Equals(Vocabulary.Property): return new Property(node);
-                case INode t when t.Equals(Vocabulary.PropertyOrField): return new PropertyOrField(node);
-                case INode t when t.Equals(Vocabulary.ReferenceEqual): return new ReferenceEqual(node);
-                case INode t when t.Equals(Vocabulary.ReferenceNotEqual): return new ReferenceNotEqual(node);
-                case INode t when t.Equals(Vocabulary.Rethrow): return new Rethrow(node);
-                case INode t when t.Equals(Vocabulary.Return): return new Return(node);
-                case INode t when t.Equals(Vocabulary.RuntimeVariables): return new RuntimeVariables(node);
-                case INode t when t.Equals(Vocabulary.Switch): return new Switch(node);
-                case INode t when t.Equals(Vocabulary.Throw): return new Throw(node);
-                case INode t when t.Equals(Vocabulary.Try): return new Try(node);
-                case INode t when t.Equals(Vocabulary.TypeBinary): return new TypeBinary(node);
-                case INode t when t.Equals(Vocabulary.Unary): return new Unary(node);
-                case INode t when t.Equals(Vocabulary.Variable): return new Variable(node);
+            INode t when t.Equals(Vocabulary.ArrayAccess) => new ArrayAccess(node),
+            INode t when t.Equals(Vocabulary.ArrayIndex) => new ArrayIndex(node),
+            INode t when t.Equals(Vocabulary.Block) => new Block(node),
+            INode t when t.Equals(Vocabulary.Binary) => new Binary(node),
+            INode t when t.Equals(Vocabulary.Break) => new Break(node),
+            INode t when t.Equals(Vocabulary.Call) => new Call(node),
+            INode t when t.Equals(Vocabulary.ClearDebugInfo) => new ClearDebugInfo(node),
+            INode t when t.Equals(Vocabulary.Condition) => new Condition(node),
+            INode t when t.Equals(Vocabulary.Constant) => new Constant(node),
+            INode t when t.Equals(Vocabulary.Continue) => new Continue(node),
+            INode t when t.Equals(Vocabulary.DebugInfo) => new DebugInfo(node),
+            INode t when t.Equals(Vocabulary.Default) => new Default(node),
+            INode t when t.Equals(Vocabulary.Dynamic) => new Dynamic(node),
+            INode t when t.Equals(Vocabulary.Empty) => new Empty(node),
+            INode t when t.Equals(Vocabulary.Field) => new Field(node),
+            INode t when t.Equals(Vocabulary.Goto) => new Goto(node),
+            INode t when t.Equals(Vocabulary.IfThen) => new IfThen(node),
+            INode t when t.Equals(Vocabulary.IfThenElse) => new IfThenElse(node),
+            INode t when t.Equals(Vocabulary.Invoke) => new Invoke(node),
+            INode t when t.Equals(Vocabulary.Label) => new Label(node),
+            INode t when t.Equals(Vocabulary.Lambda) => new Lambda(node),
+            INode t when t.Equals(Vocabulary.ListInit) => new ListInit(node),
+            INode t when t.Equals(Vocabulary.Loop) => new Loop(node),
+            INode t when t.Equals(Vocabulary.MemberInit) => new MemberInit(node),
+            INode t when t.Equals(Vocabulary.New) => new New(node),
+            INode t when t.Equals(Vocabulary.NewArrayBounds) => new NewArrayBounds(node),
+            INode t when t.Equals(Vocabulary.NewArrayInit) => new NewArrayInit(node),
+            INode t when t.Equals(Vocabulary.Parameter) => new Parameter(node),
+            INode t when t.Equals(Vocabulary.Property) => new Property(node),
+            INode t when t.Equals(Vocabulary.PropertyOrField) => new PropertyOrField(node),
+            INode t when t.Equals(Vocabulary.ReferenceEqual) => new ReferenceEqual(node),
+            INode t when t.Equals(Vocabulary.ReferenceNotEqual) => new ReferenceNotEqual(node),
+            INode t when t.Equals(Vocabulary.Rethrow) => new Rethrow(node),
+            INode t when t.Equals(Vocabulary.Return) => new Return(node),
+            INode t when t.Equals(Vocabulary.RuntimeVariables) => new RuntimeVariables(node),
+            INode t when t.Equals(Vocabulary.Switch) => new Switch(node),
+            INode t when t.Equals(Vocabulary.Throw) => new Throw(node),
+            INode t when t.Equals(Vocabulary.Try) => new Try(node),
+            INode t when t.Equals(Vocabulary.TypeBinary) => new TypeBinary(node),
+            INode t when t.Equals(Vocabulary.Unary) => new Unary(node),
+            INode t when t.Equals(Vocabulary.Variable) => new Variable(node),
 
-                default: throw new Exception($"unknown type {type} on node {node}");
-            }
-        }
+            _ => throw new Exception($"unknown type {Vocabulary.RdfType.ObjectOf(node)} on node {node}")
+        };
     }
 }

@@ -4,7 +4,6 @@ namespace GraphEngine
 {
     using System;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
@@ -44,44 +43,38 @@ namespace GraphEngine
             set => this.SetOptional(UnaryMethod, value);
         }
 
-        public override Linq.Expression LinqExpression =>
-            Linq.Expression.MakeUnary(
-                this.ExpressionType.LinqExpressionType,
-                this.Operand.LinqExpression,
-                this.Type?.SystemType,
-                this.Method?.ReflectionMethod);
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(
+            this.ExpressionType.LinqExpressionType,
+            this.Operand.LinqExpression,
+            this.Type?.SystemType,
+            this.Method?.ReflectionMethod);
 
-        public static Unary Create(NodeWithGraph node, Linq.ExpressionType type)
+        public static Unary Create(NodeWithGraph node, Linq.ExpressionType type) => type switch
         {
-            switch (type)
+            Linq.ExpressionType.ArrayLength or
+            Linq.ExpressionType.Convert or
+            Linq.ExpressionType.ConvertChecked or
+            Linq.ExpressionType.Decrement or
+            Linq.ExpressionType.Increment or
+            Linq.ExpressionType.IsFalse or
+            Linq.ExpressionType.IsTrue or
+            Linq.ExpressionType.Negate or
+            Linq.ExpressionType.NegateChecked or
+            Linq.ExpressionType.Not or
+            Linq.ExpressionType.OnesComplement or
+            Linq.ExpressionType.PostDecrementAssign or
+            Linq.ExpressionType.PostIncrementAssign or
+            Linq.ExpressionType.PreDecrementAssign or
+            Linq.ExpressionType.PreIncrementAssign or
+            Linq.ExpressionType.Quote or
+            Linq.ExpressionType.TypeAs or
+            Linq.ExpressionType.UnaryPlus or
+            Linq.ExpressionType.Unbox => new Unary(node)
             {
-                case Linq.ExpressionType.ArrayLength:
-                case Linq.ExpressionType.Convert:
-                case Linq.ExpressionType.ConvertChecked:
-                case Linq.ExpressionType.Decrement:
-                case Linq.ExpressionType.Increment:
-                case Linq.ExpressionType.IsFalse:
-                case Linq.ExpressionType.IsTrue:
-                case Linq.ExpressionType.Negate:
-                case Linq.ExpressionType.NegateChecked:
-                case Linq.ExpressionType.Not:
-                case Linq.ExpressionType.OnesComplement:
-                case Linq.ExpressionType.PostDecrementAssign:
-                case Linq.ExpressionType.PostIncrementAssign:
-                case Linq.ExpressionType.PreDecrementAssign:
-                case Linq.ExpressionType.PreIncrementAssign:
-                case Linq.ExpressionType.Quote:
-                case Linq.ExpressionType.TypeAs:
-                case Linq.ExpressionType.UnaryPlus:
-                case Linq.ExpressionType.Unbox:
-                    return new Unary(node)
-                    {
-                        ExpressionType = ExpressionType.Create(type, node.Graph),
-                    };
+                ExpressionType = ExpressionType.Create(type, node.Graph),
+            },
 
-                default:
-                    throw new Exception($"{type} is not unary");
-            }
-        }
+            _ => throw new Exception($"{type} is not unary"),
+        };
     }
 }

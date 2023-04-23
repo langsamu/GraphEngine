@@ -14,6 +14,6 @@ namespace GraphEngine.Ontology
         {
         }
 
-        public IEnumerable<Resource> SubClassOf => Vocabulary.SubClassOf.ObjectsOf(this).Select(o => new Class(o));
+        public IEnumerable<Resource> SubClassOf => from o in Vocabulary.SubClassOf.ObjectsOf(this) select new Class(o);
     }
 }

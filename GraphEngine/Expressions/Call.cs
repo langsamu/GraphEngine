@@ -48,34 +48,24 @@ namespace GraphEngine
 
         public ICollection<Type> TypeArguments => this.Collection(CallTypeArguments, Type.Parse);
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this switch
         {
-            get
-            {
-                if (this.Method is Method method)
-                {
-                    return Linq.Expression.Call(
-                       this.Instance?.LinqExpression,
-                       method.ReflectionMethod,
-                       this.Arguments.LinqExpressions());
-                }
-                else if (this.Type is Type type)
-                {
-                    return Linq.Expression.Call(
-                        type.SystemType,
-                        this.MethodName,
-                        this.TypeArguments.Select(typeArg => typeArg.SystemType).ToArray(),
-                        this.Arguments.LinqExpressions().ToArray());
-                }
-                else
-                {
-                    return Linq.Expression.Call(
-                        this.Instance?.LinqExpression,
-                        this.MethodName,
-                        this.TypeArguments.Select(typeArg => typeArg.SystemType).ToArray(),
-                        this.Arguments.LinqExpressions().ToArray());
-                }
-            }
-        }
+            Call { Method.ReflectionMethod: not null } => Linq.Expression.Call(
+               this.Instance?.LinqExpression,
+               this.Method.ReflectionMethod,
+               this.Arguments.LinqExpressions()),
+
+            Call { Type: not null } => Linq.Expression.Call(
+                this.Type.SystemType,
+                this.MethodName,
+                (from typeArg in this.TypeArguments select typeArg.SystemType).ToArray(),
+                this.Arguments.LinqExpressions().ToArray()),
+
+            _ => Linq.Expression.Call(
+                this.Instance.LinqExpression,
+                this.MethodName,
+                (from typeArg in this.TypeArguments select typeArg.SystemType).ToArray(),
+                this.Arguments.LinqExpressions().ToArray())
+        };
     }
 }

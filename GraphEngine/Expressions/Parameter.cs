@@ -48,14 +48,10 @@ namespace GraphEngine
             }
         }
 
-        internal static new Parameter Parse(NodeWithGraph node)
+        internal static new Parameter Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Parameter(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Parameter(node)
+        };
     }
 }

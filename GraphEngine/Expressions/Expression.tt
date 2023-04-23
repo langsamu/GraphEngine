@@ -18,18 +18,14 @@ namespace GraphEngine
 
     public abstract partial class Expression
     {
-        private static Expression ParseResource(NodeWithGraph node)
+        private static Expression ParseResource(NodeWithGraph node) => Vocabulary.RdfType.ObjectOf(node) switch
         {
-            var type = Vocabulary.RdfType.ObjectOf(node);
-            switch (type)
-            {
 <#+
     GenerateProperties();
 #>
 
-                default: throw new Exception($"unknown type {type} on node {node}");
-            }
-        }
+            _ => throw new Exception($"unknown type {Vocabulary.RdfType.ObjectOf(node)} on node {node}")
+        };
     }
 }<#+}
 
@@ -37,7 +33,7 @@ private void GenerateProperties()
 {
     foreach(var item in Data)
     {#>
-                case INode t when t.Equals(Vocabulary.<#= item #>): return new <#= item #>(node);
+            INode t when t.Equals(Vocabulary.<#= item #>) => new <#= item #>(node),
 <#+}
 }
 

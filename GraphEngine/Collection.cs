@@ -19,33 +19,15 @@ namespace GraphEngine
             this.predicate = predicate;
         }
 
-        public int Count
-        {
-            get
-            {
-                if (!this.IsValid(out var listRoot))
-                {
-                    return 0;
-                }
-
-                return this.subject.Graph.GetListItems(listRoot).Count();
-            }
-        }
+        public int Count => !this.IsValid(out var listRoot)
+            ? 0
+            : this.subject.Graph.GetListItems(listRoot).Count();
 
         public bool IsReadOnly => false;
 
-        protected IEnumerable<NodeWithGraph> X
-        {
-            get
-            {
-                if (!this.IsValid(out var listRoot))
-                {
-                    return Enumerable.Empty<NodeWithGraph>();
-                }
-
-                return this.subject.Graph.GetListItems(listRoot).Select(n => n.In(this.subject.Graph));
-            }
-        }
+        protected IEnumerable<NodeWithGraph> X => !this.IsValid(out var listRoot)
+            ? Enumerable.Empty<NodeWithGraph>()
+            : this.subject.Graph.GetListItems(listRoot).Select(n => n.In(this.subject.Graph));
 
         public void Add(NodeWithGraph item)
         {
@@ -69,15 +51,7 @@ namespace GraphEngine
             this.subject.Graph.Retract(this.subject, this.predicate, listRoot);
         }
 
-        public bool Contains(NodeWithGraph item)
-        {
-            if (!this.IsValid(out var listRoot))
-            {
-                return false;
-            }
-
-            return this.subject.Graph.GetListItems(listRoot).Contains(item);
-        }
+        public bool Contains(NodeWithGraph item) => this.IsValid(out var listRoot) && this.subject.Graph.GetListItems(listRoot).Contains(item);
 
         public void CopyTo(NodeWithGraph[] array, int arrayIndex)
         {

@@ -10,9 +10,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Empty(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.Empty;
-        }
+            => this.RdfType = Vocabulary.Empty;
 
         public override Linq.Expression LinqExpression => Linq.Expression.Empty();
     }

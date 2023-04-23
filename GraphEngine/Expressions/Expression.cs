@@ -18,23 +18,11 @@ namespace GraphEngine
         public abstract Linq.Expression LinqExpression { get; }
 
         // TODO: Handle non-expressions, e.g. uri node = System.Uri, blank node = new object()
-        public static Expression Parse(NodeWithGraph node)
+        public static Expression Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            var nodeType = node.NodeType;
-            switch (nodeType)
-            {
-                case NodeType.Blank:
-                case NodeType.Uri:
-                    return ParseResource(node);
-
-                default:
-                    throw new Exception($"unknown node type {nodeType} on node {node}");
-            }
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            { NodeType: NodeType.Blank or NodeType.Uri } => ParseResource(node),
+            _ => throw new Exception($"unknown node type {node.NodeType} on node {node}")
+        };
     }
 }

@@ -11,9 +11,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Bind(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.Bind;
-        }
+            => this.RdfType = Vocabulary.Bind;
 
         public Expression Expression
         {

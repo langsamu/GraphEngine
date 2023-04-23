@@ -5,13 +5,14 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
     using VDS.RDF;
     using static Vocabulary;
 
     public abstract class Binder : Node
     {
         [DebuggerStepThrough]
-        public Binder(NodeWithGraph node)
+        protected Binder(NodeWithGraph node)
             : base(node)
         {
         }
@@ -32,7 +33,7 @@ namespace GraphEngine
 
         public ICollection<ArgumentInfo> Arguments => this.Collection(BinderArguments, ArgumentInfo.Parse);
 
-        internal abstract System.Runtime.CompilerServices.CallSiteBinder SystemBinder { get; }
+        internal abstract CallSiteBinder SystemBinder { get; }
 
         internal static Binder Parse(NodeWithGraph node)
         {

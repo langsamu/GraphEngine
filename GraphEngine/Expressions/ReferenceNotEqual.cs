@@ -10,9 +10,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ReferenceNotEqual(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.ReferenceNotEqual;
-        }
+            => this.RdfType = Vocabulary.ReferenceNotEqual;
 
         public override Linq.Expression LinqExpression => Linq.Expression.ReferenceNotEqual(this.Left.LinqExpression, this.Right.LinqExpression);
     }

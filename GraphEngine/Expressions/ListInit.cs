@@ -29,6 +29,6 @@ namespace GraphEngine
         public override Linq.Expression LinqExpression =>
             Linq.Expression.ListInit(
                 this.NewExpression.LinqNewExpression,
-                this.Initializers.Select(i => i.LinqElementInit));
+                from i in this.Initializers select i.LinqElementInit);
     }
 }

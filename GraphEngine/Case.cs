@@ -5,7 +5,6 @@ namespace GraphEngine
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using VDS.RDF;
     using static Vocabulary;
     using Linq = System.Linq.Expressions;
 
@@ -28,14 +27,10 @@ namespace GraphEngine
 
         public Linq.SwitchCase LinqSwitchCase => Linq.Expression.SwitchCase(this.Body.LinqExpression, this.TestValues.LinqExpressions());
 
-        internal static Case Parse(NodeWithGraph node)
+        internal static Case Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Case(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Case(node)
+        };
     }
 }

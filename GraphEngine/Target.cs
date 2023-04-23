@@ -11,7 +11,7 @@ namespace GraphEngine
 
     public class Target : Node
     {
-        private static readonly IDictionary<INode, Linq.LabelTarget> Cache = new Dictionary<INode, Linq.LabelTarget>();
+        private static readonly Dictionary<INode, Linq.LabelTarget> Cache = new ();
 
         [DebuggerStepThrough]
         internal Target(NodeWithGraph node)
@@ -39,41 +39,23 @@ namespace GraphEngine
             {
                 if (!Cache.TryGetValue(this, out var label))
                 {
-                    var type = this.Type;
-                    var name = this.Name;
-
-                    if (type is object && name is object)
+                    Cache[this] = label = this switch
                     {
-                        label = Linq.Expression.Label(type.SystemType, name);
-                    }
-                    else if (type is object)
-                    {
-                        label = Linq.Expression.Label(type.SystemType);
-                    }
-                    else if (name is object)
-                    {
-                        label = Linq.Expression.Label(name);
-                    }
-                    else
-                    {
-                        label = Linq.Expression.Label();
-                    }
-
-                    Cache[this] = label;
+                        { Type: not null, Name: not null } => Linq.Expression.Label(this.Type.SystemType, this.Name),
+                        { Type: not null } => Linq.Expression.Label(this.Type.SystemType),
+                        { Name: not null } => Linq.Expression.Label(this.Name),
+                        _ => Linq.Expression.Label()
+                    };
                 }
 
                 return label;
             }
         }
 
-        internal static Target Parse(NodeWithGraph node)
+        internal static Target Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Target(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Target(node)
+        };
     }
 }

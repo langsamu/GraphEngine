@@ -16,7 +16,7 @@ namespace GraphEngine.Tests
     [TestClass]
     public class SchemaTests
     {
-        private static readonly Ontology.Graph OntologyGraph = new Ontology.Graph();
+        private static readonly Ontology.Graph OntologyGraph = new ();
         private static string ontologyString;
 
         private static IEnumerable<object[]> Ontologies => OntologyGraph.Ontologies.Select(o => new[] { o });
@@ -97,7 +97,7 @@ namespace GraphEngine.Tests
         [DynamicData(nameof(Resources))]
         public void Comment_is_string(Resource resource)
         {
-            foreach (var comment in resource.Comments.LiteralNodes().Where(comment => comment.DataType is object))
+            foreach (var comment in resource.Comments.LiteralNodes().Where(comment => comment.DataType is not null))
             {
                 comment.DataType.AbsoluteUri.Should().BeOneOf(RdfSpecsHelper.RdfLangString, XmlSpecsHelper.XmlSchemaDataTypeString, "commentss must be strings");
             }
@@ -127,7 +127,7 @@ namespace GraphEngine.Tests
         [DynamicData(nameof(Resources))]
         public void Label_is_string(Resource resource)
         {
-            foreach (var label in resource.Labels.LiteralNodes().Where(label => label.DataType is object))
+            foreach (var label in resource.Labels.LiteralNodes().Where(label => label.DataType is not null))
             {
                 label.DataType.AbsoluteUri.Should().BeOneOf(RdfSpecsHelper.RdfLangString, XmlSpecsHelper.XmlSchemaDataTypeString, "labels must be strings");
             }
@@ -238,7 +238,7 @@ namespace GraphEngine.Tests
 
         private static bool Is_from_namespace(Resource resource)
         {
-            return Vocabulary.BaseUri.IsBaseOf(resource.Uri) && !Vocabulary.BaseUri.MakeRelativeUri(resource.Uri).ToString().Contains("/", StringComparison.Ordinal);
+            return Vocabulary.BaseUri.IsBaseOf(resource.Uri) && !Vocabulary.BaseUri.MakeRelativeUri(resource.Uri).ToString().Contains('/', StringComparison.Ordinal);
         }
     }
 }

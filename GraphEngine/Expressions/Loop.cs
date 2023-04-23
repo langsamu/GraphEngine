@@ -35,26 +35,11 @@ namespace GraphEngine
             set => this.SetOptional(LoopContinue, value);
         }
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this switch
         {
-            get
-            {
-                var body = this.Body;
-                var @continue = this.Continue;
-                var @break = this.Break;
-
-                if (@break is object)
-                {
-                    if (@continue is object)
-                    {
-                        return Linq.Expression.Loop(body.LinqExpression, @break.LinqTarget, @continue.LinqTarget);
-                    }
-
-                    return Linq.Expression.Loop(body.LinqExpression, @break.LinqTarget);
-                }
-
-                return Linq.Expression.Loop(body.LinqExpression);
-            }
-        }
+            { Break: not null, Continue: not null } => Linq.Expression.Loop(this.Body.LinqExpression, this.Break.LinqTarget, this.Continue.LinqTarget),
+            { Break: not null } => Linq.Expression.Loop(this.Body.LinqExpression, this.Break.LinqTarget),
+            _ => Linq.Expression.Loop(this.Body.LinqExpression)
+        };
     }
 }

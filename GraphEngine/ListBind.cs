@@ -19,6 +19,8 @@ namespace GraphEngine
 
         public ICollection<ElementInit> Initializers => this.Collection(ListBindInitializers, ElementInit.Parse);
 
-        public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.ListBind(this.Member.ReflectionMember, this.Initializers.Select(initializer => initializer.LinqElementInit));
+        public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.ListBind(
+            this.Member.ReflectionMember,
+            from initializer in this.Initializers select initializer.LinqElementInit);
     }
 }

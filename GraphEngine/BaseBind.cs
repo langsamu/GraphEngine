@@ -25,17 +25,14 @@ namespace GraphEngine
 
         public abstract Linq.MemberBinding LinqMemberBinding { get; }
 
-        public static BaseBind Create(NodeWithGraph node, Linq.MemberBindingType kind)
+        public static BaseBind Create(NodeWithGraph node, Linq.MemberBindingType kind) => kind switch
         {
-            return kind switch
-            {
-                Linq.MemberBindingType.Assignment => new Bind(node),
-                Linq.MemberBindingType.MemberBinding => new MemberBind(node),
-                Linq.MemberBindingType.ListBinding => new ListBind(node),
+            Linq.MemberBindingType.Assignment => new Bind(node),
+            Linq.MemberBindingType.MemberBinding => new MemberBind(node),
+            Linq.MemberBindingType.ListBinding => new ListBind(node),
 
-                _ => throw new Exception("{type} is not memberbind")
-            };
-        }
+            _ => throw new Exception("{type} is not memberbind")
+        };
 
         internal static BaseBind Parse(NodeWithGraph node)
         {

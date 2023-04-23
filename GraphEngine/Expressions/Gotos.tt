@@ -27,9 +27,7 @@ private void GenerateClasses()
     public class <#= item #> : BaseGoto
     {
         [DebuggerStepThrough]
-        internal <#= item #>(NodeWithGraph node) : base(node) {
-            this.RdfType = Vocabulary.<#= item #>;
-        }
+        internal <#= item #>(NodeWithGraph node) : base(node) => this.RdfType = Vocabulary.<#= item #>;
 
         protected override Linq.GotoExpressionKind Kind => Linq.GotoExpressionKind.<#= item #>;
     }

@@ -7,7 +7,6 @@ namespace GraphEngine
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using VDS.RDF;
     using static Vocabulary;
 
     // TODO: Improve derivation
@@ -37,14 +36,10 @@ namespace GraphEngine
             }
         }
 
-        internal static new Method Parse(NodeWithGraph node)
+        internal static new Method Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Method(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Method(node)
+        };
     }
 }

@@ -40,14 +40,10 @@ namespace GraphEngine
             }
         }
 
-        internal static Type Parse(NodeWithGraph node)
+        internal static Type Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Type(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Type(node)
+        };
     }
 }

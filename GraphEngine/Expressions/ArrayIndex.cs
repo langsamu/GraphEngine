@@ -31,17 +31,10 @@ namespace GraphEngine
 
         public ICollection<Expression> Indexes => this.Collection(ArrayIndexIndexes, Expression.Parse);
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this.Index switch
         {
-            get
-            {
-                if (this.Index is Expression index)
-                {
-                    return Linq.Expression.ArrayIndex(this.Array.LinqExpression, index.LinqExpression);
-                }
-
-                return Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Indexes.LinqExpressions());
-            }
-        }
+            not null => Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Index.LinqExpression),
+            _ => Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Indexes.LinqExpressions())
+        };
     }
 }

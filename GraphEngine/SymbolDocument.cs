@@ -43,27 +43,12 @@ namespace GraphEngine
             set => this.SetOptional(SymbolDocumentDocumentType, value);
         }
 
-        public Linq.SymbolDocumentInfo LinqDocument
+        public Linq.SymbolDocumentInfo LinqDocument => this switch
         {
-            get
-            {
-                if (this.Language is Guid language)
-                {
-                    if (this.LanguageVendor is Guid languageVendor)
-                    {
-                        if (this.DocumentType is Guid documentType)
-                        {
-                            return Linq.Expression.SymbolDocument(this.FileName, language, languageVendor, documentType);
-                        }
-
-                        return Linq.Expression.SymbolDocument(this.FileName, language, languageVendor);
-                    }
-
-                    return Linq.Expression.SymbolDocument(this.FileName, language);
-                }
-
-                return Linq.Expression.SymbolDocument(this.FileName);
-            }
-        }
+            { Language: Guid language, LanguageVendor: Guid languageVendor, DocumentType: Guid documentType } => Linq.Expression.SymbolDocument(this.FileName, language, languageVendor, documentType),
+            { Language: Guid language, LanguageVendor: Guid languageVendor } => Linq.Expression.SymbolDocument(this.FileName, language, languageVendor),
+            { Language: Guid language } => Linq.Expression.SymbolDocument(this.FileName, language),
+            _ => Linq.Expression.SymbolDocument(this.FileName)
+        };
     }
 }

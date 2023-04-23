@@ -19,8 +19,7 @@ namespace GraphEngine
             from t in subject.Graph.GetTriplesWithSubjectPredicate(subject, predicate)
             select t.Object.In(subject.Graph);
 
-        internal static NodeWithGraph? ObjectOf(this INode predicate, NodeWithGraph subject) =>
-            predicate.ObjectsOf(subject).FirstOrDefault();
+        internal static NodeWithGraph? ObjectOf(this INode predicate, NodeWithGraph subject) => predicate.ObjectsOf(subject).FirstOrDefault();
 
         internal static IEnumerable<NodeWithGraph> InstancesOf(this IGraph graph, INode @class) =>
             from t in graph.GetTriplesWithPredicateObject(Vocabulary.RdfType, @class)
@@ -33,25 +32,23 @@ namespace GraphEngine
                 Uri uri => graph.CreateUriNode(uri),
                 long number => graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInteger)),
                 int number => graph.CreateLiteralNode(number.ToString(CultureInfo.InvariantCulture), UriFactory.Create(XmlSpecsHelper.XmlSchemaDataTypeInt)),
-                Guid guid => graph.CreateUriNode(new Uri("urn:uuid:" + guid.ToString())),
+                Guid guid => graph.CreateUriNode(new Uri($"urn:uuid:{guid}")),
                 bool bit => new BooleanNode(bit),
                 _ => graph.CreateLiteralNode(value.ToString())
             };
 
         internal static IEnumerable<Linq.Expression> LinqExpressions(this IEnumerable<Expression> expressions) =>
-            expressions.Select(expression => expression.LinqExpression);
+            from e in expressions
+            select e.LinqExpression;
 
-        internal static object AsObject(this NodeWithGraph wrapper)
+        internal static object AsObject(this NodeWithGraph wrapper) => wrapper switch
         {
-            return wrapper switch
-            {
-                IUriNode { NodeType: NodeType.Uri } uriNode => uriNode.Uri,
-                ILiteralNode { NodeType: NodeType.Literal, DataType.AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeString } literalNode => literalNode.Value,
-                ILiteralNode { NodeType: NodeType.Literal, DataType: { AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInteger } } literalNode => long.Parse(literalNode.Value, CultureInfo.InvariantCulture),
-                ILiteralNode { NodeType: NodeType.Literal, DataType: { AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInt } } literalNode => int.Parse(literalNode.Value, CultureInfo.InvariantCulture),
-                _ => wrapper.Original,
-            };
-        }
+            IUriNode { NodeType: NodeType.Uri } uriNode => uriNode.Uri,
+            ILiteralNode { NodeType: NodeType.Literal, DataType.AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeString } literalNode => literalNode.Value,
+            ILiteralNode { NodeType: NodeType.Literal, DataType.AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInteger } literalNode => long.Parse(literalNode.Value, CultureInfo.InvariantCulture),
+            ILiteralNode { NodeType: NodeType.Literal, DataType.AbsoluteUri: XmlSpecsHelper.XmlSchemaDataTypeInt } literalNode => int.Parse(literalNode.Value, CultureInfo.InvariantCulture),
+            _ => wrapper.Original,
+        };
 
         // See https://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/BinaryExpression.cs,374
         internal static bool IsReferenceComparison(this Linq.BinaryExpression expression)
@@ -66,9 +63,6 @@ namespace GraphEngine
         }
 
         // See https://referencesource.microsoft.com/#System.Core/Microsoft/Scripting/Ast/TypeUtils.cs,d20b8274c8dc7b89
-        internal static bool AreEquivalent(System.Type t1, System.Type t2)
-        {
-            return t1 == t2 || t1.IsEquivalentTo(t2);
-        }
+        internal static bool AreEquivalent(System.Type t1, System.Type t2) => t1 == t2 || t1.IsEquivalentTo(t2);
     }
 }

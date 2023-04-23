@@ -52,14 +52,10 @@ namespace GraphEngine
             }
         }
 
-        internal static Catch Parse(NodeWithGraph node)
+        internal static Catch Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Catch(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Catch(node)
+        };
     }
 }

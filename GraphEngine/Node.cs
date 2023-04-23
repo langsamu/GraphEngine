@@ -13,8 +13,8 @@ namespace GraphEngine
         [DebuggerStepThrough]
         protected Node(NodeWithGraph node)
             : base(node, node?.Graph ?? throw new ArgumentNullException(nameof(node)))
-            {
-            }
+        {
+        }
 
         public INode? RdfType
         {
@@ -43,15 +43,11 @@ namespace GraphEngine
             return i;
         }
 
-        protected static object AsObject(NodeWithGraph node)
+        protected static object AsObject(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return node.AsObject();
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => node.AsObject()
+        };
 
         protected static string AsString(NodeWithGraph node)
         {
@@ -126,10 +122,9 @@ namespace GraphEngine
             where T : NodeWithGraph =>
             new Collection<T>(this, predicate, parser);
 
-        protected void SetRequired(INode predicate, object @object) =>
-            this.SetOptional(
-                predicate,
-                @object ?? throw new ArgumentNullException(nameof(@object)));
+        protected void SetRequired(INode predicate, object @object) => this.SetOptional(
+            predicate,
+            @object ?? throw new ArgumentNullException(nameof(@object)));
 
         protected void SetOptional(INode predicate, object? @object)
         {

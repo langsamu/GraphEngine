@@ -27,30 +27,19 @@ namespace GraphEngine
 
         public ICollection<Parameter> Variables => this.Collection(BlockVariables, Parameter.Parse);
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => (type: this.Type, empty: !this.Variables.Any()) switch
         {
-            get
-            {
-                if (this.Type is Type type)
-                {
-                    return Linq.Expression.Block(
-                        type.SystemType,
-                        this.Variables.Select(e => e.LinqParameter),
-                        this.Expressions.LinqExpressions());
-                }
+            (type: not null, _) => Linq.Expression.Block(
+                this.Type.SystemType,
+                from e in this.Variables select e.LinqParameter,
+                this.Expressions.LinqExpressions()),
 
-                var variables = this.Variables;
+            (_, empty: true) => Linq.Expression.Block(
+                this.Expressions.LinqExpressions().ToArray()),
 
-                if (!variables.Any())
-                {
-                    return Linq.Expression.Block(
-                        this.Expressions.LinqExpressions().ToArray());
-                }
-
-                return Linq.Expression.Block(
-                    variables.Select(e => e.LinqParameter),
-                    this.Expressions.LinqExpressions());
-            }
-        }
+            _ => Linq.Expression.Block(
+                from e in this.Variables select e.LinqParameter,
+                this.Expressions.LinqExpressions()),
+        };
     }
 }

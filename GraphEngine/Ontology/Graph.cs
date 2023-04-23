@@ -8,12 +8,12 @@ namespace GraphEngine.Ontology
 
     public class Graph : WrapperGraph
     {
-        public IEnumerable<Resource> Ontologies => this.InstancesOf(Vocabulary.OwlOntology).Select(o => new Resource(o));
+        public IEnumerable<Resource> Ontologies => from o in this.InstancesOf(Vocabulary.OwlOntology) select new Resource(o);
 
-        public IEnumerable<Class> Classes => this.InstancesOf(Vocabulary.OwlClass).Select(o => new Class(o));
+        public IEnumerable<Class> Classes => from o in this.InstancesOf(Vocabulary.OwlClass) select new Class(o);
 
-        public IEnumerable<Property> ObjectProperties => this.InstancesOf(Vocabulary.OwlObjectProperty).Select(o => new Property(o));
+        public IEnumerable<Property> ObjectProperties => from o in this.InstancesOf(Vocabulary.OwlObjectProperty) select new Property(o);
 
-        public IEnumerable<Property> DatatypeProperties => this.InstancesOf(Vocabulary.OwlDatatypeProperty).Select(o => new Property(o));
+        public IEnumerable<Property> DatatypeProperties => from o in this.InstancesOf(Vocabulary.OwlDatatypeProperty) select new Property(o);
     }
 }

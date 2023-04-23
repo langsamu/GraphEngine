@@ -9,7 +9,7 @@ namespace GraphEngine
     public abstract class BaseGoto : Expression
     {
         [DebuggerStepThrough]
-        public BaseGoto(NodeWithGraph node)
+        protected BaseGoto(NodeWithGraph node)
             : base(node)
         {
         }
@@ -39,17 +39,14 @@ namespace GraphEngine
 
         protected abstract Linq.GotoExpressionKind Kind { get; }
 
-        public static BaseGoto Create(NodeWithGraph node, Linq.GotoExpressionKind kind)
+        public static BaseGoto Create(NodeWithGraph node, Linq.GotoExpressionKind kind) => kind switch
         {
-            return kind switch
-            {
-                Linq.GotoExpressionKind.Goto => new Goto(node),
-                Linq.GotoExpressionKind.Return => new Return(node),
-                Linq.GotoExpressionKind.Break => new Break(node),
-                Linq.GotoExpressionKind.Continue => new Continue(node),
+            Linq.GotoExpressionKind.Goto => new Goto(node),
+            Linq.GotoExpressionKind.Return => new Return(node),
+            Linq.GotoExpressionKind.Break => new Break(node),
+            Linq.GotoExpressionKind.Continue => new Continue(node),
 
-                _ => throw new System.Exception("{type} is not goto")
-            };
-        }
+            _ => throw new System.Exception("{type} is not goto")
+        };
     }
 }

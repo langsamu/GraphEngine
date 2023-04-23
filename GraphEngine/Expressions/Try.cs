@@ -46,6 +46,11 @@ namespace GraphEngine
 
         public ICollection<Catch> Handlers => this.Collection(TryHandlers, Catch.Parse);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(this.Type?.SystemType, this.Body.LinqExpression, this.Finally?.LinqExpression, this.Fault?.LinqExpression, this.Handlers.Select(h => h.LinqCatchBlock));
+        public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(
+            this.Type?.SystemType,
+            this.Body.LinqExpression,
+            this.Finally?.LinqExpression,
+            this.Fault?.LinqExpression,
+            from h in this.Handlers select h.LinqCatchBlock);
     }
 }

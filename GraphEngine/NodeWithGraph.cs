@@ -7,8 +7,8 @@ namespace GraphEngine
     public class NodeWithGraph : WrapperNode
     {
         public NodeWithGraph(INode node, IGraph graph)
-            : base(node) =>
-            this.Graph = graph;
+            : base(node)
+            => this.Graph = graph;
 
         public IGraph Graph { get; }
 

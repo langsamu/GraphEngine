@@ -10,21 +10,12 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal Field(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.Field;
-        }
+            => this.RdfType = Vocabulary.Field;
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this.Type switch
         {
-            get
-            {
-                if (this.Type is Type type)
-                {
-                    return Linq.Expression.Field(this.Expression?.LinqExpression, type.SystemType, this.Name);
-                }
-
-                return Linq.Expression.Field(this.Expression?.LinqExpression, this.Name);
-            }
-        }
+            not null => Linq.Expression.Field(this.Expression?.LinqExpression, this.Type.SystemType, this.Name),
+            _ => Linq.Expression.Field(this.Expression?.LinqExpression, this.Name)
+        };
     }
 }

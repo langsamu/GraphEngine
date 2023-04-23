@@ -18,6 +18,6 @@ namespace GraphEngine
 
         public ICollection<Parameter> Variables => this.Collection(RuntimeVariablesVariables, Parameter.Parse);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.RuntimeVariables(this.Variables.Select(e => e.LinqParameter));
+        public override Linq.Expression LinqExpression => Linq.Expression.RuntimeVariables(from e in this.Variables select e.LinqParameter);
     }
 }

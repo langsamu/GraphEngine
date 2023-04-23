@@ -25,6 +25,8 @@ namespace GraphEngine
 
         public ICollection<BaseBind> Bindings => this.Collection(MemberInitBindings, BaseBind.Parse);
 
-        public override Linq.Expression LinqExpression => Linq.Expression.MemberInit(this.NewExpression.LinqNewExpression, this.Bindings.Select(binding => binding.LinqMemberBinding));
+        public override Linq.Expression LinqExpression => Linq.Expression.MemberInit(
+            this.NewExpression.LinqNewExpression,
+            from binding in this.Bindings select binding.LinqMemberBinding);
     }
 }

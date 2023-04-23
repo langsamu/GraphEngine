@@ -14,15 +14,12 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal MemberBind(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.MemberBind;
-        }
+            => this.RdfType = Vocabulary.MemberBind;
 
         public ICollection<BaseBind> Bindings => this.Collection(MemberBindBindings, BaseBind.Parse);
 
-        public override Linq.MemberBinding LinqMemberBinding =>
-            Linq.Expression.MemberBind(
-                this.Member.ReflectionMember,
-                this.Bindings.Select(binding => binding.LinqMemberBinding));
+        public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.MemberBind(
+            this.Member.ReflectionMember,
+            from binding in this.Bindings select binding.LinqMemberBinding);
     }
 }

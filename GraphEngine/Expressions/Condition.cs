@@ -42,17 +42,10 @@ namespace GraphEngine
             set => this.SetOptional(ConditionType, value);
         }
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this.Type switch
         {
-            get
-            {
-                if (this.Type is Type type)
-                {
-                    return Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression, type.SystemType);
-                }
-
-                return Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression);
-            }
-        }
+            Type type => Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression, type.SystemType),
+            _ => Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression)
+        };
     }
 }

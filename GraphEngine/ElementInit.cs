@@ -27,14 +27,10 @@ namespace GraphEngine
 
         public Linq.ElementInit LinqElementInit => Linq.Expression.ElementInit(this.AddMethod.ReflectionMethod, this.Arguments.LinqExpressions());
 
-        internal static ElementInit Parse(NodeWithGraph node)
+        internal static ElementInit Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new ElementInit(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new ElementInit(node)
+        };
     }
 }

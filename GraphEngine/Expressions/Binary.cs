@@ -67,57 +67,54 @@ namespace GraphEngine
                 this.Method?.ReflectionMethod,
                 this.Conversion?.LinqLambda);
 
-        public static Binary Create(NodeWithGraph node, Linq.ExpressionType type)
+        public static Binary Create(NodeWithGraph node, Linq.ExpressionType type) => (node, type) switch
         {
-            switch (type)
-            {
-                case Linq.ExpressionType.Add:
-                case Linq.ExpressionType.AddAssign:
-                case Linq.ExpressionType.AddAssignChecked:
-                case Linq.ExpressionType.AddChecked:
-                case Linq.ExpressionType.And:
-                case Linq.ExpressionType.AndAlso:
-                case Linq.ExpressionType.AndAssign:
-                case Linq.ExpressionType.ArrayIndex:
-                case Linq.ExpressionType.Assign:
-                case Linq.ExpressionType.Coalesce:
-                case Linq.ExpressionType.Divide:
-                case Linq.ExpressionType.DivideAssign:
-                case Linq.ExpressionType.Equal:
-                case Linq.ExpressionType.ExclusiveOr:
-                case Linq.ExpressionType.ExclusiveOrAssign:
-                case Linq.ExpressionType.GreaterThan:
-                case Linq.ExpressionType.GreaterThanOrEqual:
-                case Linq.ExpressionType.LeftShift:
-                case Linq.ExpressionType.LeftShiftAssign:
-                case Linq.ExpressionType.LessThan:
-                case Linq.ExpressionType.LessThanOrEqual:
-                case Linq.ExpressionType.Modulo:
-                case Linq.ExpressionType.ModuloAssign:
-                case Linq.ExpressionType.Multiply:
-                case Linq.ExpressionType.MultiplyAssign:
-                case Linq.ExpressionType.MultiplyAssignChecked:
-                case Linq.ExpressionType.MultiplyChecked:
-                case Linq.ExpressionType.NotEqual:
-                case Linq.ExpressionType.Or:
-                case Linq.ExpressionType.OrAssign:
-                case Linq.ExpressionType.OrElse:
-                case Linq.ExpressionType.Power:
-                case Linq.ExpressionType.PowerAssign:
-                case Linq.ExpressionType.RightShift:
-                case Linq.ExpressionType.RightShiftAssign:
-                case Linq.ExpressionType.Subtract:
-                case Linq.ExpressionType.SubtractAssign:
-                case Linq.ExpressionType.SubtractAssignChecked:
-                case Linq.ExpressionType.SubtractChecked:
-                    return new Binary(node)
-                    {
-                        ExpressionType = ExpressionType.Create(type, node.Graph),
-                    };
+            (node: NodeWithGraph n, type:
+                Linq.ExpressionType.Add or
+                Linq.ExpressionType.AddAssign or
+                Linq.ExpressionType.AddAssignChecked or
+                Linq.ExpressionType.AddChecked or
+                Linq.ExpressionType.And or
+                Linq.ExpressionType.AndAlso or
+                Linq.ExpressionType.AndAssign or
+                Linq.ExpressionType.ArrayIndex or
+                Linq.ExpressionType.Assign or
+                Linq.ExpressionType.Coalesce or
+                Linq.ExpressionType.Divide or
+                Linq.ExpressionType.DivideAssign or
+                Linq.ExpressionType.Equal or
+                Linq.ExpressionType.ExclusiveOr or
+                Linq.ExpressionType.ExclusiveOrAssign or
+                Linq.ExpressionType.GreaterThan or
+                Linq.ExpressionType.GreaterThanOrEqual or
+                Linq.ExpressionType.LeftShift or
+                Linq.ExpressionType.LeftShiftAssign or
+                Linq.ExpressionType.LessThan or
+                Linq.ExpressionType.LessThanOrEqual or
+                Linq.ExpressionType.Modulo or
+                Linq.ExpressionType.ModuloAssign or
+                Linq.ExpressionType.Multiply or
+                Linq.ExpressionType.MultiplyAssign or
+                Linq.ExpressionType.MultiplyAssignChecked or
+                Linq.ExpressionType.MultiplyChecked or
+                Linq.ExpressionType.NotEqual or
+                Linq.ExpressionType.Or or
+                Linq.ExpressionType.OrAssign or
+                Linq.ExpressionType.OrElse or
+                Linq.ExpressionType.Power or
+                Linq.ExpressionType.PowerAssign or
+                Linq.ExpressionType.RightShift or
+                Linq.ExpressionType.RightShiftAssign or
+                Linq.ExpressionType.Subtract or
+                Linq.ExpressionType.SubtractAssign or
+                Linq.ExpressionType.SubtractAssignChecked or
+                Linq.ExpressionType.SubtractChecked) => new Binary(n)
+                {
+                    ExpressionType = ExpressionType.Create(type, n.Graph),
+                },
 
-                default:
-                    throw new InvalidOperationException($"{type} is not binary");
-            }
-        }
+            (node: null, _) => throw new ArgumentNullException(nameof(node)),
+            _ => throw new InvalidOperationException($"{type} is not binary"),
+        };
     }
 }

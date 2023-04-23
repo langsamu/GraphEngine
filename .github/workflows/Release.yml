@@ -24,10 +24,10 @@ jobs:
     - name: GitVersion
       run: dotnet dotnet-gitversion /output buildserver /updateprojectfiles
 
-    - name: Setup .NET 6
+    - name: Setup .NET 7
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
         include-prerelease: true
 
     - name: Install dependencies

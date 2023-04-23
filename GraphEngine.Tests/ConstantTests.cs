@@ -71,7 +71,7 @@ namespace GraphEngine.Tests
         {
             var expected =
                 LinqExpression.Constant(
-                    new NodeFactory().CreateLiteralNode(string.Empty, "en"));
+                    new NodeFactory(new NodeFactoryOptions()).CreateLiteralNode(string.Empty, "en"));
 
             const string actual = @"
 @prefix : <http://example.com/> .

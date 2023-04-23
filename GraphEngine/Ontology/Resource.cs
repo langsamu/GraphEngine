@@ -20,7 +20,7 @@ namespace GraphEngine.Ontology
 
         public IEnumerable<INode> Types => Vocabulary.RdfType.ObjectsOf(this);
 
-        public IEnumerable<Resource> IsDefinedBy => Vocabulary.RdfsIsDefinedBy.ObjectsOf(this).Select(o => new Resource(o));
+        public IEnumerable<Resource> IsDefinedBy => from o in Vocabulary.RdfsIsDefinedBy.ObjectsOf(this) select new Resource(o);
 
         public IEnumerable<INode> Labels => Vocabulary.RdfsLabel.ObjectsOf(this);
 

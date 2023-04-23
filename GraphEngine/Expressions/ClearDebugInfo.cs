@@ -10,9 +10,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal ClearDebugInfo(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.ClearDebugInfo;
-        }
+            => this.RdfType = Vocabulary.ClearDebugInfo;
 
         public override Linq.Expression LinqExpression => Linq.Expression.ClearDebugInfo(this.Document.LinqDocument);
     }

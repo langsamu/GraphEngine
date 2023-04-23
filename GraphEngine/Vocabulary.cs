@@ -11,7 +11,7 @@ namespace GraphEngine
     {
         private const string BaseUriString = "http://example.com/";
 
-        private static readonly NodeFactory Factory = new NodeFactory();
+        private static readonly NodeFactory Factory = new (new NodeFactoryOptions());
 
         public static Uri BaseUri => UriFactory.Create(BaseUriString);
 

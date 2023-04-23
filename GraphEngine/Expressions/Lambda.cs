@@ -32,16 +32,12 @@ namespace GraphEngine
         public LambdaExpression LinqLambda =>
             Linq.Expression.Lambda(
                 this.Body.LinqExpression,
-                this.Parameters.Select(param => param.LinqParameter));
+                from param in this.Parameters select param.LinqParameter);
 
-        internal static new Lambda Parse(NodeWithGraph node)
+        internal static new Lambda Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Lambda(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Lambda(node)
+        };
     }
 }

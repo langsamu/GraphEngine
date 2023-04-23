@@ -4,6 +4,7 @@ namespace GraphEngine
 {
     using System.Diagnostics;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using Microsoft.CSharp.RuntimeBinder;
 
     public class BinaryOperation : Binder
@@ -15,11 +16,11 @@ namespace GraphEngine
             this.RdfType = Vocabulary.BinaryOperation;
         }
 
-        internal override System.Runtime.CompilerServices.CallSiteBinder SystemBinder =>
+        internal override CallSiteBinder SystemBinder =>
             Microsoft.CSharp.RuntimeBinder.Binder.BinaryOperation(
                 CSharpBinderFlags.None,
                 this.ExpressionType.LinqExpressionType,
                 null,
-                this.Arguments.Select(a => a.Info));
+                from a in this.Arguments select a.Info);
     }
 }

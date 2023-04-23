@@ -36,21 +36,17 @@ namespace GraphEngine
             get
             {
                 var argumentExpressions = this.Arguments.LinqExpressions();
-                var types = argumentExpressions.Select(expression => expression.Type).ToArray();
+                var types = (from expression in argumentExpressions select expression.Type).ToArray();
                 var constructor = this.Type.SystemType.GetConstructor(types);
 
                 return Linq.Expression.New(constructor, argumentExpressions);
             }
         }
 
-        internal static new New Parse(NodeWithGraph node)
+        internal static new New Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new New(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new New(node)
+        };
     }
 }

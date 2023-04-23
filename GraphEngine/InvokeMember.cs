@@ -4,23 +4,21 @@ namespace GraphEngine
 {
     using System.Diagnostics;
     using System.Linq;
-    using Microsoft.CSharp.RuntimeBinder;
+    using System.Runtime.CompilerServices;
+    using CSharp = Microsoft.CSharp.RuntimeBinder;
 
     public class InvokeMember : Binder
     {
         [DebuggerStepThrough]
         public InvokeMember(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.InvokeMember;
-        }
+            => this.RdfType = Vocabulary.InvokeMember;
 
-        internal override System.Runtime.CompilerServices.CallSiteBinder SystemBinder =>
-            Microsoft.CSharp.RuntimeBinder.Binder.InvokeMember(
-                CSharpBinderFlags.None,
-                this.Name,
-                null,
-                null,
-                this.Arguments.Select(a => a.Info));
+        internal override CallSiteBinder SystemBinder => CSharp.Binder.InvokeMember(
+            CSharp.CSharpBinderFlags.None,
+            this.Name,
+            null,
+            null,
+            from a in this.Arguments select a.Info);
     }
 }

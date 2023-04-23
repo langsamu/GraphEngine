@@ -32,14 +32,10 @@ namespace GraphEngine
 
         public MemberInfo ReflectionMember => this.Type.SystemType.GetMember(this.Name).Single();
 
-        internal static Member Parse(NodeWithGraph node)
+        internal static Member Parse(NodeWithGraph node) => node switch
         {
-            if (node is null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
-
-            return new Member(node);
-        }
+            null => throw new ArgumentNullException(nameof(node)),
+            _ => new Member(node)
+        };
     }
 }

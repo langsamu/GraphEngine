@@ -15,17 +15,10 @@ namespace GraphEngine
             this.RdfType = Vocabulary.PropertyOrField;
         }
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this.Expression switch
         {
-            get
-            {
-                if (this.Expression is Expression expression)
-                {
-                    return Linq.Expression.PropertyOrField(expression.LinqExpression, this.Name);
-                }
-
-                throw new InvalidOperationException($"Expression missing from node {this}");
-            }
-        }
+            not null => Linq.Expression.PropertyOrField(this.Expression.LinqExpression, this.Name),
+            _ => throw new InvalidOperationException($"Expression missing from node {this}")
+        };
     }
 }

@@ -28,17 +28,10 @@ namespace GraphEngine
             set => this.SetOptional(ConstantType, value);
         }
 
-        public override Linq.Expression LinqExpression
+        public override Linq.Expression LinqExpression => this.Type switch
         {
-            get
-            {
-                if (this.Type is Type type)
-                {
-                    return Linq.Expression.Constant(this.Value, type.SystemType);
-                }
-
-                return Linq.Expression.Constant(this.Value);
-            }
-        }
+            Type type => Linq.Expression.Constant(this.Value, type.SystemType),
+            _ => Linq.Expression.Constant(this.Value)
+        };
     }
 }

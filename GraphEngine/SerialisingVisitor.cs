@@ -9,21 +9,18 @@ namespace GraphEngine
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using VDS.RDF;
     using Linq = System.Linq.Expressions;
 
     public class SerialisingVisitor : Linq.ExpressionVisitor
     {
-        private readonly IDictionary<object, NodeWithGraph> mapping = new Dictionary<object, NodeWithGraph>();
+        private readonly Dictionary<object, NodeWithGraph> mapping = new ();
         private readonly NodeWithGraph node;
-        private readonly Stack<NodeWithGraph> path = new Stack<NodeWithGraph>();
+        private readonly Stack<NodeWithGraph> path = new ();
         private bool initialised;
 
         public SerialisingVisitor(NodeWithGraph node)
           : base()
-        {
-            this.node = node ?? throw new ArgumentNullException(nameof(node));
-        }
+            => this.node = node ?? throw new ArgumentNullException(nameof(node));
 
         private NodeWithGraph Current => this.path.Peek();
 
@@ -266,7 +263,7 @@ namespace GraphEngine
 
             @goto.Target = new Target(this[this.VisitLabelTarget(node.Target)]);
 
-            if (node.Value is object)
+            if (node.Value is not null)
             {
                 @goto.Value = this.VisitCacheParse(node.Value);
             }
@@ -281,7 +278,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitIndex(Linq.IndexExpression node)
         {
-            if (node.Indexer is object)
+            if (node.Indexer is not null)
             {
                 var property = new Property(this.Current)
                 {
@@ -321,7 +318,7 @@ namespace GraphEngine
                     target.Type = this.VisitType(node.Type);
                 }
 
-                if (node.Name is object)
+                if (node.Name is not null)
                 {
                     target.Name = node.Name;
                 }
@@ -367,12 +364,12 @@ namespace GraphEngine
                 Body = this.VisitCacheParse(node.Body),
             };
 
-            if (node.ContinueLabel is object)
+            if (node.ContinueLabel is not null)
             {
                 loop.Continue = new Target(this[this.VisitLabelTarget(node.ContinueLabel)]);
             }
 
-            if (node.BreakLabel is object)
+            if (node.BreakLabel is not null)
             {
                 loop.Break = new Target(this[this.VisitLabelTarget(node.BreakLabel)]);
             }
@@ -390,7 +387,7 @@ namespace GraphEngine
 
             memberAccess.Name = node.Member.Name;
 
-            if (node.Expression is object)
+            if (node.Expression is not null)
             {
                 memberAccess.Expression = this.VisitCacheParse(node.Expression);
             }
@@ -479,7 +476,7 @@ namespace GraphEngine
                 Method = this.VisitMethod(node.Method),
             };
 
-            if (node.Object is object)
+            if (node.Object is not null)
             {
                 call.Instance = this.VisitCacheParse(node.Object);
             }
@@ -494,7 +491,7 @@ namespace GraphEngine
 
         protected override Linq.Expression VisitNew(Linq.NewExpression node)
         {
-            var @new = new New(this.Current)
+            _ = new New(this.Current)
             {
                 Type = this.VisitType(node.Type),
             };
@@ -531,7 +528,7 @@ namespace GraphEngine
                 Type = this.VisitType(node.Type),
             };
 
-            if (node.Name is object)
+            if (node.Name is not null)
             {
                 parameter.Name = node.Name;
             }
@@ -601,11 +598,9 @@ namespace GraphEngine
             return node;
         }
 
-        private Expression VisitCacheParse(Linq.Expression node) =>
-            Expression.Parse(this.VisitCache(node));
+        private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(this.VisitCache(node));
 
-        private NodeWithGraph VisitCache(Linq.Expression node) =>
-            this[this.Visit(node)];
+        private NodeWithGraph VisitCache(Linq.Expression node) => this[this.Visit(node)];
 
         private ArgumentInfo VisitArgumentInfo(string argument)
         {
@@ -730,10 +725,9 @@ namespace GraphEngine
             }
         }
 
-        private IDisposable Wrap(object node) =>
-            new Wrapper(this, this[node]);
+        private IDisposable Wrap(object node) => new Wrapper(this, this[node]);
 
-        private struct Wrapper : IDisposable
+        private readonly struct Wrapper : IDisposable
         {
             private readonly SerialisingVisitor visitor;
 

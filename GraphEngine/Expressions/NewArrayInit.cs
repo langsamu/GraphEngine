@@ -10,9 +10,7 @@ namespace GraphEngine
         [DebuggerStepThrough]
         internal NewArrayInit(NodeWithGraph node)
             : base(node)
-        {
-            this.RdfType = Vocabulary.NewArrayInit;
-        }
+            => this.RdfType = Vocabulary.NewArrayInit;
 
         protected override NewArrayExpressionFactory FactoryMethod => Linq.Expression.NewArrayInit;
     }

@@ -36,13 +36,12 @@ namespace GraphEngine
             set => this.SetRequired(TypeBinaryType, value);
         }
 
-        public override Linq.Expression LinqExpression =>
-            this.ExpressionType.LinqExpressionType switch
-            {
-                Linq.ExpressionType.TypeEqual => Linq.Expression.TypeEqual(this.Expression.LinqExpression, this.Type.SystemType),
-                Linq.ExpressionType.TypeIs => Linq.Expression.TypeIs(this.Expression.LinqExpression, this.Type.SystemType),
+        public override Linq.Expression LinqExpression => this.ExpressionType.LinqExpressionType switch
+        {
+            Linq.ExpressionType.TypeEqual => Linq.Expression.TypeEqual(this.Expression.LinqExpression, this.Type.SystemType),
+            Linq.ExpressionType.TypeIs => Linq.Expression.TypeIs(this.Expression.LinqExpression, this.Type.SystemType),
 
-                var unknown => throw new InvalidOperationException($"{unknown} is not binarytype"),
-            };
+            var unknown => throw new InvalidOperationException($"{unknown} is not binarytype"),
+        };
     }
 }

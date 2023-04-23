@@ -15,9 +15,7 @@ namespace GraphEngine
 
         public Collection(NodeWithGraph subject, INode predicate, Func<NodeWithGraph, T> parser)
             : base(subject, predicate)
-        {
-            this.parser = parser;
-        }
+            => this.parser = parser;
 
         public void Add(T item) => base.Add(item);
 
