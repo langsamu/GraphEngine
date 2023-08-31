@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="dotNetRDF" Version="3.0.1" />
     <PackageReference Include="ExpressionTreeToolkit.Core" Version="0.4.0" />
-    <PackageReference Include="FluentAssertions" Version="6.11.0" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
