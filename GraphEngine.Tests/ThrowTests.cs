@@ -1,21 +1,21 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class ThrowTests : TestBase
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class ThrowTests : TestBase
+    [TestMethod]
+    public void Default()
     {
-        [TestMethod]
-        public void Default()
-        {
-            var expected =
-                LinqExpression.Throw(null);
+        var expected =
+            LinqExpression.Throw(null);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -23,18 +23,18 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Value()
-        {
-            var expected =
-                LinqExpression.Throw(
-                    LinqExpression.New(
-                        typeof(ArgumentException)));
+    [TestMethod]
+    public void Value()
+    {
+        var expected =
+            LinqExpression.Throw(
+                LinqExpression.New(
+                    typeof(ArgumentException)));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -46,19 +46,19 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Value_type()
-        {
-            var expected =
-                LinqExpression.Throw(
-                    LinqExpression.New(
-                        typeof(ArgumentException)),
-                    typeof(Exception));
+    [TestMethod]
+    public void Value_type()
+    {
+        var expected =
+            LinqExpression.Throw(
+                LinqExpression.New(
+                    typeof(ArgumentException)),
+                typeof(Exception));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -73,18 +73,18 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Type()
-        {
-            var expected =
-                LinqExpression.Throw(
-                    null,
-                    typeof(Exception));
+    [TestMethod]
+    public void Type()
+    {
+        var expected =
+            LinqExpression.Throw(
+                null,
+                typeof(Exception));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -94,7 +94,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

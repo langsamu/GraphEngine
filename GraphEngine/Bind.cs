@@ -1,25 +1,24 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Diagnostics;
+using static Vocabulary;
+using Linq = System.Linq.Expressions;
+
+public class Bind : BaseBind
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
+    [DebuggerStepThrough]
+    internal Bind(NodeWithGraph node)
+        : base(node)
+        => this.RdfType = Vocabulary.Bind;
 
-    public class Bind : BaseBind
+    public Expression Expression
     {
-        [DebuggerStepThrough]
-        internal Bind(NodeWithGraph node)
-            : base(node)
-            => this.RdfType = Vocabulary.Bind;
+        get => this.GetRequired(BindExpression, Expression.Parse);
 
-        public Expression Expression
-        {
-            get => this.GetRequired(BindExpression, Expression.Parse);
-
-            set => this.SetRequired(BindExpression, value);
-        }
-
-        public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.Bind(this.Member.ReflectionMember, this.Expression.LinqExpression);
+        set => this.SetRequired(BindExpression, value);
     }
+
+    public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.Bind(this.Member.ReflectionMember, this.Expression.LinqExpression);
 }

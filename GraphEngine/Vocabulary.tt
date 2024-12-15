@@ -11,22 +11,21 @@
 <#+
 private void GenerateNamespace()
 {#>
-namespace GraphEngine
-{
-    using VDS.RDF;
+namespace GraphEngine; 
 
-    public static partial class Vocabulary
-    {<#+
-    GenerateProperties();
-#>    }
-}<#+}
+using VDS.RDF;
+
+public static partial class Vocabulary
+{<#+
+GenerateProperties();
+#>}<#+}
 
 private void GenerateProperties()
 {
     foreach(var item in Data)
     {#>
 
-        public static IUriNode <#= item.Property #> { get; } = EngineNode("<#= item.Uri #>");
+    public static IUriNode <#= item.Property #> { get; } = EngineNode("<#= item.Uri #>");
 <#+}
 }
 

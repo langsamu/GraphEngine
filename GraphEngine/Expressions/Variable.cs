@@ -1,12 +1,11 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Variable : Parameter
 {
-    public class Variable : Parameter
+    public Variable(NodeWithGraph node)
+        : base(node)
     {
-        public Variable(NodeWithGraph node)
-            : base(node)
-        {
-        }
     }
 }

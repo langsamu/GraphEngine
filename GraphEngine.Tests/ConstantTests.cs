@@ -1,22 +1,22 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VDS.RDF;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class ConstantTests : TestBase
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class ConstantTests : TestBase
+    [TestMethod]
+    public void Null()
     {
-        [TestMethod]
-        public void Null()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    null);
+        var expected =
+            LinqExpression.Constant(
+                null);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -24,18 +24,18 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Null_with_type()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    null,
-                    typeof(string));
+    [TestMethod]
+    public void Null_with_type()
+    {
+        var expected =
+            LinqExpression.Constant(
+                null,
+                typeof(string));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s 
@@ -45,17 +45,17 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Uri()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    UriFactory.Create("urn:s"));
+    [TestMethod]
+    public void Uri()
+    {
+        var expected =
+            LinqExpression.Constant(
+                UriFactory.Create("urn:s"));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s 
@@ -63,17 +63,17 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void LangString()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    new NodeFactory(new NodeFactoryOptions()).CreateLiteralNode(string.Empty, "en"));
+    [TestMethod]
+    public void LangString()
+    {
+        var expected =
+            LinqExpression.Constant(
+                new NodeFactory(new NodeFactoryOptions()).CreateLiteralNode(string.Empty, "en"));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s 
@@ -81,17 +81,17 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Long_value()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    0L);
+    [TestMethod]
+    public void Long_value()
+    {
+        var expected =
+            LinqExpression.Constant(
+                0L);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s 
@@ -99,17 +99,17 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Int_value()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    0);
+    [TestMethod]
+    public void Int_value()
+    {
+        var expected =
+            LinqExpression.Constant(
+                0);
 
-            const string actual = @"
+        const string actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -118,17 +118,17 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void String_value()
-        {
-            var expected =
-                LinqExpression.Constant(
-                    "x");
+    [TestMethod]
+    public void String_value()
+    {
+        var expected =
+            LinqExpression.Constant(
+                "x");
 
-            const string actual = @"
+        const string actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -137,7 +137,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

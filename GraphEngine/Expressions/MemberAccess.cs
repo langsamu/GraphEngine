@@ -1,37 +1,36 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Diagnostics;
+using static Vocabulary;
+
+public abstract class MemberAccess : Expression
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-
-    public abstract class MemberAccess : Expression
+    [DebuggerStepThrough]
+    internal MemberAccess(NodeWithGraph node)
+        : base(node)
     {
-        [DebuggerStepThrough]
-        internal MemberAccess(NodeWithGraph node)
-            : base(node)
-        {
-        }
+    }
 
-        public Expression? Expression
-        {
-            get => this.GetOptional(MemberAccessExpression, Expression.Parse);
+    public Expression? Expression
+    {
+        get => this.GetOptional(MemberAccessExpression, Expression.Parse);
 
-            set => this.SetOptional(MemberAccessExpression, value);
-        }
+        set => this.SetOptional(MemberAccessExpression, value);
+    }
 
-        public string Name
-        {
-            get => this.GetRequired(MemberAccessName, AsString);
+    public string Name
+    {
+        get => this.GetRequired(MemberAccessName, AsString);
 
-            set => this.SetRequired(MemberAccessName, value);
-        }
+        set => this.SetRequired(MemberAccessName, value);
+    }
 
-        public Type? Type
-        {
-            get => this.GetOptional(MemberAccessType, Type.Parse);
+    public Type? Type
+    {
+        get => this.GetOptional(MemberAccessType, Type.Parse);
 
-            set => this.SetOptional(MemberAccessType, value);
-        }
+        set => this.SetOptional(MemberAccessType, value);
     }
 }

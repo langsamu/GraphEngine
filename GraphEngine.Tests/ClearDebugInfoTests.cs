@@ -1,22 +1,22 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class ClearDebugInfoTests : TestBase
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class ClearDebugInfoTests : TestBase
+    [TestMethod]
+    public void Default()
     {
-        [TestMethod]
-        public void Default()
-        {
-            var expected =
-                LinqExpression.ClearDebugInfo(
-                    LinqExpression.SymbolDocument(
-                        string.Empty));
+        var expected =
+            LinqExpression.ClearDebugInfo(
+                LinqExpression.SymbolDocument(
+                    string.Empty));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -27,7 +27,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

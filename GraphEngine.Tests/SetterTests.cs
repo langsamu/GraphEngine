@@ -1,19 +1,19 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
-{
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
+namespace GraphEngine.Tests;
 
-    [TestClass]
-    public class SetterTests
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VDS.RDF;
+
+[TestClass]
+public class SetterTests
+{
+    [TestMethod]
+    public void All()
     {
-        [TestMethod]
-        public void All()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -37,28 +37,27 @@ namespace GraphEngine.Tests
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var aa = new Collection<Expression>(s, Vocabulary.ArrayIndexIndexes, Expression.Parse);
-            foreach (Parameter index in aa)
-            {
-                Console.WriteLine(index.Type.Name);
-            }
+        var aa = new Collection<Expression>(s, Vocabulary.ArrayIndexIndexes, Expression.Parse);
+        foreach (Parameter index in aa)
+        {
+            Console.WriteLine(index.Type.Name);
+        }
 
-            var item = new Parameter(s.Graph.CreateBlankNode().In(g));
-            var type = new GraphEngine.Type(s.Graph.CreateBlankNode().In(g));
-            type.Name = "X";
-            var typeA = new GraphEngine.Type(s.Graph.CreateBlankNode().In(g));
-            typeA.Name = "Y";
-            type.Arguments.Add(typeA);
-            item.Type = type;
+        var item = new Parameter(s.Graph.CreateBlankNode().In(g));
+        var type = new GraphEngine.Type(s.Graph.CreateBlankNode().In(g));
+        type.Name = "X";
+        var typeA = new GraphEngine.Type(s.Graph.CreateBlankNode().In(g));
+        typeA.Name = "Y";
+        type.Arguments.Add(typeA);
+        item.Type = type;
 
-            aa.Add(item);
+        aa.Add(item);
 
-            foreach (Parameter index in aa)
-            {
-                Console.WriteLine(index.Type.Name);
-            }
+        foreach (Parameter index in aa)
+        {
+            Console.WriteLine(index.Type.Name);
         }
     }
 }

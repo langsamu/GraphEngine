@@ -1,24 +1,24 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using System;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class PropertyOrFieldTests : TestBase
 {
-    using System;
-    using FluentAssertions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class PropertyOrFieldTests : TestBase
+    [TestMethod]
+    public void Name()
     {
-        [TestMethod]
-        public void Name()
-        {
-            var expected =
-                LinqExpression.PropertyOrField(
-                    LinqExpression.Parameter(typeof(SampleClass)),
-                    nameof(SampleClass.InstanceField));
+        var expected =
+            LinqExpression.PropertyOrField(
+                LinqExpression.Parameter(typeof(SampleClass)),
+                nameof(SampleClass.InstanceField));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -27,18 +27,18 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ((Action)(() => ShouldBe(actual, expected))).Should().Throw<InvalidOperationException>();
-        }
+        ((Action)(() => ShouldBe(actual, expected))).Should().Throw<InvalidOperationException>();
+    }
 
-        [TestMethod]
-        public void ExpressionName()
-        {
-            var expected =
-                LinqExpression.PropertyOrField(
-                    LinqExpression.Parameter(typeof(SampleClass)),
-                    nameof(SampleClass.InstanceField));
+    [TestMethod]
+    public void ExpressionName()
+    {
+        var expected =
+            LinqExpression.PropertyOrField(
+                LinqExpression.Parameter(typeof(SampleClass)),
+                nameof(SampleClass.InstanceField));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -52,7 +52,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

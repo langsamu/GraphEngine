@@ -11,29 +11,28 @@
 <#+
 private void GenerateNamespace()
 {#>
-namespace GraphEngine
-{
-    using System;
-    using VDS.RDF;
+namespace GraphEngine;
 
-    public abstract partial class Expression
+using System;
+using VDS.RDF;
+
+public abstract partial class Expression
+{
+    private static Expression ParseResource(NodeWithGraph node) => Vocabulary.RdfType.ObjectOf(node) switch
     {
-        private static Expression ParseResource(NodeWithGraph node) => Vocabulary.RdfType.ObjectOf(node) switch
-        {
 <#+
     GenerateProperties();
 #>
 
-            _ => throw new Exception($"unknown type {Vocabulary.RdfType.ObjectOf(node)} on node {node}")
-        };
-    }
+        _ => throw new Exception($"unknown type {Vocabulary.RdfType.ObjectOf(node)} on node {node}")
+    };
 }<#+}
 
 private void GenerateProperties()
 {
     foreach(var item in Data)
     {#>
-            INode t when t.Equals(Vocabulary.<#= item #>) => new <#= item #>(node),
+        INode t when t.Equals(Vocabulary.<#= item #>) => new <#= item #>(node),
 <#+}
 }
 
