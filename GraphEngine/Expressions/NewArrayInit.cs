@@ -1,17 +1,16 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Diagnostics;
+using Linq = System.Linq.Expressions;
+
+public class NewArrayInit : NewArray
 {
-    using System.Diagnostics;
-    using Linq = System.Linq.Expressions;
+    [DebuggerStepThrough]
+    internal NewArrayInit(NodeWithGraph node)
+        : base(node)
+        => this.RdfType = Vocabulary.NewArrayInit;
 
-    public class NewArrayInit : NewArray
-    {
-        [DebuggerStepThrough]
-        internal NewArrayInit(NodeWithGraph node)
-            : base(node)
-            => this.RdfType = Vocabulary.NewArrayInit;
-
-        protected override NewArrayExpressionFactory FactoryMethod => Linq.Expression.NewArrayInit;
-    }
+    protected override NewArrayExpressionFactory FactoryMethod => Linq.Expression.NewArrayInit;
 }

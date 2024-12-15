@@ -1,22 +1,22 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
-{
-    using System;
-    using GraphEngine;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
-    using Linq = System.Linq.Expressions;
-    using LinqExpression = System.Linq.Expressions.Expression;
+namespace GraphEngine.Tests;
 
-    [TestClass]
-    public class BasicTests
+using System;
+using GraphEngine;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VDS.RDF;
+using Linq = System.Linq.Expressions;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class BasicTests
+{
+    [TestMethod]
+    public void POC()
     {
-        [TestMethod]
-        public void POC()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -41,18 +41,18 @@ namespace GraphEngine.Tests
 .
 ");
 
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var result = Expression.Parse(s).LinqExpression;
+        var result = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(result.GetDebugView());
-        }
+        Console.WriteLine(result.GetDebugView());
+    }
 
-        [TestMethod]
-        public void Lambda()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+    [TestMethod]
+    public void Lambda()
+    {
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -69,19 +69,19 @@ namespace GraphEngine.Tests
 .
 ");
 
-            var s = g.GetUriNode(":s").In(g);
-            var result = (Linq.LambdaExpression)Expression.Parse(s).LinqExpression;
+        var s = g.GetUriNode(":s").In(g);
+        var result = (Linq.LambdaExpression)Expression.Parse(s).LinqExpression;
 
-            var a = result.Compile().DynamicInvoke();
+        var a = result.Compile().DynamicInvoke();
 
-            Console.WriteLine(a);
-        }
+        Console.WriteLine(a);
+    }
 
-        [TestMethod]
-        public void NewWithArguments()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+    [TestMethod]
+    public void NewWithArguments()
+    {
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -96,18 +96,18 @@ namespace GraphEngine.Tests
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var result = Expression.Parse(s).LinqExpression;
+        var result = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(result.GetDebugView());
-        }
+        Console.WriteLine(result.GetDebugView());
+    }
 
-        [TestMethod]
-        public void NewWithoutArguments()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+    [TestMethod]
+    public void NewWithoutArguments()
+    {
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -117,18 +117,18 @@ namespace GraphEngine.Tests
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var result = Expression.Parse(s).LinqExpression;
+        var result = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(result.GetDebugView());
-        }
+        Console.WriteLine(result.GetDebugView());
+    }
 
-        [TestMethod]
-        public void Assign()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+    [TestMethod]
+    public void Assign()
+    {
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
@@ -145,41 +145,41 @@ namespace GraphEngine.Tests
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var result = Expression.Parse(s).LinqExpression;
+        var result = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(result.GetDebugView());
-        }
+        Console.WriteLine(result.GetDebugView());
+    }
 
-        [TestMethod]
-        public void Factorial()
-        {
-            var value = LinqExpression.Parameter(typeof(int));
-            var result = LinqExpression.Parameter(typeof(int));
-            var label = LinqExpression.Label(typeof(int));
-            var expected = LinqExpression.Block(
-                new[] { result },
-                LinqExpression.Assign(
-                    result,
-                    LinqExpression.Constant(1)),
-                LinqExpression.Loop(
-                    LinqExpression.Condition(
-                        LinqExpression.GreaterThan(
-                            value,
-                            LinqExpression.Constant(1)),
-                        LinqExpression.MultiplyAssign(
-                            result,
-                            LinqExpression.PostDecrementAssign(
-                                value)),
-                        LinqExpression.Break(
-                            label,
-                            result),
-                        typeof(void)),
-                    label));
+    [TestMethod]
+    public void Factorial()
+    {
+        var value = LinqExpression.Parameter(typeof(int));
+        var result = LinqExpression.Parameter(typeof(int));
+        var label = LinqExpression.Label(typeof(int));
+        var expected = LinqExpression.Block(
+            new[] { result },
+            LinqExpression.Assign(
+                result,
+                LinqExpression.Constant(1)),
+            LinqExpression.Loop(
+                LinqExpression.Condition(
+                    LinqExpression.GreaterThan(
+                        value,
+                        LinqExpression.Constant(1)),
+                    LinqExpression.MultiplyAssign(
+                        result,
+                        LinqExpression.PostDecrementAssign(
+                            value)),
+                    LinqExpression.Break(
+                        label,
+                        result),
+                    typeof(void)),
+                label));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
@@ -245,22 +245,22 @@ _:one
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void Default()
-        {
-            var expected = LinqExpression.Default(typeof(byte));
+    [TestMethod]
+    public void Default()
+    {
+        var expected = LinqExpression.Default(typeof(byte));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -269,25 +269,25 @@ _:one
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void NewArrayBounds()
-        {
-            var expected =
-                LinqExpression.NewArrayBounds(
-                    typeof(long),
-                    LinqExpression.Constant(0L));
+    [TestMethod]
+    public void NewArrayBounds()
+    {
+        var expected =
+            LinqExpression.NewArrayBounds(
+                typeof(long),
+                LinqExpression.Constant(0L));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -302,22 +302,22 @@ _:one
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void NewArrayInit()
-        {
-            var expected = LinqExpression.NewArrayInit(typeof(long), LinqExpression.Constant(0L));
+    [TestMethod]
+    public void NewArrayInit()
+    {
+        var expected = LinqExpression.NewArrayInit(typeof(long), LinqExpression.Constant(0L));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -332,24 +332,24 @@ _:one
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void TryFault()
-        {
-            var expected = LinqExpression.TryFault(
-                LinqExpression.Constant(0L),
-                LinqExpression.Constant(0L));
+    [TestMethod]
+    public void TryFault()
+    {
+        var expected = LinqExpression.TryFault(
+            LinqExpression.Constant(0L),
+            LinqExpression.Constant(0L));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -360,24 +360,24 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void TryFinally()
-        {
-            var expected = LinqExpression.TryFinally(
-                LinqExpression.Constant(0L),
-                LinqExpression.Constant(0L));
+    [TestMethod]
+    public void TryFinally()
+    {
+        var expected = LinqExpression.TryFinally(
+            LinqExpression.Constant(0L),
+            LinqExpression.Constant(0L));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -388,26 +388,26 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void TryCatchTypeBody()
-        {
-            var expected = LinqExpression.TryCatch(
-                LinqExpression.Constant(0L),
-                LinqExpression.Catch(
-                    typeof(Exception),
-                    LinqExpression.Constant(0L)));
+    [TestMethod]
+    public void TryCatchTypeBody()
+    {
+        var expected = LinqExpression.TryCatch(
+            LinqExpression.Constant(0L),
+            LinqExpression.Catch(
+                typeof(Exception),
+                LinqExpression.Constant(0L)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -425,27 +425,27 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void TryCatchVariableBody()
-        {
-            var expected = LinqExpression.TryCatch(
-                LinqExpression.Constant(0L),
-                LinqExpression.Catch(
-                    LinqExpression.Parameter(
-                        typeof(Exception)),
-                    LinqExpression.Constant(0L)));
+    [TestMethod]
+    public void TryCatchVariableBody()
+    {
+        var expected = LinqExpression.TryCatch(
+            LinqExpression.Constant(0L),
+            LinqExpression.Catch(
+                LinqExpression.Parameter(
+                    typeof(Exception)),
+                LinqExpression.Constant(0L)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -465,29 +465,29 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void TryCatchTypeBodyFilter()
-        {
-            var expected = LinqExpression.TryCatch(
+    [TestMethod]
+    public void TryCatchTypeBodyFilter()
+    {
+        var expected = LinqExpression.TryCatch(
+            LinqExpression.Constant(0L),
+            LinqExpression.Catch(
+                typeof(Exception),
                 LinqExpression.Constant(0L),
-                LinqExpression.Catch(
-                    typeof(Exception),
+                LinqExpression.Equal(
                     LinqExpression.Constant(0L),
-                    LinqExpression.Equal(
-                        LinqExpression.Constant(0L),
-                        LinqExpression.Constant(0L))));
+                    LinqExpression.Constant(0L))));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -511,30 +511,30 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void TryCatchVariableBodyFilter()
-        {
-            var expected = LinqExpression.TryCatch(
+    [TestMethod]
+    public void TryCatchVariableBodyFilter()
+    {
+        var expected = LinqExpression.TryCatch(
+            LinqExpression.Constant(0L),
+            LinqExpression.Catch(
+                LinqExpression.Parameter(
+                    typeof(Exception)),
                 LinqExpression.Constant(0L),
-                LinqExpression.Catch(
-                    LinqExpression.Parameter(
-                        typeof(Exception)),
+                LinqExpression.Equal(
                     LinqExpression.Constant(0L),
-                    LinqExpression.Equal(
-                        LinqExpression.Constant(0L),
-                        LinqExpression.Constant(0L))));
+                    LinqExpression.Constant(0L))));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -560,26 +560,26 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void ArrayAccess()
-        {
-            var expected = LinqExpression.ArrayAccess(
-                LinqExpression.Parameter(
-                    typeof(int[])),
-                LinqExpression.Parameter(
-                    typeof(int)));
+    [TestMethod]
+    public void ArrayAccess()
+    {
+        var expected = LinqExpression.ArrayAccess(
+            LinqExpression.Parameter(
+                typeof(int[])),
+            LinqExpression.Parameter(
+                typeof(int)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -597,49 +597,49 @@ _:zero
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void Empty()
-        {
-            var expected = LinqExpression.Empty();
+    [TestMethod]
+    public void Empty()
+    {
+        var expected = LinqExpression.Empty();
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
     a :Empty ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void Label()
-        {
-            var expected = LinqExpression.Label(
-                LinqExpression.Label(
-                    typeof(int),
-                    "target"),
-                LinqExpression.Parameter(
-                    typeof(int)));
+    [TestMethod]
+    public void Label()
+    {
+        var expected = LinqExpression.Label(
+            LinqExpression.Label(
+                typeof(int),
+                "target"),
+            LinqExpression.Parameter(
+                typeof(int)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -656,26 +656,26 @@ _:int
     :typeName ""System.Int32"" ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void ArrayIndex_index()
-        {
-            var expected = LinqExpression.ArrayIndex(
-                LinqExpression.Parameter(
-                    typeof(int[])),
-                LinqExpression.Parameter(
-                    typeof(int)));
+    [TestMethod]
+    public void ArrayIndex_index()
+    {
+        var expected = LinqExpression.ArrayIndex(
+            LinqExpression.Parameter(
+                typeof(int[])),
+            LinqExpression.Parameter(
+                typeof(int)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -691,29 +691,29 @@ _:int
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void ArrayIndex_indexes()
-        {
-            var expected = LinqExpression.ArrayIndex(
+    [TestMethod]
+    public void ArrayIndex_indexes()
+    {
+        var expected = LinqExpression.ArrayIndex(
+            LinqExpression.Parameter(
+                typeof(int[])),
+            new[]
+            {
                 LinqExpression.Parameter(
-                    typeof(int[])),
-                new[]
-                {
-                    LinqExpression.Parameter(
-                        typeof(int)),
-                });
+                    typeof(int)),
+            });
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -731,23 +731,23 @@ _:int
     ) ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void Condition()
-        {
-            var param = LinqExpression.Parameter(typeof(bool));
-            var expected = LinqExpression.Condition(param, param, param);
+    [TestMethod]
+    public void Condition()
+    {
+        var param = LinqExpression.Parameter(typeof(bool));
+        var expected = LinqExpression.Condition(param, param, param);
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -762,26 +762,26 @@ _:param
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void ConditionType()
-        {
-            var expected = LinqExpression.Condition(
-                LinqExpression.Parameter(typeof(bool)),
-                LinqExpression.Parameter(typeof(SampleClass)),
-                LinqExpression.Parameter(typeof(SampleDerivedClass)),
-                typeof(SampleClass));
+    [TestMethod]
+    public void ConditionType()
+    {
+        var expected = LinqExpression.Condition(
+            LinqExpression.Parameter(typeof(bool)),
+            LinqExpression.Parameter(typeof(SampleClass)),
+            LinqExpression.Parameter(typeof(SampleDerivedClass)),
+            typeof(SampleClass));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -793,23 +793,23 @@ _:param
 
 _:C1 :typeName ""GraphEngine.Tests.SampleClass, GraphEngine.Tests"" .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void IfThen()
-        {
-            var param = LinqExpression.Parameter(typeof(bool));
-            var expected = LinqExpression.IfThen(param, param);
+    [TestMethod]
+    public void IfThen()
+    {
+        var param = LinqExpression.Parameter(typeof(bool));
+        var expected = LinqExpression.IfThen(param, param);
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -824,23 +824,23 @@ _:param
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void IfThenElse()
-        {
-            var param = LinqExpression.Parameter(typeof(bool));
-            var expected = LinqExpression.IfThenElse(param, param, param);
+    [TestMethod]
+    public void IfThenElse()
+    {
+        var param = LinqExpression.Parameter(typeof(bool));
+        var expected = LinqExpression.IfThenElse(param, param, param);
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -856,20 +856,20 @@ _:param
     ] ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
+    }
 
-        [TestMethod]
-        public void EatYourOwnDogfood()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+    [TestMethod]
+    public void EatYourOwnDogfood()
+    {
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix : <http://example.com/> .
 
 :s
@@ -889,32 +889,31 @@ _:g
 .
 ");
 
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var parsed = Expression.Parse(s).LinqExpression;
-            var lambdaExpression = (Linq.LambdaExpression)parsed;
-            var lambda = lambdaExpression.Compile();
+        var parsed = Expression.Parse(s).LinqExpression;
+        var lambdaExpression = (Linq.LambdaExpression)parsed;
+        var lambda = lambdaExpression.Compile();
 
-            Assert.AreEqual(g.Triples.Count, 12); // 8 explicit, 4 implicit
-            var result = lambda.DynamicInvoke(g);
-            Assert.AreEqual(g.Triples.Count, 0);
-        }
+        Assert.AreEqual(g.Triples.Count, 12); // 8 explicit, 4 implicit
+        var result = lambda.DynamicInvoke(g);
+        Assert.AreEqual(g.Triples.Count, 0);
+    }
 
-        [TestMethod]
-        public void ReasoningPOC()
-        {
-            using var g = new GraphEngine.Graph();
-            g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequenceUntyped.ttl, GraphEngine.Tests");
+    [TestMethod]
+    public void ReasoningPOC()
+    {
+        using var g = new GraphEngine.Graph();
+        g.LoadFromEmbeddedResource("GraphEngine.Tests.Resources.Examples.FibonacciSequenceUntyped.ttl, GraphEngine.Tests");
 
-            var s = g.GetUriNode(new Uri("http://example.com/s")).In(g);
+        var s = g.GetUriNode(new Uri("http://example.com/s")).In(g);
 
-            var expression = Expression.Parse(s).LinqExpression;
-            Console.WriteLine(expression.GetDebugView());
+        var expression = Expression.Parse(s).LinqExpression;
+        Console.WriteLine(expression.GetDebugView());
 
-            var lambda = LinqExpression.Lambda(expression);
-            var actual = lambda.Compile().DynamicInvoke();
+        var lambda = LinqExpression.Lambda(expression);
+        var actual = lambda.Compile().DynamicInvoke();
 
-            Assert.AreEqual(21L, actual);
-        }
+        Assert.AreEqual(21L, actual);
     }
 }

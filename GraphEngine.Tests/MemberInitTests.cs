@@ -1,23 +1,23 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class MemberInitTests : TestBase
 {
-    using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class MemberInitTests : TestBase
+    [TestMethod]
+    public void No_bindings()
     {
-        [TestMethod]
-        public void No_bindings()
-        {
-            var expected =
-                LinqExpression.MemberInit(
-                    LinqExpression.New(
-                        typeof(SampleClass)));
+        var expected =
+            LinqExpression.MemberInit(
+                LinqExpression.New(
+                    typeof(SampleClass)));
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -30,21 +30,21 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Bind()
-        {
-            var expected =
-                LinqExpression.MemberInit(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    LinqExpression.Bind(
-                        typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
-                        LinqExpression.Constant(string.Empty)));
+    [TestMethod]
+    public void Bind()
+    {
+        var expected =
+            LinqExpression.MemberInit(
+                LinqExpression.New(
+                    typeof(SampleClass)),
+                LinqExpression.Bind(
+                    typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
+                    LinqExpression.Constant(string.Empty)));
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -70,23 +70,23 @@ _:C3
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void ListBind()
-        {
-            var expected =
-                LinqExpression.MemberInit(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    LinqExpression.ListBind(
-                        typeof(SampleClass).GetProperty(nameof(SampleClass.ListProperty)),
-                        LinqExpression.ElementInit(
-                            typeof(List<long>).GetMethod("Add"),
-                            LinqExpression.Constant(0L))));
+    [TestMethod]
+    public void ListBind()
+    {
+        var expected =
+            LinqExpression.MemberInit(
+                LinqExpression.New(
+                    typeof(SampleClass)),
+                LinqExpression.ListBind(
+                    typeof(SampleClass).GetProperty(nameof(SampleClass.ListProperty)),
+                    LinqExpression.ElementInit(
+                        typeof(List<long>).GetMethod("Add"),
+                        LinqExpression.Constant(0L))));
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -124,24 +124,24 @@ _:C3
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void MemberBind()
-        {
-            var expected =
-                LinqExpression.MemberInit(
-                    LinqExpression.New(
-                        typeof(SampleClass)),
-                    LinqExpression.MemberBind(
-                        typeof(SampleClass).GetField(nameof(SampleClass.ComplexField)),
-                        LinqExpression.Bind(
-                            typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
-                            LinqExpression.Constant(
-                                string.Empty))));
+    [TestMethod]
+    public void MemberBind()
+    {
+        var expected =
+            LinqExpression.MemberInit(
+                LinqExpression.New(
+                    typeof(SampleClass)),
+                LinqExpression.MemberBind(
+                    typeof(SampleClass).GetField(nameof(SampleClass.ComplexField)),
+                    LinqExpression.Bind(
+                        typeof(SampleClass).GetField(nameof(SampleClass.InstanceField)),
+                        LinqExpression.Constant(
+                            string.Empty))));
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -177,7 +177,6 @@ _:C3
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

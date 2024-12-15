@@ -1,33 +1,32 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Collections.Generic;
+using System.Diagnostics;
+using static Vocabulary;
+using Linq = System.Linq.Expressions;
+
+public abstract class NewArray : Expression
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public abstract class NewArray : Expression
+    [DebuggerStepThrough]
+    internal NewArray(NodeWithGraph node)
+        : base(node)
     {
-        [DebuggerStepThrough]
-        internal NewArray(NodeWithGraph node)
-            : base(node)
-        {
-        }
-
-        protected delegate Linq.NewArrayExpression NewArrayExpressionFactory(System.Type type, IEnumerable<Linq.Expression> expressions);
-
-        public Type Type
-        {
-            get => this.GetRequired(NewArrayType, Type.Parse);
-
-            set => this.SetRequired(NewArrayType, value);
-        }
-
-        public ICollection<Expression> Expressions => this.Collection(NewArrayExpressions, Expression.Parse);
-
-        public override Linq.Expression LinqExpression => this.FactoryMethod(this.Type.SystemType, this.Expressions.LinqExpressions());
-
-        protected abstract NewArrayExpressionFactory FactoryMethod { get; }
     }
+
+    protected delegate Linq.NewArrayExpression NewArrayExpressionFactory(System.Type type, IEnumerable<Linq.Expression> expressions);
+
+    public Type Type
+    {
+        get => this.GetRequired(NewArrayType, Type.Parse);
+
+        set => this.SetRequired(NewArrayType, value);
+    }
+
+    public ICollection<Expression> Expressions => this.Collection(NewArrayExpressions, Expression.Parse);
+
+    public override Linq.Expression LinqExpression => this.FactoryMethod(this.Type.SystemType, this.Expressions.LinqExpressions());
+
+    protected abstract NewArrayExpressionFactory FactoryMethod { get; }
 }

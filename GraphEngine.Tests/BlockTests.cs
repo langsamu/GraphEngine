@@ -1,21 +1,21 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class BlockTests : TestBase
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class BlockTests : TestBase
+    [TestMethod]
+    public void Expressions()
     {
-        [TestMethod]
-        public void Expressions()
-        {
-            var expected =
-                LinqExpression.Block(
-                    LinqExpression.Default(typeof(string)));
+        var expected =
+            LinqExpression.Block(
+                LinqExpression.Default(typeof(string)));
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -30,26 +30,26 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void ExpressionsVariables()
-        {
-            var expected =
-                LinqExpression.Block(
-                    new[]
-                    {
-                        LinqExpression.Parameter(
-                            typeof(string)),
-                    },
-                    new[]
-                    {
-                        LinqExpression.Default(
-                            typeof(string)),
-                    });
+    [TestMethod]
+    public void ExpressionsVariables()
+    {
+        var expected =
+            LinqExpression.Block(
+                new[]
+                {
+                    LinqExpression.Parameter(
+                        typeof(string)),
+                },
+                new[]
+                {
+                    LinqExpression.Default(
+                        typeof(string)),
+                });
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -71,18 +71,18 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void TypeExpressions()
-        {
-            var expected =
-                LinqExpression.Block(
-                    typeof(object),
-                    LinqExpression.Default(typeof(string)));
+    [TestMethod]
+    public void TypeExpressions()
+    {
+        var expected =
+            LinqExpression.Block(
+                typeof(object),
+                LinqExpression.Default(typeof(string)));
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -100,27 +100,27 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void TypeExpressionsVariables()
-        {
-            var expected =
-                LinqExpression.Block(
-                    typeof(object),
-                    new[]
-                    {
-                        LinqExpression.Parameter(
-                            typeof(string)),
-                    },
-                    new[]
-                    {
-                        LinqExpression.Default(
-                            typeof(string)),
-                    });
+    [TestMethod]
+    public void TypeExpressionsVariables()
+    {
+        var expected =
+            LinqExpression.Block(
+                typeof(object),
+                new[]
+                {
+                    LinqExpression.Parameter(
+                        typeof(string)),
+                },
+                new[]
+                {
+                    LinqExpression.Default(
+                        typeof(string)),
+                });
 
-            var actual = @"
+        var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -145,7 +145,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }
