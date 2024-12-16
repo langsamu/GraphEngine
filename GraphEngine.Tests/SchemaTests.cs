@@ -2,15 +2,8 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using FluentAssertions;
 using GraphEngine.Ontology;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VDS.RDF;
 using VDS.RDF.Parsing;
 
 [TestClass]

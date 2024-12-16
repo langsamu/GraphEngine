@@ -2,12 +2,6 @@
 
 namespace GraphEngine;
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class Switch : Expression
 {
     [DebuggerStepThrough]

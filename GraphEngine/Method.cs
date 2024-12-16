@@ -2,12 +2,7 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using static Vocabulary;
 
 // TODO: Improve derivation
 public class Method : Member

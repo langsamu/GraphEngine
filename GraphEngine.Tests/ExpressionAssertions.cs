@@ -2,7 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using LinqExpression = System.Linq.Expressions.Expression;

@@ -2,9 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using VDS.RDF;
-
 public abstract partial class Expression
 {
     private static Expression ParseResource(NodeWithGraph node) => Vocabulary.RdfType.ObjectOf(node) switch

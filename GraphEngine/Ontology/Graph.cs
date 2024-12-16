@@ -2,10 +2,6 @@
 
 namespace GraphEngine.Ontology;
 
-using System.Collections.Generic;
-using System.Linq;
-using VDS.RDF;
-
 public class Graph : WrapperGraph
 {
     public IEnumerable<Resource> Ontologies => from o in this.InstancesOf(Vocabulary.OwlOntology) select new Resource(o);

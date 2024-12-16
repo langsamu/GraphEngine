@@ -2,8 +2,6 @@
 
 namespace GraphEngine;
 
-using System.Diagnostics;
-
 public class Rethrow : Throw
 {
     [DebuggerStepThrough]

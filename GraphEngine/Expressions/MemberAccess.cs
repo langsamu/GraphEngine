@@ -2,9 +2,6 @@
 
 namespace GraphEngine;
 
-using System.Diagnostics;
-using static Vocabulary;
-
 public abstract class MemberAccess : Expression
 {
     [DebuggerStepThrough]

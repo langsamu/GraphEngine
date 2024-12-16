@@ -2,7 +2,6 @@
 
 namespace GraphEngine; 
 
-using VDS.RDF;
 
 public static partial class Vocabulary
 {

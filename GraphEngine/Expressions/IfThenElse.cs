@@ -2,9 +2,6 @@
 
 namespace GraphEngine;
 
-using System.Diagnostics;
-using Linq = System.Linq.Expressions;
-
 public class IfThenElse : Condition
 {
     [DebuggerStepThrough]

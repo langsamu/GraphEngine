@@ -2,8 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using VDS.RDF;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 public class TestBase

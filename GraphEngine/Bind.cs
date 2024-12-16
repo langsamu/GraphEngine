@@ -2,10 +2,6 @@
 
 namespace GraphEngine;
 
-using System.Diagnostics;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class Bind : BaseBind
 {
     [DebuggerStepThrough]

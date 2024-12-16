@@ -2,10 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Linq = System.Linq.Expressions;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 [TestClass]
@@ -59,7 +55,7 @@ public class BinaryTests : TestBase
 
     [TestMethod]
     [DynamicData(nameof(Data))]
-    public void Regular(Linq.ExpressionType binaryType, Type leftType = null, Type rightType = null)
+    public void Regular(Linq.ExpressionType binaryType, System.Type leftType = null, System.Type rightType = null)
     {
         leftType ??= typeof(int);
         rightType ??= leftType;

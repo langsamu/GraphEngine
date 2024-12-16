@@ -2,8 +2,6 @@
 
 namespace GraphEngine;
 
-using VDS.RDF;
-
 public class NodeWithGraph : WrapperNode
 {
     public NodeWithGraph(INode node, IGraph graph)

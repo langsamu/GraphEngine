@@ -2,11 +2,7 @@
 
 namespace GraphEngine;
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using VDS.RDF;
 
 public class Collection : ICollection<NodeWithGraph>
 {

@@ -2,11 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Diagnostics;
-using VDS.RDF;
-using Linq = System.Linq.Expressions;
-
 public class ExpressionType : Node
 {
     [DebuggerStepThrough]

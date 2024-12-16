@@ -2,10 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Linq = System.Linq.Expressions;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 [TestClass]
@@ -45,7 +41,7 @@ public class UnaryTests : TestBase
 
     [TestMethod]
     [DynamicData(nameof(UnTypedData))]
-    public void UnTyped(Linq.ExpressionType expression, Type operandType = null)
+    public void UnTyped(Linq.ExpressionType expression, System.Type operandType = null)
     {
         operandType ??= typeof(int);
 
@@ -70,7 +66,7 @@ public class UnaryTests : TestBase
 
     [TestMethod]
     [DynamicData(nameof(TypedData))]
-    public void Typed(Linq.ExpressionType expression, Type type = null)
+    public void Typed(Linq.ExpressionType expression, System.Type type = null)
     {
         var operandType = typeof(object);
         type ??= operandType;
