@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Dynamic : Expression
+public class Dynamic(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Dynamic(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Binder Binder
     {
         get => this.GetRequired(DynamicBinder, Binder.Parse);

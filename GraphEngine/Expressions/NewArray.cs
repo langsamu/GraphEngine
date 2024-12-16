@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public abstract class NewArray : Expression
+public abstract class NewArray(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal NewArray(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     protected delegate Linq.NewArrayExpression NewArrayExpressionFactory(System.Type type, IEnumerable<Linq.Expression> expressions);
 
     public Type Type

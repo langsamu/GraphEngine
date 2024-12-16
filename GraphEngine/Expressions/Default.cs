@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Default : Expression
+public class Default(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Default(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Type Type
     {
         get => this.GetRequired(DefaultType, Type.Parse);

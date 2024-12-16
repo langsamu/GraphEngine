@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Throw : Expression
+public class Throw(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    public Throw(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression? Value
     {
         get => this.GetOptional(ThrowValue, Expression.Parse);

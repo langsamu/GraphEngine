@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public abstract class BaseBind : Node
+public abstract class BaseBind(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    internal BaseBind(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Member Member
     {
         get => this.GetRequired(BindMember, Member.Parse);

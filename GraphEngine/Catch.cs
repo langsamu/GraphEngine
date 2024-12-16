@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Catch : Node
+public class Catch(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    internal Catch(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Type? Type
     {
         get => this.GetOptional(CatchType, Type.Parse);

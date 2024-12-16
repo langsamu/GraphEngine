@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-internal class Loop : Expression
+internal class Loop(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    public Loop(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Body
     {
         get => this.GetRequired(LoopBody, Expression.Parse);

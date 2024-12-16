@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class RuntimeVariables : Expression
+public class RuntimeVariables(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal RuntimeVariables(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public ICollection<Parameter> Variables => this.Collection(RuntimeVariablesVariables, Parameter.Parse);
 
     public override Linq.Expression LinqExpression => Linq.Expression.RuntimeVariables(from e in this.Variables select e.LinqParameter);

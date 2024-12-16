@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class ArrayAccess : Expression
+public class ArrayAccess(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal ArrayAccess(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Array
     {
         get => this.GetRequired(ArrayAccessArray, Expression.Parse);

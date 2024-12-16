@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Unary : Expression
+public class Unary(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    public Unary(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Operand
     {
         get => this.GetRequired(UnaryOperand, Expression.Parse);

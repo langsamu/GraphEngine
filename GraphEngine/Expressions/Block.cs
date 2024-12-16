@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Block : Expression
+public class Block(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Block(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Type? Type
     {
         get => this.GetOptional(BlockType, Type.Parse);

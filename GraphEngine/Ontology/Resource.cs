@@ -2,14 +2,8 @@
 
 namespace GraphEngine.Ontology;
 
-public class Resource : NodeWithGraph
+public class Resource(NodeWithGraph node) : NodeWithGraph(node, node.Graph)
 {
-    [DebuggerStepThrough]
-    public Resource(NodeWithGraph node)
-        : base(node, node.Graph)
-    {
-    }
-
     public Uri? Uri => (this as IUriNode)?.Uri;
 
     public IEnumerable<INode> Types => Vocabulary.RdfType.ObjectsOf(this);

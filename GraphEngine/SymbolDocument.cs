@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class SymbolDocument : Node
+public class SymbolDocument(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    internal SymbolDocument(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public string FileName
     {
         get => this.GetRequired(SymbolDocumentFileName, AsString);

@@ -4,14 +4,8 @@ namespace GraphEngine;
 
 // TODO: Add overloads
 // TODO: Create ConstructorInfo node
-public class New : Expression
+public class New(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal New(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public ICollection<Expression> Arguments => this.Collection(NewArguments, Expression.Parse);
 
     public Type Type

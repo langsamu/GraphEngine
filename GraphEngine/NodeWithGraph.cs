@@ -2,13 +2,9 @@
 
 namespace GraphEngine;
 
-public class NodeWithGraph : WrapperNode
+public class NodeWithGraph(INode node, IGraph graph) : WrapperNode(node)
 {
-    public NodeWithGraph(INode node, IGraph graph)
-        : base(node)
-        => this.Graph = graph;
-
-    public IGraph Graph { get; }
+    public IGraph Graph { get; } = graph;
 
     public INode Original => this.Node;
 }

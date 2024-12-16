@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Case : Node
+public class Case(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    internal Case(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Body
     {
         get => this.GetRequired(CaseBody, Expression.Parse);

@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Binary : Expression
+public class Binary(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    public Binary(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Left
     {
         get => this.GetRequired(BinaryLeft, Expression.Parse);

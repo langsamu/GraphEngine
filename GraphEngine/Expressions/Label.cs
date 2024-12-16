@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Label : Expression
+public class Label(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Label(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Target Target
     {
         get => this.GetRequired(LabelTarget, Target.Parse);

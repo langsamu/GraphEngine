@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Switch : Expression
+public class Switch(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Switch(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Type? Type
     {
         get => this.GetOptional(SwitchType, Type.Parse);

@@ -4,14 +4,8 @@ namespace GraphEngine;
 
 using System.Runtime.CompilerServices;
 
-public abstract class Binder : Node
+public abstract class Binder(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    protected Binder(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public string Name
     {
         get => this.GetRequired(BinderName, AsString);

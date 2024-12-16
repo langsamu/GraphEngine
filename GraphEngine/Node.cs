@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public abstract partial class Node : NodeWithGraph
+public abstract partial class Node(NodeWithGraph node) : NodeWithGraph(node, node?.Graph ?? throw new ArgumentNullException(nameof(node)))
 {
-    [DebuggerStepThrough]
-    protected Node(NodeWithGraph node)
-        : base(node, node?.Graph ?? throw new ArgumentNullException(nameof(node)))
-    {
-    }
-
     public INode? RdfType
     {
         get => Vocabulary.RdfType.ObjectOf(this);

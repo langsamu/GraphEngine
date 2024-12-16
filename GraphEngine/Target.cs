@@ -2,15 +2,9 @@
 
 namespace GraphEngine;
 
-public class Target : Node
+public class Target(NodeWithGraph node) : Node(node)
 {
     private static readonly Dictionary<INode, Linq.LabelTarget> Cache = [];
-
-    [DebuggerStepThrough]
-    internal Target(NodeWithGraph node)
-        : base(node)
-    {
-    }
 
     public Type? Type
     {
