@@ -16,8 +16,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Include="System.Diagnostics"/>
-    <Using Static="true" Include="GraphEngine.Vocabulary"/>
+    <Using Include="System.Diagnostics" />
+    <Using Static="true" Include="GraphEngine.Vocabulary" />
   </ItemGroup>
 
   <ItemGroup>
