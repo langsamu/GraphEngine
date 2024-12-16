@@ -2,12 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class ElementInit : Node
 {
     [DebuggerStepThrough]

@@ -2,12 +2,8 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using System.Collections.Generic;
 using Microsoft.CSharp.RuntimeBinder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VDS.RDF.Writing;
-using Linq = System.Linq.Expressions;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 [TestClass]
@@ -335,7 +331,7 @@ public class SerialisingVisitorTests
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethod),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 Array.Empty<LinqExpression>());
 
         ShouldRoundrip(expression);
@@ -348,7 +344,7 @@ public class SerialisingVisitorTests
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethodWithArgument),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 new[]
                 {
                     LinqExpression.Constant(0L),
@@ -400,7 +396,7 @@ public class SerialisingVisitorTests
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethod),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 Array.Empty<LinqExpression>());
 
         ShouldRoundrip(expression);
@@ -414,7 +410,7 @@ public class SerialisingVisitorTests
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethodWithArgument),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 new[]
                 {
                     LinqExpression.Constant(0L),

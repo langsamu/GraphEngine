@@ -2,14 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class Lambda : Expression
 {
     [DebuggerStepThrough]
@@ -29,7 +21,7 @@ public class Lambda : Expression
 
     public override Linq.Expression LinqExpression => this.LinqLambda;
 
-    public LambdaExpression LinqLambda =>
+    public Linq.LambdaExpression LinqLambda =>
         Linq.Expression.Lambda(
             this.Body.LinqExpression,
             from param in this.Parameters select param.LinqParameter);

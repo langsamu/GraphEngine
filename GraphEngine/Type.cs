@@ -2,12 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using static Vocabulary;
-
 public class Type : Node
 {
     [DebuggerStepThrough]

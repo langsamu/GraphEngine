@@ -2,13 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using VDS.RDF;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class Parameter : Expression
 {
     private static readonly IDictionary<INode, Linq.ParameterExpression> Cache = new Dictionary<INode, Linq.ParameterExpression>();

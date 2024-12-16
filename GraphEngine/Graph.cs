@@ -2,15 +2,10 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using VDS.RDF;
 using VDS.RDF.Ontology;
 using VDS.RDF.Query.Inference;
-using dotNetRDF = VDS.RDF;
 
-public class Graph : dotNetRDF.WrapperGraph
+public class Graph : WrapperGraph
 {
     private static readonly IInferenceEngine Reasoner = new StaticRdfsReasoner();
 
@@ -22,7 +17,7 @@ public class Graph : dotNetRDF.WrapperGraph
         using var schemaClean = new NonIndexedGraph();
         schemaClean.Assert(
             schemaFull
-                .GetTriplesWithPredicate(dotNetRDF.UriFactory.Create(OntologyHelper.PropertyDomain))
+                .GetTriplesWithPredicate(VDS.RDF.UriFactory.Create(OntologyHelper.PropertyDomain))
                 .Where(t => !ExcludedClasses.Contains(t.Object)));
 
         Reasoner.Initialise(schemaClean);

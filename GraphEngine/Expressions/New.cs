@@ -2,14 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using VDS.RDF;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 // TODO: Add overloads
 // TODO: Create ConstructorInfo node
 public class New : Expression

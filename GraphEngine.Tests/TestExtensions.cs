@@ -2,9 +2,7 @@
 
 namespace GraphEngine.Tests;
 
-using System.Collections.Generic;
 using System.Reflection;
-using Linq = System.Linq.Expressions;
 
 internal static class TestExtensions
 {

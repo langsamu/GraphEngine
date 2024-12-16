@@ -2,12 +2,6 @@
 
 namespace GraphEngine.Ontology;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using VDS.RDF;
-
 public class Resource : NodeWithGraph
 {
     [DebuggerStepThrough]

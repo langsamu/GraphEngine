@@ -3,8 +3,6 @@
 namespace GraphEngine.Tests;
 
 using Microsoft.CSharp.RuntimeBinder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Linq = System.Linq.Expressions;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 [TestClass]

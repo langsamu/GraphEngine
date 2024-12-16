@@ -2,13 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using VDS.RDF;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class Target : Node
 {
     private static readonly Dictionary<INode, Linq.LabelTarget> Cache = new ();

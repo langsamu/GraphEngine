@@ -2,8 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 [TestClass]
@@ -280,7 +278,7 @@ public class CallTests : TestBase
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethod),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 Array.Empty<LinqExpression>());
 
         var actual = @"
@@ -305,7 +303,7 @@ public class CallTests : TestBase
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethodWithArgument),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 new[]
                 {
                     LinqExpression.Constant(0L),
@@ -413,7 +411,7 @@ public class CallTests : TestBase
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethod),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 Array.Empty<LinqExpression>());
 
         var actual = @"
@@ -441,7 +439,7 @@ public class CallTests : TestBase
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethodWithArgument),
-                Array.Empty<Type>(),
+                Array.Empty<System.Type>(),
                 new[]
                 {
                     LinqExpression.Constant(0L),

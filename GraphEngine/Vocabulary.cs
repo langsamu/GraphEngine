@@ -2,8 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using VDS.RDF;
 using VDS.RDF.Ontology;
 using VDS.RDF.Parsing;
 

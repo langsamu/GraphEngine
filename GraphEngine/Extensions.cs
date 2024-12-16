@@ -2,14 +2,9 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using VDS.RDF;
 using VDS.RDF.Nodes;
 using VDS.RDF.Parsing;
-using Linq = System.Linq.Expressions;
 
 public static class Extensions
 {

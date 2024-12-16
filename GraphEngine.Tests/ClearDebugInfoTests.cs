@@ -2,7 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 [TestClass]

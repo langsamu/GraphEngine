@@ -2,10 +2,6 @@
 
 namespace GraphEngine.Tests;
 
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VDS.RDF;
-
 [TestClass]
 public class SetterTests
 {

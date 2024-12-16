@@ -2,11 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Diagnostics;
-using static Vocabulary;
-using Linq = System.Linq.Expressions;
-
 public class Unary : Expression
 {
     [DebuggerStepThrough]

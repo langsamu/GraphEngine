@@ -2,14 +2,9 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Linq = System.Linq.Expressions;
 
 public class SerialisingVisitor : Linq.ExpressionVisitor
 {
@@ -87,7 +82,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
                     binary.Method = this.VisitMethod(method);
                 }
 
-                if (node.Conversion is LambdaExpression lambda)
+                if (node.Conversion is Linq.LambdaExpression lambda)
                 {
                     binary.Conversion = new Lambda(this.VisitCache(lambda));
                 }
@@ -249,7 +244,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
 
     protected override Linq.Expression VisitExtension(Linq.Expression node)
     {
-        if (node is DynamicExpression dynamicExpression)
+        if (node is Linq.DynamicExpression dynamicExpression)
         {
             return this.VisitDynamic(dynamicExpression);
         }
@@ -327,7 +322,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
         }
     }
 
-    protected override Linq.Expression VisitListInit(ListInitExpression node)
+    protected override Linq.Expression VisitListInit(Linq.ListInitExpression node)
     {
         var listInit = new ListInit(this.Current)
         {
@@ -342,7 +337,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
         return node;
     }
 
-    protected override Linq.Expression VisitLambda<T>(Expression<T> node)
+    protected override Linq.Expression VisitLambda<T>(Linq.Expression<T> node)
     {
         var lambda = new Lambda(this.Current)
         {
@@ -499,7 +494,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
         return node;
     }
 
-    protected override Linq.Expression VisitNewArray(NewArrayExpression node)
+    protected override Linq.Expression VisitNewArray(Linq.NewArrayExpression node)
     {
         NewArray newArray;
         if (node.NodeType == Linq.ExpressionType.NewArrayBounds)
@@ -548,7 +543,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
         return node;
     }
 
-    protected override Linq.Expression VisitTypeBinary(TypeBinaryExpression node)
+    protected override Linq.Expression VisitTypeBinary(Linq.TypeBinaryExpression node)
     {
         _ = new TypeBinary(this.Current)
         {
@@ -691,7 +686,7 @@ public class SerialisingVisitor : Linq.ExpressionVisitor
         }
     }
 
-    private SymbolDocument VisitSymbolDocument(SymbolDocumentInfo document)
+    private SymbolDocument VisitSymbolDocument(Linq.SymbolDocumentInfo document)
     {
         using (this.Wrap(document))
         {

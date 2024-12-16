@@ -2,10 +2,6 @@
 
 namespace GraphEngine;
 
-using System;
-using System.Diagnostics;
-using Linq = System.Linq.Expressions;
-
 public class PropertyOrField : MemberAccess
 {
     [DebuggerStepThrough]
