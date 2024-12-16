@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <PackageId>ExpressionRDF</PackageId>
     <Authors>Samu Lang</Authors>
     <RepositoryUrl>https://github.com/langsamu/GraphEngine</RepositoryUrl>
@@ -15,13 +13,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
     <Using Include="System.Diagnostics"/>
-    <Using Include="VDS.RDF"/>
-    <Using Alias="Linq" Include="System.Linq.Expressions"/>
     <Using Static="true" Include="GraphEngine.Vocabulary"/>
   </ItemGroup>
 
