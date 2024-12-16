@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public abstract class BaseGoto : Expression
+public abstract class BaseGoto(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    protected BaseGoto(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Target Target
     {
         get => this.GetRequired(GotoTarget, Target.Parse);

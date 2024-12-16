@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Try : Expression
+public class Try(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Try(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Type? Type
     {
         get => this.GetOptional(TryType, Type.Parse);

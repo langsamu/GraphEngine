@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Type : Node
+public class Type(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    public Type(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public string Name
     {
         get => this.GetRequired(TypeName, AsString);

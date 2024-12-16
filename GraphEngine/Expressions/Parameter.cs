@@ -2,15 +2,9 @@
 
 namespace GraphEngine;
 
-public class Parameter : Expression
+public class Parameter(NodeWithGraph node) : Expression(node)
 {
     private static readonly IDictionary<INode, Linq.ParameterExpression> Cache = new Dictionary<INode, Linq.ParameterExpression>();
-
-    [DebuggerStepThrough]
-    public Parameter(NodeWithGraph node)
-        : base(node)
-    {
-    }
 
     public Type Type
     {

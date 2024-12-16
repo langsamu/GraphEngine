@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Constant : Expression
+public class Constant(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Constant(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public object? Value
     {
         get => this.GetOptional(ConstantValue, AsObject);

@@ -6,13 +6,8 @@ using FluentAssertions.Execution;
 using FluentAssertions.Primitives;
 using LinqExpression = System.Linq.Expressions.Expression;
 
-internal class ExpressionAssertions : ReferenceTypeAssertions<LinqExpression, ExpressionAssertions>
+internal class ExpressionAssertions(LinqExpression expression) : ReferenceTypeAssertions<LinqExpression, ExpressionAssertions>(expression)
 {
-    internal ExpressionAssertions(LinqExpression expression)
-        : base(expression)
-    {
-    }
-
     protected override string Identifier => "expression";
 
     internal AndConstraint<ExpressionAssertions> Be(LinqExpression expected, string because = "", params object[] becauseArgs)

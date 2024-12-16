@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Lambda : Expression
+public class Lambda(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Lambda(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Body
     {
         get => this.GetRequired(LambdaBody, Expression.Parse);

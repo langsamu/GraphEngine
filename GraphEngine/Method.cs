@@ -5,14 +5,8 @@ namespace GraphEngine;
 using System.Reflection;
 
 // TODO: Improve derivation
-public class Method : Member
+public class Method(NodeWithGraph node) : Member(node)
 {
-    [DebuggerStepThrough]
-    internal Method(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public ICollection<Type> TypeArguments => this.Collection(MethodTypeArguments, Type.Parse);
 
     public MethodInfo? ReflectionMethod

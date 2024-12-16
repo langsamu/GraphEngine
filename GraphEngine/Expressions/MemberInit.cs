@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class MemberInit : Expression
+public class MemberInit(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal MemberInit(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public New NewExpression
     {
         get => this.GetRequired(MemberInitNewExpression, New.Parse);

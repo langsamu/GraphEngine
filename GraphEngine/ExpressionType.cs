@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class ExpressionType : Node
+public class ExpressionType(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    public ExpressionType(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Linq.ExpressionType LinqExpressionType => this switch
     {
         var n when n.Equals(Vocabulary.ExpressionTypes.Add) => Linq.ExpressionType.Add,

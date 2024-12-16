@@ -4,14 +4,8 @@ namespace GraphEngine;
 
 using System.Reflection;
 
-public class Member : Node
+public class Member(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    internal Member(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Type Type
     {
         get => this.GetRequired(MemberType, Type.Parse);

@@ -2,10 +2,4 @@
 
 namespace GraphEngine;
 
-public class Variable : Parameter
-{
-    public Variable(NodeWithGraph node)
-        : base(node)
-    {
-    }
-}
+public class Variable(NodeWithGraph node) : Parameter(node);

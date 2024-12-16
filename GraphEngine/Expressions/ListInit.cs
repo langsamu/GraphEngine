@@ -3,14 +3,8 @@
 namespace GraphEngine;
 
 // TODO: Add overloads
-public class ListInit : Expression
+public class ListInit(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal ListInit(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public New NewExpression
     {
         get => this.GetRequired(ListInitNewExpression, New.Parse);

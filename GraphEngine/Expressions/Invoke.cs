@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Invoke : Expression
+public class Invoke(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Invoke(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Expression
     {
         get => this.GetRequired(InvokeExpression, Expression.Parse);

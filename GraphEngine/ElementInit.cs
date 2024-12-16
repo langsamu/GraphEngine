@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class ElementInit : Node
+public class ElementInit(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    internal ElementInit(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Method AddMethod
     {
         get => this.GetRequired(ElementInitAddMethod, Method.Parse);

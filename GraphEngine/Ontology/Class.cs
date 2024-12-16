@@ -2,13 +2,7 @@
 
 namespace GraphEngine.Ontology;
 
-public class Class : Resource
+public class Class(NodeWithGraph node) : Resource(node)
 {
-    [DebuggerStepThrough]
-    public Class(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public IEnumerable<Resource> SubClassOf => from o in Vocabulary.SubClassOf.ObjectsOf(this) select new Class(o);
 }

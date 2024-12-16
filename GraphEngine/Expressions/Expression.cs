@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public abstract partial class Expression : Node
+public abstract partial class Expression(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    protected Expression(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public abstract Linq.Expression LinqExpression { get; }
 
     // TODO: Handle non-expressions, e.g. uri node = System.Uri, blank node = new object()

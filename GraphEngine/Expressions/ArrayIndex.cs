@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class ArrayIndex : Expression
+public class ArrayIndex(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal ArrayIndex(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Array
     {
         get => this.GetRequired(ArrayIndexArray, Expression.Parse);

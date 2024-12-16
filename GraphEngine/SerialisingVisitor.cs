@@ -6,16 +6,12 @@ using System.Dynamic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-public class SerialisingVisitor : Linq.ExpressionVisitor
+public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 {
     private readonly Dictionary<object, NodeWithGraph> mapping = [];
-    private readonly NodeWithGraph node;
+    private readonly NodeWithGraph node = node ?? throw new ArgumentNullException(nameof(node));
     private readonly Stack<NodeWithGraph> path = new ();
     private bool initialised;
-
-    public SerialisingVisitor(NodeWithGraph node)
-      : base()
-        => this.node = node ?? throw new ArgumentNullException(nameof(node));
 
     private NodeWithGraph Current => this.path.Peek();
 

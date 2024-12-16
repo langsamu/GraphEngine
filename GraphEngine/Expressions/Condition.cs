@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Condition : Expression
+public class Condition(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Condition(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression Test
     {
         get => this.GetRequired(ConditionTest, Expression.Parse);

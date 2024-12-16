@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public abstract class MemberAccess : Expression
+public abstract class MemberAccess(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal MemberAccess(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression? Expression
     {
         get => this.GetOptional(MemberAccessExpression, Expression.Parse);

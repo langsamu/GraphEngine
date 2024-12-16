@@ -4,14 +4,8 @@ namespace GraphEngine;
 
 using Microsoft.CSharp.RuntimeBinder;
 
-public class ArgumentInfo : Node
+public class ArgumentInfo(NodeWithGraph node) : Node(node)
 {
-    [DebuggerStepThrough]
-    public ArgumentInfo(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     internal CSharpArgumentInfo Info =>
         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null);
 

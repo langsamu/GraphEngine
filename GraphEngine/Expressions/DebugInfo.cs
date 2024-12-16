@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class DebugInfo : Expression
+public class DebugInfo(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal DebugInfo(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public SymbolDocument Document
     {
         get => this.GetRequired(DebugInfoDocument, n => new SymbolDocument(n));

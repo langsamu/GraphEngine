@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class TypeBinary : Expression
+public class TypeBinary(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    public TypeBinary(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public ExpressionType ExpressionType
     {
         get => this.GetRequired(TypeBinaryExpressionType, ExpressionType.Parse);

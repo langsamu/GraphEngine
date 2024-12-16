@@ -2,14 +2,8 @@
 
 namespace GraphEngine;
 
-public class Call : Expression
+public class Call(NodeWithGraph node) : Expression(node)
 {
-    [DebuggerStepThrough]
-    internal Call(NodeWithGraph node)
-        : base(node)
-    {
-    }
-
     public Expression? Instance
     {
         get => this.GetOptional(CallInstance, Expression.Parse);
