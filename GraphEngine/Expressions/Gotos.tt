@@ -11,24 +11,23 @@
 <#+
 private void GenerateNamespace()
 {#>
-namespace GraphEngine
-{
-        <#+
+namespace GraphEngine;
+<#+
     GenerateClasses();
-#>}<#+}
+}
 
 private void GenerateClasses()
 {
     foreach(var item in Enum.GetValues(typeof(GotoExpressionKind)))
     {#>
 
-    public class <#= item #> : BaseGoto
-    {
-        [DebuggerStepThrough]
-        internal <#= item #>(NodeWithGraph node) : base(node) => this.RdfType = Vocabulary.<#= item #>;
+public class <#= item #> : BaseGoto
+{
+    [DebuggerStepThrough]
+    internal <#= item #>(NodeWithGraph node) : base(node) => this.RdfType = Vocabulary.<#= item #>;
 
-        protected override Linq.GotoExpressionKind Kind => Linq.GotoExpressionKind.<#= item #>;
-    }
+    protected override Linq.GotoExpressionKind Kind => Linq.GotoExpressionKind.<#= item #>;
+}
 <#+}
 }
 #>
