@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 public class SerialisingVisitor : Linq.ExpressionVisitor
 {
-    private readonly Dictionary<object, NodeWithGraph> mapping = new ();
+    private readonly Dictionary<object, NodeWithGraph> mapping = [];
     private readonly NodeWithGraph node;
     private readonly Stack<NodeWithGraph> path = new ();
     private bool initialised;

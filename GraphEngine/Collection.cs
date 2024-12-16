@@ -22,7 +22,7 @@ public class Collection : ICollection<NodeWithGraph>
     public bool IsReadOnly => false;
 
     protected IEnumerable<NodeWithGraph> X => !this.IsValid(out var listRoot)
-        ? Enumerable.Empty<NodeWithGraph>()
+        ? []
         : this.subject.Graph.GetListItems(listRoot).Select(n => n.In(this.subject.Graph));
 
     public void Add(NodeWithGraph item)

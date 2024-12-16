@@ -278,8 +278,8 @@ public class CallTests : TestBase
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethod),
-                Array.Empty<System.Type>(),
-                Array.Empty<LinqExpression>());
+                [],
+                []);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -303,11 +303,10 @@ public class CallTests : TestBase
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethodWithArgument),
-                Array.Empty<System.Type>(),
-                new[]
-                {
+                [],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -336,11 +335,10 @@ public class CallTests : TestBase
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.GenericStaticMethod),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                Array.Empty<LinqExpression>());
+                ],
+                []);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -369,14 +367,12 @@ public class CallTests : TestBase
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.GenericStaticMethodWithArgument),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -411,8 +407,8 @@ public class CallTests : TestBase
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethod),
-                Array.Empty<System.Type>(),
-                Array.Empty<LinqExpression>());
+                [],
+                []);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -439,11 +435,10 @@ public class CallTests : TestBase
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethodWithArgument),
-                Array.Empty<System.Type>(),
-                new[]
-                {
+                [],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -475,11 +470,10 @@ public class CallTests : TestBase
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.GenericInstanceMethod),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                Array.Empty<LinqExpression>());
+                ],
+                []);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -511,14 +505,12 @@ public class CallTests : TestBase
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.GenericInstanceMethodWithArgument),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .

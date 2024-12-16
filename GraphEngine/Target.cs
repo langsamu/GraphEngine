@@ -4,7 +4,7 @@ namespace GraphEngine;
 
 public class Target : Node
 {
-    private static readonly Dictionary<INode, Linq.LabelTarget> Cache = new ();
+    private static readonly Dictionary<INode, Linq.LabelTarget> Cache = [];
 
     [DebuggerStepThrough]
     internal Target(NodeWithGraph node)
