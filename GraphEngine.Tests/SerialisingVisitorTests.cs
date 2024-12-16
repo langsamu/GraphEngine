@@ -42,11 +42,10 @@ public class SerialisingVisitorTests
             LinqExpression.ArrayIndex(
                 LinqExpression.Parameter(
                     typeof(int[])),
-                new[]
-                {
+                [
                     LinqExpression.Parameter(
                         typeof(int)),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -123,10 +122,9 @@ public class SerialisingVisitorTests
                     "ToString",
                     null,
                     null,
-                    new[]
-                    {
+                    [
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                    }),
+                    ]),
                 typeof(object),
                 LinqExpression.Constant(0L));
 
@@ -142,11 +140,10 @@ public class SerialisingVisitorTests
                     CSharpBinderFlags.None,
                     Linq.ExpressionType.Add,
                     null,
-                    new[]
-                    {
+                    [
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                    }),
+                    ]),
                 typeof(object),
                 LinqExpression.Constant(2L),
                 LinqExpression.Constant(3L));
@@ -177,16 +174,14 @@ public class SerialisingVisitorTests
     {
         var expression =
             LinqExpression.Block(
-                new[]
-                {
+                [
                     LinqExpression.Parameter(
                         typeof(string)),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Default(
                         typeof(string)),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -208,16 +203,14 @@ public class SerialisingVisitorTests
         var expression =
             LinqExpression.Block(
                 typeof(object),
-                new[]
-                {
+                [
                     LinqExpression.Parameter(
                         typeof(string)),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Default(
                         typeof(string)),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -331,8 +324,8 @@ public class SerialisingVisitorTests
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethod),
-                Array.Empty<System.Type>(),
-                Array.Empty<LinqExpression>());
+                [],
+                []);
 
         ShouldRoundrip(expression);
     }
@@ -344,11 +337,10 @@ public class SerialisingVisitorTests
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.StaticMethodWithArgument),
-                Array.Empty<System.Type>(),
-                new[]
-                {
+                [],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -360,11 +352,10 @@ public class SerialisingVisitorTests
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.GenericStaticMethod),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                Array.Empty<LinqExpression>());
+                ],
+                []);
 
         ShouldRoundrip(expression);
     }
@@ -376,14 +367,12 @@ public class SerialisingVisitorTests
             LinqExpression.Call(
                 typeof(SampleClass),
                 nameof(SampleClass.GenericStaticMethodWithArgument),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -396,8 +385,8 @@ public class SerialisingVisitorTests
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethod),
-                Array.Empty<System.Type>(),
-                Array.Empty<LinqExpression>());
+                [],
+                []);
 
         ShouldRoundrip(expression);
     }
@@ -410,11 +399,10 @@ public class SerialisingVisitorTests
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.InstanceMethodWithArgument),
-                Array.Empty<System.Type>(),
-                new[]
-                {
+                [],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -427,11 +415,10 @@ public class SerialisingVisitorTests
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.GenericInstanceMethod),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                Array.Empty<LinqExpression>());
+                ],
+                []);
 
         ShouldRoundrip(expression);
     }
@@ -444,14 +431,12 @@ public class SerialisingVisitorTests
                 LinqExpression.New(
                     typeof(SampleClass)),
                 nameof(SampleClass.GenericInstanceMethodWithArgument),
-                new[]
-                {
+                [
                     typeof(object),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Constant(0L),
-                });
+                ]);
 
         ShouldRoundrip(expression);
     }
@@ -562,7 +547,7 @@ public class SerialisingVisitorTests
         var label = LinqExpression.Label(typeof(int), "label");
         var one = LinqExpression.Constant(1);
         var expression = LinqExpression.Block(
-            new[] { result },
+            [result],
             LinqExpression.Assign(
                 result,
                 one),

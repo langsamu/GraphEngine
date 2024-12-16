@@ -154,7 +154,7 @@ public class BasicTests
         var result = LinqExpression.Parameter(typeof(int));
         var label = LinqExpression.Label(typeof(int));
         var expected = LinqExpression.Block(
-            new[] { result },
+            [result],
             LinqExpression.Assign(
                 result,
                 LinqExpression.Constant(1)),
@@ -701,11 +701,10 @@ _:int
         var expected = LinqExpression.ArrayIndex(
             LinqExpression.Parameter(
                 typeof(int[])),
-            new[]
-            {
+            [
                 LinqExpression.Parameter(
                     typeof(int)),
-            });
+            ]);
 
         using var g = new GraphEngine.Graph();
         g.LoadFromString(@"

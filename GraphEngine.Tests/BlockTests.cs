@@ -37,16 +37,14 @@ public class BlockTests : TestBase
     {
         var expected =
             LinqExpression.Block(
-                new[]
-                {
+                [
                     LinqExpression.Parameter(
                         typeof(string)),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Default(
                         typeof(string)),
-                });
+                ]);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -108,16 +106,14 @@ public class BlockTests : TestBase
         var expected =
             LinqExpression.Block(
                 typeof(object),
-                new[]
-                {
+                [
                     LinqExpression.Parameter(
                         typeof(string)),
-                },
-                new[]
-                {
+                ],
+                [
                     LinqExpression.Default(
                         typeof(string)),
-                });
+                ]);
 
         var actual = @"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .

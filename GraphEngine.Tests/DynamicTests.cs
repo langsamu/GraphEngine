@@ -18,10 +18,9 @@ public class DynamicTests : TestBase
                     "ToString",
                     null,
                     null,
-                    new[]
-                    {
+                    [
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                    }),
+                    ]),
                 typeof(object),
                 LinqExpression.Constant(0L));
 
@@ -59,11 +58,10 @@ public class DynamicTests : TestBase
                     CSharpBinderFlags.None,
                     Linq.ExpressionType.Add,
                     null,
-                    new[]
-                    {
+                    [
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
                         CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                    }),
+                    ]),
                 typeof(object),
                 LinqExpression.Constant(2L),
                 LinqExpression.Constant(3L));
