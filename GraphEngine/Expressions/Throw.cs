@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public class Throw(NodeWithGraph node) : Expression(node)
+public class Throw(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
     public Expression? Value
     {

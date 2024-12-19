@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public abstract class BaseGoto(NodeWithGraph node) : Expression(node)
+public abstract class BaseGoto(NodeWithGraph node, INode type) : Expression(node, type)
 {
     public Target Target
     {

@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public abstract class MemberAccess(NodeWithGraph node) : Expression(node)
+public abstract class MemberAccess(NodeWithGraph node, INode type) : Expression(node, type)
 {
     public Expression? Expression
     {

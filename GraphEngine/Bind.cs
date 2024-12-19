@@ -2,13 +2,8 @@
 
 namespace GraphEngine;
 
-public class Bind : BaseBind
+public class Bind(NodeWithGraph node) : BaseBind(node, Vocabulary.Bind)
 {
-    [DebuggerStepThrough]
-    internal Bind(NodeWithGraph node)
-        : base(node)
-        => this.RdfType = Vocabulary.Bind;
-
     public Expression Expression
     {
         get => this.GetRequired(BindExpression, Expression.Parse);

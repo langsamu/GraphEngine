@@ -2,15 +2,8 @@
 
 namespace GraphEngine;
 
-public class Property : MemberAccess
+public class Property(NodeWithGraph node) : MemberAccess(node, Vocabulary.Property)
 {
-    [DebuggerStepThrough]
-    internal Property(NodeWithGraph node)
-        : base(node)
-    {
-        this.RdfType = Vocabulary.Property;
-    }
-
     public ICollection<Expression> Arguments => this.Collection(PropertyArguments, Expression.Parse);
 
     public override Linq.Expression LinqExpression

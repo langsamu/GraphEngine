@@ -5,15 +5,8 @@ namespace GraphEngine;
 using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
 
-public class BinaryOperation : Binder
+public class BinaryOperation(NodeWithGraph node) : Binder(node, Vocabulary.BinaryOperation)
 {
-    [DebuggerStepThrough]
-    public BinaryOperation(NodeWithGraph node)
-        : base(node)
-    {
-        this.RdfType = Vocabulary.BinaryOperation;
-    }
-
     internal override CallSiteBinder SystemBinder =>
         Microsoft.CSharp.RuntimeBinder.Binder.BinaryOperation(
             CSharpBinderFlags.None,

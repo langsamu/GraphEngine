@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public class DebugInfo(NodeWithGraph node) : Expression(node)
+public class DebugInfo(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
     public SymbolDocument Document
     {

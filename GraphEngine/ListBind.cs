@@ -2,15 +2,8 @@
 
 namespace GraphEngine;
 
-public class ListBind : BaseBind
+public class ListBind(NodeWithGraph node) : BaseBind(node, Vocabulary.ListBind)
 {
-    [DebuggerStepThrough]
-    internal ListBind(NodeWithGraph node)
-        : base(node)
-    {
-        this.RdfType = Vocabulary.ListBind;
-    }
-
     public ICollection<ElementInit> Initializers => this.Collection(ListBindInitializers, ElementInit.Parse);
 
     public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.ListBind(

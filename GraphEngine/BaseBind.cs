@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public abstract class BaseBind(NodeWithGraph node) : Node(node)
+public abstract class BaseBind(NodeWithGraph node, INode type) : Node(node, type)
 {
     public Member Member
     {

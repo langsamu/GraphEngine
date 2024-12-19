@@ -2,15 +2,8 @@
 
 namespace GraphEngine;
 
-public class PropertyOrField : MemberAccess
+public class PropertyOrField(NodeWithGraph node) : MemberAccess(node, Vocabulary.PropertyOrField)
 {
-    [DebuggerStepThrough]
-    internal PropertyOrField(NodeWithGraph node)
-        : base(node)
-    {
-        this.RdfType = Vocabulary.PropertyOrField;
-    }
-
     public override Linq.Expression LinqExpression => this.Expression switch
     {
         not null => Linq.Expression.PropertyOrField(this.Expression.LinqExpression, this.Name),

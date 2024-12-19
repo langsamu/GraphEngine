@@ -2,12 +2,7 @@
 
 namespace GraphEngine;
 
-public class IfThen : Condition
+public class IfThen(NodeWithGraph node) : Condition(node, Vocabulary.IfThen)
 {
-    [DebuggerStepThrough]
-    internal IfThen(NodeWithGraph node)
-        : base(node)
-        => this.RdfType = Vocabulary.IfThen;
-
     public override Linq.Expression LinqExpression => Linq.Expression.IfThen(this.Test.LinqExpression, this.IfTrue.LinqExpression);
 }
