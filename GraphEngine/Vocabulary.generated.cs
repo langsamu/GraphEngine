@@ -2,7 +2,6 @@
 
 namespace GraphEngine; 
 
-
 public static partial class Vocabulary
 {
     public static IUriNode ArrayAccess { get; } = EngineNode("ArrayAccess");

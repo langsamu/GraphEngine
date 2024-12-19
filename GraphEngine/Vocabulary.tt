@@ -13,7 +13,6 @@ private void GenerateNamespace()
 {#>
 namespace GraphEngine; 
 
-
 public static partial class Vocabulary
 {<#+
 GenerateProperties();
