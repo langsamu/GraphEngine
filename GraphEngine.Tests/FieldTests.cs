@@ -1,22 +1,21 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class FieldTests : TestBase
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class FieldTests : TestBase
+    [TestMethod]
+    public void ExpressionName()
     {
-        [TestMethod]
-        public void ExpressionName()
-        {
-            var expected =
-                LinqExpression.Field(
-                    LinqExpression.Parameter(typeof(SampleClass)),
-                    nameof(SampleClass.InstanceField));
+        var expected =
+            LinqExpression.Field(
+                LinqExpression.Parameter(typeof(SampleClass)),
+                nameof(SampleClass.InstanceField));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -30,19 +29,19 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void ExpressionTypeName()
-        {
-            var expected =
-                LinqExpression.Field(
-                    LinqExpression.Parameter(typeof(SampleDerivedClass)),
-                    typeof(SampleClass),
-                    nameof(SampleClass.InstanceField));
+    [TestMethod]
+    public void ExpressionTypeName()
+    {
+        var expected =
+            LinqExpression.Field(
+                LinqExpression.Parameter(typeof(SampleDerivedClass)),
+                typeof(SampleClass),
+                nameof(SampleClass.InstanceField));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -59,19 +58,19 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void TypeName()
-        {
-            var expected =
-                LinqExpression.Field(
-                    null,
-                    typeof(SampleClass),
-                    nameof(SampleClass.StaticField));
+    [TestMethod]
+    public void TypeName()
+    {
+        var expected =
+            LinqExpression.Field(
+                null,
+                typeof(SampleClass),
+                nameof(SampleClass.StaticField));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -83,7 +82,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

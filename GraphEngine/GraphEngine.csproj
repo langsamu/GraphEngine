@@ -1,8 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <PackageId>ExpressionRDF</PackageId>
     <Authors>Samu Lang</Authors>
     <RepositoryUrl>https://github.com/langsamu/GraphEngine</RepositoryUrl>
@@ -18,6 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="System.Diagnostics" />
+    <Using Static="true" Include="GraphEngine.Vocabulary" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\schema.ttl" />
   </ItemGroup>
 
@@ -30,15 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dotNetRDF" Version="3.3.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="dotNetRDF" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" />
+    <PackageReference Include="StyleCop.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>
