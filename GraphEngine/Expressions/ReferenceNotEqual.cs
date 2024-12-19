@@ -2,12 +2,7 @@
 
 namespace GraphEngine;
 
-public class ReferenceNotEqual : Binary
+public class ReferenceNotEqual(NodeWithGraph node) : Binary(node, Vocabulary.ReferenceNotEqual)
 {
-    [DebuggerStepThrough]
-    internal ReferenceNotEqual(NodeWithGraph node)
-        : base(node)
-        => this.RdfType = Vocabulary.ReferenceNotEqual;
-
     public override Linq.Expression LinqExpression => Linq.Expression.ReferenceNotEqual(this.Left.LinqExpression, this.Right.LinqExpression);
 }

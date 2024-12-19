@@ -5,13 +5,8 @@ namespace GraphEngine;
 using System.Runtime.CompilerServices;
 using CSharp = Microsoft.CSharp.RuntimeBinder;
 
-public class InvokeMember : Binder
+public class InvokeMember(NodeWithGraph node) : Binder(node, Vocabulary.InvokeMember)
 {
-    [DebuggerStepThrough]
-    public InvokeMember(NodeWithGraph node)
-        : base(node)
-        => this.RdfType = Vocabulary.InvokeMember;
-
     internal override CallSiteBinder SystemBinder => CSharp.Binder.InvokeMember(
         CSharp.CSharpBinderFlags.None,
         this.Name,

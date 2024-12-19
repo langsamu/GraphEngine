@@ -2,12 +2,7 @@
 
 namespace GraphEngine;
 
-public class NewArrayInit : NewArray
+public class NewArrayInit(NodeWithGraph node) : NewArray(node, Vocabulary.NewArrayInit)
 {
-    [DebuggerStepThrough]
-    internal NewArrayInit(NodeWithGraph node)
-        : base(node)
-        => this.RdfType = Vocabulary.NewArrayInit;
-
     protected override NewArrayExpressionFactory FactoryMethod => Linq.Expression.NewArrayInit;
 }

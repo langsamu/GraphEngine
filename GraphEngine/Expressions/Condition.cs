@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public class Condition(NodeWithGraph node) : Expression(node)
+public class Condition(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
     public Expression Test
     {

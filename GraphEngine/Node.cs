@@ -4,6 +4,17 @@ namespace GraphEngine;
 
 public abstract partial class Node(NodeWithGraph node) : NodeWithGraph(node, node?.Graph ?? throw new ArgumentNullException(nameof(node)))
 {
+    public Node(NodeWithGraph node, INode? type = default)
+        : this(node)
+    {
+        if (type is null)
+        {
+            return;
+        }
+
+        this.RdfType = type;
+    }
+
     public INode? RdfType
     {
         get => Vocabulary.RdfType.ObjectOf(this);

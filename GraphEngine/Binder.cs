@@ -4,7 +4,7 @@ namespace GraphEngine;
 
 using System.Runtime.CompilerServices;
 
-public abstract class Binder(NodeWithGraph node) : Node(node)
+public abstract class Binder(NodeWithGraph node, INode type) : Node(node, type)
 {
     public string Name
     {

@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public class Field : MemberAccess
+public class Field(NodeWithGraph node) : MemberAccess(node, Vocabulary.Field)
 {
     [DebuggerStepThrough]
     internal Field(NodeWithGraph node)

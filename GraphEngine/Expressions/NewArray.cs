@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public abstract class NewArray(NodeWithGraph node) : Expression(node)
+public abstract class NewArray(NodeWithGraph node, INode type) : Expression(node, type)
 {
     protected delegate Linq.NewArrayExpression NewArrayExpressionFactory(System.Type type, IEnumerable<Linq.Expression> expressions);
 

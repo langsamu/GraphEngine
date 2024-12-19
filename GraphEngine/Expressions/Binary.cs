@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public class Binary(NodeWithGraph node) : Expression(node)
+public class Binary(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
     public Expression Left
     {

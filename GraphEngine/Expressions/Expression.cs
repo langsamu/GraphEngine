@@ -2,7 +2,7 @@
 
 namespace GraphEngine;
 
-public abstract partial class Expression(NodeWithGraph node) : Node(node)
+public abstract partial class Expression(NodeWithGraph node, INode? type = default) : Node(node, type)
 {
     public abstract Linq.Expression LinqExpression { get; }
 
