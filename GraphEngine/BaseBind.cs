@@ -24,10 +24,7 @@ public abstract class BaseBind(NodeWithGraph node, INode type) : Node(node, type
 
     internal static BaseBind Parse(NodeWithGraph node)
     {
-        if (node is null)
-        {
-            throw new ArgumentNullException(nameof(node));
-        }
+        ArgumentNullException.ThrowIfNull(node);
 
         return Vocabulary.RdfType.ObjectOf(node) switch
         {
@@ -36,7 +33,7 @@ public abstract class BaseBind(NodeWithGraph node, INode type) : Node(node, type
             INode t when t.Equals(Vocabulary.MemberBind) => new MemberBind(node),
 
             null => throw new Exception($"type not found on node {node}"),
-            INode t => throw new Exception($"unknown bind type {t} on node {node}"),
+            var t => throw new Exception($"unknown bind type {t} on node {node}"),
         };
     }
 }

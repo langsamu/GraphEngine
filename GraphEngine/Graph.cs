@@ -7,7 +7,7 @@ using VDS.RDF.Query.Inference;
 
 public class Graph : WrapperGraph
 {
-    private static readonly IInferenceEngine Reasoner = new StaticRdfsReasoner();
+    private static readonly StaticRdfsReasoner Reasoner = new();
 
     static Graph()
     {

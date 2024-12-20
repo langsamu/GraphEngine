@@ -26,10 +26,7 @@ public abstract class Binder(NodeWithGraph node, INode type) : Node(node, type)
 
     internal static Binder Parse(NodeWithGraph node)
     {
-        if (node is null)
-        {
-            throw new ArgumentNullException(nameof(node));
-        }
+        ArgumentNullException.ThrowIfNull(node);
 
         return Vocabulary.RdfType.ObjectOf(node) switch
         {
@@ -37,7 +34,7 @@ public abstract class Binder(NodeWithGraph node, INode type) : Node(node, type)
             INode t when t.Equals(Vocabulary.BinaryOperation) => new BinaryOperation(node),
 
             null => throw new Exception($"type not found on node {node}"),
-            INode t => throw new Exception($"unknown binder type {t} on node {node}"),
+            var t => throw new Exception($"unknown binder type {t} on node {node}"),
         };
     }
 }

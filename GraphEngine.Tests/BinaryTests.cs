@@ -11,51 +11,51 @@ public class BinaryTests : TestBase
     {
         get
         {
-            yield return new object[] { Linq.ExpressionType.Add };
-            yield return new object[] { Linq.ExpressionType.AddAssign };
-            yield return new object[] { Linq.ExpressionType.AddAssignChecked };
-            yield return new object[] { Linq.ExpressionType.AddChecked };
-            yield return new object[] { Linq.ExpressionType.And };
-            yield return new object[] { Linq.ExpressionType.AndAlso, typeof(bool) };
-            yield return new object[] { Linq.ExpressionType.AndAssign };
-            yield return new object[] { Linq.ExpressionType.ArrayIndex, typeof(int[]), typeof(int) };
-            yield return new object[] { Linq.ExpressionType.Assign };
-            yield return new object[] { Linq.ExpressionType.Coalesce, typeof(object) };
-            yield return new object[] { Linq.ExpressionType.Divide };
-            yield return new object[] { Linq.ExpressionType.DivideAssign };
-            yield return new object[] { Linq.ExpressionType.Equal };
-            yield return new object[] { Linq.ExpressionType.ExclusiveOr };
-            yield return new object[] { Linq.ExpressionType.ExclusiveOrAssign };
-            yield return new object[] { Linq.ExpressionType.GreaterThan };
-            yield return new object[] { Linq.ExpressionType.GreaterThanOrEqual };
-            yield return new object[] { Linq.ExpressionType.LeftShift };
-            yield return new object[] { Linq.ExpressionType.LeftShiftAssign };
-            yield return new object[] { Linq.ExpressionType.LessThan };
-            yield return new object[] { Linq.ExpressionType.LessThanOrEqual };
-            yield return new object[] { Linq.ExpressionType.Modulo };
-            yield return new object[] { Linq.ExpressionType.ModuloAssign };
-            yield return new object[] { Linq.ExpressionType.Multiply };
-            yield return new object[] { Linq.ExpressionType.MultiplyAssign };
-            yield return new object[] { Linq.ExpressionType.MultiplyAssignChecked };
-            yield return new object[] { Linq.ExpressionType.MultiplyChecked };
-            yield return new object[] { Linq.ExpressionType.NotEqual };
-            yield return new object[] { Linq.ExpressionType.Or };
-            yield return new object[] { Linq.ExpressionType.OrAssign };
-            yield return new object[] { Linq.ExpressionType.OrElse, typeof(bool) };
-            yield return new object[] { Linq.ExpressionType.Power, typeof(double) };
-            yield return new object[] { Linq.ExpressionType.PowerAssign, typeof(double) };
-            yield return new object[] { Linq.ExpressionType.RightShift };
-            yield return new object[] { Linq.ExpressionType.RightShiftAssign };
-            yield return new object[] { Linq.ExpressionType.Subtract };
-            yield return new object[] { Linq.ExpressionType.SubtractAssign };
-            yield return new object[] { Linq.ExpressionType.SubtractAssignChecked };
-            yield return new object[] { Linq.ExpressionType.SubtractChecked };
+            yield return [Linq.ExpressionType.Add];
+            yield return [Linq.ExpressionType.AddAssign];
+            yield return [Linq.ExpressionType.AddAssignChecked];
+            yield return [Linq.ExpressionType.AddChecked];
+            yield return [Linq.ExpressionType.And];
+            yield return [Linq.ExpressionType.AndAlso, typeof(bool)];
+            yield return [Linq.ExpressionType.AndAssign];
+            yield return [Linq.ExpressionType.ArrayIndex, typeof(int[]), typeof(int)];
+            yield return [Linq.ExpressionType.Assign];
+            yield return [Linq.ExpressionType.Coalesce, typeof(object)];
+            yield return [Linq.ExpressionType.Divide];
+            yield return [Linq.ExpressionType.DivideAssign];
+            yield return [Linq.ExpressionType.Equal];
+            yield return [Linq.ExpressionType.ExclusiveOr];
+            yield return [Linq.ExpressionType.ExclusiveOrAssign];
+            yield return [Linq.ExpressionType.GreaterThan];
+            yield return [Linq.ExpressionType.GreaterThanOrEqual];
+            yield return [Linq.ExpressionType.LeftShift];
+            yield return [Linq.ExpressionType.LeftShiftAssign];
+            yield return [Linq.ExpressionType.LessThan];
+            yield return [Linq.ExpressionType.LessThanOrEqual];
+            yield return [Linq.ExpressionType.Modulo];
+            yield return [Linq.ExpressionType.ModuloAssign];
+            yield return [Linq.ExpressionType.Multiply];
+            yield return [Linq.ExpressionType.MultiplyAssign];
+            yield return [Linq.ExpressionType.MultiplyAssignChecked];
+            yield return [Linq.ExpressionType.MultiplyChecked];
+            yield return [Linq.ExpressionType.NotEqual];
+            yield return [Linq.ExpressionType.Or];
+            yield return [Linq.ExpressionType.OrAssign];
+            yield return [Linq.ExpressionType.OrElse, typeof(bool)];
+            yield return [Linq.ExpressionType.Power, typeof(double)];
+            yield return [Linq.ExpressionType.PowerAssign, typeof(double)];
+            yield return [Linq.ExpressionType.RightShift];
+            yield return [Linq.ExpressionType.RightShiftAssign];
+            yield return [Linq.ExpressionType.Subtract];
+            yield return [Linq.ExpressionType.SubtractAssign];
+            yield return [Linq.ExpressionType.SubtractAssignChecked];
+            yield return [Linq.ExpressionType.SubtractChecked];
         }
     }
 
     [TestMethod]
     [DynamicData(nameof(Data))]
-    public void Regular(Linq.ExpressionType binaryType, System.Type leftType = null, System.Type rightType = null)
+    public void Regular(Linq.ExpressionType binaryType, System.Type? leftType = null, System.Type? rightType = null)
     {
         leftType ??= typeof(int);
         rightType ??= leftType;

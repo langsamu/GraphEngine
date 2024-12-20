@@ -10,7 +10,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 {
     private readonly Dictionary<object, NodeWithGraph> mapping = [];
     private readonly NodeWithGraph node = node ?? throw new ArgumentNullException(nameof(node));
-    private readonly Stack<NodeWithGraph> path = new ();
+    private readonly Stack<NodeWithGraph> path = new();
     private bool initialised;
 
     private NodeWithGraph Current => this.path.Peek();
@@ -36,7 +36,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         }
     }
 
-    public override Linq.Expression Visit(Linq.Expression node)
+    public override Linq.Expression Visit(Linq.Expression? node)
     {
         using (this.Wrap(node))
         {
@@ -298,7 +298,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         return node;
     }
 
-    protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget node)
+    protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget? node)
     {
         using (this.Wrap(node))
         {
@@ -372,8 +372,9 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         var memberAccess = node.Member.MemberType switch
         {
-            MemberTypes.Field => (MemberAccess)new Field(this.Current),
-            MemberTypes.Property => (MemberAccess)new Property(this.Current),
+            MemberTypes.Field => new Field(this.Current) as MemberAccess,
+            MemberTypes.Property => new Property(this.Current) as MemberAccess,
+            var mt => throw new Exception($"unknown member type {mt}")
         };
 
         memberAccess.Name = node.Member.Name;
@@ -411,6 +412,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
                 Linq.MemberAssignment binding => this.VisitMemberAssignment(binding),
                 Linq.MemberMemberBinding binding => this.VisitMemberMemberBinding(binding),
                 Linq.MemberListBinding binding => this.VisitMemberListBinding(binding),
+                var n => throw new Exception($"unknown member binding {n}")
             };
         }
     }
@@ -716,7 +718,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         }
     }
 
-    private IDisposable Wrap(object node) => new Wrapper(this, this[node]);
+    private Wrapper Wrap(object node) => new(this, this[node]);
 
     private readonly struct Wrapper : IDisposable
     {
