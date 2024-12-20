@@ -6,12 +6,12 @@ public class Invoke(NodeWithGraph node) : Expression(node)
 {
     public Expression Expression
     {
-        get => this.GetRequired(InvokeExpression, Expression.Parse);
+        get => GetRequired(InvokeExpression, Expression.Parse);
 
-        set => this.SetRequired(InvokeExpression, value);
+        set => SetRequired(InvokeExpression, value);
     }
 
-    public ICollection<Expression> Arguments => this.Collection(InvokeArguments, Expression.Parse);
+    public ICollection<Expression> Arguments => Collection(InvokeArguments, Expression.Parse);
 
-    public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.Expression.LinqExpression, this.Arguments.LinqExpressions());
+    public override Linq.Expression LinqExpression => Linq.Expression.Invoke(Expression.LinqExpression, Arguments.LinqExpressions());
 }

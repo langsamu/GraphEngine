@@ -6,14 +6,14 @@ public class ElementInit(NodeWithGraph node) : Node(node)
 {
     public Method AddMethod
     {
-        get => this.GetRequired(ElementInitAddMethod, Method.Parse);
+        get => GetRequired(ElementInitAddMethod, Method.Parse);
 
-        set => this.SetRequired(ElementInitAddMethod, value);
+        set => SetRequired(ElementInitAddMethod, value);
     }
 
-    public ICollection<Expression> Arguments => this.Collection(ElementInitArguments, Expression.Parse);
+    public ICollection<Expression> Arguments => Collection(ElementInitArguments, Expression.Parse);
 
-    public Linq.ElementInit LinqElementInit => Linq.Expression.ElementInit(this.AddMethod.ReflectionMethod, this.Arguments.LinqExpressions());
+    public Linq.ElementInit LinqElementInit => Linq.Expression.ElementInit(AddMethod.ReflectionMethod, Arguments.LinqExpressions());
 
     internal static ElementInit Parse(NodeWithGraph node) => node switch
     {

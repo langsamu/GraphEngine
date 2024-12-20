@@ -8,14 +8,14 @@ public abstract class NewArray(NodeWithGraph node, INode type) : Expression(node
 
     public Type Type
     {
-        get => this.GetRequired(NewArrayType, Type.Parse);
+        get => GetRequired(NewArrayType, Type.Parse);
 
-        set => this.SetRequired(NewArrayType, value);
+        set => SetRequired(NewArrayType, value);
     }
 
-    public ICollection<Expression> Expressions => this.Collection(NewArrayExpressions, Expression.Parse);
+    public ICollection<Expression> Expressions => Collection(NewArrayExpressions, Expression.Parse);
 
-    public override Linq.Expression LinqExpression => this.FactoryMethod(this.Type.SystemType, this.Expressions.LinqExpressions());
+    public override Linq.Expression LinqExpression => FactoryMethod(Type.SystemType, Expressions.LinqExpressions());
 
     protected abstract NewArrayExpressionFactory FactoryMethod { get; }
 }

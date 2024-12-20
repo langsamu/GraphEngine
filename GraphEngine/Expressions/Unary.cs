@@ -6,37 +6,37 @@ public class Unary(NodeWithGraph node) : Expression(node)
 {
     public Expression Operand
     {
-        get => this.GetRequired(UnaryOperand, Expression.Parse);
+        get => GetRequired(UnaryOperand, Expression.Parse);
 
-        set => this.SetRequired(UnaryOperand, value);
+        set => SetRequired(UnaryOperand, value);
     }
 
     public Type? Type
     {
-        get => this.GetOptional(UnaryType, Type.Parse);
+        get => GetOptional(UnaryType, Type.Parse);
 
-        set => this.SetOptional(UnaryType, value);
+        set => SetOptional(UnaryType, value);
     }
 
     public ExpressionType ExpressionType
     {
-        get => this.GetRequired(UnaryExpressionType, ExpressionType.Parse);
+        get => GetRequired(UnaryExpressionType, ExpressionType.Parse);
 
-        set => this.SetRequired(UnaryExpressionType, value);
+        set => SetRequired(UnaryExpressionType, value);
     }
 
     public Method? Method
     {
-        get => this.GetOptional(UnaryMethod, Method.Parse);
+        get => GetOptional(UnaryMethod, Method.Parse);
 
-        set => this.SetOptional(UnaryMethod, value);
+        set => SetOptional(UnaryMethod, value);
     }
 
     public override Linq.Expression LinqExpression => Linq.Expression.MakeUnary(
-        this.ExpressionType.LinqExpressionType,
-        this.Operand.LinqExpression,
-        this.Type?.SystemType,
-        this.Method?.ReflectionMethod);
+        ExpressionType.LinqExpressionType,
+        Operand.LinqExpression,
+        Type?.SystemType,
+        Method?.ReflectionMethod);
 
     public static Unary Create(NodeWithGraph node, Linq.ExpressionType type) => type switch
     {

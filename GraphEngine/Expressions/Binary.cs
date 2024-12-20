@@ -6,54 +6,54 @@ public class Binary(NodeWithGraph node, INode? type = default) : Expression(node
 {
     public Expression Left
     {
-        get => this.GetRequired(BinaryLeft, Expression.Parse);
+        get => GetRequired(BinaryLeft, Expression.Parse);
 
-        set => this.SetRequired(BinaryLeft, value);
+        set => SetRequired(BinaryLeft, value);
     }
 
     public Expression Right
     {
-        get => this.GetRequired(BinaryRight, Expression.Parse);
+        get => GetRequired(BinaryRight, Expression.Parse);
 
-        set => this.SetRequired(BinaryRight, value);
+        set => SetRequired(BinaryRight, value);
     }
 
     public ExpressionType ExpressionType
     {
-        get => this.GetRequired(BinaryExpressionType, ExpressionType.Parse);
+        get => GetRequired(BinaryExpressionType, ExpressionType.Parse);
 
-        set => this.SetRequired(BinaryExpressionType, value);
+        set => SetRequired(BinaryExpressionType, value);
     }
 
     public Method? Method
     {
-        get => this.GetOptional(BinaryMethod, Method.Parse);
+        get => GetOptional(BinaryMethod, Method.Parse);
 
-        set => this.SetOptional(BinaryMethod, value);
+        set => SetOptional(BinaryMethod, value);
     }
 
     public bool? LiftToNull
     {
-        get => this.GetOptionalS(BinaryLiftToNull, AsBool);
+        get => GetOptionalS(BinaryLiftToNull, AsBool);
 
-        set => this.SetOptional(BinaryLiftToNull, value);
+        set => SetOptional(BinaryLiftToNull, value);
     }
 
     public Lambda? Conversion
     {
-        get => this.GetOptional(BinaryConversion, Lambda.Parse);
+        get => GetOptional(BinaryConversion, Lambda.Parse);
 
-        set => this.SetOptional(BinaryConversion, value);
+        set => SetOptional(BinaryConversion, value);
     }
 
     public override Linq.Expression LinqExpression =>
         Linq.Expression.MakeBinary(
-            this.ExpressionType.LinqExpressionType,
-            this.Left.LinqExpression,
-            this.Right.LinqExpression,
-            this.LiftToNull ?? false,
-            this.Method?.ReflectionMethod,
-            this.Conversion?.LinqLambda);
+            ExpressionType.LinqExpressionType,
+            Left.LinqExpression,
+            Right.LinqExpression,
+            LiftToNull ?? false,
+            Method?.ReflectionMethod,
+            Conversion?.LinqLambda);
 
     public static Binary Create(NodeWithGraph node, Linq.ExpressionType type) => (node, type) switch
     {

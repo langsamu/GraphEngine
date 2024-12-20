@@ -11,9 +11,9 @@ public class Collection<T>(NodeWithGraph subject, INode predicate, Func<NodeWith
 
     public bool Contains(T item) => base.Contains(item);
 
-    public void CopyTo(T[] array, int arrayIndex) => this.X.ToList().CopyTo(array, arrayIndex);
+    public void CopyTo(T[] array, int arrayIndex) => X.ToList().CopyTo(array, arrayIndex);
 
-    public IEnumerator<T> GetEnumerator() => this.X.Select(parser).GetEnumerator();
+    public IEnumerator<T> GetEnumerator() => X.Select(parser).GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)this).GetEnumerator();
 

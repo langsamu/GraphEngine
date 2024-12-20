@@ -6,14 +6,14 @@ public class MemberInit(NodeWithGraph node) : Expression(node)
 {
     public New NewExpression
     {
-        get => this.GetRequired(MemberInitNewExpression, New.Parse);
+        get => GetRequired(MemberInitNewExpression, New.Parse);
 
-        set => this.SetRequired(MemberInitNewExpression, value);
+        set => SetRequired(MemberInitNewExpression, value);
     }
 
-    public ICollection<BaseBind> Bindings => this.Collection(MemberInitBindings, BaseBind.Parse);
+    public ICollection<BaseBind> Bindings => Collection(MemberInitBindings, BaseBind.Parse);
 
     public override Linq.Expression LinqExpression => Linq.Expression.MemberInit(
-        this.NewExpression.LinqNewExpression,
-        from binding in this.Bindings select binding.LinqMemberBinding);
+        NewExpression.LinqNewExpression,
+        from binding in Bindings select binding.LinqMemberBinding);
 }

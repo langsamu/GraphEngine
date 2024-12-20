@@ -8,16 +8,16 @@ public class Target(NodeWithGraph node) : Node(node)
 
     public Type? Type
     {
-        get => this.GetOptional(TargetType, Type.Parse);
+        get => GetOptional(TargetType, Type.Parse);
 
-        set => this.SetOptional(TargetType, value);
+        set => SetOptional(TargetType, value);
     }
 
     public string? Name
     {
-        get => this.GetOptional(TargetName, AsString);
+        get => GetOptional(TargetName, AsString);
 
-        set => this.SetOptional(TargetName, value);
+        set => SetOptional(TargetName, value);
     }
 
     public Linq.LabelTarget LinqTarget
@@ -28,9 +28,9 @@ public class Target(NodeWithGraph node) : Node(node)
             {
                 Cache[this] = label = this switch
                 {
-                    { Type: not null, Name: not null } => Linq.Expression.Label(this.Type.SystemType, this.Name),
-                    { Type: not null } => Linq.Expression.Label(this.Type.SystemType),
-                    { Name: not null } => Linq.Expression.Label(this.Name),
+                    { Type: not null, Name: not null } => Linq.Expression.Label(Type.SystemType, Name),
+                    { Type: not null } => Linq.Expression.Label(Type.SystemType),
+                    { Name: not null } => Linq.Expression.Label(Name),
                     _ => Linq.Expression.Label()
                 };
             }

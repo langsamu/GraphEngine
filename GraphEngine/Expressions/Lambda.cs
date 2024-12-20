@@ -6,19 +6,19 @@ public class Lambda(NodeWithGraph node) : Expression(node)
 {
     public Expression Body
     {
-        get => this.GetRequired(LambdaBody, Expression.Parse);
+        get => GetRequired(LambdaBody, Expression.Parse);
 
-        set => this.SetRequired(LambdaBody, value);
+        set => SetRequired(LambdaBody, value);
     }
 
-    public ICollection<Parameter> Parameters => this.Collection(LambdaParameters, Parameter.Parse);
+    public ICollection<Parameter> Parameters => Collection(LambdaParameters, Parameter.Parse);
 
-    public override Linq.Expression LinqExpression => this.LinqLambda;
+    public override Linq.Expression LinqExpression => LinqLambda;
 
     public Linq.LambdaExpression LinqLambda =>
         Linq.Expression.Lambda(
-            this.Body.LinqExpression,
-            from param in this.Parameters select param.LinqParameter);
+            Body.LinqExpression,
+            from param in Parameters select param.LinqParameter);
 
     internal static new Lambda Parse(NodeWithGraph node) => node switch
     {

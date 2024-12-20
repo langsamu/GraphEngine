@@ -6,38 +6,38 @@ public class DebugInfo(NodeWithGraph node, INode? type = default) : Expression(n
 {
     public SymbolDocument Document
     {
-        get => this.GetRequired(DebugInfoDocument, n => new SymbolDocument(n));
+        get => GetRequired(DebugInfoDocument, n => new SymbolDocument(n));
 
-        set => this.SetRequired(DebugInfoDocument, value);
+        set => SetRequired(DebugInfoDocument, value);
     }
 
     public int StartLine
     {
-        get => this.GetRequiredS(DebugInfoStartLine, AsInt);
+        get => GetRequiredS(DebugInfoStartLine, AsInt);
 
-        set => this.SetRequired(DebugInfoStartLine, value);
+        set => SetRequired(DebugInfoStartLine, value);
     }
 
     public int StartColumn
     {
-        get => this.GetRequiredS(DebugInfoStartColumn, AsInt);
+        get => GetRequiredS(DebugInfoStartColumn, AsInt);
 
-        set => this.SetRequired(DebugInfoStartColumn, value);
+        set => SetRequired(DebugInfoStartColumn, value);
     }
 
     public int EndLine
     {
-        get => this.GetRequiredS(DebugInfoEndLine, AsInt);
+        get => GetRequiredS(DebugInfoEndLine, AsInt);
 
-        set => this.SetRequired(DebugInfoEndLine, value);
+        set => SetRequired(DebugInfoEndLine, value);
     }
 
     public int EndColumn
     {
-        get => this.GetRequiredS(DebugInfoEndColumn, AsInt);
+        get => GetRequiredS(DebugInfoEndColumn, AsInt);
 
-        set => this.SetRequired(DebugInfoEndColumn, value);
+        set => SetRequired(DebugInfoEndColumn, value);
     }
 
-    public override Linq.Expression LinqExpression => Linq.Expression.DebugInfo(this.Document.LinqDocument, this.StartLine, this.StartColumn, this.EndLine, this.EndColumn);
+    public override Linq.Expression LinqExpression => Linq.Expression.DebugInfo(Document.LinqDocument, StartLine, StartColumn, EndLine, EndColumn);
 }

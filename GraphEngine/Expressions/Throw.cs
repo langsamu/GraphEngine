@@ -6,20 +6,20 @@ public class Throw(NodeWithGraph node, INode? type = default) : Expression(node,
 {
     public Expression? Value
     {
-        get => this.GetOptional(ThrowValue, Expression.Parse);
+        get => GetOptional(ThrowValue, Expression.Parse);
 
-        set => this.SetOptional(ThrowValue, value);
+        set => SetOptional(ThrowValue, value);
     }
 
     public Type? Type
     {
-        get => this.GetOptional(ThrowType, Type.Parse);
+        get => GetOptional(ThrowType, Type.Parse);
 
-        set => this.SetOptional(ThrowType, value);
+        set => SetOptional(ThrowType, value);
     }
 
     public override Linq.Expression LinqExpression =>
         Linq.Expression.Throw(
-            this.Value?.LinqExpression,
-            this.Type?.SystemType ?? typeof(void));
+            Value?.LinqExpression,
+            Type?.SystemType ?? typeof(void));
 }

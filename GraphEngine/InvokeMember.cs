@@ -9,8 +9,8 @@ public class InvokeMember(NodeWithGraph node) : Binder(node, Vocabulary.InvokeMe
 {
     internal override CallSiteBinder SystemBinder => CSharp.Binder.InvokeMember(
         CSharp.CSharpBinderFlags.None,
-        this.Name,
+        Name,
         null,
         null,
-        from a in this.Arguments select a.Info);
+        from a in Arguments select a.Info);
 }

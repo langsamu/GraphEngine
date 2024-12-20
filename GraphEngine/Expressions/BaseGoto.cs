@@ -6,26 +6,26 @@ public abstract class BaseGoto(NodeWithGraph node, INode type) : Expression(node
 {
     public Target Target
     {
-        get => this.GetRequired(GotoTarget, Target.Parse);
+        get => GetRequired(GotoTarget, Target.Parse);
 
-        set => this.SetRequired(GotoTarget, value);
+        set => SetRequired(GotoTarget, value);
     }
 
     public Type? Type
     {
-        get => this.GetOptional(GotoType, Type.Parse);
+        get => GetOptional(GotoType, Type.Parse);
 
-        set => this.SetOptional(GotoType, value);
+        set => SetOptional(GotoType, value);
     }
 
     public Expression? Value
     {
-        get => this.GetOptional(GotoValue, Expression.Parse);
+        get => GetOptional(GotoValue, Expression.Parse);
 
-        set => this.SetOptional(GotoValue, value);
+        set => SetOptional(GotoValue, value);
     }
 
-    public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(this.Kind, this.Target.LinqTarget, this.Value?.LinqExpression, this.Type?.SystemType ?? typeof(void));
+    public override Linq.Expression LinqExpression => Linq.Expression.MakeGoto(Kind, Target.LinqTarget, Value?.LinqExpression, Type?.SystemType ?? typeof(void));
 
     protected abstract Linq.GotoExpressionKind Kind { get; }
 

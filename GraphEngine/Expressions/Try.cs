@@ -6,38 +6,38 @@ public class Try(NodeWithGraph node) : Expression(node)
 {
     public Type? Type
     {
-        get => this.GetOptional(TryType, Type.Parse);
+        get => GetOptional(TryType, Type.Parse);
 
-        set => this.SetOptional(TryType, value);
+        set => SetOptional(TryType, value);
     }
 
     public Expression Body
     {
-        get => this.GetRequired(TryBody, Expression.Parse);
+        get => GetRequired(TryBody, Expression.Parse);
 
-        set => this.SetRequired(TryBody, value);
+        set => SetRequired(TryBody, value);
     }
 
     public Expression? Finally
     {
-        get => this.GetOptional(TryFinally, Expression.Parse);
+        get => GetOptional(TryFinally, Expression.Parse);
 
-        set => this.SetOptional(TryFinally, value);
+        set => SetOptional(TryFinally, value);
     }
 
     public Expression? Fault
     {
-        get => this.GetOptional(TryFault, Expression.Parse);
+        get => GetOptional(TryFault, Expression.Parse);
 
-        set => this.SetOptional(TryFault, value);
+        set => SetOptional(TryFault, value);
     }
 
-    public ICollection<Catch> Handlers => this.Collection(TryHandlers, Catch.Parse);
+    public ICollection<Catch> Handlers => Collection(TryHandlers, Catch.Parse);
 
     public override Linq.Expression LinqExpression => Linq.Expression.MakeTry(
-        this.Type?.SystemType,
-        this.Body.LinqExpression,
-        this.Finally?.LinqExpression,
-        this.Fault?.LinqExpression,
-        from h in this.Handlers select h.LinqCatchBlock);
+        Type?.SystemType,
+        Body.LinqExpression,
+        Finally?.LinqExpression,
+        Fault?.LinqExpression,
+        from h in Handlers select h.LinqCatchBlock);
 }

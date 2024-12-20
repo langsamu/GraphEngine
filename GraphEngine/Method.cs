@@ -7,15 +7,15 @@ using System.Reflection;
 // TODO: Improve derivation
 public class Method(NodeWithGraph node) : Member(node)
 {
-    public ICollection<Type> TypeArguments => this.Collection(MethodTypeArguments, Type.Parse);
+    public ICollection<Type> TypeArguments => Collection(MethodTypeArguments, Type.Parse);
 
     public MethodInfo? ReflectionMethod
     {
         get
         {
-            var methodInfo = this.Type.SystemType.GetMethod(this.Name);
+            var methodInfo = Type.SystemType.GetMethod(Name);
 
-            var typeArguments = this.TypeArguments.Select(ta => ta.SystemType).ToArray();
+            var typeArguments = TypeArguments.Select(ta => ta.SystemType).ToArray();
             if (typeArguments.Any())
             {
                 methodInfo = methodInfo.MakeGenericMethod(typeArguments);

@@ -4,5 +4,5 @@ namespace GraphEngine;
 
 public class ReferenceEqual(NodeWithGraph node) : Binary(node, Vocabulary.ReferenceEqual)
 {
-    public override Linq.Expression LinqExpression => Linq.Expression.ReferenceEqual(this.Left.LinqExpression, this.Right.LinqExpression);
+    public override Linq.Expression LinqExpression => Linq.Expression.ReferenceEqual(Left.LinqExpression, Right.LinqExpression);
 }

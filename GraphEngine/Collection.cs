@@ -6,19 +6,19 @@ using System.Collections;
 
 public class Collection(NodeWithGraph subject, INode predicate) : ICollection<NodeWithGraph>
 {
-    public int Count => !this.IsValid(out var listRoot)
+    public int Count => !IsValid(out var listRoot)
         ? 0
         : subject.Graph.GetListItems(listRoot).Count();
 
     public bool IsReadOnly => false;
 
-    protected IEnumerable<NodeWithGraph> X => !this.IsValid(out var listRoot)
+    protected IEnumerable<NodeWithGraph> X => !IsValid(out var listRoot)
         ? []
         : subject.Graph.GetListItems(listRoot).Select(n => n.In(subject.Graph));
 
     public void Add(NodeWithGraph item)
     {
-        if (!this.IsValid(out var listRoot))
+        if (!IsValid(out var listRoot))
         {
             subject.Graph.Assert(subject, predicate, subject.Graph.AssertList(item.AsEnumerable()));
             return;
@@ -29,7 +29,7 @@ public class Collection(NodeWithGraph subject, INode predicate) : ICollection<No
 
     public void Clear()
     {
-        if (!this.IsValid(out var listRoot))
+        if (!IsValid(out var listRoot))
         {
             return;
         }
@@ -38,11 +38,11 @@ public class Collection(NodeWithGraph subject, INode predicate) : ICollection<No
         subject.Graph.Retract(subject, predicate, listRoot);
     }
 
-    public bool Contains(NodeWithGraph item) => this.IsValid(out var listRoot) && subject.Graph.GetListItems(listRoot).Contains(item);
+    public bool Contains(NodeWithGraph item) => IsValid(out var listRoot) && subject.Graph.GetListItems(listRoot).Contains(item);
 
     public void CopyTo(NodeWithGraph[] array, int arrayIndex)
     {
-        if (!this.IsValid(out var listRoot))
+        if (!IsValid(out var listRoot))
         {
             return;
         }
@@ -50,14 +50,14 @@ public class Collection(NodeWithGraph subject, INode predicate) : ICollection<No
         subject.Graph.GetListItems(listRoot).ToList().CopyTo(array, arrayIndex);
     }
 
-    IEnumerator<NodeWithGraph> IEnumerable<NodeWithGraph>.GetEnumerator() => this.X.GetEnumerator();
+    IEnumerator<NodeWithGraph> IEnumerable<NodeWithGraph>.GetEnumerator() => X.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() =>
         ((IEnumerable<INode>)this).GetEnumerator();
 
     public bool Remove(NodeWithGraph item)
     {
-        if (!this.IsValid(out var listRoot))
+        if (!IsValid(out var listRoot))
         {
             return false;
         }

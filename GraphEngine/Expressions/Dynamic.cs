@@ -6,23 +6,23 @@ public class Dynamic(NodeWithGraph node) : Expression(node)
 {
     public Binder Binder
     {
-        get => this.GetRequired(DynamicBinder, Binder.Parse);
+        get => GetRequired(DynamicBinder, Binder.Parse);
 
-        set => this.SetRequired(DynamicBinder, value);
+        set => SetRequired(DynamicBinder, value);
     }
 
     public Type ReturnType
     {
-        get => this.GetRequired(DynamicReturnType, Type.Parse);
+        get => GetRequired(DynamicReturnType, Type.Parse);
 
-        set => this.SetRequired(DynamicReturnType, value);
+        set => SetRequired(DynamicReturnType, value);
     }
 
-    public ICollection<Expression> Arguments => this.Collection(DynamicArguments, Expression.Parse);
+    public ICollection<Expression> Arguments => Collection(DynamicArguments, Expression.Parse);
 
     public override Linq.Expression LinqExpression =>
         Linq.Expression.Dynamic(
-            this.Binder.SystemBinder,
-            this.ReturnType.SystemType,
-            this.Arguments.LinqExpressions());
+            Binder.SystemBinder,
+            ReturnType.SystemType,
+            Arguments.LinqExpressions());
 }

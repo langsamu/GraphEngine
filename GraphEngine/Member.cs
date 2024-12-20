@@ -8,19 +8,19 @@ public class Member(NodeWithGraph node) : Node(node)
 {
     public Type Type
     {
-        get => this.GetRequired(MemberType, Type.Parse);
+        get => GetRequired(MemberType, Type.Parse);
 
-        set => this.SetRequired(MemberType, value);
+        set => SetRequired(MemberType, value);
     }
 
     public string Name
     {
-        get => this.GetRequired(MemberName, AsString);
+        get => GetRequired(MemberName, AsString);
 
-        set => this.SetRequired(MemberName, value);
+        set => SetRequired(MemberName, value);
     }
 
-    public MemberInfo ReflectionMember => this.Type.SystemType.GetMember(this.Name).Single();
+    public MemberInfo ReflectionMember => Type.SystemType.GetMember(Name).Single();
 
     internal static Member Parse(NodeWithGraph node) => node switch
     {

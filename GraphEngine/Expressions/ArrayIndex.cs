@@ -6,23 +6,23 @@ public class ArrayIndex(NodeWithGraph node) : Expression(node)
 {
     public Expression Array
     {
-        get => this.GetRequired(ArrayIndexArray, Expression.Parse);
+        get => GetRequired(ArrayIndexArray, Expression.Parse);
 
-        set => this.SetRequired(ArrayIndexArray, value);
+        set => SetRequired(ArrayIndexArray, value);
     }
 
     public Expression? Index
     {
-        get => this.GetOptional(ArrayIndexIndex, Expression.Parse);
+        get => GetOptional(ArrayIndexIndex, Expression.Parse);
 
-        set => this.SetOptional(ArrayIndexIndex, value);
+        set => SetOptional(ArrayIndexIndex, value);
     }
 
-    public ICollection<Expression> Indexes => this.Collection(ArrayIndexIndexes, Expression.Parse);
+    public ICollection<Expression> Indexes => Collection(ArrayIndexIndexes, Expression.Parse);
 
-    public override Linq.Expression LinqExpression => this.Index switch
+    public override Linq.Expression LinqExpression => Index switch
     {
-        not null => Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Index.LinqExpression),
-        _ => Linq.Expression.ArrayIndex(this.Array.LinqExpression, this.Indexes.LinqExpressions())
+        not null => Linq.Expression.ArrayIndex(Array.LinqExpression, Index.LinqExpression),
+        _ => Linq.Expression.ArrayIndex(Array.LinqExpression, Indexes.LinqExpressions())
     };
 }

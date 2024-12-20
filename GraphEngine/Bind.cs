@@ -6,10 +6,10 @@ public class Bind(NodeWithGraph node) : BaseBind(node, Vocabulary.Bind)
 {
     public Expression Expression
     {
-        get => this.GetRequired(BindExpression, Expression.Parse);
+        get => GetRequired(BindExpression, Expression.Parse);
 
-        set => this.SetRequired(BindExpression, value);
+        set => SetRequired(BindExpression, value);
     }
 
-    public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.Bind(this.Member.ReflectionMember, this.Expression.LinqExpression);
+    public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.Bind(Member.ReflectionMember, Expression.LinqExpression);
 }

@@ -5,9 +5,9 @@ namespace GraphEngine;
 // TODO: Add overloads
 public class MemberBind(NodeWithGraph node) : BaseBind(node, Vocabulary.MemberBind)
 {
-    public ICollection<BaseBind> Bindings => this.Collection(MemberBindBindings, BaseBind.Parse);
+    public ICollection<BaseBind> Bindings => Collection(MemberBindBindings, BaseBind.Parse);
 
     public override Linq.MemberBinding LinqMemberBinding => Linq.Expression.MemberBind(
-        this.Member.ReflectionMember,
-        from binding in this.Bindings select binding.LinqMemberBinding);
+        Member.ReflectionMember,
+        from binding in Bindings select binding.LinqMemberBinding);
 }

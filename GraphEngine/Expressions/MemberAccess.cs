@@ -6,22 +6,22 @@ public abstract class MemberAccess(NodeWithGraph node, INode type) : Expression(
 {
     public Expression? Expression
     {
-        get => this.GetOptional(MemberAccessExpression, Expression.Parse);
+        get => GetOptional(MemberAccessExpression, Expression.Parse);
 
-        set => this.SetOptional(MemberAccessExpression, value);
+        set => SetOptional(MemberAccessExpression, value);
     }
 
     public string Name
     {
-        get => this.GetRequired(MemberAccessName, AsString);
+        get => GetRequired(MemberAccessName, AsString);
 
-        set => this.SetRequired(MemberAccessName, value);
+        set => SetRequired(MemberAccessName, value);
     }
 
     public Type? Type
     {
-        get => this.GetOptional(MemberAccessType, Type.Parse);
+        get => GetOptional(MemberAccessType, Type.Parse);
 
-        set => this.SetOptional(MemberAccessType, value);
+        set => SetOptional(MemberAccessType, value);
     }
 }

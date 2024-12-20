@@ -8,19 +8,19 @@ public abstract class Binder(NodeWithGraph node, INode type) : Node(node, type)
 {
     public string Name
     {
-        get => this.GetRequired(BinderName, AsString);
+        get => GetRequired(BinderName, AsString);
 
-        set => this.SetOptional(BinderName, value);
+        set => SetOptional(BinderName, value);
     }
 
     public ExpressionType? ExpressionType
     {
-        get => this.GetOptional(BinderExpressionType, ExpressionType.Parse);
+        get => GetOptional(BinderExpressionType, ExpressionType.Parse);
 
-        set => this.SetOptional(BinderExpressionType, value);
+        set => SetOptional(BinderExpressionType, value);
     }
 
-    public ICollection<ArgumentInfo> Arguments => this.Collection(BinderArguments, ArgumentInfo.Parse);
+    public ICollection<ArgumentInfo> Arguments => Collection(BinderArguments, ArgumentInfo.Parse);
 
     internal abstract CallSiteBinder SystemBinder { get; }
 

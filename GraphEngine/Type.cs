@@ -6,22 +6,22 @@ public class Type(NodeWithGraph node) : Node(node)
 {
     public string Name
     {
-        get => this.GetRequired(TypeName, AsString);
+        get => GetRequired(TypeName, AsString);
 
-        set => this.SetRequired(TypeName, value);
+        set => SetRequired(TypeName, value);
     }
 
-    public ICollection<Type> Arguments => this.Collection(TypeArguments, Parse);
+    public ICollection<Type> Arguments => Collection(TypeArguments, Parse);
 
     public System.Type SystemType
     {
         get
         {
-            var t = System.Type.GetType(this.Name) ?? throw new InvalidOperationException($"Type {this.Name} not found.");
+            var t = System.Type.GetType(Name) ?? throw new InvalidOperationException($"Type {Name} not found.");
 
             if (t.IsGenericTypeDefinition)
             {
-                return t.MakeGenericType(this.Arguments.Select(arg => arg.SystemType).ToArray());
+                return t.MakeGenericType(Arguments.Select(arg => arg.SystemType).ToArray());
             }
 
             return t;

@@ -7,15 +7,15 @@ public class ListInit(NodeWithGraph node) : Expression(node)
 {
     public New NewExpression
     {
-        get => this.GetRequired(ListInitNewExpression, New.Parse);
+        get => GetRequired(ListInitNewExpression, New.Parse);
 
-        set => this.SetRequired(ListInitNewExpression, value);
+        set => SetRequired(ListInitNewExpression, value);
     }
 
-    public ICollection<ElementInit> Initializers => this.Collection(ListInitInitializers, ElementInit.Parse);
+    public ICollection<ElementInit> Initializers => Collection(ListInitInitializers, ElementInit.Parse);
 
     public override Linq.Expression LinqExpression =>
         Linq.Expression.ListInit(
-            this.NewExpression.LinqNewExpression,
-            from i in this.Initializers select i.LinqElementInit);
+            NewExpression.LinqNewExpression,
+            from i in Initializers select i.LinqElementInit);
 }

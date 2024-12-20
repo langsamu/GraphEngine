@@ -10,7 +10,7 @@ public class BinaryOperation(NodeWithGraph node) : Binder(node, Vocabulary.Binar
     internal override CallSiteBinder SystemBinder =>
         Microsoft.CSharp.RuntimeBinder.Binder.BinaryOperation(
             CSharpBinderFlags.None,
-            this.ExpressionType.LinqExpressionType,
+            ExpressionType.LinqExpressionType,
             null,
-            from a in this.Arguments select a.Info);
+            from a in Arguments select a.Info);
 }

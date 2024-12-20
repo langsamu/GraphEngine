@@ -6,9 +6,9 @@ public abstract class BaseBind(NodeWithGraph node, INode type) : Node(node, type
 {
     public Member Member
     {
-        get => this.GetRequired(BindMember, Member.Parse);
+        get => GetRequired(BindMember, Member.Parse);
 
-        set => this.SetRequired(BindMember, value);
+        set => SetRequired(BindMember, value);
     }
 
     public abstract Linq.MemberBinding LinqMemberBinding { get; }

@@ -6,35 +6,35 @@ public class Condition(NodeWithGraph node, INode? type = default) : Expression(n
 {
     public Expression Test
     {
-        get => this.GetRequired(ConditionTest, Expression.Parse);
+        get => GetRequired(ConditionTest, Expression.Parse);
 
-        set => this.SetRequired(ConditionTest, value);
+        set => SetRequired(ConditionTest, value);
     }
 
     public Expression IfTrue
     {
-        get => this.GetRequired(ConditionIfTrue, Expression.Parse);
+        get => GetRequired(ConditionIfTrue, Expression.Parse);
 
-        set => this.SetRequired(ConditionIfTrue, value);
+        set => SetRequired(ConditionIfTrue, value);
     }
 
     public Expression IfFalse
     {
-        get => this.GetRequired(ConditionIfFalse, Expression.Parse);
+        get => GetRequired(ConditionIfFalse, Expression.Parse);
 
-        set => this.SetRequired(ConditionIfFalse, value);
+        set => SetRequired(ConditionIfFalse, value);
     }
 
     public Type? Type
     {
-        get => this.GetOptional(ConditionType, Type.Parse);
+        get => GetOptional(ConditionType, Type.Parse);
 
-        set => this.SetOptional(ConditionType, value);
+        set => SetOptional(ConditionType, value);
     }
 
-    public override Linq.Expression LinqExpression => this.Type switch
+    public override Linq.Expression LinqExpression => Type switch
     {
-        Type type => Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression, type.SystemType),
-        _ => Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression)
+        Type type => Linq.Expression.Condition(Test.LinqExpression, IfTrue.LinqExpression, IfFalse.LinqExpression, type.SystemType),
+        _ => Linq.Expression.Condition(Test.LinqExpression, IfTrue.LinqExpression, IfFalse.LinqExpression)
     };
 }

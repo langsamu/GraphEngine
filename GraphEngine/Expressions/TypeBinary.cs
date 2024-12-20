@@ -6,29 +6,29 @@ public class TypeBinary(NodeWithGraph node) : Expression(node)
 {
     public ExpressionType ExpressionType
     {
-        get => this.GetRequired(TypeBinaryExpressionType, ExpressionType.Parse);
+        get => GetRequired(TypeBinaryExpressionType, ExpressionType.Parse);
 
-        set => this.SetRequired(TypeBinaryExpressionType, value);
+        set => SetRequired(TypeBinaryExpressionType, value);
     }
 
     public Expression Expression
     {
-        get => this.GetRequired(TypeBinaryExpression, Expression.Parse);
+        get => GetRequired(TypeBinaryExpression, Expression.Parse);
 
-        set => this.SetRequired(TypeBinaryExpression, value);
+        set => SetRequired(TypeBinaryExpression, value);
     }
 
     public Type Type
     {
-        get => this.GetRequired(TypeBinaryType, Type.Parse);
+        get => GetRequired(TypeBinaryType, Type.Parse);
 
-        set => this.SetRequired(TypeBinaryType, value);
+        set => SetRequired(TypeBinaryType, value);
     }
 
-    public override Linq.Expression LinqExpression => this.ExpressionType.LinqExpressionType switch
+    public override Linq.Expression LinqExpression => ExpressionType.LinqExpressionType switch
     {
-        Linq.ExpressionType.TypeEqual => Linq.Expression.TypeEqual(this.Expression.LinqExpression, this.Type.SystemType),
-        Linq.ExpressionType.TypeIs => Linq.Expression.TypeIs(this.Expression.LinqExpression, this.Type.SystemType),
+        Linq.ExpressionType.TypeEqual => Linq.Expression.TypeEqual(Expression.LinqExpression, Type.SystemType),
+        Linq.ExpressionType.TypeIs => Linq.Expression.TypeIs(Expression.LinqExpression, Type.SystemType),
 
         var unknown => throw new InvalidOperationException($"{unknown} is not binarytype"),
     };

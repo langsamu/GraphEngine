@@ -6,38 +6,38 @@ public class Catch(NodeWithGraph node) : Node(node)
 {
     public Type? Type
     {
-        get => this.GetOptional(CatchType, Type.Parse);
+        get => GetOptional(CatchType, Type.Parse);
 
-        set => this.SetOptional(CatchType, value);
+        set => SetOptional(CatchType, value);
     }
 
     public Expression Body
     {
-        get => this.GetRequired(CatchBody, Expression.Parse);
+        get => GetRequired(CatchBody, Expression.Parse);
 
-        set => this.SetRequired(CatchBody, value);
+        set => SetRequired(CatchBody, value);
     }
 
     public Parameter? Variable
     {
-        get => this.GetOptional(CatchVariable, Parameter.Parse);
+        get => GetOptional(CatchVariable, Parameter.Parse);
 
-        set => this.SetOptional(CatchVariable, value);
+        set => SetOptional(CatchVariable, value);
     }
 
     public Expression? Filter
     {
-        get => this.GetOptional(CatchFilter, Expression.Parse);
+        get => GetOptional(CatchFilter, Expression.Parse);
 
-        set => this.SetOptional(CatchFilter, value);
+        set => SetOptional(CatchFilter, value);
     }
 
     public Linq.CatchBlock LinqCatchBlock
     {
         get
         {
-            var variable = this.Variable?.LinqParameter;
-            return Linq.Expression.MakeCatchBlock(this.Type?.SystemType ?? variable?.Type, variable, this.Body.LinqExpression, this.Filter?.LinqExpression);
+            var variable = Variable?.LinqParameter;
+            return Linq.Expression.MakeCatchBlock(Type?.SystemType ?? variable?.Type, variable, Body.LinqExpression, Filter?.LinqExpression);
         }
     }
 

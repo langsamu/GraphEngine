@@ -4,9 +4,9 @@ namespace GraphEngine;
 
 public class Field(NodeWithGraph node) : MemberAccess(node, Vocabulary.Field)
 {
-    public override Linq.Expression LinqExpression => this.Type switch
+    public override Linq.Expression LinqExpression => Type switch
     {
-        Type type => Linq.Expression.Field(this.Expression?.LinqExpression, type.SystemType, this.Name),
-        _ => Linq.Expression.Field(this.Expression?.LinqExpression, this.Name)
+        Type type => Linq.Expression.Field(Expression?.LinqExpression, type.SystemType, Name),
+        _ => Linq.Expression.Field(Expression?.LinqExpression, Name)
     };
 }

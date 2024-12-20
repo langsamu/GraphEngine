@@ -6,24 +6,24 @@ namespace GraphEngine;
 // TODO: Create ConstructorInfo node
 public class New(NodeWithGraph node) : Expression(node)
 {
-    public ICollection<Expression> Arguments => this.Collection(NewArguments, Expression.Parse);
+    public ICollection<Expression> Arguments => Collection(NewArguments, Expression.Parse);
 
     public Type Type
     {
-        get => this.GetRequired(NewType, Type.Parse);
+        get => GetRequired(NewType, Type.Parse);
 
-        set => this.SetRequired(NewType, value);
+        set => SetRequired(NewType, value);
     }
 
-    public override Linq.Expression LinqExpression => this.LinqNewExpression;
+    public override Linq.Expression LinqExpression => LinqNewExpression;
 
     internal Linq.NewExpression LinqNewExpression
     {
         get
         {
-            var argumentExpressions = this.Arguments.LinqExpressions();
+            var argumentExpressions = Arguments.LinqExpressions();
             var types = (from expression in argumentExpressions select expression.Type).ToArray();
-            var constructor = this.Type.SystemType.GetConstructor(types);
+            var constructor = Type.SystemType.GetConstructor(types);
 
             return Linq.Expression.New(constructor, argumentExpressions);
         }

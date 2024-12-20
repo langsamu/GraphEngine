@@ -6,21 +6,21 @@ public class Constant(NodeWithGraph node) : Expression(node)
 {
     public object? Value
     {
-        get => this.GetOptional(ConstantValue, AsObject);
+        get => GetOptional(ConstantValue, AsObject);
 
-        set => this.SetOptional(ConstantValue, value);
+        set => SetOptional(ConstantValue, value);
     }
 
     public Type? Type
     {
-        get => this.GetOptional(ConstantType, Type.Parse);
+        get => GetOptional(ConstantType, Type.Parse);
 
-        set => this.SetOptional(ConstantType, value);
+        set => SetOptional(ConstantType, value);
     }
 
-    public override Linq.Expression LinqExpression => this.Type switch
+    public override Linq.Expression LinqExpression => Type switch
     {
-        Type type => Linq.Expression.Constant(this.Value, type.SystemType),
-        _ => Linq.Expression.Constant(this.Value)
+        Type type => Linq.Expression.Constant(Value, type.SystemType),
+        _ => Linq.Expression.Constant(Value)
     };
 }

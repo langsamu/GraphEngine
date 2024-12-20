@@ -26,15 +26,15 @@ public class Graph : WrapperGraph
     public Graph()
         : base()
     {
-        this.AttachEventHandlers();
-        this.TripleAsserted += this.Graph_TripleAsserted;
+        AttachEventHandlers();
+        TripleAsserted += Graph_TripleAsserted;
     }
 
     public Graph(IGraph g)
         : base(g)
     {
         Reasoner.Apply(this);
-        this.TripleAsserted += this.Graph_TripleAsserted;
+        TripleAsserted += Graph_TripleAsserted;
     }
 
     private static IEnumerable<INode> ExcludedClasses

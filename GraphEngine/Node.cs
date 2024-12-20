@@ -12,14 +12,14 @@ public abstract partial class Node(NodeWithGraph node) : NodeWithGraph(node, nod
             return;
         }
 
-        this.RdfType = type;
+        RdfType = type;
     }
 
     public INode? RdfType
     {
         get => Vocabulary.RdfType.ObjectOf(this);
 
-        set => this.SetOptional(Vocabulary.RdfType, value);
+        set => SetOptional(Vocabulary.RdfType, value);
     }
 
     protected static int AsInt(NodeWithGraph node)
@@ -121,20 +121,20 @@ public abstract partial class Node(NodeWithGraph node) : NodeWithGraph(node, nod
         where T : NodeWithGraph =>
         new Collection<T>(this, predicate, parser);
 
-    protected void SetRequired(INode predicate, object @object) => this.SetOptional(
+    protected void SetRequired(INode predicate, object @object) => SetOptional(
         predicate,
         @object ?? throw new ArgumentNullException(nameof(@object)));
 
     protected void SetOptional(INode predicate, object? @object)
     {
-        this.Graph.Retract(
-            this.Graph.GetTriplesWithSubjectPredicate(
+        Graph.Retract(
+            Graph.GetTriplesWithSubjectPredicate(
                 this,
                 predicate).ToList());
 
         if (@object is not null)
         {
-            this.Graph.Assert(this, predicate, @object.AsNode(this.Graph));
+            Graph.Assert(this, predicate, @object.AsNode(Graph));
         }
     }
 
@@ -157,11 +157,11 @@ public abstract partial class Node(NodeWithGraph node) : NodeWithGraph(node, nod
 
     protected T GetRequired<T>(INode predicate, Func<NodeWithGraph, T> parser)
         where T : class =>
-        this.GetOptional<T>(predicate, parser)
+        GetOptional<T>(predicate, parser)
         ?? throw new Exception($"Single {predicate} not found on {this}");
 
     protected T GetRequiredS<T>(INode predicate, Func<NodeWithGraph, T> parser)
         where T : struct =>
-        this.GetOptionalS<T>(predicate, parser)
+        GetOptionalS<T>(predicate, parser)
         ?? throw new Exception($"Single {predicate} not found on {this}");
 }

@@ -8,19 +8,19 @@ public class Parameter(NodeWithGraph node) : Expression(node)
 
     public Type Type
     {
-        get => this.GetRequired(ParameterType, Type.Parse);
+        get => GetRequired(ParameterType, Type.Parse);
 
-        set => this.SetRequired(ParameterType, value);
+        set => SetRequired(ParameterType, value);
     }
 
     public string? Name
     {
-        get => this.GetOptional(ParameterName, AsString);
+        get => GetOptional(ParameterName, AsString);
 
-        set => this.SetOptional(ParameterName, value);
+        set => SetOptional(ParameterName, value);
     }
 
-    public override Linq.Expression LinqExpression => this.LinqParameter;
+    public override Linq.Expression LinqExpression => LinqParameter;
 
     public Linq.ParameterExpression LinqParameter
     {
@@ -28,7 +28,7 @@ public class Parameter(NodeWithGraph node) : Expression(node)
         {
             if (!Cache.TryGetValue(this, out var param))
             {
-                param = Cache[this] = Linq.Expression.Parameter(this.Type.SystemType, this.Name);
+                param = Cache[this] = Linq.Expression.Parameter(Type.SystemType, Name);
             }
 
             return param;

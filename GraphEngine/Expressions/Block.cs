@@ -6,27 +6,27 @@ public class Block(NodeWithGraph node) : Expression(node)
 {
     public Type? Type
     {
-        get => this.GetOptional(BlockType, Type.Parse);
+        get => GetOptional(BlockType, Type.Parse);
 
-        set => this.SetOptional(BlockType, value);
+        set => SetOptional(BlockType, value);
     }
 
-    public ICollection<Expression> Expressions => this.Collection(BlockExpressions, Expression.Parse);
+    public ICollection<Expression> Expressions => Collection(BlockExpressions, Expression.Parse);
 
-    public ICollection<Parameter> Variables => this.Collection(BlockVariables, Parameter.Parse);
+    public ICollection<Parameter> Variables => Collection(BlockVariables, Parameter.Parse);
 
-    public override Linq.Expression LinqExpression => (type: this.Type, empty: !this.Variables.Any()) switch
+    public override Linq.Expression LinqExpression => (type: Type, empty: !Variables.Any()) switch
     {
         (type: not null, _) => Linq.Expression.Block(
-            this.Type.SystemType,
-            from e in this.Variables select e.LinqParameter,
-            this.Expressions.LinqExpressions()),
+            Type.SystemType,
+            from e in Variables select e.LinqParameter,
+            Expressions.LinqExpressions()),
 
         (_, empty: true) => Linq.Expression.Block(
-            this.Expressions.LinqExpressions().ToArray()),
+            Expressions.LinqExpressions().ToArray()),
 
         _ => Linq.Expression.Block(
-            from e in this.Variables select e.LinqParameter,
-            this.Expressions.LinqExpressions()),
+            from e in Variables select e.LinqParameter,
+            Expressions.LinqExpressions()),
     };
 }

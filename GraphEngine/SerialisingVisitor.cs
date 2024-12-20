@@ -13,23 +13,23 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     private readonly Stack<NodeWithGraph> path = new();
     private bool initialised;
 
-    private NodeWithGraph Current => this.path.Peek();
+    private NodeWithGraph Current => path.Peek();
 
     private NodeWithGraph this[object index]
     {
         get
         {
-            if (!this.initialised)
+            if (!initialised)
             {
-                this.mapping[index] = this.node;
-                this.initialised = true;
+                mapping[index] = node;
+                initialised = true;
 
-                return this.node;
+                return node;
             }
 
-            if (!this.mapping.TryGetValue(index, out var current))
+            if (!mapping.TryGetValue(index, out var current))
             {
-                current = this.mapping[index] = this.node.Graph.CreateBlankNode().In(this.node.Graph);
+                current = mapping[index] = node.Graph.CreateBlankNode().In(node.Graph);
             }
 
             return current;
@@ -38,7 +38,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     public override Linq.Expression Visit(Linq.Expression? node)
     {
-        using (this.Wrap(node))
+        using (Wrap(node))
         {
             return base.Visit(node);
         }
@@ -48,10 +48,10 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         if (node.NodeType == Linq.ExpressionType.ArrayIndex)
         {
-            _ = new ArrayIndex(this.Current)
+            _ = new ArrayIndex(Current)
             {
-                Array = this.VisitCacheParse(node.Left),
-                Index = this.VisitCacheParse(node.Right),
+                Array = VisitCacheParse(node.Left),
+                Index = VisitCacheParse(node.Right),
             };
         }
         else
@@ -62,25 +62,25 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
             {
                 if (node.NodeType == Linq.ExpressionType.Equal)
                 {
-                    binary = new ReferenceEqual(this.Current);
+                    binary = new ReferenceEqual(Current);
                 }
                 else
                 {
-                    binary = new ReferenceNotEqual(this.Current);
+                    binary = new ReferenceNotEqual(Current);
                 }
             }
             else
             {
-                binary = Binary.Create(this.Current, node.NodeType);
+                binary = Binary.Create(Current, node.NodeType);
 
                 if (node.Method is MethodInfo method)
                 {
-                    binary.Method = this.VisitMethod(method);
+                    binary.Method = VisitMethod(method);
                 }
 
                 if (node.Conversion is Linq.LambdaExpression lambda)
                 {
-                    binary.Conversion = new Lambda(this.VisitCache(lambda));
+                    binary.Conversion = new Lambda(VisitCache(lambda));
                 }
 
                 if (node.IsLiftedToNull)
@@ -89,8 +89,8 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
                 }
             }
 
-            binary.Left = this.VisitCacheParse(node.Left);
-            binary.Right = this.VisitCacheParse(node.Right);
+            binary.Left = VisitCacheParse(node.Left);
+            binary.Right = VisitCacheParse(node.Right);
         }
 
         return node;
@@ -98,21 +98,21 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
     {
-        var block = new Block(this.Current);
+        var block = new Block(Current);
 
         if (!Extensions.AreEquivalent(node.Type, node.Expressions.Last().Type))
         {
-            block.Type = this.VisitType(node.Type);
+            block.Type = VisitType(node.Type);
         }
 
         foreach (var variable in node.Variables)
         {
-            block.Variables.Add(new Parameter(this.VisitCache(variable)));
+            block.Variables.Add(new Parameter(VisitCache(variable)));
         }
 
         foreach (var blockExpression in node.Expressions)
         {
-            block.Expressions.Add(this.VisitCacheParse(blockExpression));
+            block.Expressions.Add(VisitCacheParse(blockExpression));
         }
 
         return node;
@@ -126,45 +126,45 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         {
             if (node.IfFalse is Linq.DefaultExpression defaultExpression && defaultExpression.Type == typeof(void))
             {
-                condition = new IfThen(this.Current);
+                condition = new IfThen(Current);
             }
             else
             {
-                condition = new IfThenElse(this.Current)
+                condition = new IfThenElse(Current)
                 {
-                    IfFalse = this.VisitCacheParse(node.IfFalse),
+                    IfFalse = VisitCacheParse(node.IfFalse),
                 };
             }
         }
         else
         {
-            condition = new Condition(this.Current)
+            condition = new Condition(Current)
             {
-                IfFalse = this.VisitCacheParse(node.IfFalse),
+                IfFalse = VisitCacheParse(node.IfFalse),
             };
 
             if (node.Type != node.IfTrue.Type)
             {
-                condition.Type = this.VisitType(node.Type);
+                condition.Type = VisitType(node.Type);
             }
         }
 
-        condition.Test = this.VisitCacheParse(node.Test);
-        condition.IfTrue = this.VisitCacheParse(node.IfTrue);
+        condition.Test = VisitCacheParse(node.Test);
+        condition.IfTrue = VisitCacheParse(node.IfTrue);
 
         return node;
     }
 
     protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
     {
-        var constant = new Constant(this.Current)
+        var constant = new Constant(Current)
         {
             Value = node.Value,
         };
 
         if (node.Type != node.Value.GetType())
         {
-            constant.Type = this.VisitType(node.Type);
+            constant.Type = VisitType(node.Type);
         }
 
         return node;
@@ -174,11 +174,11 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         var debugInfo = node.IsClear switch
         {
-            true => new ClearDebugInfo(this.Current),
-            false => new DebugInfo(this.Current),
+            true => new ClearDebugInfo(Current),
+            false => new DebugInfo(Current),
         };
 
-        debugInfo.Document = this.VisitSymbolDocument(node.Document);
+        debugInfo.Document = VisitSymbolDocument(node.Document);
         debugInfo.StartLine = node.StartLine;
         debugInfo.StartColumn = node.StartLine;
         debugInfo.EndLine = node.EndLine;
@@ -191,13 +191,13 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         if (node.Type == typeof(void))
         {
-            _ = new Empty(this.Current);
+            _ = new Empty(Current);
         }
         else
         {
-            _ = new Default(this.Current)
+            _ = new Default(Current)
             {
-                Type = this.VisitType(node.Type),
+                Type = VisitType(node.Type),
             };
         }
 
@@ -206,15 +206,15 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitDynamic(Linq.DynamicExpression node)
     {
-        var dynamicNode = new Dynamic(this.Current)
+        var dynamicNode = new Dynamic(Current)
         {
-            Binder = this.VisitBinder(node.Binder),
-            ReturnType = this.VisitType(node.Type),
+            Binder = VisitBinder(node.Binder),
+            ReturnType = VisitType(node.Type),
         };
 
         foreach (var argument in node.Arguments)
         {
-            dynamicNode.Arguments.Add(this.VisitCacheParse(argument));
+            dynamicNode.Arguments.Add(VisitCacheParse(argument));
         }
 
         return node;
@@ -222,16 +222,16 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.ElementInit VisitElementInit(Linq.ElementInit node)
     {
-        using (this.Wrap(node))
+        using (Wrap(node))
         {
-            var elementInit = new ElementInit(this.Current)
+            var elementInit = new ElementInit(Current)
             {
-                AddMethod = this.VisitMethod(node.AddMethod),
+                AddMethod = VisitMethod(node.AddMethod),
             };
 
             foreach (var argument in node.Arguments)
             {
-                elementInit.Arguments.Add(this.VisitCacheParse(argument));
+                elementInit.Arguments.Add(VisitCacheParse(argument));
             }
 
             return node;
@@ -242,7 +242,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         if (node is Linq.DynamicExpression dynamicExpression)
         {
-            return this.VisitDynamic(dynamicExpression);
+            return VisitDynamic(dynamicExpression);
         }
 
         throw new InvalidOperationException($"unknown extension {node}");
@@ -250,18 +250,18 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitGoto(Linq.GotoExpression node)
     {
-        var @goto = BaseGoto.Create(this.Current, node.Kind);
+        var @goto = BaseGoto.Create(Current, node.Kind);
 
-        @goto.Target = new Target(this[this.VisitLabelTarget(node.Target)]);
+        @goto.Target = new Target(this[VisitLabelTarget(node.Target)]);
 
         if (node.Value is not null)
         {
-            @goto.Value = this.VisitCacheParse(node.Value);
+            @goto.Value = VisitCacheParse(node.Value);
         }
 
         if (node.Type != typeof(void))
         {
-            @goto.Type = this.VisitType(node.Type);
+            @goto.Type = VisitType(node.Type);
         }
 
         return node;
@@ -271,27 +271,27 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         if (node.Indexer is not null)
         {
-            var property = new Property(this.Current)
+            var property = new Property(Current)
             {
-                Expression = this.VisitCacheParse(node.Object),
+                Expression = VisitCacheParse(node.Object),
                 Name = node.Indexer.Name,
             };
 
             foreach (var index in node.Arguments)
             {
-                property.Arguments.Add(this.VisitCacheParse(index));
+                property.Arguments.Add(VisitCacheParse(index));
             }
         }
         else
         {
-            var arrayAccess = new ArrayAccess(this.Current)
+            var arrayAccess = new ArrayAccess(Current)
             {
-                Array = this.VisitCacheParse(node.Object),
+                Array = VisitCacheParse(node.Object),
             };
 
             foreach (var index in node.Arguments)
             {
-                arrayAccess.Indexes.Add(this.VisitCacheParse(index));
+                arrayAccess.Indexes.Add(VisitCacheParse(index));
             }
         }
 
@@ -300,13 +300,13 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget? node)
     {
-        using (this.Wrap(node))
+        using (Wrap(node))
         {
-            var target = new Target(this.Current);
+            var target = new Target(Current);
 
             if (node.Type != typeof(void))
             {
-                target.Type = this.VisitType(node.Type);
+                target.Type = VisitType(node.Type);
             }
 
             if (node.Name is not null)
@@ -320,14 +320,14 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitListInit(Linq.ListInitExpression node)
     {
-        var listInit = new ListInit(this.Current)
+        var listInit = new ListInit(Current)
         {
-            NewExpression = new New(this.VisitCache(node.NewExpression)),
+            NewExpression = new New(VisitCache(node.NewExpression)),
         };
 
         foreach (var initializer in node.Initializers)
         {
-            listInit.Initializers.Add(new ElementInit(this[this.VisitElementInit(initializer)]));
+            listInit.Initializers.Add(new ElementInit(this[VisitElementInit(initializer)]));
         }
 
         return node;
@@ -335,14 +335,14 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitLambda<T>(Linq.Expression<T> node)
     {
-        var lambda = new Lambda(this.Current)
+        var lambda = new Lambda(Current)
         {
-            Body = this.VisitCacheParse(node.Body),
+            Body = VisitCacheParse(node.Body),
         };
 
         foreach (var parameter in node.Parameters)
         {
-            lambda.Parameters.Add(new Parameter(this.VisitCache(parameter)));
+            lambda.Parameters.Add(new Parameter(VisitCache(parameter)));
         }
 
         return node;
@@ -350,19 +350,19 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
     {
-        var loop = new Loop(this.Current)
+        var loop = new Loop(Current)
         {
-            Body = this.VisitCacheParse(node.Body),
+            Body = VisitCacheParse(node.Body),
         };
 
         if (node.ContinueLabel is not null)
         {
-            loop.Continue = new Target(this[this.VisitLabelTarget(node.ContinueLabel)]);
+            loop.Continue = new Target(this[VisitLabelTarget(node.ContinueLabel)]);
         }
 
         if (node.BreakLabel is not null)
         {
-            loop.Break = new Target(this[this.VisitLabelTarget(node.BreakLabel)]);
+            loop.Break = new Target(this[VisitLabelTarget(node.BreakLabel)]);
         }
 
         return node;
@@ -372,8 +372,8 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
     {
         var memberAccess = node.Member.MemberType switch
         {
-            MemberTypes.Field => new Field(this.Current) as MemberAccess,
-            MemberTypes.Property => new Property(this.Current) as MemberAccess,
+            MemberTypes.Field => new Field(Current) as MemberAccess,
+            MemberTypes.Property => new Property(Current) as MemberAccess,
             var mt => throw new Exception($"unknown member type {mt}")
         };
 
@@ -381,12 +381,12 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
         if (node.Expression is not null)
         {
-            memberAccess.Expression = this.VisitCacheParse(node.Expression);
+            memberAccess.Expression = VisitCacheParse(node.Expression);
         }
 
         if (node.Expression is null || node.Expression.Type != node.Member.DeclaringType)
         {
-            memberAccess.Type = this.VisitType(node.Member.DeclaringType);
+            memberAccess.Type = VisitType(node.Member.DeclaringType);
         }
 
         return node;
@@ -394,10 +394,10 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.MemberAssignment VisitMemberAssignment(Linq.MemberAssignment node)
     {
-        _ = new Bind(this.Current)
+        _ = new Bind(Current)
         {
-            Member = this.VisitMember(node.Member),
-            Expression = this.VisitCacheParse(node.Expression),
+            Member = VisitMember(node.Member),
+            Expression = VisitCacheParse(node.Expression),
         };
 
         return node;
@@ -405,13 +405,13 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.MemberBinding VisitMemberBinding(Linq.MemberBinding node)
     {
-        using (this.Wrap(node))
+        using (Wrap(node))
         {
             return node switch
             {
-                Linq.MemberAssignment binding => this.VisitMemberAssignment(binding),
-                Linq.MemberMemberBinding binding => this.VisitMemberMemberBinding(binding),
-                Linq.MemberListBinding binding => this.VisitMemberListBinding(binding),
+                Linq.MemberAssignment binding => VisitMemberAssignment(binding),
+                Linq.MemberMemberBinding binding => VisitMemberMemberBinding(binding),
+                Linq.MemberListBinding binding => VisitMemberListBinding(binding),
                 var n => throw new Exception($"unknown member binding {n}")
             };
         }
@@ -419,14 +419,14 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitMemberInit(Linq.MemberInitExpression node)
     {
-        var memberInit = new MemberInit(this.Current)
+        var memberInit = new MemberInit(Current)
         {
-            NewExpression = new New(this.VisitCache(node.NewExpression)),
+            NewExpression = new New(VisitCache(node.NewExpression)),
         };
 
         foreach (var binding in node.Bindings)
         {
-            memberInit.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
+            memberInit.Bindings.Add(BaseBind.Create(this[VisitMemberBinding(binding)], binding.BindingType));
         }
 
         return node;
@@ -434,14 +434,14 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.MemberListBinding VisitMemberListBinding(Linq.MemberListBinding node)
     {
-        var listBinding = new ListBind(this.Current)
+        var listBinding = new ListBind(Current)
         {
-            Member = this.VisitMember(node.Member),
+            Member = VisitMember(node.Member),
         };
 
         foreach (var item in node.Initializers)
         {
-            listBinding.Initializers.Add(new ElementInit(this[this.VisitElementInit(item)]));
+            listBinding.Initializers.Add(new ElementInit(this[VisitElementInit(item)]));
         }
 
         return node;
@@ -449,14 +449,14 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.MemberMemberBinding VisitMemberMemberBinding(Linq.MemberMemberBinding node)
     {
-        var memberBinding = new MemberBind(this.Current)
+        var memberBinding = new MemberBind(Current)
         {
-            Member = this.VisitMember(node.Member),
+            Member = VisitMember(node.Member),
         };
 
         foreach (var binding in node.Bindings)
         {
-            memberBinding.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
+            memberBinding.Bindings.Add(BaseBind.Create(this[VisitMemberBinding(binding)], binding.BindingType));
         }
 
         return node;
@@ -464,19 +464,19 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitMethodCall(Linq.MethodCallExpression node)
     {
-        var call = new Call(this.Current)
+        var call = new Call(Current)
         {
-            Method = this.VisitMethod(node.Method),
+            Method = VisitMethod(node.Method),
         };
 
         if (node.Object is not null)
         {
-            call.Instance = this.VisitCacheParse(node.Object);
+            call.Instance = VisitCacheParse(node.Object);
         }
 
         foreach (var argument in node.Arguments)
         {
-            call.Arguments.Add(this.VisitCacheParse(argument));
+            call.Arguments.Add(VisitCacheParse(argument));
         }
 
         return node;
@@ -484,9 +484,9 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitNew(Linq.NewExpression node)
     {
-        _ = new New(this.Current)
+        _ = new New(Current)
         {
-            Type = this.VisitType(node.Type),
+            Type = VisitType(node.Type),
         };
 
         return node;
@@ -497,18 +497,18 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         NewArray newArray;
         if (node.NodeType == Linq.ExpressionType.NewArrayBounds)
         {
-            newArray = new NewArrayBounds(this.Current);
+            newArray = new NewArrayBounds(Current);
         }
         else
         {
-            newArray = new NewArrayInit(this.Current);
+            newArray = new NewArrayInit(Current);
         }
 
-        newArray.Type = this.VisitType(node.Type.GetElementType());
+        newArray.Type = VisitType(node.Type.GetElementType());
 
         foreach (var expression in node.Expressions)
         {
-            newArray.Expressions.Add(this.VisitCacheParse(expression));
+            newArray.Expressions.Add(VisitCacheParse(expression));
         }
 
         return node;
@@ -516,9 +516,9 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
     {
-        var parameter = new Parameter(this.Current)
+        var parameter = new Parameter(Current)
         {
-            Type = this.VisitType(node.Type),
+            Type = VisitType(node.Type),
         };
 
         if (node.Name is not null)
@@ -531,11 +531,11 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitRuntimeVariables(Linq.RuntimeVariablesExpression node)
     {
-        var runtimeVariables = new RuntimeVariables(this.Current);
+        var runtimeVariables = new RuntimeVariables(Current);
 
         foreach (var variable in node.Variables)
         {
-            runtimeVariables.Variables.Add(new Parameter(this.VisitCache(variable)));
+            runtimeVariables.Variables.Add(new Parameter(VisitCache(variable)));
         }
 
         return node;
@@ -543,11 +543,11 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     protected override Linq.Expression VisitTypeBinary(Linq.TypeBinaryExpression node)
     {
-        _ = new TypeBinary(this.Current)
+        _ = new TypeBinary(Current)
         {
-            ExpressionType = this.VisitExpressionType(node.NodeType),
-            Expression = this.VisitCacheParse(node.Expression),
-            Type = this.VisitType(node.TypeOperand),
+            ExpressionType = VisitExpressionType(node.NodeType),
+            Expression = VisitCacheParse(node.Expression),
+            Type = VisitType(node.TypeOperand),
         };
 
         return node;
@@ -559,83 +559,83 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         {
             if (node.Operand is null && node.Type == typeof(void))
             {
-                _ = new Rethrow(this.Current);
+                _ = new Rethrow(Current);
             }
 
-            var @throw = new Throw(this.Current);
+            var @throw = new Throw(Current);
 
             if (node.Operand is Linq.Expression value)
             {
-                @throw.Value = this.VisitCacheParse(value);
+                @throw.Value = VisitCacheParse(value);
             }
 
             if (node.Type is System.Type type)
             {
-                @throw.Type = this.VisitType(type);
+                @throw.Type = VisitType(type);
             }
         }
         else
         {
-            var unary = Unary.Create(this.Current, node.NodeType);
+            var unary = Unary.Create(Current, node.NodeType);
 
-            unary.Type = this.VisitType(node.Type);
+            unary.Type = VisitType(node.Type);
 
-            unary.Operand = this.VisitCacheParse(node.Operand);
+            unary.Operand = VisitCacheParse(node.Operand);
 
             if (node.Method is MethodInfo method)
             {
-                unary.Method = this.VisitMethod(method);
+                unary.Method = VisitMethod(method);
             }
         }
 
         return node;
     }
 
-    private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(this.VisitCache(node));
+    private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(VisitCache(node));
 
-    private NodeWithGraph VisitCache(Linq.Expression node) => this[this.Visit(node)];
+    private NodeWithGraph VisitCache(Linq.Expression node) => this[Visit(node)];
 
     private ArgumentInfo VisitArgumentInfo(string argument)
     {
-        using (this.Wrap(argument))
+        using (Wrap(argument))
         {
-            return new ArgumentInfo(this.Current);
+            return new ArgumentInfo(Current);
         }
     }
 
     private Binder VisitBinder(CallSiteBinder callSiteBinder)
     {
-        using (this.Wrap(callSiteBinder))
+        using (Wrap(callSiteBinder))
         {
             switch (callSiteBinder)
             {
                 case InvokeMemberBinder invokeMember:
-                    var invokeMemberBinder = new InvokeMember(this.Current)
+                    var invokeMemberBinder = new InvokeMember(Current)
                     {
                         Name = invokeMember.Name,
                     };
 
                     // Object member is invoked on
-                    invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+                    invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(string.Empty)]));
 
                     foreach (var argument in invokeMember.CallInfo.ArgumentNames)
                     {
-                        invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(argument)]));
+                        invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(argument)]));
                     }
 
                     return invokeMemberBinder;
 
                 case BinaryOperationBinder binaryOperation:
-                    var binaryOperationBinder = new BinaryOperation(this.Current)
+                    var binaryOperationBinder = new BinaryOperation(Current)
                     {
-                        ExpressionType = this.VisitExpressionType(binaryOperation.Operation),
+                        ExpressionType = VisitExpressionType(binaryOperation.Operation),
                     };
 
                     // Left operand
-                    binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+                    binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(string.Empty)]));
 
                     // Right operand
-                    binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+                    binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(string.Empty)]));
 
                     return binaryOperationBinder;
 
@@ -647,19 +647,19 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     private ExpressionType VisitExpressionType(Linq.ExpressionType expressionType)
     {
-        using (this.Wrap(expressionType))
+        using (Wrap(expressionType))
         {
-            return ExpressionType.Create(expressionType, this.node.Graph);
+            return ExpressionType.Create(expressionType, node.Graph);
         }
     }
 
     private Member VisitMember(MemberInfo member)
     {
-        using (this.Wrap(member))
+        using (Wrap(member))
         {
-            return new Member(this.Current)
+            return new Member(Current)
             {
-                Type = this.VisitType(member.DeclaringType),
+                Type = VisitType(member.DeclaringType),
                 Name = member.Name,
             };
         }
@@ -667,17 +667,17 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     private Method VisitMethod(MethodInfo method)
     {
-        using (this.Wrap(method))
+        using (Wrap(method))
         {
-            var methodNode = new Method(this.Current)
+            var methodNode = new Method(Current)
             {
-                Type = this.VisitType(method.DeclaringType),
+                Type = VisitType(method.DeclaringType),
                 Name = method.Name,
             };
 
             foreach (var type in method.GetGenericArguments())
             {
-                methodNode.TypeArguments.Add(this.VisitType(type));
+                methodNode.TypeArguments.Add(VisitType(type));
             }
 
             return methodNode;
@@ -686,9 +686,9 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     private SymbolDocument VisitSymbolDocument(Linq.SymbolDocumentInfo document)
     {
-        using (this.Wrap(document))
+        using (Wrap(document))
         {
-            return new SymbolDocument(this.Current)
+            return new SymbolDocument(Current)
             {
                 FileName = document.FileName,
                 Language = NullIfEmpty(document.Language),
@@ -702,16 +702,16 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 
     private Type VisitType(System.Type type)
     {
-        using (this.Wrap(type))
+        using (Wrap(type))
         {
-            var t = new Type(this.Current)
+            var t = new Type(Current)
             {
                 Name = $"{type}, {type.Assembly}",
             };
 
             foreach (var argument in type.GenericTypeArguments)
             {
-                t.Arguments.Add(this.VisitType(argument));
+                t.Arguments.Add(VisitType(argument));
             }
 
             return t;
@@ -730,6 +730,6 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
             this.visitor.path.Push(node);
         }
 
-        void IDisposable.Dispose() => this.visitor.path.Pop();
+        void IDisposable.Dispose() => visitor.path.Pop();
     }
 }
