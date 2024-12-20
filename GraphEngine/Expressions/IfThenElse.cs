@@ -1,17 +1,8 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class IfThenElse(NodeWithGraph node) : Condition(node, Vocabulary.IfThenElse)
 {
-    using System.Diagnostics;
-    using Linq = System.Linq.Expressions;
-
-    public class IfThenElse : Condition
-    {
-        [DebuggerStepThrough]
-        internal IfThenElse(NodeWithGraph node)
-            : base(node)
-            => this.RdfType = Vocabulary.IfThenElse;
-
-        public override Linq.Expression LinqExpression => Linq.Expression.IfThenElse(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression);
-    }
+    public override Linq.Expression LinqExpression => Linq.Expression.IfThenElse(Test.LinqExpression, IfTrue.LinqExpression, IfFalse.LinqExpression);
 }

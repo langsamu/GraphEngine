@@ -1,22 +1,21 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class TypeBinaryTests : TestBase
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class TypeBinaryTests : TestBase
+    [TestMethod]
+    public void TypeEqual()
     {
-        [TestMethod]
-        public void TypeEqual()
-        {
-            var expected =
-                LinqExpression.TypeEqual(
-                    LinqExpression.Empty(),
-                    typeof(object));
+        var expected =
+            LinqExpression.TypeEqual(
+                LinqExpression.Empty(),
+                typeof(object));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -31,18 +30,18 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void TypeIs()
-        {
-            var expected =
-                LinqExpression.TypeIs(
-                    LinqExpression.Empty(),
-                    typeof(object));
+    [TestMethod]
+    public void TypeIs()
+    {
+        var expected =
+            LinqExpression.TypeIs(
+                LinqExpression.Empty(),
+                typeof(object));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -57,7 +56,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

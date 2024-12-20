@@ -1,29 +1,17 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class ArrayAccess(NodeWithGraph node) : Expression(node)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class ArrayAccess : Expression
+    public Expression Array
     {
-        [DebuggerStepThrough]
-        internal ArrayAccess(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(ArrayAccessArray, Expression.Parse);
 
-        public Expression Array
-        {
-            get => this.GetRequired(ArrayAccessArray, Expression.Parse);
-
-            set => this.SetRequired(ArrayAccessArray, value);
-        }
-
-        public ICollection<Expression> Indexes => this.Collection(ArrayAccessIndexes, Expression.Parse);
-
-        public override Linq.Expression LinqExpression => Linq.Expression.ArrayAccess(this.Array.LinqExpression, this.Indexes.LinqExpressions());
+        set => SetRequired(ArrayAccessArray, value);
     }
+
+    public ICollection<Expression> Indexes => Collection(ArrayAccessIndexes, Expression.Parse);
+
+    public override Linq.Expression LinqExpression => Linq.Expression.ArrayAccess(Array.LinqExpression, Indexes.LinqExpressions());
 }

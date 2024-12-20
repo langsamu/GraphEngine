@@ -1,37 +1,26 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Constant(NodeWithGraph node) : Expression(node)
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Constant : Expression
+    public object? Value
     {
-        [DebuggerStepThrough]
-        internal Constant(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetOptional(ConstantValue, AsObject);
 
-        public object? Value
-        {
-            get => this.GetOptional(ConstantValue, AsObject);
-
-            set => this.SetOptional(ConstantValue, value);
-        }
-
-        public Type? Type
-        {
-            get => this.GetOptional(ConstantType, Type.Parse);
-
-            set => this.SetOptional(ConstantType, value);
-        }
-
-        public override Linq.Expression LinqExpression => this.Type switch
-        {
-            Type type => Linq.Expression.Constant(this.Value, type.SystemType),
-            _ => Linq.Expression.Constant(this.Value)
-        };
+        set => SetOptional(ConstantValue, value);
     }
+
+    public Type? Type
+    {
+        get => GetOptional(ConstantType, Type.Parse);
+
+        set => SetOptional(ConstantType, value);
+    }
+
+    public override Linq.Expression LinqExpression => Type switch
+    {
+        Type type => Linq.Expression.Constant(Value, type.SystemType),
+        _ => Linq.Expression.Constant(Value)
+    };
 }

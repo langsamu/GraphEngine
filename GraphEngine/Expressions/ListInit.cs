@@ -1,34 +1,21 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+// TODO: Add overloads
+public class ListInit(NodeWithGraph node) : Expression(node)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    // TODO: Add overloads
-    public class ListInit : Expression
+    public New NewExpression
     {
-        [DebuggerStepThrough]
-        internal ListInit(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(ListInitNewExpression, New.Parse);
 
-        public New NewExpression
-        {
-            get => this.GetRequired(ListInitNewExpression, New.Parse);
-
-            set => this.SetRequired(ListInitNewExpression, value);
-        }
-
-        public ICollection<ElementInit> Initializers => this.Collection(ListInitInitializers, ElementInit.Parse);
-
-        public override Linq.Expression LinqExpression =>
-            Linq.Expression.ListInit(
-                this.NewExpression.LinqNewExpression,
-                from i in this.Initializers select i.LinqElementInit);
+        set => SetRequired(ListInitNewExpression, value);
     }
+
+    public ICollection<ElementInit> Initializers => Collection(ListInitInitializers, ElementInit.Parse);
+
+    public override Linq.Expression LinqExpression =>
+        Linq.Expression.ListInit(
+            NewExpression.LinqNewExpression,
+            from i in Initializers select i.LinqElementInit);
 }

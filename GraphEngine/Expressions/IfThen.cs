@@ -1,17 +1,8 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class IfThen(NodeWithGraph node) : Condition(node, Vocabulary.IfThen)
 {
-    using System.Diagnostics;
-    using Linq = System.Linq.Expressions;
-
-    public class IfThen : Condition
-    {
-        [DebuggerStepThrough]
-        internal IfThen(NodeWithGraph node)
-            : base(node)
-            => this.RdfType = Vocabulary.IfThen;
-
-        public override Linq.Expression LinqExpression => Linq.Expression.IfThen(this.Test.LinqExpression, this.IfTrue.LinqExpression);
-    }
+    public override Linq.Expression LinqExpression => Linq.Expression.IfThen(Test.LinqExpression, IfTrue.LinqExpression);
 }

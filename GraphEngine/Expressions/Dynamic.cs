@@ -1,40 +1,28 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Dynamic(NodeWithGraph node) : Expression(node)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Dynamic : Expression
+    public Binder Binder
     {
-        [DebuggerStepThrough]
-        internal Dynamic(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(DynamicBinder, Binder.Parse);
 
-        public Binder Binder
-        {
-            get => this.GetRequired(DynamicBinder, Binder.Parse);
-
-            set => this.SetRequired(DynamicBinder, value);
-        }
-
-        public Type ReturnType
-        {
-            get => this.GetRequired(DynamicReturnType, Type.Parse);
-
-            set => this.SetRequired(DynamicReturnType, value);
-        }
-
-        public ICollection<Expression> Arguments => this.Collection(DynamicArguments, Expression.Parse);
-
-        public override Linq.Expression LinqExpression =>
-            Linq.Expression.Dynamic(
-                this.Binder.SystemBinder,
-                this.ReturnType.SystemType,
-                this.Arguments.LinqExpressions());
+        set => SetRequired(DynamicBinder, value);
     }
+
+    public Type ReturnType
+    {
+        get => GetRequired(DynamicReturnType, Type.Parse);
+
+        set => SetRequired(DynamicReturnType, value);
+    }
+
+    public ICollection<Expression> Arguments => Collection(DynamicArguments, Expression.Parse);
+
+    public override Linq.Expression LinqExpression =>
+        Linq.Expression.Dynamic(
+            Binder.SystemBinder,
+            ReturnType.SystemType,
+            Arguments.LinqExpressions());
 }

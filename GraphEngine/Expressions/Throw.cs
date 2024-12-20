@@ -1,36 +1,25 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Throw(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Throw : Expression
+    public Expression? Value
     {
-        [DebuggerStepThrough]
-        public Throw(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetOptional(ThrowValue, Expression.Parse);
 
-        public Expression? Value
-        {
-            get => this.GetOptional(ThrowValue, Expression.Parse);
-
-            set => this.SetOptional(ThrowValue, value);
-        }
-
-        public Type? Type
-        {
-            get => this.GetOptional(ThrowType, Type.Parse);
-
-            set => this.SetOptional(ThrowType, value);
-        }
-
-        public override Linq.Expression LinqExpression =>
-            Linq.Expression.Throw(
-                this.Value?.LinqExpression,
-                this.Type?.SystemType ?? typeof(void));
+        set => SetOptional(ThrowValue, value);
     }
+
+    public Type? Type
+    {
+        get => GetOptional(ThrowType, Type.Parse);
+
+        set => SetOptional(ThrowType, value);
+    }
+
+    public override Linq.Expression LinqExpression =>
+        Linq.Expression.Throw(
+            Value?.LinqExpression,
+            Type?.SystemType ?? typeof(void));
 }

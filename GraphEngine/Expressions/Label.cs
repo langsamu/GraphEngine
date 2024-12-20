@@ -1,33 +1,22 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Label(NodeWithGraph node) : Expression(node)
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Label : Expression
+    public Target Target
     {
-        [DebuggerStepThrough]
-        internal Label(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(LabelTarget, Target.Parse);
 
-        public Target Target
-        {
-            get => this.GetRequired(LabelTarget, Target.Parse);
-
-            set => this.SetRequired(LabelTarget, value);
-        }
-
-        public Expression? DefaultValue
-        {
-            get => this.GetOptional(LabelDefaultValue, Expression.Parse);
-
-            set => this.SetOptional(LabelDefaultValue, value);
-        }
-
-        public override Linq.Expression LinqExpression => Linq.Expression.Label(this.Target.LinqTarget, this.DefaultValue?.LinqExpression);
+        set => SetRequired(LabelTarget, value);
     }
+
+    public Expression? DefaultValue
+    {
+        get => GetOptional(LabelDefaultValue, Expression.Parse);
+
+        set => SetOptional(LabelDefaultValue, value);
+    }
+
+    public override Linq.Expression LinqExpression => Linq.Expression.Label(Target.LinqTarget, DefaultValue?.LinqExpression);
 }

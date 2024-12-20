@@ -1,26 +1,16 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Runtime.CompilerServices;
+using Microsoft.CSharp.RuntimeBinder;
+
+public class BinaryOperation(NodeWithGraph node) : Binder(node, Vocabulary.BinaryOperation)
 {
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using Microsoft.CSharp.RuntimeBinder;
-
-    public class BinaryOperation : Binder
-    {
-        [DebuggerStepThrough]
-        public BinaryOperation(NodeWithGraph node)
-            : base(node)
-        {
-            this.RdfType = Vocabulary.BinaryOperation;
-        }
-
-        internal override CallSiteBinder SystemBinder =>
-            Microsoft.CSharp.RuntimeBinder.Binder.BinaryOperation(
-                CSharpBinderFlags.None,
-                this.ExpressionType.LinqExpressionType,
-                null,
-                from a in this.Arguments select a.Info);
-    }
+    internal override CallSiteBinder SystemBinder =>
+        Microsoft.CSharp.RuntimeBinder.Binder.BinaryOperation(
+            CSharpBinderFlags.None,
+            ExpressionType.LinqExpressionType,
+            null,
+            from a in Arguments select a.Info);
 }

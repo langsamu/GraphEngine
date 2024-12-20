@@ -1,61 +1,47 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Target(NodeWithGraph node) : Node(node)
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using VDS.RDF;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
+    private static readonly Dictionary<INode, Linq.LabelTarget> Cache = [];
 
-    public class Target : Node
+    public Type? Type
     {
-        private static readonly Dictionary<INode, Linq.LabelTarget> Cache = new ();
+        get => GetOptional(TargetType, Type.Parse);
 
-        [DebuggerStepThrough]
-        internal Target(NodeWithGraph node)
-            : base(node)
-        {
-        }
-
-        public Type? Type
-        {
-            get => this.GetOptional(TargetType, Type.Parse);
-
-            set => this.SetOptional(TargetType, value);
-        }
-
-        public string? Name
-        {
-            get => this.GetOptional(TargetName, AsString);
-
-            set => this.SetOptional(TargetName, value);
-        }
-
-        public Linq.LabelTarget LinqTarget
-        {
-            get
-            {
-                if (!Cache.TryGetValue(this, out var label))
-                {
-                    Cache[this] = label = this switch
-                    {
-                        { Type: not null, Name: not null } => Linq.Expression.Label(this.Type.SystemType, this.Name),
-                        { Type: not null } => Linq.Expression.Label(this.Type.SystemType),
-                        { Name: not null } => Linq.Expression.Label(this.Name),
-                        _ => Linq.Expression.Label()
-                    };
-                }
-
-                return label;
-            }
-        }
-
-        internal static Target Parse(NodeWithGraph node) => node switch
-        {
-            null => throw new ArgumentNullException(nameof(node)),
-            _ => new Target(node)
-        };
+        set => SetOptional(TargetType, value);
     }
+
+    public string? Name
+    {
+        get => GetOptional(TargetName, AsString);
+
+        set => SetOptional(TargetName, value);
+    }
+
+    public Linq.LabelTarget LinqTarget
+    {
+        get
+        {
+            if (!Cache.TryGetValue(this, out var label))
+            {
+                Cache[this] = label = this switch
+                {
+                    { Type: not null, Name: not null } => Linq.Expression.Label(Type.SystemType, Name),
+                    { Type: not null } => Linq.Expression.Label(Type.SystemType),
+                    { Name: not null } => Linq.Expression.Label(Name),
+                    _ => Linq.Expression.Label()
+                };
+            }
+
+            return label;
+        }
+    }
+
+    internal static Target Parse(NodeWithGraph node) => node switch
+    {
+        null => throw new ArgumentNullException(nameof(node)),
+        _ => new Target(node)
+    };
 }

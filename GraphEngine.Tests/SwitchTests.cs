@@ -1,31 +1,28 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using System.Reflection;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class SwitchTests
 {
-    using System;
-    using System.Reflection;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VDS.RDF;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class SwitchTests
+    [TestMethod]
+    public void All()
     {
-        [TestMethod]
-        public void All()
-        {
-            var expected =
-                LinqExpression.Switch(
-                    typeof(SampleClass),
-                    LinqExpression.Constant(0L),
+        var expected =
+            LinqExpression.Switch(
+                typeof(SampleClass),
+                LinqExpression.Constant(0L),
+                LinqExpression.Default(typeof(SampleDerivedClass)),
+                typeof(SampleClass).GetMethod("Equal"),
+                LinqExpression.SwitchCase(
                     LinqExpression.Default(typeof(SampleDerivedClass)),
-                    typeof(SampleClass).GetMethod("Equal"),
-                    LinqExpression.SwitchCase(
-                        LinqExpression.Default(typeof(SampleDerivedClass)),
-                        LinqExpression.Constant(0L)));
+                    LinqExpression.Constant(0L)));
 
-            using var g = new GraphEngine.Graph();
-            g.LoadFromString(@"
+        using var g = new GraphEngine.Graph();
+        g.LoadFromString(@"
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix : <http://example.com/> .
 
@@ -63,19 +60,18 @@ _:zero
     :constantValue 0 ;
 .
 ");
-            var s = g.GetUriNode(":s").In(g);
+        var s = g.GetUriNode(":s").In(g);
 
-            var actual = Expression.Parse(s).LinqExpression;
+        var actual = Expression.Parse(s).LinqExpression;
 
-            actual.Should().Be(expected);
+        actual.Should().Be(expected);
 
-            Console.WriteLine(actual.GetDebugView());
+        Console.WriteLine(actual.GetDebugView());
 
-            // Make sure custom type is used
-            Assert.AreEqual(typeof(SampleClass), actual.Type);
+        // Make sure custom type is used
+        Assert.AreEqual(typeof(SampleClass), actual.Type);
 
-            // Make sure custom comparison is used
-            Assert.ThrowsException<TargetInvocationException>(() => LinqExpression.Lambda(actual).Compile().DynamicInvoke());
-        }
+        // Make sure custom comparison is used
+        Assert.ThrowsException<TargetInvocationException>(() => LinqExpression.Lambda(actual).Compile().DynamicInvoke());
     }
 }

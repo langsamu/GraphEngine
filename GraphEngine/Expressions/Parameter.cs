@@ -1,57 +1,43 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Parameter(NodeWithGraph node) : Expression(node)
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using VDS.RDF;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
+    private static readonly IDictionary<INode, Linq.ParameterExpression> Cache = new Dictionary<INode, Linq.ParameterExpression>();
 
-    public class Parameter : Expression
+    public Type Type
     {
-        private static readonly IDictionary<INode, Linq.ParameterExpression> Cache = new Dictionary<INode, Linq.ParameterExpression>();
+        get => GetRequired(ParameterType, Type.Parse);
 
-        [DebuggerStepThrough]
-        public Parameter(NodeWithGraph node)
-            : base(node)
-        {
-        }
-
-        public Type Type
-        {
-            get => this.GetRequired(ParameterType, Type.Parse);
-
-            set => this.SetRequired(ParameterType, value);
-        }
-
-        public string? Name
-        {
-            get => this.GetOptional(ParameterName, AsString);
-
-            set => this.SetOptional(ParameterName, value);
-        }
-
-        public override Linq.Expression LinqExpression => this.LinqParameter;
-
-        public Linq.ParameterExpression LinqParameter
-        {
-            get
-            {
-                if (!Cache.TryGetValue(this, out var param))
-                {
-                    param = Cache[this] = Linq.Expression.Parameter(this.Type.SystemType, this.Name);
-                }
-
-                return param;
-            }
-        }
-
-        internal static new Parameter Parse(NodeWithGraph node) => node switch
-        {
-            null => throw new ArgumentNullException(nameof(node)),
-            _ => new Parameter(node)
-        };
+        set => SetRequired(ParameterType, value);
     }
+
+    public string? Name
+    {
+        get => GetOptional(ParameterName, AsString);
+
+        set => SetOptional(ParameterName, value);
+    }
+
+    public override Linq.Expression LinqExpression => LinqParameter;
+
+    public Linq.ParameterExpression LinqParameter
+    {
+        get
+        {
+            if (!Cache.TryGetValue(this, out var param))
+            {
+                param = Cache[this] = Linq.Expression.Parameter(Type.SystemType, Name);
+            }
+
+            return param;
+        }
+    }
+
+    internal static new Parameter Parse(NodeWithGraph node) => node switch
+    {
+        null => throw new ArgumentNullException(nameof(node)),
+        _ => new Parameter(node)
+    };
 }

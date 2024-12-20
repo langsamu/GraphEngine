@@ -1,743 +1,735 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Dynamic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+
+public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Dynamic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using Linq = System.Linq.Expressions;
+    private readonly Dictionary<object, NodeWithGraph> mapping = [];
+    private readonly NodeWithGraph node = node ?? throw new ArgumentNullException(nameof(node));
+    private readonly Stack<NodeWithGraph> path = new();
+    private bool initialised;
 
-    public class SerialisingVisitor : Linq.ExpressionVisitor
+    private NodeWithGraph Current => path.Peek();
+
+    private NodeWithGraph this[object index]
     {
-        private readonly Dictionary<object, NodeWithGraph> mapping = new ();
-        private readonly NodeWithGraph node;
-        private readonly Stack<NodeWithGraph> path = new ();
-        private bool initialised;
-
-        public SerialisingVisitor(NodeWithGraph node)
-          : base()
-            => this.node = node ?? throw new ArgumentNullException(nameof(node));
-
-        private NodeWithGraph Current => this.path.Peek();
-
-        private NodeWithGraph this[object index]
+        get
         {
-            get
+            if (!initialised)
             {
-                if (!this.initialised)
-                {
-                    this.mapping[index] = this.node;
-                    this.initialised = true;
-
-                    return this.node;
-                }
-
-                if (!this.mapping.TryGetValue(index, out var current))
-                {
-                    current = this.mapping[index] = this.node.Graph.CreateBlankNode().In(this.node.Graph);
-                }
-
-                return current;
-            }
-        }
-
-        public override Linq.Expression Visit(Linq.Expression node)
-        {
-            using (this.Wrap(node))
-            {
-                return base.Visit(node);
-            }
-        }
-
-        protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
-        {
-            if (node.NodeType == Linq.ExpressionType.ArrayIndex)
-            {
-                _ = new ArrayIndex(this.Current)
-                {
-                    Array = this.VisitCacheParse(node.Left),
-                    Index = this.VisitCacheParse(node.Right),
-                };
-            }
-            else
-            {
-                Binary binary;
-
-                if (node.IsReferenceComparison())
-                {
-                    if (node.NodeType == Linq.ExpressionType.Equal)
-                    {
-                        binary = new ReferenceEqual(this.Current);
-                    }
-                    else
-                    {
-                        binary = new ReferenceNotEqual(this.Current);
-                    }
-                }
-                else
-                {
-                    binary = Binary.Create(this.Current, node.NodeType);
-
-                    if (node.Method is MethodInfo method)
-                    {
-                        binary.Method = this.VisitMethod(method);
-                    }
-
-                    if (node.Conversion is LambdaExpression lambda)
-                    {
-                        binary.Conversion = new Lambda(this.VisitCache(lambda));
-                    }
-
-                    if (node.IsLiftedToNull)
-                    {
-                        binary.LiftToNull = true;
-                    }
-                }
-
-                binary.Left = this.VisitCacheParse(node.Left);
-                binary.Right = this.VisitCacheParse(node.Right);
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
-        {
-            var block = new Block(this.Current);
-
-            if (!Extensions.AreEquivalent(node.Type, node.Expressions.Last().Type))
-            {
-                block.Type = this.VisitType(node.Type);
-            }
-
-            foreach (var variable in node.Variables)
-            {
-                block.Variables.Add(new Parameter(this.VisitCache(variable)));
-            }
-
-            foreach (var blockExpression in node.Expressions)
-            {
-                block.Expressions.Add(this.VisitCacheParse(blockExpression));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitConditional(Linq.ConditionalExpression node)
-        {
-            Condition condition;
-
-            if (node.Type == typeof(void))
-            {
-                if (node.IfFalse is Linq.DefaultExpression defaultExpression && defaultExpression.Type == typeof(void))
-                {
-                    condition = new IfThen(this.Current);
-                }
-                else
-                {
-                    condition = new IfThenElse(this.Current)
-                    {
-                        IfFalse = this.VisitCacheParse(node.IfFalse),
-                    };
-                }
-            }
-            else
-            {
-                condition = new Condition(this.Current)
-                {
-                    IfFalse = this.VisitCacheParse(node.IfFalse),
-                };
-
-                if (node.Type != node.IfTrue.Type)
-                {
-                    condition.Type = this.VisitType(node.Type);
-                }
-            }
-
-            condition.Test = this.VisitCacheParse(node.Test);
-            condition.IfTrue = this.VisitCacheParse(node.IfTrue);
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
-        {
-            var constant = new Constant(this.Current)
-            {
-                Value = node.Value,
-            };
-
-            if (node.Type != node.Value.GetType())
-            {
-                constant.Type = this.VisitType(node.Type);
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitDebugInfo(Linq.DebugInfoExpression node)
-        {
-            var debugInfo = node.IsClear switch
-            {
-                true => new ClearDebugInfo(this.Current),
-                false => new DebugInfo(this.Current),
-            };
-
-            debugInfo.Document = this.VisitSymbolDocument(node.Document);
-            debugInfo.StartLine = node.StartLine;
-            debugInfo.StartColumn = node.StartLine;
-            debugInfo.EndLine = node.EndLine;
-            debugInfo.EndColumn = node.EndLine;
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
-        {
-            if (node.Type == typeof(void))
-            {
-                _ = new Empty(this.Current);
-            }
-            else
-            {
-                _ = new Default(this.Current)
-                {
-                    Type = this.VisitType(node.Type),
-                };
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitDynamic(Linq.DynamicExpression node)
-        {
-            var dynamicNode = new Dynamic(this.Current)
-            {
-                Binder = this.VisitBinder(node.Binder),
-                ReturnType = this.VisitType(node.Type),
-            };
-
-            foreach (var argument in node.Arguments)
-            {
-                dynamicNode.Arguments.Add(this.VisitCacheParse(argument));
-            }
-
-            return node;
-        }
-
-        protected override Linq.ElementInit VisitElementInit(Linq.ElementInit node)
-        {
-            using (this.Wrap(node))
-            {
-                var elementInit = new ElementInit(this.Current)
-                {
-                    AddMethod = this.VisitMethod(node.AddMethod),
-                };
-
-                foreach (var argument in node.Arguments)
-                {
-                    elementInit.Arguments.Add(this.VisitCacheParse(argument));
-                }
+                mapping[index] = node;
+                initialised = true;
 
                 return node;
             }
-        }
 
-        protected override Linq.Expression VisitExtension(Linq.Expression node)
-        {
-            if (node is DynamicExpression dynamicExpression)
+            if (!mapping.TryGetValue(index, out var current))
             {
-                return this.VisitDynamic(dynamicExpression);
+                current = mapping[index] = node.Graph.CreateBlankNode().In(node.Graph);
             }
 
-            throw new InvalidOperationException($"unknown extension {node}");
+            return current;
         }
+    }
 
-        protected override Linq.Expression VisitGoto(Linq.GotoExpression node)
+    public override Linq.Expression Visit(Linq.Expression? node)
+    {
+        using (Wrap(node))
         {
-            var @goto = BaseGoto.Create(this.Current, node.Kind);
-
-            @goto.Target = new Target(this[this.VisitLabelTarget(node.Target)]);
-
-            if (node.Value is not null)
-            {
-                @goto.Value = this.VisitCacheParse(node.Value);
-            }
-
-            if (node.Type != typeof(void))
-            {
-                @goto.Type = this.VisitType(node.Type);
-            }
-
-            return node;
+            return base.Visit(node);
         }
+    }
 
-        protected override Linq.Expression VisitIndex(Linq.IndexExpression node)
+    protected override Linq.Expression VisitBinary(Linq.BinaryExpression node)
+    {
+        if (node.NodeType == Linq.ExpressionType.ArrayIndex)
         {
-            if (node.Indexer is not null)
+            _ = new ArrayIndex(Current)
             {
-                var property = new Property(this.Current)
+                Array = VisitCacheParse(node.Left),
+                Index = VisitCacheParse(node.Right),
+            };
+        }
+        else
+        {
+            Binary binary;
+
+            if (node.IsReferenceComparison())
+            {
+                if (node.NodeType == Linq.ExpressionType.Equal)
                 {
-                    Expression = this.VisitCacheParse(node.Object),
-                    Name = node.Indexer.Name,
-                };
-
-                foreach (var index in node.Arguments)
+                    binary = new ReferenceEqual(Current);
+                }
+                else
                 {
-                    property.Arguments.Add(this.VisitCacheParse(index));
+                    binary = new ReferenceNotEqual(Current);
                 }
             }
             else
             {
-                var arrayAccess = new ArrayAccess(this.Current)
-                {
-                    Array = this.VisitCacheParse(node.Object),
-                };
-
-                foreach (var index in node.Arguments)
-                {
-                    arrayAccess.Indexes.Add(this.VisitCacheParse(index));
-                }
-            }
-
-            return node;
-        }
-
-        protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget node)
-        {
-            using (this.Wrap(node))
-            {
-                var target = new Target(this.Current);
-
-                if (node.Type != typeof(void))
-                {
-                    target.Type = this.VisitType(node.Type);
-                }
-
-                if (node.Name is not null)
-                {
-                    target.Name = node.Name;
-                }
-
-                return node;
-            }
-        }
-
-        protected override Linq.Expression VisitListInit(ListInitExpression node)
-        {
-            var listInit = new ListInit(this.Current)
-            {
-                NewExpression = new New(this.VisitCache(node.NewExpression)),
-            };
-
-            foreach (var initializer in node.Initializers)
-            {
-                listInit.Initializers.Add(new ElementInit(this[this.VisitElementInit(initializer)]));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitLambda<T>(Expression<T> node)
-        {
-            var lambda = new Lambda(this.Current)
-            {
-                Body = this.VisitCacheParse(node.Body),
-            };
-
-            foreach (var parameter in node.Parameters)
-            {
-                lambda.Parameters.Add(new Parameter(this.VisitCache(parameter)));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
-        {
-            var loop = new Loop(this.Current)
-            {
-                Body = this.VisitCacheParse(node.Body),
-            };
-
-            if (node.ContinueLabel is not null)
-            {
-                loop.Continue = new Target(this[this.VisitLabelTarget(node.ContinueLabel)]);
-            }
-
-            if (node.BreakLabel is not null)
-            {
-                loop.Break = new Target(this[this.VisitLabelTarget(node.BreakLabel)]);
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitMember(Linq.MemberExpression node)
-        {
-            var memberAccess = node.Member.MemberType switch
-            {
-                MemberTypes.Field => (MemberAccess)new Field(this.Current),
-                MemberTypes.Property => (MemberAccess)new Property(this.Current),
-            };
-
-            memberAccess.Name = node.Member.Name;
-
-            if (node.Expression is not null)
-            {
-                memberAccess.Expression = this.VisitCacheParse(node.Expression);
-            }
-
-            if (node.Expression is null || node.Expression.Type != node.Member.DeclaringType)
-            {
-                memberAccess.Type = this.VisitType(node.Member.DeclaringType);
-            }
-
-            return node;
-        }
-
-        protected override Linq.MemberAssignment VisitMemberAssignment(Linq.MemberAssignment node)
-        {
-            _ = new Bind(this.Current)
-            {
-                Member = this.VisitMember(node.Member),
-                Expression = this.VisitCacheParse(node.Expression),
-            };
-
-            return node;
-        }
-
-        protected override Linq.MemberBinding VisitMemberBinding(Linq.MemberBinding node)
-        {
-            using (this.Wrap(node))
-            {
-                return node switch
-                {
-                    Linq.MemberAssignment binding => this.VisitMemberAssignment(binding),
-                    Linq.MemberMemberBinding binding => this.VisitMemberMemberBinding(binding),
-                    Linq.MemberListBinding binding => this.VisitMemberListBinding(binding),
-                };
-            }
-        }
-
-        protected override Linq.Expression VisitMemberInit(Linq.MemberInitExpression node)
-        {
-            var memberInit = new MemberInit(this.Current)
-            {
-                NewExpression = new New(this.VisitCache(node.NewExpression)),
-            };
-
-            foreach (var binding in node.Bindings)
-            {
-                memberInit.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
-            }
-
-            return node;
-        }
-
-        protected override Linq.MemberListBinding VisitMemberListBinding(Linq.MemberListBinding node)
-        {
-            var listBinding = new ListBind(this.Current)
-            {
-                Member = this.VisitMember(node.Member),
-            };
-
-            foreach (var item in node.Initializers)
-            {
-                listBinding.Initializers.Add(new ElementInit(this[this.VisitElementInit(item)]));
-            }
-
-            return node;
-        }
-
-        protected override Linq.MemberMemberBinding VisitMemberMemberBinding(Linq.MemberMemberBinding node)
-        {
-            var memberBinding = new MemberBind(this.Current)
-            {
-                Member = this.VisitMember(node.Member),
-            };
-
-            foreach (var binding in node.Bindings)
-            {
-                memberBinding.Bindings.Add(BaseBind.Create(this[this.VisitMemberBinding(binding)], binding.BindingType));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitMethodCall(Linq.MethodCallExpression node)
-        {
-            var call = new Call(this.Current)
-            {
-                Method = this.VisitMethod(node.Method),
-            };
-
-            if (node.Object is not null)
-            {
-                call.Instance = this.VisitCacheParse(node.Object);
-            }
-
-            foreach (var argument in node.Arguments)
-            {
-                call.Arguments.Add(this.VisitCacheParse(argument));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitNew(Linq.NewExpression node)
-        {
-            _ = new New(this.Current)
-            {
-                Type = this.VisitType(node.Type),
-            };
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitNewArray(NewArrayExpression node)
-        {
-            NewArray newArray;
-            if (node.NodeType == Linq.ExpressionType.NewArrayBounds)
-            {
-                newArray = new NewArrayBounds(this.Current);
-            }
-            else
-            {
-                newArray = new NewArrayInit(this.Current);
-            }
-
-            newArray.Type = this.VisitType(node.Type.GetElementType());
-
-            foreach (var expression in node.Expressions)
-            {
-                newArray.Expressions.Add(this.VisitCacheParse(expression));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
-        {
-            var parameter = new Parameter(this.Current)
-            {
-                Type = this.VisitType(node.Type),
-            };
-
-            if (node.Name is not null)
-            {
-                parameter.Name = node.Name;
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitRuntimeVariables(Linq.RuntimeVariablesExpression node)
-        {
-            var runtimeVariables = new RuntimeVariables(this.Current);
-
-            foreach (var variable in node.Variables)
-            {
-                runtimeVariables.Variables.Add(new Parameter(this.VisitCache(variable)));
-            }
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitTypeBinary(TypeBinaryExpression node)
-        {
-            _ = new TypeBinary(this.Current)
-            {
-                ExpressionType = this.VisitExpressionType(node.NodeType),
-                Expression = this.VisitCacheParse(node.Expression),
-                Type = this.VisitType(node.TypeOperand),
-            };
-
-            return node;
-        }
-
-        protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
-        {
-            if (node.NodeType == Linq.ExpressionType.Throw)
-            {
-                if (node.Operand is null && node.Type == typeof(void))
-                {
-                    _ = new Rethrow(this.Current);
-                }
-
-                var @throw = new Throw(this.Current);
-
-                if (node.Operand is Linq.Expression value)
-                {
-                    @throw.Value = this.VisitCacheParse(value);
-                }
-
-                if (node.Type is System.Type type)
-                {
-                    @throw.Type = this.VisitType(type);
-                }
-            }
-            else
-            {
-                var unary = Unary.Create(this.Current, node.NodeType);
-
-                unary.Type = this.VisitType(node.Type);
-
-                unary.Operand = this.VisitCacheParse(node.Operand);
+                binary = Binary.Create(Current, node.NodeType);
 
                 if (node.Method is MethodInfo method)
                 {
-                    unary.Method = this.VisitMethod(method);
+                    binary.Method = VisitMethod(method);
                 }
+
+                if (node.Conversion is Linq.LambdaExpression lambda)
+                {
+                    binary.Conversion = new Lambda(VisitCache(lambda));
+                }
+
+                if (node.IsLiftedToNull)
+                {
+                    binary.LiftToNull = true;
+                }
+            }
+
+            binary.Left = VisitCacheParse(node.Left);
+            binary.Right = VisitCacheParse(node.Right);
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitBlock(Linq.BlockExpression node)
+    {
+        var block = new Block(Current);
+
+        if (!Extensions.AreEquivalent(node.Type, node.Expressions.Last().Type))
+        {
+            block.Type = VisitType(node.Type);
+        }
+
+        foreach (var variable in node.Variables)
+        {
+            block.Variables.Add(new Parameter(VisitCache(variable)));
+        }
+
+        foreach (var blockExpression in node.Expressions)
+        {
+            block.Expressions.Add(VisitCacheParse(blockExpression));
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitConditional(Linq.ConditionalExpression node)
+    {
+        Condition condition;
+
+        if (node.Type == typeof(void))
+        {
+            if (node.IfFalse is Linq.DefaultExpression defaultExpression && defaultExpression.Type == typeof(void))
+            {
+                condition = new IfThen(Current);
+            }
+            else
+            {
+                condition = new IfThenElse(Current)
+                {
+                    IfFalse = VisitCacheParse(node.IfFalse),
+                };
+            }
+        }
+        else
+        {
+            condition = new Condition(Current)
+            {
+                IfFalse = VisitCacheParse(node.IfFalse),
+            };
+
+            if (node.Type != node.IfTrue.Type)
+            {
+                condition.Type = VisitType(node.Type);
+            }
+        }
+
+        condition.Test = VisitCacheParse(node.Test);
+        condition.IfTrue = VisitCacheParse(node.IfTrue);
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitConstant(Linq.ConstantExpression node)
+    {
+        var constant = new Constant(Current)
+        {
+            Value = node.Value,
+        };
+
+        if (node.Type != node.Value.GetType())
+        {
+            constant.Type = VisitType(node.Type);
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitDebugInfo(Linq.DebugInfoExpression node)
+    {
+        var debugInfo = node.IsClear switch
+        {
+            true => new ClearDebugInfo(Current),
+            false => new DebugInfo(Current),
+        };
+
+        debugInfo.Document = VisitSymbolDocument(node.Document);
+        debugInfo.StartLine = node.StartLine;
+        debugInfo.StartColumn = node.StartLine;
+        debugInfo.EndLine = node.EndLine;
+        debugInfo.EndColumn = node.EndLine;
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitDefault(Linq.DefaultExpression node)
+    {
+        if (node.Type == typeof(void))
+        {
+            _ = new Empty(Current);
+        }
+        else
+        {
+            _ = new Default(Current)
+            {
+                Type = VisitType(node.Type),
+            };
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitDynamic(Linq.DynamicExpression node)
+    {
+        var dynamicNode = new Dynamic(Current)
+        {
+            Binder = VisitBinder(node.Binder),
+            ReturnType = VisitType(node.Type),
+        };
+
+        foreach (var argument in node.Arguments)
+        {
+            dynamicNode.Arguments.Add(VisitCacheParse(argument));
+        }
+
+        return node;
+    }
+
+    protected override Linq.ElementInit VisitElementInit(Linq.ElementInit node)
+    {
+        using (Wrap(node))
+        {
+            var elementInit = new ElementInit(Current)
+            {
+                AddMethod = VisitMethod(node.AddMethod),
+            };
+
+            foreach (var argument in node.Arguments)
+            {
+                elementInit.Arguments.Add(VisitCacheParse(argument));
             }
 
             return node;
         }
+    }
 
-        private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(this.VisitCache(node));
-
-        private NodeWithGraph VisitCache(Linq.Expression node) => this[this.Visit(node)];
-
-        private ArgumentInfo VisitArgumentInfo(string argument)
+    protected override Linq.Expression VisitExtension(Linq.Expression node)
+    {
+        if (node is Linq.DynamicExpression dynamicExpression)
         {
-            using (this.Wrap(argument))
+            return VisitDynamic(dynamicExpression);
+        }
+
+        throw new InvalidOperationException($"unknown extension {node}");
+    }
+
+    protected override Linq.Expression VisitGoto(Linq.GotoExpression node)
+    {
+        var @goto = BaseGoto.Create(Current, node.Kind);
+
+        @goto.Target = new Target(this[VisitLabelTarget(node.Target)]);
+
+        if (node.Value is not null)
+        {
+            @goto.Value = VisitCacheParse(node.Value);
+        }
+
+        if (node.Type != typeof(void))
+        {
+            @goto.Type = VisitType(node.Type);
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitIndex(Linq.IndexExpression node)
+    {
+        if (node.Indexer is not null)
+        {
+            var property = new Property(Current)
             {
-                return new ArgumentInfo(this.Current);
+                Expression = VisitCacheParse(node.Object),
+                Name = node.Indexer.Name,
+            };
+
+            foreach (var index in node.Arguments)
+            {
+                property.Arguments.Add(VisitCacheParse(index));
+            }
+        }
+        else
+        {
+            var arrayAccess = new ArrayAccess(Current)
+            {
+                Array = VisitCacheParse(node.Object),
+            };
+
+            foreach (var index in node.Arguments)
+            {
+                arrayAccess.Indexes.Add(VisitCacheParse(index));
             }
         }
 
-        private Binder VisitBinder(CallSiteBinder callSiteBinder)
+        return node;
+    }
+
+    protected override Linq.LabelTarget VisitLabelTarget(Linq.LabelTarget? node)
+    {
+        using (Wrap(node))
         {
-            using (this.Wrap(callSiteBinder))
+            var target = new Target(Current);
+
+            if (node.Type != typeof(void))
             {
-                switch (callSiteBinder)
-                {
-                    case InvokeMemberBinder invokeMember:
-                        var invokeMemberBinder = new InvokeMember(this.Current)
-                        {
-                            Name = invokeMember.Name,
-                        };
+                target.Type = VisitType(node.Type);
+            }
 
-                        // Object member is invoked on
-                        invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+            if (node.Name is not null)
+            {
+                target.Name = node.Name;
+            }
 
-                        foreach (var argument in invokeMember.CallInfo.ArgumentNames)
-                        {
-                            invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(argument)]));
-                        }
+            return node;
+        }
+    }
 
-                        return invokeMemberBinder;
+    protected override Linq.Expression VisitListInit(Linq.ListInitExpression node)
+    {
+        var listInit = new ListInit(Current)
+        {
+            NewExpression = new New(VisitCache(node.NewExpression)),
+        };
 
-                    case BinaryOperationBinder binaryOperation:
-                        var binaryOperationBinder = new BinaryOperation(this.Current)
-                        {
-                            ExpressionType = this.VisitExpressionType(binaryOperation.Operation),
-                        };
+        foreach (var initializer in node.Initializers)
+        {
+            listInit.Initializers.Add(new ElementInit(this[VisitElementInit(initializer)]));
+        }
 
-                        // Left operand
-                        binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+        return node;
+    }
 
-                        // Right operand
-                        binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[this.VisitArgumentInfo(string.Empty)]));
+    protected override Linq.Expression VisitLambda<T>(Linq.Expression<T> node)
+    {
+        var lambda = new Lambda(Current)
+        {
+            Body = VisitCacheParse(node.Body),
+        };
 
-                        return binaryOperationBinder;
+        foreach (var parameter in node.Parameters)
+        {
+            lambda.Parameters.Add(new Parameter(VisitCache(parameter)));
+        }
 
-                    case var unknown:
-                        throw new Exception($"Unkown binder {unknown}");
-                }
+        return node;
+    }
+
+    protected override Linq.Expression VisitLoop(Linq.LoopExpression node)
+    {
+        var loop = new Loop(Current)
+        {
+            Body = VisitCacheParse(node.Body),
+        };
+
+        if (node.ContinueLabel is not null)
+        {
+            loop.Continue = new Target(this[VisitLabelTarget(node.ContinueLabel)]);
+        }
+
+        if (node.BreakLabel is not null)
+        {
+            loop.Break = new Target(this[VisitLabelTarget(node.BreakLabel)]);
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitMember(Linq.MemberExpression node)
+    {
+        var memberAccess = node.Member.MemberType switch
+        {
+            MemberTypes.Field => new Field(Current) as MemberAccess,
+            MemberTypes.Property => new Property(Current) as MemberAccess,
+            var mt => throw new Exception($"unknown member type {mt}")
+        };
+
+        memberAccess.Name = node.Member.Name;
+
+        if (node.Expression is not null)
+        {
+            memberAccess.Expression = VisitCacheParse(node.Expression);
+        }
+
+        if (node.Expression is null || node.Expression.Type != node.Member.DeclaringType)
+        {
+            memberAccess.Type = VisitType(node.Member.DeclaringType);
+        }
+
+        return node;
+    }
+
+    protected override Linq.MemberAssignment VisitMemberAssignment(Linq.MemberAssignment node)
+    {
+        _ = new Bind(Current)
+        {
+            Member = VisitMember(node.Member),
+            Expression = VisitCacheParse(node.Expression),
+        };
+
+        return node;
+    }
+
+    protected override Linq.MemberBinding VisitMemberBinding(Linq.MemberBinding node)
+    {
+        using (Wrap(node))
+        {
+            return node switch
+            {
+                Linq.MemberAssignment binding => VisitMemberAssignment(binding),
+                Linq.MemberMemberBinding binding => VisitMemberMemberBinding(binding),
+                Linq.MemberListBinding binding => VisitMemberListBinding(binding),
+                var n => throw new Exception($"unknown member binding {n}")
+            };
+        }
+    }
+
+    protected override Linq.Expression VisitMemberInit(Linq.MemberInitExpression node)
+    {
+        var memberInit = new MemberInit(Current)
+        {
+            NewExpression = new New(VisitCache(node.NewExpression)),
+        };
+
+        foreach (var binding in node.Bindings)
+        {
+            memberInit.Bindings.Add(BaseBind.Create(this[VisitMemberBinding(binding)], binding.BindingType));
+        }
+
+        return node;
+    }
+
+    protected override Linq.MemberListBinding VisitMemberListBinding(Linq.MemberListBinding node)
+    {
+        var listBinding = new ListBind(Current)
+        {
+            Member = VisitMember(node.Member),
+        };
+
+        foreach (var item in node.Initializers)
+        {
+            listBinding.Initializers.Add(new ElementInit(this[VisitElementInit(item)]));
+        }
+
+        return node;
+    }
+
+    protected override Linq.MemberMemberBinding VisitMemberMemberBinding(Linq.MemberMemberBinding node)
+    {
+        var memberBinding = new MemberBind(Current)
+        {
+            Member = VisitMember(node.Member),
+        };
+
+        foreach (var binding in node.Bindings)
+        {
+            memberBinding.Bindings.Add(BaseBind.Create(this[VisitMemberBinding(binding)], binding.BindingType));
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitMethodCall(Linq.MethodCallExpression node)
+    {
+        var call = new Call(Current)
+        {
+            Method = VisitMethod(node.Method),
+        };
+
+        if (node.Object is not null)
+        {
+            call.Instance = VisitCacheParse(node.Object);
+        }
+
+        foreach (var argument in node.Arguments)
+        {
+            call.Arguments.Add(VisitCacheParse(argument));
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitNew(Linq.NewExpression node)
+    {
+        _ = new New(Current)
+        {
+            Type = VisitType(node.Type),
+        };
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitNewArray(Linq.NewArrayExpression node)
+    {
+        NewArray newArray;
+        if (node.NodeType == Linq.ExpressionType.NewArrayBounds)
+        {
+            newArray = new NewArrayBounds(Current);
+        }
+        else
+        {
+            newArray = new NewArrayInit(Current);
+        }
+
+        newArray.Type = VisitType(node.Type.GetElementType());
+
+        foreach (var expression in node.Expressions)
+        {
+            newArray.Expressions.Add(VisitCacheParse(expression));
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitParameter(Linq.ParameterExpression node)
+    {
+        var parameter = new Parameter(Current)
+        {
+            Type = VisitType(node.Type),
+        };
+
+        if (node.Name is not null)
+        {
+            parameter.Name = node.Name;
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitRuntimeVariables(Linq.RuntimeVariablesExpression node)
+    {
+        var runtimeVariables = new RuntimeVariables(Current);
+
+        foreach (var variable in node.Variables)
+        {
+            runtimeVariables.Variables.Add(new Parameter(VisitCache(variable)));
+        }
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitTypeBinary(Linq.TypeBinaryExpression node)
+    {
+        _ = new TypeBinary(Current)
+        {
+            ExpressionType = VisitExpressionType(node.NodeType),
+            Expression = VisitCacheParse(node.Expression),
+            Type = VisitType(node.TypeOperand),
+        };
+
+        return node;
+    }
+
+    protected override Linq.Expression VisitUnary(Linq.UnaryExpression node)
+    {
+        if (node.NodeType == Linq.ExpressionType.Throw)
+        {
+            if (node.Operand is null && node.Type == typeof(void))
+            {
+                _ = new Rethrow(Current);
+            }
+
+            var @throw = new Throw(Current);
+
+            if (node.Operand is Linq.Expression value)
+            {
+                @throw.Value = VisitCacheParse(value);
+            }
+
+            if (node.Type is System.Type type)
+            {
+                @throw.Type = VisitType(type);
+            }
+        }
+        else
+        {
+            var unary = Unary.Create(Current, node.NodeType);
+
+            unary.Type = VisitType(node.Type);
+
+            unary.Operand = VisitCacheParse(node.Operand);
+
+            if (node.Method is MethodInfo method)
+            {
+                unary.Method = VisitMethod(method);
             }
         }
 
-        private ExpressionType VisitExpressionType(Linq.ExpressionType expressionType)
+        return node;
+    }
+
+    private Expression VisitCacheParse(Linq.Expression node) => Expression.Parse(VisitCache(node));
+
+    private NodeWithGraph VisitCache(Linq.Expression node) => this[Visit(node)];
+
+    private ArgumentInfo VisitArgumentInfo(string argument)
+    {
+        using (Wrap(argument))
         {
-            using (this.Wrap(expressionType))
+            return new ArgumentInfo(Current);
+        }
+    }
+
+    private Binder VisitBinder(CallSiteBinder callSiteBinder)
+    {
+        using (Wrap(callSiteBinder))
+        {
+            switch (callSiteBinder)
             {
-                return ExpressionType.Create(expressionType, this.node.Graph);
+                case InvokeMemberBinder invokeMember:
+                    var invokeMemberBinder = new InvokeMember(Current)
+                    {
+                        Name = invokeMember.Name,
+                    };
+
+                    // Object member is invoked on
+                    invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(string.Empty)]));
+
+                    foreach (var argument in invokeMember.CallInfo.ArgumentNames)
+                    {
+                        invokeMemberBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(argument)]));
+                    }
+
+                    return invokeMemberBinder;
+
+                case BinaryOperationBinder binaryOperation:
+                    var binaryOperationBinder = new BinaryOperation(Current)
+                    {
+                        ExpressionType = VisitExpressionType(binaryOperation.Operation),
+                    };
+
+                    // Left operand
+                    binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(string.Empty)]));
+
+                    // Right operand
+                    binaryOperationBinder.Arguments.Add(new ArgumentInfo(this[VisitArgumentInfo(string.Empty)]));
+
+                    return binaryOperationBinder;
+
+                case var unknown:
+                    throw new Exception($"Unkown binder {unknown}");
             }
         }
+    }
 
-        private Member VisitMember(MemberInfo member)
+    private ExpressionType VisitExpressionType(Linq.ExpressionType expressionType)
+    {
+        using (Wrap(expressionType))
         {
-            using (this.Wrap(member))
-            {
-                return new Member(this.Current)
-                {
-                    Type = this.VisitType(member.DeclaringType),
-                    Name = member.Name,
-                };
-            }
+            return ExpressionType.Create(expressionType, node.Graph);
         }
+    }
 
-        private Method VisitMethod(MethodInfo method)
+    private Member VisitMember(MemberInfo member)
+    {
+        using (Wrap(member))
         {
-            using (this.Wrap(method))
+            return new Member(Current)
             {
-                var methodNode = new Method(this.Current)
-                {
-                    Type = this.VisitType(method.DeclaringType),
-                    Name = method.Name,
-                };
-
-                foreach (var type in method.GetGenericArguments())
-                {
-                    methodNode.TypeArguments.Add(this.VisitType(type));
-                }
-
-                return methodNode;
-            }
+                Type = VisitType(member.DeclaringType),
+                Name = member.Name,
+            };
         }
+    }
 
-        private SymbolDocument VisitSymbolDocument(SymbolDocumentInfo document)
+    private Method VisitMethod(MethodInfo method)
+    {
+        using (Wrap(method))
         {
-            using (this.Wrap(document))
+            var methodNode = new Method(Current)
             {
-                return new SymbolDocument(this.Current)
-                {
-                    FileName = document.FileName,
-                    Language = NullIfEmpty(document.Language),
-                    LanguageVendor = NullIfEmpty(document.LanguageVendor),
-                    DocumentType = NullIfEmpty(document.DocumentType),
-                };
+                Type = VisitType(method.DeclaringType),
+                Name = method.Name,
+            };
+
+            foreach (var type in method.GetGenericArguments())
+            {
+                methodNode.TypeArguments.Add(VisitType(type));
             }
 
-            static Guid? NullIfEmpty(Guid guid) => guid == Guid.Empty ? (Guid?)null : guid;
+            return methodNode;
         }
+    }
 
-        private Type VisitType(System.Type type)
+    private SymbolDocument VisitSymbolDocument(Linq.SymbolDocumentInfo document)
+    {
+        using (Wrap(document))
         {
-            using (this.Wrap(type))
+            return new SymbolDocument(Current)
             {
-                var t = new Type(this.Current)
-                {
-                    Name = $"{type}, {type.Assembly}",
-                };
-
-                foreach (var argument in type.GenericTypeArguments)
-                {
-                    t.Arguments.Add(this.VisitType(argument));
-                }
-
-                return t;
-            }
+                FileName = document.FileName,
+                Language = NullIfEmpty(document.Language),
+                LanguageVendor = NullIfEmpty(document.LanguageVendor),
+                DocumentType = NullIfEmpty(document.DocumentType),
+            };
         }
 
-        private IDisposable Wrap(object node) => new Wrapper(this, this[node]);
+        static Guid? NullIfEmpty(Guid guid) => guid == Guid.Empty ? (Guid?)null : guid;
+    }
 
-        private readonly struct Wrapper : IDisposable
+    private Type VisitType(System.Type type)
+    {
+        using (Wrap(type))
         {
-            private readonly SerialisingVisitor visitor;
-
-            internal Wrapper(SerialisingVisitor visitor, NodeWithGraph node)
+            var t = new Type(Current)
             {
-                this.visitor = visitor;
-                this.visitor.path.Push(node);
+                Name = $"{type}, {type.Assembly}",
+            };
+
+            foreach (var argument in type.GenericTypeArguments)
+            {
+                t.Arguments.Add(VisitType(argument));
             }
 
-            void IDisposable.Dispose() => this.visitor.path.Pop();
+            return t;
         }
+    }
+
+    private Wrapper Wrap(object node) => new(this, this[node]);
+
+    private readonly struct Wrapper : IDisposable
+    {
+        private readonly SerialisingVisitor visitor;
+
+        internal Wrapper(SerialisingVisitor visitor, NodeWithGraph node)
+        {
+            this.visitor = visitor;
+            this.visitor.path.Push(node);
+        }
+
+        void IDisposable.Dispose() => visitor.path.Pop();
     }
 }

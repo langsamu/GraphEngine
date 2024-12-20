@@ -1,23 +1,10 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class RuntimeVariables(NodeWithGraph node) : Expression(node)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
+    public ICollection<Parameter> Variables => Collection(RuntimeVariablesVariables, Parameter.Parse);
 
-    public class RuntimeVariables : Expression
-    {
-        [DebuggerStepThrough]
-        internal RuntimeVariables(NodeWithGraph node)
-            : base(node)
-        {
-        }
-
-        public ICollection<Parameter> Variables => this.Collection(RuntimeVariablesVariables, Parameter.Parse);
-
-        public override Linq.Expression LinqExpression => Linq.Expression.RuntimeVariables(from e in this.Variables select e.LinqParameter);
-    }
+    public override Linq.Expression LinqExpression => Linq.Expression.RuntimeVariables(from e in Variables select e.LinqParameter);
 }

@@ -1,41 +1,27 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Property(NodeWithGraph node) : MemberAccess(node, Vocabulary.Property)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
+    public ICollection<Expression> Arguments => Collection(PropertyArguments, Expression.Parse);
 
-    public class Property : MemberAccess
+    public override Linq.Expression LinqExpression
     {
-        [DebuggerStepThrough]
-        internal Property(NodeWithGraph node)
-            : base(node)
+        get
         {
-            this.RdfType = Vocabulary.Property;
-        }
-
-        public ICollection<Expression> Arguments => this.Collection(PropertyArguments, Expression.Parse);
-
-        public override Linq.Expression LinqExpression
-        {
-            get
+            var arguments = Arguments;
+            if (arguments.Any())
             {
-                var arguments = this.Arguments;
-                if (arguments.Any())
-                {
-                    return Linq.Expression.Property(this.Expression?.LinqExpression, this.Name, arguments.LinqExpressions().ToArray());
-                }
-
-                if (this.Type is Type type)
-                {
-                    return Linq.Expression.Property(this.Expression?.LinqExpression, type.SystemType, this.Name);
-                }
-
-                return Linq.Expression.Property(this.Expression?.LinqExpression, this.Name);
+                return Linq.Expression.Property(Expression?.LinqExpression, Name, arguments.LinqExpressions().ToArray());
             }
+
+            if (Type is Type type)
+            {
+                return Linq.Expression.Property(Expression?.LinqExpression, type.SystemType, Name);
+            }
+
+            return Linq.Expression.Property(Expression?.LinqExpression, Name);
         }
     }
 }

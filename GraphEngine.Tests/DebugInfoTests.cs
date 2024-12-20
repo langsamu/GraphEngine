@@ -1,27 +1,25 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class DebugInfoTests : TestBase
 {
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class DebugInfoTests : TestBase
+    [TestMethod]
+    public void Default()
     {
-        [TestMethod]
-        public void Default()
-        {
-            var expected =
-                LinqExpression.DebugInfo(
-                    LinqExpression.SymbolDocument(
-                        string.Empty),
-                    1,
-                    1,
-                    1,
-                    1);
+        var expected =
+            LinqExpression.DebugInfo(
+                LinqExpression.SymbolDocument(
+                    string.Empty),
+                1,
+                1,
+                1,
+                1);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -35,23 +33,23 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Language()
-        {
-            var expected =
-                LinqExpression.DebugInfo(
-                    LinqExpression.SymbolDocument(
-                        string.Empty,
-                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5")),
-                    1,
-                    1,
-                    1,
-                    1);
+    [TestMethod]
+    public void Language()
+    {
+        var expected =
+            LinqExpression.DebugInfo(
+                LinqExpression.SymbolDocument(
+                    string.Empty,
+                    new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5")),
+                1,
+                1,
+                1,
+                1);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -66,24 +64,24 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void LanguageVendor()
-        {
-            var expected =
-                LinqExpression.DebugInfo(
-                    LinqExpression.SymbolDocument(
-                        string.Empty,
-                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5"),
-                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a6")),
-                    1,
-                    1,
-                    1,
-                    1);
+    [TestMethod]
+    public void LanguageVendor()
+    {
+        var expected =
+            LinqExpression.DebugInfo(
+                LinqExpression.SymbolDocument(
+                    string.Empty,
+                    new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5"),
+                    new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a6")),
+                1,
+                1,
+                1,
+                1);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -99,25 +97,25 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void LanguageVendorType()
-        {
-            var expected =
-                LinqExpression.DebugInfo(
-                    LinqExpression.SymbolDocument(
-                        string.Empty,
-                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5"),
-                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a6"),
-                        new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a7")),
-                    1,
-                    1,
-                    1,
-                    1);
+    [TestMethod]
+    public void LanguageVendorType()
+    {
+        var expected =
+            LinqExpression.DebugInfo(
+                LinqExpression.SymbolDocument(
+                    string.Empty,
+                    new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a5"),
+                    new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a6"),
+                    new Guid("61eac4f1-bb04-4197-a7bd-eb5749f343a7")),
+                1,
+                1,
+                1,
+                1);
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -134,7 +132,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

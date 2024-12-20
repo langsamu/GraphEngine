@@ -1,45 +1,33 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Reflection;
+
+// TODO: Improve derivation
+public class Method(NodeWithGraph node) : Member(node)
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Reflection;
-    using static Vocabulary;
+    public ICollection<Type> TypeArguments => Collection(MethodTypeArguments, Type.Parse);
 
-    // TODO: Improve derivation
-    public class Method : Member
+    public MethodInfo? ReflectionMethod
     {
-        [DebuggerStepThrough]
-        internal Method(NodeWithGraph node)
-            : base(node)
+        get
         {
-        }
+            var methodInfo = Type.SystemType.GetMethod(Name);
 
-        public ICollection<Type> TypeArguments => this.Collection(MethodTypeArguments, Type.Parse);
-
-        public MethodInfo? ReflectionMethod
-        {
-            get
+            var typeArguments = TypeArguments.Select(ta => ta.SystemType).ToArray();
+            if (typeArguments.Any())
             {
-                var methodInfo = this.Type.SystemType.GetMethod(this.Name);
-
-                var typeArguments = this.TypeArguments.Select(ta => ta.SystemType).ToArray();
-                if (typeArguments.Any())
-                {
-                    methodInfo = methodInfo.MakeGenericMethod(typeArguments);
-                }
-
-                return methodInfo;
+                methodInfo = methodInfo.MakeGenericMethod(typeArguments);
             }
-        }
 
-        internal static new Method Parse(NodeWithGraph node) => node switch
-        {
-            null => throw new ArgumentNullException(nameof(node)),
-            _ => new Method(node)
-        };
+            return methodInfo;
+        }
     }
+
+    internal static new Method Parse(NodeWithGraph node) => node switch
+    {
+        null => throw new ArgumentNullException(nameof(node)),
+        _ => new Method(node)
+    };
 }

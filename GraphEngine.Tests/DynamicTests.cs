@@ -1,33 +1,30 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using Microsoft.CSharp.RuntimeBinder;
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class DynamicTests : TestBase
 {
-    using Microsoft.CSharp.RuntimeBinder;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Linq = System.Linq.Expressions;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class DynamicTests : TestBase
+    [TestMethod]
+    public void InvokeMember()
     {
-        [TestMethod]
-        public void InvokeMember()
-        {
-            var expected =
-                LinqExpression.Dynamic(
-                    Binder.InvokeMember(
-                        CSharpBinderFlags.None,
-                        "ToString",
-                        null,
-                        null,
-                        new[]
-                        {
-                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                        }),
-                    typeof(object),
-                    LinqExpression.Constant(0L));
+        var expected =
+            LinqExpression.Dynamic(
+                Binder.InvokeMember(
+                    CSharpBinderFlags.None,
+                    "ToString",
+                    null,
+                    null,
+                    [
+                        CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                    ]),
+                typeof(object),
+                LinqExpression.Constant(0L));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 
 :s
@@ -49,28 +46,27 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void BinaryOperation()
-        {
-            var expected =
-                LinqExpression.Dynamic(
-                    Binder.BinaryOperation(
-                        CSharpBinderFlags.None,
-                        Linq.ExpressionType.Add,
-                        null,
-                        new[]
-                        {
-                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                            CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
-                        }),
-                    typeof(object),
-                    LinqExpression.Constant(2L),
-                    LinqExpression.Constant(3L));
+    [TestMethod]
+    public void BinaryOperation()
+    {
+        var expected =
+            LinqExpression.Dynamic(
+                Binder.BinaryOperation(
+                    CSharpBinderFlags.None,
+                    Linq.ExpressionType.Add,
+                    null,
+                    [
+                        CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                        CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null),
+                    ]),
+                typeof(object),
+                LinqExpression.Constant(2L),
+                LinqExpression.Constant(3L));
 
-            const string actual = @"
+        const string actual = @"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -97,7 +93,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

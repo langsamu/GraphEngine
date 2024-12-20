@@ -1,32 +1,21 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+using System.Collections;
+
+public class Collection<T>(NodeWithGraph subject, INode predicate, Func<NodeWithGraph, T> parser) : Collection(subject, predicate), ICollection<T>
+    where T : NodeWithGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using VDS.RDF;
+    public void Add(T item) => base.Add(item);
 
-    public class Collection<T> : Collection, ICollection<T>
-        where T : NodeWithGraph
-    {
-        private readonly Func<NodeWithGraph, T> parser;
+    public bool Contains(T item) => base.Contains(item);
 
-        public Collection(NodeWithGraph subject, INode predicate, Func<NodeWithGraph, T> parser)
-            : base(subject, predicate)
-            => this.parser = parser;
+    public void CopyTo(T[] array, int arrayIndex) => X.ToList().CopyTo(array, arrayIndex);
 
-        public void Add(T item) => base.Add(item);
+    public IEnumerator<T> GetEnumerator() => X.Select(parser).GetEnumerator();
 
-        public bool Contains(T item) => base.Contains(item);
+    IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)this).GetEnumerator();
 
-        public void CopyTo(T[] array, int arrayIndex) => this.X.ToList().CopyTo(array, arrayIndex);
-
-        public IEnumerator<T> GetEnumerator() => this.X.Select(this.parser).GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable<T>)this).GetEnumerator();
-
-        public bool Remove(T item) => base.Remove(item);
-    }
+    public bool Remove(T item) => base.Remove(item);
 }

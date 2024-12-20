@@ -1,71 +1,58 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Call(NodeWithGraph node) : Expression(node)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Call : Expression
+    public Expression? Instance
     {
-        [DebuggerStepThrough]
-        internal Call(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetOptional(CallInstance, Expression.Parse);
 
-        public Expression? Instance
-        {
-            get => this.GetOptional(CallInstance, Expression.Parse);
-
-            set => this.SetOptional(CallInstance, value);
-        }
-
-        public Type? Type
-        {
-            get => this.GetOptional(CallType, Type.Parse);
-
-            set => this.SetOptional(CallType, value);
-        }
-
-        public Method? Method
-        {
-            get => this.GetOptional(CallMethod, Method.Parse);
-
-            set => this.SetOptional(CallMethod, value);
-        }
-
-        public string? MethodName
-        {
-            get => this.GetOptional(CallMethodName, AsString);
-
-            set => this.SetOptional(CallMethodName, value);
-        }
-
-        public ICollection<Expression> Arguments => this.Collection(CallArguments, Expression.Parse);
-
-        public ICollection<Type> TypeArguments => this.Collection(CallTypeArguments, Type.Parse);
-
-        public override Linq.Expression LinqExpression => this switch
-        {
-            Call { Method.ReflectionMethod: not null } => Linq.Expression.Call(
-               this.Instance?.LinqExpression,
-               this.Method.ReflectionMethod,
-               this.Arguments.LinqExpressions()),
-
-            Call { Type: not null } => Linq.Expression.Call(
-                this.Type.SystemType,
-                this.MethodName,
-                (from typeArg in this.TypeArguments select typeArg.SystemType).ToArray(),
-                this.Arguments.LinqExpressions().ToArray()),
-
-            _ => Linq.Expression.Call(
-                this.Instance.LinqExpression,
-                this.MethodName,
-                (from typeArg in this.TypeArguments select typeArg.SystemType).ToArray(),
-                this.Arguments.LinqExpressions().ToArray())
-        };
+        set => SetOptional(CallInstance, value);
     }
+
+    public Type? Type
+    {
+        get => GetOptional(CallType, Type.Parse);
+
+        set => SetOptional(CallType, value);
+    }
+
+    public Method? Method
+    {
+        get => GetOptional(CallMethod, Method.Parse);
+
+        set => SetOptional(CallMethod, value);
+    }
+
+    public string? MethodName
+    {
+        get => GetOptional(CallMethodName, AsString);
+
+        set => SetOptional(CallMethodName, value);
+    }
+
+    public ICollection<Expression> Arguments => Collection(CallArguments, Expression.Parse);
+
+    public ICollection<Type> TypeArguments => Collection(CallTypeArguments, Type.Parse);
+
+    public override Linq.Expression LinqExpression => this switch
+    {
+        Call { Method.ReflectionMethod: not null } => Linq.Expression.Call(
+           Instance?.LinqExpression,
+           Method.ReflectionMethod,
+           Arguments.LinqExpressions()),
+
+        Call { Type: not null } => Linq.Expression.Call(
+            Type.SystemType,
+            MethodName,
+            (from typeArg in TypeArguments select typeArg.SystemType).ToArray(),
+            Arguments.LinqExpressions().ToArray()),
+
+        _ => Linq.Expression.Call(
+            Instance.LinqExpression,
+            MethodName,
+            (from typeArg in TypeArguments select typeArg.SystemType).ToArray(),
+            Arguments.LinqExpressions().ToArray())
+    };
 }

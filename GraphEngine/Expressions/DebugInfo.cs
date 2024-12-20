@@ -1,54 +1,43 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class DebugInfo(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class DebugInfo : Expression
+    public SymbolDocument Document
     {
-        [DebuggerStepThrough]
-        internal DebugInfo(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(DebugInfoDocument, n => new SymbolDocument(n));
 
-        public SymbolDocument Document
-        {
-            get => this.GetRequired(DebugInfoDocument, n => new SymbolDocument(n));
-
-            set => this.SetRequired(DebugInfoDocument, value);
-        }
-
-        public int StartLine
-        {
-            get => this.GetRequiredS(DebugInfoStartLine, AsInt);
-
-            set => this.SetRequired(DebugInfoStartLine, value);
-        }
-
-        public int StartColumn
-        {
-            get => this.GetRequiredS(DebugInfoStartColumn, AsInt);
-
-            set => this.SetRequired(DebugInfoStartColumn, value);
-        }
-
-        public int EndLine
-        {
-            get => this.GetRequiredS(DebugInfoEndLine, AsInt);
-
-            set => this.SetRequired(DebugInfoEndLine, value);
-        }
-
-        public int EndColumn
-        {
-            get => this.GetRequiredS(DebugInfoEndColumn, AsInt);
-
-            set => this.SetRequired(DebugInfoEndColumn, value);
-        }
-
-        public override Linq.Expression LinqExpression => Linq.Expression.DebugInfo(this.Document.LinqDocument, this.StartLine, this.StartColumn, this.EndLine, this.EndColumn);
+        set => SetRequired(DebugInfoDocument, value);
     }
+
+    public int StartLine
+    {
+        get => GetRequiredS(DebugInfoStartLine, AsInt);
+
+        set => SetRequired(DebugInfoStartLine, value);
+    }
+
+    public int StartColumn
+    {
+        get => GetRequiredS(DebugInfoStartColumn, AsInt);
+
+        set => SetRequired(DebugInfoStartColumn, value);
+    }
+
+    public int EndLine
+    {
+        get => GetRequiredS(DebugInfoEndLine, AsInt);
+
+        set => SetRequired(DebugInfoEndLine, value);
+    }
+
+    public int EndColumn
+    {
+        get => GetRequiredS(DebugInfoEndColumn, AsInt);
+
+        set => SetRequired(DebugInfoEndColumn, value);
+    }
+
+    public override Linq.Expression LinqExpression => Linq.Expression.DebugInfo(Document.LinqDocument, StartLine, StartColumn, EndLine, EndColumn);
 }

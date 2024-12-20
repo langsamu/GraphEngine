@@ -1,57 +1,53 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine.Tests
+namespace GraphEngine.Tests;
+
+using LinqExpression = System.Linq.Expressions.Expression;
+
+[TestClass]
+public class UnaryTests : TestBase
 {
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Linq = System.Linq.Expressions;
-    using LinqExpression = System.Linq.Expressions.Expression;
-
-    [TestClass]
-    public class UnaryTests : TestBase
+    public static IEnumerable<object[]> UnTypedData
     {
-        public static IEnumerable<object[]> UnTypedData
+        get
         {
-            get
-            {
-                yield return new object[] { Linq.ExpressionType.ArrayLength, typeof(object[]) };
-                yield return new object[] { Linq.ExpressionType.Decrement };
-                yield return new object[] { Linq.ExpressionType.Increment };
-                yield return new object[] { Linq.ExpressionType.IsFalse, typeof(bool) };
-                yield return new object[] { Linq.ExpressionType.IsTrue, typeof(bool) };
-                yield return new object[] { Linq.ExpressionType.Negate };
-                yield return new object[] { Linq.ExpressionType.NegateChecked };
-                yield return new object[] { Linq.ExpressionType.Not };
-                yield return new object[] { Linq.ExpressionType.OnesComplement };
-                yield return new object[] { Linq.ExpressionType.PostDecrementAssign };
-                yield return new object[] { Linq.ExpressionType.PostIncrementAssign };
-                yield return new object[] { Linq.ExpressionType.PreDecrementAssign };
-                yield return new object[] { Linq.ExpressionType.PreIncrementAssign };
-                yield return new object[] { Linq.ExpressionType.UnaryPlus };
-            }
+            yield return new object[] { Linq.ExpressionType.ArrayLength, typeof(object[]) };
+            yield return new object[] { Linq.ExpressionType.Decrement };
+            yield return new object[] { Linq.ExpressionType.Increment };
+            yield return new object[] { Linq.ExpressionType.IsFalse, typeof(bool) };
+            yield return new object[] { Linq.ExpressionType.IsTrue, typeof(bool) };
+            yield return new object[] { Linq.ExpressionType.Negate };
+            yield return new object[] { Linq.ExpressionType.NegateChecked };
+            yield return new object[] { Linq.ExpressionType.Not };
+            yield return new object[] { Linq.ExpressionType.OnesComplement };
+            yield return new object[] { Linq.ExpressionType.PostDecrementAssign };
+            yield return new object[] { Linq.ExpressionType.PostIncrementAssign };
+            yield return new object[] { Linq.ExpressionType.PreDecrementAssign };
+            yield return new object[] { Linq.ExpressionType.PreIncrementAssign };
+            yield return new object[] { Linq.ExpressionType.UnaryPlus };
         }
+    }
 
-        public static IEnumerable<object[]> TypedData
+    public static IEnumerable<object[]> TypedData
+    {
+        get
         {
-            get
-            {
-                yield return new object[] { Linq.ExpressionType.Convert };
-                yield return new object[] { Linq.ExpressionType.ConvertChecked };
-                yield return new object[] { Linq.ExpressionType.TypeAs };
-                yield return new object[] { Linq.ExpressionType.Unbox, typeof(int) };
-            }
+            yield return new object[] { Linq.ExpressionType.Convert };
+            yield return new object[] { Linq.ExpressionType.ConvertChecked };
+            yield return new object[] { Linq.ExpressionType.TypeAs };
+            yield return new object[] { Linq.ExpressionType.Unbox, typeof(int) };
         }
+    }
 
-        [TestMethod]
-        [DynamicData(nameof(UnTypedData))]
-        public void UnTyped(Linq.ExpressionType expression, Type operandType = null)
-        {
-            operandType ??= typeof(int);
+    [TestMethod]
+    [DynamicData(nameof(UnTypedData))]
+    public void UnTyped(Linq.ExpressionType expression, System.Type operandType = null)
+    {
+        operandType ??= typeof(int);
 
-            var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), null);
+        var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), null);
 
-            var actual = $@"
+        var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -65,19 +61,19 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        [DynamicData(nameof(TypedData))]
-        public void Typed(Linq.ExpressionType expression, Type type = null)
-        {
-            var operandType = typeof(object);
-            type ??= operandType;
+    [TestMethod]
+    [DynamicData(nameof(TypedData))]
+    public void Typed(Linq.ExpressionType expression, System.Type type = null)
+    {
+        var operandType = typeof(object);
+        type ??= operandType;
 
-            var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), type);
+        var expected = LinqExpression.MakeUnary(expression, LinqExpression.Parameter(operandType), type);
 
-            var actual = $@"
+        var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -94,15 +90,15 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Quote()
-        {
-            var expected = LinqExpression.MakeUnary(Linq.ExpressionType.Quote, LinqExpression.Lambda(LinqExpression.Constant(0L)), null);
+    [TestMethod]
+    public void Quote()
+    {
+        var expected = LinqExpression.MakeUnary(Linq.ExpressionType.Quote, LinqExpression.Lambda(LinqExpression.Constant(0L)), null);
 
-            var actual = $@"
+        var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -116,19 +112,19 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
+    }
 
-        [TestMethod]
-        public void Method()
-        {
-            var expected =
-                LinqExpression.Negate(
-                    LinqExpression.Default(
-                        typeof(bool)),
-                    typeof(SampleClass).GetMethod(nameof(SampleClass.StaticFunctionWithArgument)));
+    [TestMethod]
+    public void Method()
+    {
+        var expected =
+            LinqExpression.Negate(
+                LinqExpression.Default(
+                    typeof(bool)),
+                typeof(SampleClass).GetMethod(nameof(SampleClass.StaticFunctionWithArgument)));
 
-            var actual = $@"
+        var actual = $@"
 @prefix : <http://example.com/> .
 @prefix xt: <http://example.com/ExpressionTypes/> .
 
@@ -148,7 +144,6 @@ namespace GraphEngine.Tests
 .
 ";
 
-            ShouldBe(actual, expected);
-        }
+        ShouldBe(actual, expected);
     }
 }

@@ -1,51 +1,40 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Condition(NodeWithGraph node, INode? type = default) : Expression(node, type)
 {
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Condition : Expression
+    public Expression Test
     {
-        [DebuggerStepThrough]
-        internal Condition(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(ConditionTest, Expression.Parse);
 
-        public Expression Test
-        {
-            get => this.GetRequired(ConditionTest, Expression.Parse);
-
-            set => this.SetRequired(ConditionTest, value);
-        }
-
-        public Expression IfTrue
-        {
-            get => this.GetRequired(ConditionIfTrue, Expression.Parse);
-
-            set => this.SetRequired(ConditionIfTrue, value);
-        }
-
-        public Expression IfFalse
-        {
-            get => this.GetRequired(ConditionIfFalse, Expression.Parse);
-
-            set => this.SetRequired(ConditionIfFalse, value);
-        }
-
-        public Type? Type
-        {
-            get => this.GetOptional(ConditionType, Type.Parse);
-
-            set => this.SetOptional(ConditionType, value);
-        }
-
-        public override Linq.Expression LinqExpression => this.Type switch
-        {
-            Type type => Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression, type.SystemType),
-            _ => Linq.Expression.Condition(this.Test.LinqExpression, this.IfTrue.LinqExpression, this.IfFalse.LinqExpression)
-        };
+        set => SetRequired(ConditionTest, value);
     }
+
+    public Expression IfTrue
+    {
+        get => GetRequired(ConditionIfTrue, Expression.Parse);
+
+        set => SetRequired(ConditionIfTrue, value);
+    }
+
+    public Expression IfFalse
+    {
+        get => GetRequired(ConditionIfFalse, Expression.Parse);
+
+        set => SetRequired(ConditionIfFalse, value);
+    }
+
+    public Type? Type
+    {
+        get => GetOptional(ConditionType, Type.Parse);
+
+        set => SetOptional(ConditionType, value);
+    }
+
+    public override Linq.Expression LinqExpression => Type switch
+    {
+        Type type => Linq.Expression.Condition(Test.LinqExpression, IfTrue.LinqExpression, IfFalse.LinqExpression, type.SystemType),
+        _ => Linq.Expression.Condition(Test.LinqExpression, IfTrue.LinqExpression, IfFalse.LinqExpression)
+    };
 }

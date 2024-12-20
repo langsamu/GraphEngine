@@ -1,29 +1,17 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class Invoke(NodeWithGraph node) : Expression(node)
 {
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using static Vocabulary;
-    using Linq = System.Linq.Expressions;
-
-    public class Invoke : Expression
+    public Expression Expression
     {
-        [DebuggerStepThrough]
-        internal Invoke(NodeWithGraph node)
-            : base(node)
-        {
-        }
+        get => GetRequired(InvokeExpression, Expression.Parse);
 
-        public Expression Expression
-        {
-            get => this.GetRequired(InvokeExpression, Expression.Parse);
-
-            set => this.SetRequired(InvokeExpression, value);
-        }
-
-        public ICollection<Expression> Arguments => this.Collection(InvokeArguments, Expression.Parse);
-
-        public override Linq.Expression LinqExpression => Linq.Expression.Invoke(this.Expression.LinqExpression, this.Arguments.LinqExpressions());
+        set => SetRequired(InvokeExpression, value);
     }
+
+    public ICollection<Expression> Arguments => Collection(InvokeArguments, Expression.Parse);
+
+    public override Linq.Expression LinqExpression => Linq.Expression.Invoke(Expression.LinqExpression, Arguments.LinqExpressions());
 }

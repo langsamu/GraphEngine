@@ -1,17 +1,10 @@
 ﻿// MIT License, Copyright 2020 Samu Lang
 
-namespace GraphEngine
+namespace GraphEngine;
+
+public class NodeWithGraph(INode node, IGraph graph) : WrapperNode(node)
 {
-    using VDS.RDF;
+    public IGraph Graph { get; } = graph;
 
-    public class NodeWithGraph : WrapperNode
-    {
-        public NodeWithGraph(INode node, IGraph graph)
-            : base(node)
-            => this.Graph = graph;
-
-        public IGraph Graph { get; }
-
-        public INode Original => this.Node;
-    }
+    public INode Original => Node;
 }
