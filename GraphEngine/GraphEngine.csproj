@@ -25,17 +25,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Resources\**\*.*" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dotNetRDF" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" />
-    <PackageReference Include="StyleCop.Analyzers" />
   </ItemGroup>
 
   <ItemGroup>
