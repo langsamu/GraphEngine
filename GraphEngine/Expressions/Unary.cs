@@ -63,6 +63,6 @@ public class Unary(NodeWithGraph node) : Expression(node)
             ExpressionType = ExpressionType.Create(type, node.Graph),
         },
 
-        _ => throw new Exception($"{type} is not unary"),
+        _ => throw new GraphEngineException($"{type} is not unary"),
     };
 }

@@ -11,6 +11,6 @@ public abstract partial class Expression(NodeWithGraph node, INode? type = defau
     {
         null => throw new ArgumentNullException(nameof(node)),
         { NodeType: NodeType.Blank or NodeType.Uri } => ParseResource(node),
-        _ => throw new Exception($"unknown node type {node.NodeType} on node {node}")
+        _ => throw new GraphEngineException($"unknown node type {node.NodeType} on node {node}")
     };
 }

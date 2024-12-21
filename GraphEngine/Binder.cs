@@ -33,8 +33,8 @@ public abstract class Binder(NodeWithGraph node, INode type) : Node(node, type)
             INode t when t.Equals(Vocabulary.InvokeMember) => new InvokeMember(node),
             INode t when t.Equals(Vocabulary.BinaryOperation) => new BinaryOperation(node),
 
-            null => throw new Exception($"type not found on node {node}"),
-            var t => throw new Exception($"unknown binder type {t} on node {node}"),
+            null => throw new GraphEngineException($"type not found on node {node}"),
+            var t => throw new GraphEngineException($"unknown binder type {t} on node {node}"),
         };
     }
 }

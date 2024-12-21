@@ -374,7 +374,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
         {
             MemberTypes.Field => new Field(Current) as MemberAccess,
             MemberTypes.Property => new Property(Current) as MemberAccess,
-            var mt => throw new Exception($"unknown member type {mt}")
+            var mt => throw new GraphEngineException($"unknown member type {mt}")
         };
 
         memberAccess.Name = node.Member.Name;
@@ -412,7 +412,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
                 Linq.MemberAssignment binding => VisitMemberAssignment(binding),
                 Linq.MemberMemberBinding binding => VisitMemberMemberBinding(binding),
                 Linq.MemberListBinding binding => VisitMemberListBinding(binding),
-                var n => throw new Exception($"unknown member binding {n}")
+                var n => throw new GraphEngineException($"unknown member binding {n}")
             };
         }
     }
@@ -640,7 +640,7 @@ public class SerialisingVisitor(NodeWithGraph node) : Linq.ExpressionVisitor()
                     return binaryOperationBinder;
 
                 case var unknown:
-                    throw new Exception($"Unkown binder {unknown}");
+                    throw new GraphEngineException($"Unkown binder {unknown}");
             }
         }
     }

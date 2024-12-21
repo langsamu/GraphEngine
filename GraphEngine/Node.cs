@@ -158,10 +158,10 @@ public abstract partial class Node(NodeWithGraph node) : NodeWithGraph(node, nod
     protected T GetRequired<T>(INode predicate, Func<NodeWithGraph, T> parser)
         where T : class =>
         GetOptional<T>(predicate, parser)
-        ?? throw new Exception($"Single {predicate} not found on {this}");
+        ?? throw new GraphEngineException($"Single {predicate} not found on {this}");
 
     protected T GetRequiredS<T>(INode predicate, Func<NodeWithGraph, T> parser)
         where T : struct =>
         GetOptionalS<T>(predicate, parser)
-        ?? throw new Exception($"Single {predicate} not found on {this}");
+        ?? throw new GraphEngineException($"Single {predicate} not found on {this}");
 }

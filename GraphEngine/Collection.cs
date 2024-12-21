@@ -80,7 +80,7 @@ public class Collection(NodeWithGraph subject, INode predicate) : ICollection<No
 
         if (!listRoot.IsListRoot(subject.Graph))
         {
-            throw new Exception("not collection");
+            throw new GraphEngineException("not collection");
         }
 
         return true;

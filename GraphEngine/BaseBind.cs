@@ -19,7 +19,7 @@ public abstract class BaseBind(NodeWithGraph node, INode type) : Node(node, type
         Linq.MemberBindingType.MemberBinding => new MemberBind(node),
         Linq.MemberBindingType.ListBinding => new ListBind(node),
 
-        _ => throw new Exception("{type} is not memberbind")
+        _ => throw new GraphEngineException("{type} is not memberbind")
     };
 
     internal static BaseBind Parse(NodeWithGraph node)
@@ -32,8 +32,8 @@ public abstract class BaseBind(NodeWithGraph node, INode type) : Node(node, type
             INode t when t.Equals(Vocabulary.ListBind) => new ListBind(node),
             INode t when t.Equals(Vocabulary.MemberBind) => new MemberBind(node),
 
-            null => throw new Exception($"type not found on node {node}"),
-            var t => throw new Exception($"unknown bind type {t} on node {node}"),
+            null => throw new GraphEngineException($"type not found on node {node}"),
+            var t => throw new GraphEngineException($"unknown bind type {t} on node {node}"),
         };
     }
 }

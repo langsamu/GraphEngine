@@ -36,6 +36,6 @@ public abstract class BaseGoto(NodeWithGraph node, INode type) : Expression(node
         Linq.GotoExpressionKind.Break => new Break(node),
         Linq.GotoExpressionKind.Continue => new Continue(node),
 
-        _ => throw new System.Exception("{type} is not goto")
+        _ => throw new GraphEngineException("{type} is not goto")
     };
 }

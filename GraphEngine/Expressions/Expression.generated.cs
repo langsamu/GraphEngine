@@ -48,6 +48,6 @@ public abstract partial class Expression
         INode t when t.Equals(Vocabulary.Unary) => new Unary(node),
         INode t when t.Equals(Vocabulary.Variable) => new Variable(node),
 
-        _ => throw new Exception($"unknown type {Vocabulary.RdfType.ObjectOf(node)} on node {node}")
+        _ => throw new GraphEngineException($"unknown type {Vocabulary.RdfType.ObjectOf(node)} on node {node}")
     };
 }
