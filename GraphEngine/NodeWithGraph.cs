@@ -2,9 +2,8 @@
 
 namespace GraphEngine;
 
-public class NodeWithGraph(INode node, IGraph graph) : WrapperNode(node)
+// TODO: Review why we must expose underlying node
+public class NodeWithGraph(INode node, IGraph graph) : GraphWrapperNode(node, graph)
 {
-    public IGraph Graph { get; } = graph;
-
     public INode Original => Node;
 }
