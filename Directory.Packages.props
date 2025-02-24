@@ -10,6 +10,6 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.8.0" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.8.0" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.8.2" />
   </ItemGroup>
 </Project>
