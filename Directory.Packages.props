@@ -8,8 +8,8 @@
     <PackageVersion Include="ExpressionTreeToolkit.Core" Version="0.4.0" />
     <PackageVersion Include="FluentAssertions" Version="7.2.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.8.3" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.8.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.9.1" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.9.1" />
   </ItemGroup>
 </Project>
