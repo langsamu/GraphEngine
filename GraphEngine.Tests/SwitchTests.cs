@@ -72,6 +72,6 @@ _:zero
         Assert.AreEqual(typeof(SampleClass), actual.Type);
 
         // Make sure custom comparison is used
-        Assert.ThrowsException<TargetInvocationException>(() => LinqExpression.Lambda(actual).Compile().DynamicInvoke());
+        Assert.Throws<TargetInvocationException>(() => LinqExpression.Lambda(actual).Compile().DynamicInvoke());
     }
 }
