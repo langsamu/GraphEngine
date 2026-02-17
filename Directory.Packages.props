@@ -3,7 +3,7 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="dotNetRDF" Version="3.5.0" />
+    <PackageVersion Include="dotNetRDF" Version="3.5.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.103" />
     <PackageVersion Include="ExpressionTreeToolkit.Core" Version="0.4.0" />
     <PackageVersion Include="FluentAssertions" Version="7.2.1" />
