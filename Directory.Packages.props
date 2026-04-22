@@ -7,7 +7,7 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.201" />
     <PackageVersion Include="ExpressionTreeToolkit.Core" Version="0.4.0" />
     <PackageVersion Include="FluentAssertions" Version="7.2.2" />
-    <PackageVersion Include="coverlet.collector" Version="8.0.1" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
     <PackageVersion Include="MSTest.TestAdapter" Version="4.2.1" />
     <PackageVersion Include="MSTest.TestFramework" Version="4.2.1" />
